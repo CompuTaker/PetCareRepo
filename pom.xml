@@ -5,7 +5,7 @@ xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/m
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>com.test</groupId>
 	<artifactId>hello</artifactId>
-	<name>PetPeople</name>
+	<name>ChattingApp</name>
 	<packaging>war</packaging>
 	<version>1.0.0-BUILD-SNAPSHOT</version>
 	<properties>
@@ -79,7 +79,7 @@ xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/m
 		<dependency>
 		    <groupId>org.springframework</groupId>
 		    <artifactId>spring-websocket</artifactId>
-		    <version>4.3.14.RELEASE</version>
+		    <version>${org.springframework-version}</version><!-- 4.3.14.RELEASE -->
 		</dependency>
 		
 		<!-- https://mvnrepository.com/artifact/org.codehaus.jackson/jackson-mapper-asl -->
