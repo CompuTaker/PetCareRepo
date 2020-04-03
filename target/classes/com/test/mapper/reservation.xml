@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.test.dto.ReservationDTO">
+	<select id="listPetIndex" parameterType="java.util.Map"
+		resultType="com.test.dto.PetDTO">
+		select *
+		from pet
+		where
+		customer_Index = #{customer_Index}
+		and
+		pet_Name = #{pet_Name}
+	</select>
+	<select id="listItsCustReservations"
+		parameterType="java.lang.Integer"
+		resultType="com.test.dto.ReservationDTO">
+		select
+		*
+		from
+		reservation reservation
+		left join
+		pet pet
+		on
+		reservation.pet_Index = pet.pet_Index
+		left join
+		company company
+		on
+		reservation.company_Index = company.company_Index
+		where
+		reservation.pet_Index = #{ pet_Index }
+	</select>
+	<select id="listItsCompReservations"
+		parameterType="java.lang.Integer"
+		resultType="com.test.dto.ReservationDTO">
+		select
+		*
+		from
+		reservation reservation
+		left join
+		pet pet
+		on
+		reservation.pet_Index = pet.pet_Index
+		left join
+		company company
+		on
+		reservation.company_Index = company.company_Index
+		where
+		reservation.company_Index = #{ company_Index }
+	</select>
+	<select id="getCompanyIndex" parameterType="java.lang.Integer"
+		resultType="java.lang.Integer">
+		select company_Index
+		from reservation
+		where reservation_Index =
+		#{reservation_Index}
+	</select>
+
+
+	<insert id="insertTheReservation" parameterType="java.util.Map">
+		insert into
+		Reservation
+		(pet_Index, company_Index, reservation_Date,
+		reservation_Time)
+		values(#{pet_Index}, #{company_Index},
+		#{reservation_Date},
+		#{reservation_Time})
+	</insert>
+	<delete id="deleteTheReservation">
+		delete from Reservation where reservation_Index = #{
+		reservation_Index }
+	</delete>
+	<update id="cancelTheReservation">
+		update Reservation set
+		reservation_Check = 'canceled' where reservation_Index =
+		#{reservation_Index}
+	</update>
+	<!-- 세미콜론 없이 쿼리문 작성! -->
+
+</mapper>
