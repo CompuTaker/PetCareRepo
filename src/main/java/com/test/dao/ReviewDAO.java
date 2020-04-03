@@ -3,7 +3,7 @@ package com.test.dao;
 import java.util.HashMap;
 import java.util.List;
 
-import com.test.dto.ReservationDTO;
+import com.test.dto.CustomerDTO;
 import com.test.dto.ReviewDTO;
 
 public interface ReviewDAO {
@@ -19,6 +19,9 @@ public interface ReviewDAO {
 
 	public abstract void insertTheComent(HashMap<String, Object> rmap);
 
+	//고객 이름 찾기
+	public abstract CustomerDTO searchCustomerName(String customer_id);
+	
 //	abstract public int updateTheReview(int review_Index);
 
 }

@@ -4,14 +4,23 @@
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.test.dto.ReviewDTO">
-	<select id="listItsReviews" parameterType="java.lang.Integer"
+
+	<select id="listItsReviews" parameterType="java.util.Map"
 		resultType="com.test.dto.ReviewDTO">
-		select
-		*
-		from
-		Review
-		where company_Index =#{company_Index}
+		select *
+		from Review
+		where company_Index = #{company_Index}
 	</select>
+	
+	<!-- customer name 찾기 -->
+	<select id="searchCustomerName" resultType="com.test.dto.CustomerDTO">
+		select customer_Name
+		from Customer
+			JOIN Review
+		    on Customer.customer_Id = Review.customer_id
+		  where Review.customer_id = #{customer_id}
+	</select>
+	
 
 	<select id="listThisReviewByIdx"
 		resultType="com.test.dto.ReviewDTO">
@@ -25,10 +34,12 @@
 		company_Index,
 		review_Title,
 		review_Content,
-		review_Rating)
+		review_Rating,
+		customer_id)
 		values(#{company_Index},#{review_Title},
 		#{review_Content},
-		#{review_Rating})
+		#{review_Rating},
+		#{customer_id})
 	</insert>
 	<delete id="deleteTheReview">
 		delete from Review

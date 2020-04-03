@@ -51,6 +51,15 @@ public class ReviewController {
 	public String customerReviewList(Model model, HttpServletRequest request) {
 		int company_Index = Integer.parseInt(request.getParameter("company_Index"));
 		List<ReviewDTO> itsReviews = this.reviewDAO.listItsReviews(company_Index);
+		
+		List<String> list = new ArrayList<String>(); 
+		for(int i=0;i<itsReviews.size();i++) {
+			CustomerDTO customer = this.reviewDAO.searchCustomerName(itsReviews.get(i).getCustomer_id());
+			list.add(customer.getCustomer_Name());
+			System.out.println("리뷰목록이다아아아아아아아아:작성자 이름"+list.get(i));
+		}
+		
+		model.addAttribute("customer", list);
 		model.addAttribute("review", itsReviews);
 		return "customer_review_list";
 	}
@@ -61,6 +70,13 @@ public class ReviewController {
 		int company_Index = company.getCompany_Index();
 		System.out.println(company_Index);
 		List<ReviewDTO> itsReviews = this.reviewDAO.listItsReviews(company_Index);
+		List<String> list = new ArrayList<String>(); 
+		for(int i=0;i<itsReviews.size();i++) {
+			CustomerDTO customer = this.reviewDAO.searchCustomerName(itsReviews.get(i).getCustomer_id());
+			list.add(customer.getCustomer_Name());
+			System.out.println("리뷰목록이다아아아아아아아아:작성자 이름"+list.get(i));
+		}
+		model.addAttribute("customer", list);
 		model.addAttribute("review", itsReviews);
 		return "company_review_list";
 	}
@@ -68,18 +84,27 @@ public class ReviewController {
 	@RequestMapping("/company_review_view")
 	public String CompanyReviewView(Model model, int reviewIdx) {
 		ReviewDTO reviewDTO = this.reviewDAO.listItsReview(reviewIdx);
+		CustomerDTO customerDTO = this.reviewDAO.searchCustomerName(reviewDTO.getCustomer_id());
+		
+		model.addAttribute("customer",customerDTO.getCustomer_Name());
 		model.addAttribute("review", reviewDTO);
 		return "company_review_view";
 	}
 	@RequestMapping("/customer_review_view")
 	public String customerReviewView(Model model, int reviewIdx) {
+		
 		ReviewDTO reviewDTO = this.reviewDAO.listItsReview(reviewIdx);
+		
+		CustomerDTO customerDTO = this.reviewDAO.searchCustomerName(reviewDTO.getCustomer_id());
+		
+		model.addAttribute("customer",customerDTO.getCustomer_Name());
 		model.addAttribute("review", reviewDTO);
+		
 		return "customer_review_view";
 	}
 	
 	@RequestMapping(value = "/customer_review_add", method = RequestMethod.GET)
-	public ModelAndView customerReviewAdd(ModelAndView mv, int index) {
+	public ModelAndView customerReviewAdd(ModelAndView mv,int index) {
 		System.out.println(index);
 		int company_Index = this.reservationDAO.selectCompanyIndex(index);
 		mv.addObject("company_Index", company_Index);
@@ -87,9 +112,12 @@ public class ReviewController {
 		return mv;
 	}
 	@RequestMapping("/review_ok")
-	public String review_Ok(@RequestParam HashMap<String, Object> rmap, HttpServletRequest request) {
-		String ratingValue = request.getParameter("review_Rating");
-		rmap.put("review_Rating", ratingValue);
+	public String review_Ok(@RequestParam HashMap<String, Object> rmap, HttpServletRequest request, HttpSession session ) {
+		System.out.println("rmap"+rmap);
+		CustomerDTO customerDTO = (CustomerDTO) session.getAttribute("customer");
+		System.out.println(customerDTO.getCustomer_Id());
+		String customer_id = customerDTO.getCustomer_Id();
+		rmap.put("customer_id", customer_id);
 		this.reviewDAO.insertTheReview(rmap);
 		return "review_ok";
 	}

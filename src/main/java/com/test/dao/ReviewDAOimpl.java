@@ -10,6 +10,7 @@ import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import com.test.dto.CustomerDTO;
 import com.test.dto.PetDTO;
 import com.test.dto.ReservationDTO;
 import com.test.dto.ReviewDTO;
@@ -22,9 +23,13 @@ public class ReviewDAOimpl implements ReviewDAO {
 
 	@Override
 	public List<ReviewDTO> listItsReviews(int company_Index) {
+		
+		
+		
 		return this.sqlSession.selectList("listItsReviews", company_Index);
 	}
 
+	
 //	@Override
 //	public int insertTheReview(HashMap<String, Object> rmap, int customer_Index) {
 //		
@@ -50,6 +55,12 @@ public class ReviewDAOimpl implements ReviewDAO {
 	@Override
 	public void insertTheComent(HashMap<String, Object> rmap) {
 		this.sqlSession.update("updateTheComent", rmap);
+	}
+
+	@Override
+	public CustomerDTO searchCustomerName(String customer_id) {
+		// TODO Auto-generated method stub
+		return this.sqlSession.selectOne("searchCustomerName", customer_id);
 	}
 
 //	@Override

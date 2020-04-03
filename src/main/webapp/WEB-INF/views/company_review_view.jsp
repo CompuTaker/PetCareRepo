@@ -65,7 +65,7 @@
 			</div>
 			<div class="review-right-div">
 				<label class="font-weight-bold" for="customer_Name">작성자 : </label> <label
-					id="customer_Name" name="customer_Name"> 작성자(?)</label>
+					id="customer_Name" name="customer_Name"> ${customer }</label>
 			</div>
 			<div class="review-div">
 				<label class="font-weight-bold" for="review_Content">내용 : </label>

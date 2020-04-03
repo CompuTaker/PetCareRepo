@@ -7,7 +7,7 @@
 
 	<select id="getSuperuser" parameterType="java.util.Map"
 		resultType="com.test.dto.SuperuserDTO">
-		select * from Superuser where username = #{username}
+		select * from superuser where username = #{username}
 		and
 		password = #{password}
 	</select>

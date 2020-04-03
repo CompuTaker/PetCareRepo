@@ -1,8 +1,9 @@
 package com.test.dao;
 
-import com.test.dto.AdminDTO;
+import com.test.dto.SuperuserDTO;
 
 public interface SuperuserDAO {
 
-	abstract public AdminDTO Login(String username, String password);
+	abstract public SuperuserDTO loginSuperuser(String superuser_username, String superuser_password);
+
 }

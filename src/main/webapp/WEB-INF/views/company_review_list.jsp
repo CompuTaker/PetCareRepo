@@ -67,12 +67,12 @@
 
 						</tr>
 					</thead>
-					<c:forEach items="${ review }" var="review">
+					<c:forEach items="${ review }" var="review" varStatus="status">
 						<tr
 							onclick="location.href='company_review_view?reviewIdx=${review.review_Index}'">
 							<td id="reivew_Index">${ review.review_Index }</td>
 							<td id="review_Title">${ review.review_Title }</td>
-							<td id="customer_Name">작성자(?)</td>
+							<td id="customer_Name">${customer[status.index] }</td>
 						</tr>
 					</c:forEach>
 				</table>

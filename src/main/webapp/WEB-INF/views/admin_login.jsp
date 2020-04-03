@@ -16,14 +16,14 @@
                </div>
                    
                    
-            <form class="form-horizontal indi-form" action="admin_drop" name="loginform"
+            <form class="form-horizontal indi-form" action="admin_login" name="loginform"
                method="post">
                
                   <div class="logindiv col-md-6 form-group">
-                     <input type="text" class="form-control" id="userid" name="id" placeholder="ID">
+                     <input type="text" class="form-control" id="username" name="username" placeholder="ID">
                     </div>
                     <div class="logindiv col-md-6 form-group">
-                     <input type="password" class="form-control" name="pw" id="password" placeholder="PASSWORD">
+                     <input type="password" class="form-control" name="password" id="password" placeholder="PASSWORD">
                     </div>
                     <div class="logindiv col-md-6 form-group">
                        <button type="submit"  id="btn-login" name="login" class="btn btn-login">로그인</button>

@@ -103,6 +103,7 @@
 						onclick="ratingValue()">확인</button>
 				</div>
 				<input type="hidden" value="${company_Index}" name="company_Index">
+				
 			</form>
 
 		</div>
