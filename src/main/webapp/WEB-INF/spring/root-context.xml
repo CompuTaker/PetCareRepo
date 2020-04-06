@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:p="http://www.springframework.org/schema/p"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+		https://www.springframework.org/schema/beans/spring-beans.xsd">
+	
+	<!-- Root Context: defines shared resources visible to all other web components -->
+	
+	<bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource">
+		<property name="driverClassName" value="com.mysql.jdbc.Driver" />
+		<property name="url" value="jdbc:mysql://localhost:3306/petcares?characterEncoding=UTF-8&amp;serverTimezone=UTC" />		
+		<property name="username" value="petcaresadmin" />
+		<property name="password" value="asdf9127" />
+	</bean>
+	
+	<bean name="template" class="org.springframework.jdbc.core.JdbcTemplate">
+		<property name="dataSource" ref="dataSource"/>
+	</bean>
+	
+	<!-- MyBatis 설정 -->
+	<bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+		<property name="dataSource" ref="dataSource" />
+		<property name="mapperLocations" value="classpath:com/test/mapper/*.xml" />
+	</bean>
+	
+	<!-- MyBatis-Spring 설정 -->
+	<bean id="sqlSession" class="org.mybatis.spring.SqlSessionTemplate">
+		<constructor-arg ref="sqlSessionFactory" />
+	</bean>
+	
+	<!-- <bean id="myHandler" class="com.hjp.websocket.MyHandler"/>
+	websocket -->
+	<bean id="myHandler" class="com.test.chat.WebSocketHandler" />
+	
+	<!-- xmlns:p="http://www.springframework.org/schema/p" // => property tag shortened version -->
+	<!--
+	<bean id="jedisConnectionFactory"
+		class="org.springframework.data.redis.connection.jedis.JedisConnectionFactory"
+		p:use-pool="true" p:host-name="127.0.0.1" p:port="6379">
+	</bean>
+	<bean id="redisTemplate"
+		class="org.springframework.data.redis.core.RedisTemplate"
+		p:connection-factory-ref="jedisConnectionFactory">
+	</bean>
+	-->
+	
+	<!-- Jedis Client Pool Config for Redis -->
+	<!--
+	<bean id="jedisPoolConfig" class="redis.clients.jedis.JedisPoolConfig">
+		<property name="maxTotal" value="30"/>
+		<property name="maxIdle" value="10"/>
+	</bean>
+	  -->
+	<!-- jedis -->
+	<!--
+	<bean id="jedisConnectionFactory" class="org.springframework.data.redis.connection.jedis.JedisConnectionFactory">
+		<property name="hostName" value="52.197.77.223"/>
+		<property name="port" value="6379"/>
+		<property name="usePool" value="true"/>
+		<property name="poolConfig" ref="jedisPoolConfig"/>
+	</bean>
+	  -->
+	<!-- redis template definition -->
+	<!--
+	<bean id="redisTemplate" class="org.springframework.data.redis.core.RedisTemplate">
+		<property name="connectionFactory" ref="jedisConnectionFactory"/>
+	  -->
+		<!-- 키는 string, value 는 Object 로 설정 -->
+		<!-- keySerializer, hashKeySerializer 는 StringRedisSerializer 로 잡고 -->
+		<!-- valueSerializer, hashValueSerializer 는 GenericJackson2JsonRedisSerializer -->
+		<!-- 로 잡은후 생성자로 Object 객체를 넣어주었다. -->
+		<!-- remove below these when downgraded -->
+		<!--
+		<property name="keySerializer">
+			<bean class="org.springframework.data.redis.serializer.StringRedisSerializer" />
+		</property>
+		<property name="valueSerializer">
+			<bean class="org.springframework.data.redis.serializer.GenericJackson2JsonRedisSerializer">
+				<constructor-arg value="java.lang.Object" />
+			</bean>
+		</property>
+		<property name="hashKeySerializer">
+			<bean class="org.springframework.data.redis.serializer.StringRedisSerializer" />
+		</property>
+		<property name="hashValueSerializer">
+			<bean class="org.springframework.data.redis.serializer.GenericJackson2JsonRedisSerializer">
+				<constructor-arg value="java.lang.Object" />
+			</bean>
+		</property>
+	</bean>
+		  -->
+	
+	<!-- JMS Configuration -->
+	<bean id="connectionFactory" class="org.apache.activemq.ActiveMQConnectionFactory">
+        <property name="brokerURL" value="tcp://localhost:61616" />
+    </bean>
+    <bean id="messageDestination" class="org.apache.activemq.command.ActiveMQQueue">
+        <constructor-arg value="messageQueue1" />
+    </bean>
+    <bean id="jmsTemplate" class="org.springframework.jms.core.JmsTemplate">
+        <property name="connectionFactory" ref="connectionFactory" />
+        <property name="receiveTimeout" value="10000" />
+    </bean>
+    <bean id="springJmsProducer" class="com.test.jms.SpringJmsProducer">
+        <property name="destination" ref="messageDestination" />
+        <property name="jmsTemplate" ref="jmsTemplate" />
+    </bean>
+    <bean id="springJmsConsumer" class="com.test.jms.SpringJmsConsumer">
+        <property name="destination" ref="messageDestination" />
+        <property name="jmsTemplate" ref="jmsTemplate" />
+    </bean>
+	
+</beans>
