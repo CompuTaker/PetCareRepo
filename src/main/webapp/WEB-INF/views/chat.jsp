@@ -13,7 +13,8 @@ jquery -->
 <script type="text/javascript" src="<c:url value="/static/sockjs-0.3.4.js"/>"></script>
 sockjs -->
 <!-- crossorigin="anonymous" -->
-<script src="https://code.jquery.com/jquery-3.2.1.min.js" crossorigin="anonymous"></script>
+<!-- <script src="https://code.jquery.com/jquery-3.2.1.min.js" crossorigin="anonymous"></script> -->
+<script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/sockjs-client/1.1.5/sockjs.js"></script>
 <script type="text/javascript">
 	$(document).ready(function() {
