@@ -5,6 +5,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,14 +19,12 @@ public class ReservationDAOimpl implements ReservationDAO {
 	
 	@Autowired // root-context.xml 참고
 	private SqlSessionTemplate sqlSession;
-
-
+	
 	@Override
 	public List<ReservationDTO> listItsCustReservations(int pet_Index) {
 		// TODO Auto-generated method stub
 		return this.sqlSession.selectList("listItsCustReservations", pet_Index);
 	}
-
 	
 	@Override
 	public int insertTheReservation(HashMap<String, Object> rmap, int customer_Index) {
@@ -66,17 +65,31 @@ public class ReservationDAOimpl implements ReservationDAO {
 		return this.sqlSession.selectList("listItsCompReservations", company_Index);
 	}
 
-
 	@Override
 	public int cancelTheReservation(int reservation_Index) {
 		return this.sqlSession.update("cancelTheReservation", reservation_Index);
 	}
-
 
 	@Override
 	public int selectCompanyIndex(int reservation_Index) {
 		return this.sqlSession.selectOne("getCompanyIndex", reservation_Index);
 	}
 
+	@Override
+	public List<ReservationDTO> listOnlyExpiredReservations() {
+		// TODO Auto-generated method stub
+		// => 현재 날짜 넘겨주기!~~~~~
+		Date todayDate = null;
+		try {
+			SimpleDateFormat todayDateFormat = new SimpleDateFormat("yyyy-MM-dd", Locale.KOREA);
+			Date todayDateAndTime = new Date();
+			String todayDateString = todayDateFormat.format(todayDateAndTime);
+			todayDate = todayDateFormat.parse(todayDateString);
+		} catch (ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return this.sqlSession.selectList("listOnlyExpiredReservations", todayDate);
+	}
 	
 }

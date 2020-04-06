@@ -1,43 +1,71 @@
 package com.test.controller;
 
+import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.core.HashOperations;
+import org.springframework.data.redis.core.ListOperations;
+import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.data.redis.core.SetOperations;
+import org.springframework.data.redis.core.ValueOperations;
+import org.springframework.data.redis.core.ZSetOperations;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-// @CrossOrigin(origins="http://13.113.211.163:8080")
+import com.test.scheduler.ApiRestScheduler;
+
 @Controller
 public class ChatController {
 	
+	@Autowired
+	private ApiRestScheduler apiRestScheduler;
+	
+	@Autowired
+	private RedisTemplate<Object, Object> redisTemplate;
+	// @Qualifier("redisTemplate") // javax
+	
+	@Resource(name="redisTemplate")
+	private ValueOperations<String, Object> valueOps;
+	
+	@Resource(name="redisTemplate")
+	private SetOperations<String, String> setOps;
+	
+	@Resource(name="redisTemplate")
+	private ListOperations<String, Object> listOps;
+	
+	@Resource(name="redisTemplate")
+	private ZSetOperations<String, String> zSetOps;
+	
+	@Resource(name="redisTemplate")
+	private HashOperations<String, String, Object> hashOps;
+	
 	@RequestMapping("/chat")
 	public String chat(Model model, HttpServletRequest request, HttpServletResponse response) {
-		
-//		// response.setHeader("Access-Control-Allow-Origin", request.getHeader("Origin"));
-//		response.setHeader("Access-Control-Allow-Origin", "*");
-//		response.setHeader("Access-Control-Allow-Credentials", "true");
-//		response.setHeader("Access-Control-Allow-Methods", "GET, HEAD, POST, OPTIONS, PUT, DELETE");
-//		// response.setHeader("Access-Control-Allow-Methods", "POST, GET, OPTIONS, DELETE");
-//		// might be including security problems -- DELETE
-//		// => OPTIONS must be excluded in preflight response / request for CORS
-//		// preflight -- customized cases
-//		response.setHeader("Access-Control-Max-Age", "3600"); // No Caching for test
-//		// response.setHeader("Access-Control-Allow-Headers", "Content-Type, Accept, X-Requested-With, remember-me");
-//		response.setHeader("Access-Control-Allow-Headers", "X-PINGARUNER");
-//		response.setHeader("Content-Type", "text/html"); // ("Content-Type", "application/json")
-//		// ("Content-Type", "text/html; charset=UTF-8")
-//		// response.setHeader("Accept", "text/html"); // ("Accept", "application/json")
-//		response.setHeader("Accept", "text/html");
-//		// CORS setting
-		
 		return "chat"; // chat.jsp
 	}
 	
 	@RequestMapping("/chatsession")
 	public String chatSession(Model model, HttpServletRequest request, HttpServletResponse response) {
+		this.chatRedisAndAPI();
 		return "chatsession"; // chatsession.jsp
+	}
+	
+	public void chatRedisAndAPI() {
+		// URLEncoder.encode("Q12A07", "UTF-8"); // 애견카페
+		try {
+			this.apiRestScheduler.batchProcess("Q12A07");
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			System.out.println("Public_API_Error -- batchProcess(Q12A07)");
+			e.printStackTrace();
+		}
+		
+		System.out.println("RedisTemplate @ToStringWSH => " + this.redisTemplate.toString());
+		System.out.println("REDIS => " + this.valueOps.get("test"));
+		this.valueOps.set("settingtest", "well-done");
 	}
 	
 }
