@@ -4,7 +4,7 @@ pageEncoding="UTF-8"%>
   <div class="col-10 mx-auto main-block" style="text-align: left;">
     <table class="login-table" height="90">
       <tr>
-        <td><label class="login-title">비밀번호수정</label></td>
+        <td><label class="login-title">비밀번호 수정</label></td>
       </tr>
     </table>
 
