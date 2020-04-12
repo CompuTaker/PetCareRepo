@@ -11,7 +11,7 @@ pageEncoding="UTF-8"%>
       <i class="fas fa-check"></i>
     </h1>
     <h1>비밀번호 변경 완료</h1>
-    <p>비밀번호가 변경되었습니다!</p>
+    <p>비밀번호가 변경되었습니다.</p>
     <hr />
     <a
       class="btn btn-lg btn-secondary mx-auto"
