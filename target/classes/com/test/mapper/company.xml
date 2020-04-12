@@ -15,12 +15,12 @@
 	<!-- 아이디와 비밀번호가 일치하는 정보 선택 -->
    <select id="listThisCompany" parameterType="java.util.Map"
       resultType="com.test.dto.CompanyDTO">
-      select * from Company where company_Id = #{ company_Id } and
-      company_Password = #{ company_Password }
+      select * from Company where company_Id = #{ id } and
+      company_Password = #{ pw }
    </select>
    
    <!-- 기업 회원 아이디 찾기 -->
-   <select id="searchId" 
+   <select id="searchCompanyID" 
       resultType="com.test.dto.CompanyDTO">
       select company_Id from Company where company_Number = #{ company_Number }
    </select>
@@ -85,4 +85,19 @@
       resultType="com.test.dto.CompanyDTO">
       select * from Company where company_Type = #{ company_Type }
    </select>
+   <!-- 기업 정보 수정하기 -->
+	<update id = "updateCompanyInfo" parameterType="java.util.Map">
+		update Company
+		set company_Password=#{company_Password},
+		company_UserName = #{company_UserName},
+		company_ResidentNumber = #{company_ResidentNumber},
+		company_Address = #{company_Address},
+		company_Email = #{company_Email},
+		company_Name = #{company_Name},
+		company_UserPhoneNumber = #{company_UserPhoneNumber},
+		company_Type=#{company_Type}
+		where company_Id = #{company_Id} and
+		company_Number = #{company_Number}
+		
+	</update>
 </mapper>

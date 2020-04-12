@@ -1,6 +1,5 @@
 package com.test.dao;
 
-import java.util.HashMap;
 import java.util.Map;
 
 import org.mybatis.spring.SqlSessionTemplate;
@@ -19,11 +18,7 @@ public class SuperuserDAOimpl implements SuperuserDAO{
 	 * 관리자가 로그인 했을 때 ID, PW가 superuser테이블에 존재하는지 확인하는 메서드이다.
 	 */
 	@Override
-	public SuperuserDTO loginSuperuser(String superuser_username, String superuser_password) {
-		// 추후에 controller로 이동
-		Map<String, String> superuser = new HashMap<String, String>();	// mapper에 넘어온 변수들을 한 번에 보내기 위해 생성한 Map객체
-		superuser.put("username", superuser_username);					// Map객체에 아이디를 저장한다.
-		superuser.put("password", superuser_password);					// Map객체에 비밀번호를 저장한다.
+	public SuperuserDTO loginSuperuser(Map<String, String> superuser) {
 		return sqlSession.selectOne("getSuperuser",superuser);			// mapper에서 "getSuperuser" id를 가지는 명령문에 superuser객체를 가지고 실행한다.
 	}
 }

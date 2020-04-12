@@ -20,12 +20,8 @@ public class CustomerDAOimpl implements CustomerDAO {
 	 * ID, PW가 customer테이블에 존재하는지를 확인하는 메서드이다.
 	 */
 	@Override
-	public CustomerDTO listThisCustomer(String customer_Id, String customer_Password) {
-		// 추후에 controller로 보낼 예정
-		Map<String, String> customer = new HashMap<String, String>();	// 넘어온 변수를 한 번에 저장하기 위해서 만든 Map객체
-		customer.put("customer_Id", customer_Id);						// Map객체에 ID를 저장한다.
-		customer.put("customer_Password", customer_Password);			// Map객체에 PW를 저장한다.
-		return this.sqlSession.selectOne("listThisCustomer", customer);	// mapper에서 "listThisCustomer" id를 가지는 명령문에 customer객체를 가지고 실행한다.
+	public CustomerDTO listThisCustomer(Map<String, String> loginInfo) {
+		return this.sqlSession.selectOne("listThisCustomer", loginInfo);	// mapper에서 "listThisCustomer" id를 가지는 명령문에 customer객체를 가지고 실행한다.
 	}
 	
 	/*
@@ -64,11 +60,8 @@ public class CustomerDAOimpl implements CustomerDAO {
 	 * 고객 아이디찾기를 눌렀을 경우에 실행되는 메서드이다.
 	 */
 	@Override
-	public CustomerDTO searchCustomerID(String customer_Name, String customer_PhoneNumber) {
-		// 추후에 controller로 이동
-		Map<String, String> customer = new HashMap<String, String>();	// 넘어온 변수를 한 번에 저장하기 위해서 만든 Map객체
-		customer.put("customer_Name", customer_Name);					// Map객체에 Name을 저장한다.
-		customer.put("customer_PhoneNumber", customer_PhoneNumber);		// Map객체에 PhoneNumber를 저장한다.
+	public CustomerDTO searchCustomerID(Map<String, String> customer) {
+		System.out.println(this.sqlSession.selectOne("searchCustomerId", customer));
 		return this.sqlSession.selectOne("searchCustomerId",customer);	// mapper에서 "searchCustomerId" id를 가지는 명령문에 customer객체를 가지고 실행한다.	
 	}
 
@@ -76,12 +69,7 @@ public class CustomerDAOimpl implements CustomerDAO {
 	 * 고객비밀번호찾기를 눌렀을 경우에 실행되는 메서드이다.
 	 */
 	@Override
-	public CustomerDTO searchCustomerPW(String customer_Name, String customer_Id, String customer_PhoneNumber) {
-		// 추후에 controller로 이동
-		Map<String, String> customer = new HashMap<String, String>();	// 넘어온 변수를 한 번에 저장하기 위해서 만든 Map객체
-		customer.put("customer_Name", customer_Name);					// Map객체에 Name을 저장한다.
-		customer.put("customer_Id", customer_Id);						// Map객체에 ID를 저장한다.
-		customer.put("customer_PhoneNumber", customer_PhoneNumber);		// Map객체에 PhoneNumber를 저장한다.
+	public CustomerDTO searchCustomerPW(Map<String, String> customer ) {
 		return this.sqlSession.selectOne("searchCustomerPW",customer);	// mapper에서 "searchCustomerPW" id를 가지는 명령문에 customer객체를 가지고 실행한다.	
 	}	
 

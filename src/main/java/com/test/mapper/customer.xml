@@ -21,9 +21,9 @@
 	<!-- 아이디와 비밀번호가 일치하는 정보 선택 -->
 	<select id="listThisCustomer" parameterType="java.util.Map"
 		resultType="com.test.dto.CustomerDTO">
-		select * from Customer where customer_Id = #{customer_Id}
+		select * from Customer where customer_Id = #{id}
 		and
-		customer_Password = #{customer_Password}
+		customer_Password = #{pw}
 	</select>
 	
 	<!-- userId와 userPw는 실제 컬럼명, 여기선 map 객체인 user에 저장된 key값들인 id와 pw로 값 찾아내 

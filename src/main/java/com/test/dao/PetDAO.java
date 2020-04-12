@@ -2,6 +2,7 @@ package com.test.dao;
 
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import com.test.dto.PetDTO;
 
@@ -16,5 +17,5 @@ public interface PetDAO {
 
 	abstract public void update(PetDTO pt);
 
-	abstract public PetDTO read(int customer_Index, int pet_Index);
+	abstract public PetDTO read(Map<String,Integer> petMap);
 }

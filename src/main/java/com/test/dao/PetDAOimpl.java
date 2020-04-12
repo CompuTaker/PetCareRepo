@@ -41,12 +41,8 @@ public class PetDAOimpl implements PetDAO {
 	}
 	
 	@Override
-	public PetDTO read(int customer_Index,int pet_Index) {
-		// 추후에 controller로 이동
-		Map<String,Integer> map = new HashMap<String,Integer>();	// 넘어온 변수를 한 번에 저장하기 위해서 만든 Map객체
-		map.put("customer_Index", customer_Index);					// Map객체에 customer_Index를 저장한다.
-		map.put("pet_Index", pet_Index);							// Map객체에 pet_Index를 저장한다.
-		return sqlSession.selectOne("readThePet",map);				// mapper에서 "readThePet" id를 가지는 명령문에 map객체를 가지고 실행한다.
+	public PetDTO read(Map<String,Integer> petMap) {		
+		return sqlSession.selectOne("readThePet",petMap);				// mapper에서 "readThePet" id를 가지는 명령문에 map객체를 가지고 실행한다.
 	}
 
 	/*

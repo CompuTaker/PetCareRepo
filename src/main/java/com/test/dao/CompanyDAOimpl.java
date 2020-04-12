@@ -28,12 +28,8 @@ public class CompanyDAOimpl implements CompanyDAO {
 	 * ID, PW의 정보와 동일한 가입 회사가 있는지를 확인해보는 메서드이다.
 	 */
 	@Override
-	public CompanyDTO listThisCompany(String company_Id, String company_Password) {
-		// 추후에 다시 controller쪽으로 옮길 예정
-		Map<String, String> company = new HashMap<String, String>();	// mapper에 변수값을 한 번에 전달하기 위해서 생성한 Map객체 
-		company.put("company_Id", company_Id);							// Map객체에 Id값을 저장한다.
-		company.put("company_Password", company_Password);				// Map객체에 PW값을 저장한다.
-		return this.sqlSession.selectOne("listThisCompany", company);	// mapper에서 "listThisCompany" id를 가지는 명령문에 company객체를 가지고 실행한다.
+	public CompanyDTO listThisCompany(Map<String, String> loginInfo) {
+		return this.sqlSession.selectOne("listThisCompany", loginInfo);	// mapper에서 "listThisCompany" id를 가지는 명령문에 company객체를 가지고 실행한다.
 	}
 	
 	/*
@@ -73,20 +69,15 @@ public class CompanyDAOimpl implements CompanyDAO {
 	 * 사업자등록번호를 가지고 가입한 기업 회원의 아이디를 찾아주는 메서드이다.
 	 */
 	@Override
-	public CompanyDTO searchId(int companyNum) {
-		return this.sqlSession.selectOne("searchId", companyNum);	// mapper에서 "searchId" id를 가지는 명령문에 companyNum변수를 가지고 실행한다.
+	public CompanyDTO searchCompanyID(Map<String, String> company) {
+		return this.sqlSession.selectOne("searchId", company);	// mapper에서 "searchId" id를 가지는 명령문에 companyNum변수를 가지고 실행한다.
 	}
 	
 	/*
 	 * 이름, 아이디, 핸드폰번호를 가지고 기업 회원의 비밀번호를 찾아주는 메서드이다.
 	 */
 	@Override
-	public CompanyDTO searchCompanyPW(String company_Name, String company_Id, String company_PhoneNumber) {
-		// 추후에 다시 controller쪽으로 옮길 예정
-		Map<String, String> company = new HashMap<String, String>();	// 넘어온 변수를 한 번에 mapper에 넘겨주기 위해서 만든 Map객체
-		company.put("company_UserName", company_Name);					// Map객체에 이름을 저장한다.
-		company.put("company_Id", company_Id);							// Map객체에 아이디를 저장한다.
-		company.put("company_UserPhoneNumber", company_PhoneNumber);	// Map객체에 핸드폰번호를 저장한다.
+	public CompanyDTO searchCompanyPW(Map<String, String> company) {
 		return this.sqlSession.selectOne("searchCompanyPW",company);	// mapper에서 "searchCompanyPW" id를 가지는 명령문에 company객체를 가지고 실행한다.
 	}
 
@@ -105,5 +96,13 @@ public class CompanyDAOimpl implements CompanyDAO {
 	@Override
 	public CompanyDTO checkCompanyNumber(int company_Number) {
 		return this.sqlSession.selectOne("companyNumber", company_Number);	// mapper에서 "companyNumber" id를 가지는 명령문에 company_Number변수를 가지고 실행한다.
+	}
+
+	/*
+	 * 기업회원이 마이페이지에서 개인정보를 수정하고 수정하기 버튼을 눌러쓸 때 실행되는 메서드이다. 
+	 */
+	@Override
+	public int updateCompanyInfo(HashMap<String, Object> cmap) {
+		return this.sqlSession.update("updateCompanyInfo", cmap);
 	}
 }

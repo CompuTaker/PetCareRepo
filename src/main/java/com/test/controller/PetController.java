@@ -3,6 +3,7 @@ package com.test.controller;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -51,8 +52,12 @@ public class PetController {
 	@RequestMapping(value="/pet_modify",method=RequestMethod.GET)
 	public void modify(@RequestParam("customer_Index")int cus, @RequestParam("pet_Index")int pet, Model model) {	// customerprofile.jsp에서 name값이 customer_Index, pet_Index인 값을 가져온다.
 																													// 펫 정보수정을 누르면 값을 가져온다.	
-		PetDTO pt= this.petDao.read(cus, pet);		// customer_Index, pet_Index에 해당하는 펫 정보를 가져온다.
-		model.addAttribute("pet",pt);				// 가져온 펫 정보를 model객체에 저장한다.
+		Map<String,Integer> petMap = new HashMap<String,Integer>();		// 넘어온 변수를 한 번에 저장하기 위해서 만든 Map객체
+		petMap.put("customer_Index", cus);								// Map객체에 customer_Index를 저장한다.
+		petMap.put("pet_Index", pet);									// Map객체에 pet_Index를 저장한다.
+		
+		PetDTO pt= this.petDao.read(petMap);							// customer_Index, pet_Index에 해당하는 펫 정보를 가져온다.
+		model.addAttribute("pet",pt);									// 가져온 펫 정보를 model객체에 저장한다.
 	}
 	
 	/*
@@ -63,7 +68,7 @@ public class PetController {
 	public String postModify(PetDTO pet){
 		this.petDao.update(pet);			// 펫 정보를 수정하고 수정하기 버튼을 누르면 form에 입력한 값들로 기존 펫 정보를 udpate한다.
 		return "redirect:/customer/customer_profile.tiles";	// 펫 정보 수정이 끝나고 난 후 마이페이지로 돌아온다.
-		
+			
 	}
 	
 	/*

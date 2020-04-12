@@ -1,8 +1,5 @@
 package com.test.dao;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 
@@ -30,28 +27,7 @@ public class ReservationDAOimpl implements ReservationDAO {
 	 * 상단의 예약하기 버튼을 통해서 예약을 했을 경우에 실행되는 메서드이다.
 	 */
 	@Override
-	public int insertTheReservation(HashMap<String, Object> rmap, int customer_Index) {
-		//추후에 controller로 이동
-		SimpleDateFormat date 	  = new SimpleDateFormat("yyyy-MM-dd");							// MySQL에서 지원하는 날짜 포맷을 생성한다.
-		SimpleDateFormat dateTime = new SimpleDateFormat("HH:mm:ss");							// MySQL에서 지원하는 시간 포맷을 생성한다.
-		
-		Date reservation_Date = null;															// 날짜를 저장할 변수 생성
-		Date reservation_Time = null;															// 시간을 저장할 변수 생성
-				
-		try {
-			reservation_Date = date.parse((rmap.get("reservation_Date")).toString());			// HashMap객체에 저장된 날짜를 가져온다.
-			reservation_Time = dateTime.parse((rmap.get("reservation_Time")).toString()+":00");	// HashMap객체에 저장된 시간을 가져온다. (시간, 분만 나오므로 뒤에 초는 00을 임의로 붙여준다.)
-		} catch (ParseException e) {
-			e.printStackTrace();																// 파싱 예외처리
-		}
-	
-		rmap.put("pet_Index", rmap.get("pet_Index"));											// HashMap객체에 예약테이블에 입력할 pet_Index를 저장한다.	
-		rmap.put("company_Index", rmap.get("company_Index"));									// HashMap객체에 예약테이블에 입력할 company_Index를 저장한다.	
-		rmap.put("reservation_Date", date.format(reservation_Date));							// HashMap객체에 예약테이블에 입력할 reservation_Date를 저장한다.	
-		rmap.put("reservation_Time", dateTime.format(reservation_Time));						// HashMap객체에 예약테이블에 입력할 reservation_Time를 저장한다.	
-		rmap.put("reservation_DetailService",rmap.get("reservation_DetailService"));			// HashMap객체에 예약테이블에 입력할 reservation_DetailService를 저장한다.	
-		rmap.put("reservation_Check",rmap.get("reservation_Check"));							// HashMap객체에 예약테이블에 입력할 reservation_Check를 저장한다.	
-		
+	public int insertTheReservation(HashMap<String, Object> rmap, int customer_Index) {		
 		return this.sqlSession.insert("insertTheReservation", rmap);							// mapper에서 "insertTheReservation" id를 가지는 명령문에 rmap객체를 가지고 실행한다.
 	}
 	

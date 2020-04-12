@@ -11,6 +11,17 @@
 <%@ taglib uri="http://www.springframework.org/tags" prefix="spring"%>
 
 <%@ taglib uri="http://www.springframework.org/tags/form" prefix="form"%>
+<script type="text/javascript">
+
+
+	function logout() {
+		location.href = "logout";
+	}
+
+	function deleteTheCompany() {
+		location.href = "deleteTheCompany"; // 세션에서 customerIdx 받아오기!
+	}
+</script>
 <div class="row mx-auto main-container">
 	<div class="col-10 mx-auto main-block">
 		<table class="title-table ml-auto mr-auto" height="90">
@@ -41,7 +52,9 @@
 			</tr>
 			<tr>
 				<td><input type="button" class="mypage-btn-group" value="후기작성"
-					onclick="location.href='company_review_list'"></td>
+					onclick="location.href='company_review_list'"> <input
+						type="button" class="mypage-btn-group" value="정보수정하기"
+						onclick="location.href='company_modify'"></td>
 			</tr>
 		</table>
 
@@ -74,6 +87,6 @@
 
 		<input type="button" class="mypage-btn-group" value="로그아웃"
 			onclick="logout();"> <input type="button"
-			class="mypage-btn-group" value="회원탈퇴" onclick="deleteTheCustomer();">
+			class="mypage-btn-group" value="회원탈퇴" onclick="deleteTheCompany();">
 	</div>
 </div>

@@ -2,6 +2,7 @@ package com.test.dao;
 
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import com.test.dto.CompanyDTO;
 
@@ -10,7 +11,7 @@ public interface CompanyDAO {
 
 	abstract public List<CompanyDTO> listAllCompany();
 
-	abstract public CompanyDTO listThisCompany(String company_Id, String company_Password);
+	abstract public CompanyDTO listThisCompany(Map<String, String> loginInfo);
 
 	abstract public CompanyDTO listThisCompany(int company_Index);
 
@@ -20,12 +21,14 @@ public interface CompanyDAO {
 
 	abstract public List<CompanyDTO> listsCompany(String companyType);
 
-	abstract public CompanyDTO searchId(int companyNum);
+	abstract public CompanyDTO searchCompanyID(Map<String, String> company);
 
-	abstract public CompanyDTO searchCompanyPW(String company_Name, String company_Id, String company_PhoneNumber);
+	abstract public CompanyDTO searchCompanyPW(Map<String, String> company);
 
 	abstract public CompanyDTO checkCompanyID(String company_Id);
 	
 	abstract public CompanyDTO checkCompanyNumber(int company_Number);
 	
+	abstract public int updateCompanyInfo(HashMap<String, Object> cmap);
+
 }

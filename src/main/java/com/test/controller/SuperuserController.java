@@ -1,5 +1,8 @@
 package com.test.controller;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
@@ -34,16 +37,18 @@ public class SuperuserController {
 	 */
 	@RequestMapping(value="/admin_login", method = RequestMethod.POST)
 	public String getAdmin(HttpServletRequest request) {
-		SuperuserDTO superuser = superuserDao.loginSuperuser(				// superuser테이블에 해당 ID, PW가 있는지 확인해본다.
-										request.getParameter("username"), 	// admin.login.jsp에 name값이 username인 값을 가져온다.
-										request.getParameter("password")	// admin.login.jsp에 name값이 password인 값을 가져온다.
-								  );
+		Map<String, String> superuser = new HashMap<String, String>();		// mapper에 넘어온 변수들을 한 번에 보내기 위해 생성한 Map객체
+		superuser.put("username", request.getParameter("username"));		// Map객체에 아이디를 저장한다.
+		superuser.put("password", request.getParameter("password"));		// Map객체에 비밀번호를 저장한다.
+			
+		SuperuserDTO superuserDto = superuserDao.loginSuperuser(superuser);	// superuser테이블에 해당 ID, PW가 있는지 확인해본다.
+							  
 		if(superuser != null) {												// superuser가 존재하는 경우
 			HttpSession session = request.getSession();						// session을 가져온다.
-			 session.setAttribute("superuser", superuser);					// session의 속성에 superuser를 붙여준다.
+			 session.setAttribute("superuser", superuserDto);					// session의 속성에 superuser를 붙여준다.
 			return "admin/admin_drop.tiles";											// 탈퇴회원관리 화면을 띄워준다.
 		}
-		return "admin_login";												// superuser가 없는 경우 로그인 화면을 띄워준다.
+		return "admin/dmin_login.tiles";												// superuser가 없는 경우 로그인 화면을 띄워준다.
 	}
 	
 	/*
@@ -59,6 +64,6 @@ public class SuperuserController {
 	 */
 	@RequestMapping("/admin_dormant")
 	public String dormant() {
-		return "admin/admin_dormant.tiles";
+			return "admin/admin_dormant.tiles";
 	}	
 }

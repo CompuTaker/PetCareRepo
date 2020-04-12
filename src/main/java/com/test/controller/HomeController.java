@@ -1,5 +1,8 @@
 package com.test.controller;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,7 +33,7 @@ public class HomeController {
 	 * URL에 '/'과 'index'를 입력하면 실행되는 메서드이다.
 	 * 따라서 메인화면(index.jsp)를 실행시켜준다.
 	 */
-	@RequestMapping({"/", "/index"})
+	@RequestMapping({"/", "index"})
 	public String index(Model model) {
 		System.out.println("/ or index");
 		return "index"; // index.jsp
@@ -74,9 +77,13 @@ public class HomeController {
 	 */
 	@RequestMapping("/loginDo")
 	public String loginDo(Model model, String id, String pw, HttpSession session, SessionStatus status) {	//login.jsp에서 name이 id, pw인 값을 가져온다.
+		Map<String, String> loginInfo = new HashMap<String, String>();	// mapper에 변수값을 한 번에 전달하기 위해서 생성한 Map객체 
+		loginInfo.put("id", id);										// Map객체에 Id값을 저장한다.
+		loginInfo.put("pw", pw);										// Map객체에 PW값을 저장한다.
+		
 		//id와 pw 값을 가지고 customer, company테이블에 넣어서 null인지 아닌지를 판별해본다.
-		CustomerDTO customer = this.customerDao.listThisCustomer(id, pw);	
-		CompanyDTO company = this.companyDao.listThisCompany(id, pw);
+		CustomerDTO customer = this.customerDao.listThisCustomer(loginInfo);	
+		CompanyDTO company = this.companyDao.listThisCompany(loginInfo);
 		String url = "";
 
 		if (customer != null && company == null) { 			// customer만 null이 아닐 경우 = 고객 로그인
@@ -107,7 +114,7 @@ public class HomeController {
 	public String logout(Model model, SessionStatus status) {
 		Constant.eSession = ESession.eNull;	//eSession의 값을 null로 초기화
 		status.setComplete();				// sessionAttribute를 초기화해준다.
-		return "/index";
+		return "index";
 	}
 	
 	/*

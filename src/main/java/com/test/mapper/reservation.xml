@@ -72,12 +72,13 @@
 		insert into
 		Reservation
 		(pet_Index, company_Index, reservation_Date,
-		reservation_Time)
+		reservation_Time, reservation_DetailService)
 		values(#{pet_Index}, #{company_Index},
 		#{reservation_Date},
-		#{reservation_Time})
+		#{reservation_Time},
+		#{reservation_DetailService})
 	</insert>
-	
+		
 	<!-- 예약 삭제하기 -->
 	<delete id="deleteTheReservation">
 		delete from Reservation where reservation_Index = #{
@@ -91,3 +92,6 @@
 		#{reservation_Index}
 	</update>
 </mapper>
+
+
+
