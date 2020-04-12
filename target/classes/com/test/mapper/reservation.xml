@@ -87,9 +87,9 @@
 	
 	<!-- 예약 취소하기 -->
 	<update id="cancelTheReservation">
-		update Reservation set
-		reservation_Check = 'canceled' where reservation_Index =
-		#{reservation_Index}
+		update Reservation 
+		set	reservation_Check = 'canceled' 
+		where reservation_Index = #{reservation_Index}
 	</update>
 </mapper>
 

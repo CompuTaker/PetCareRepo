@@ -132,17 +132,11 @@ public class ReservationController {
 	 */
 	@RequestMapping(value = "/customer_reservation_cancel", method = RequestMethod.GET)
 	public String customer_reservation_delete(Model model, HttpSession session, String index) {
-		int reservationNum = Integer.parseInt(index);														// 정상예약화면에서 쓰레기통 모양을 누르면 메서드가 실행되면서 reservation_Index가 넘어온다. (customer_reserve_check.jsp)
-		CustomerDTO customer = (CustomerDTO) session.getAttribute("customer");								// customer session을 가져온다.
-		int customerIdx = customer.getCustomer_Index();														// customer에서 index값을 따로 int변수에 저장해준다.
-		List<ReservationDTO> itsReservations = this.reservationDAO.listItsCustReservations(customerIdx);	// customerIdx에 해당하는 모든 예약 정보를 가져온다.
-
-		for (ReservationDTO reservationDTO : itsReservations) {
-			if (reservationDTO.getReservation_Index() == reservationNum) {
-				reservationDAO.cancelTheReservation(reservationNum);			// 취소하고자 하는 예약 인덱스와 동일한 예약은 테이블에서 reservation_Check = 'canceled'로 고친다.
-			}
-		}
-		return "customer/customer_Profile.tiles";												// 후에 마이페이지로 이동한다.
+		System.out.println("예약취소하기");
+		int reservationNum = Integer.parseInt(index);					// 정상예약화면에서 쓰레기통 모양을 누르면 메서드가 실행되면서 reservation_Index가 넘어온다. (customer_reserve_check.jsp)
+		this.reservationDAO.cancelTheReservation(reservationNum);		// 취소하고자 하는 예약 인덱스와 동일한 예약은 테이블에서 reservation_Check = 'canceled'로 고친다.
+		
+		return "redirect:/customer/customer_Profile.tiles";				// 후에 마이페이지로 이동한다.
 	}
 
 }
