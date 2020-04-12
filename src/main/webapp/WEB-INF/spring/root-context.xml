@@ -32,7 +32,6 @@
    <!--
    <bean id="myHandler" class="com.hjp.websocket.MyHandler"/>
    -->
-   
    <!-- JMS Configuration -->
    <bean id="connectionFactory" class="org.apache.activemq.ActiveMQConnectionFactory">
         <property name="brokerURL" value="tcp://localhost:61616" />

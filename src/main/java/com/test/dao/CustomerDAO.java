@@ -5,6 +5,7 @@ import java.util.List;
 
 import com.test.dto.CustomerDTO;
 
+//DAO 인터페이스 클래스
 public interface CustomerDAO {
 
 	abstract public CustomerDTO listThisCustomer(String customer_Id, String customer_Password);

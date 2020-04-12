@@ -5,6 +5,7 @@ import java.util.List;
 
 import com.test.dto.PetDTO;
 
+// DAO 인터페이스 클래스
 public interface PetDAO {
 
 	abstract public List<PetDTO> listItsPets(int customer_Index);

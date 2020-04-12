@@ -5,6 +5,9 @@
 
 <mapper namespace="com.test.dto.ReviewDTO">
 
+	<!-- **주의 : 세미콜론 없이 쿼리문 작성!** -->
+
+	<!-- 선택한 기업의 리뷰 리스트 보여주기 -->
 	<select id="listItsReviews" parameterType="java.util.Map"
 		resultType="com.test.dto.ReviewDTO">
 		select *
@@ -21,12 +24,14 @@
 		  where Review.customer_id = #{customer_id}
 	</select>
 	
-
+	<!-- 인덱스 번호로 리뷰 찾기 -->
 	<select id="listThisReviewByIdx"
 		resultType="com.test.dto.ReviewDTO">
 		select * from Review where review_Index = #{review_Index}
 	</select>
 
+
+	<!-- 리뷰 등록하기 -->
 	<insert id="insertTheReview" parameterType="java.util.Map">
 		insert into
 		Review
@@ -41,11 +46,15 @@
 		#{review_Rating},
 		#{customer_id})
 	</insert>
+	
+	<!-- 리뷰 삭제하기 -->
 	<delete id="deleteTheReview">
 		delete from Review
 		where review_Index =
 		#{review_Index}
 	</delete>
+	
+	<!-- 리뷰 답글 달기 -->
 	<update id="updateTheComent"  parameterType="java.util.Map">
 		update Review set review_Comment =
 		#{review_Comment}

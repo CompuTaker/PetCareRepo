@@ -5,16 +5,21 @@
 
 <mapper namespace="com.test.dto.CompanyDTO">
 
+	<!-- **주의 : 세미콜론 없이 쿼리문 작성!** -->
+
+	<!-- 기업 리스트 보여주기-->
    <select id="listAllCompany" resultType="com.test.dto.CompanyDTO">
       select * from Company;
    </select>
 
+	<!-- 아이디와 비밀번호가 일치하는 정보 선택 -->
    <select id="listThisCompany" parameterType="java.util.Map"
       resultType="com.test.dto.CompanyDTO">
       select * from Company where company_Id = #{ company_Id } and
       company_Password = #{ company_Password }
    </select>
    
+   <!-- 기업 회원 아이디 찾기 -->
    <select id="searchId" 
       resultType="com.test.dto.CompanyDTO">
       select company_Id from Company where company_Number = #{ company_Number }
@@ -25,18 +30,19 @@
       방식이었던 것 -->
       
       
- <select id="companyId" parameterType="java.util.Map"
+    <!-- 기업 회원 아이디 선택하기 -->
+ 	<select id="companyId" parameterType="java.util.Map"
 		resultType="com.test.dto.CompanyDTO">
 		select company_Id from Company where company_Id = #{company_Id}
 	</select>
 	
+	<!-- 기업 번호 선택하기 -->
 	 <select id="companyNumber"  parameterType="java.util.Map"
 		resultType="com.test.dto.CompanyDTO">
 		select company_Number from Company where company_Number = #{company_Number}
 	</select>
 	
-	
-   
+	<!-- 기업 회원 비밀번호 찾기 -->
 	<select id="searchCompanyPW" parameterType="java.util.Map"
 		resultType="com.test.dto.CompanyDTO">
 		select * from Company where company_UserName =
@@ -47,10 +53,15 @@
 		company_UserPhoneNumber = #{company_UserPhoneNumber}
 	</select>
    
+   
+   <!-- 인덱스로 해당 기업 정보 찾아오기 -->
    <select id="listThisCompanyByIdx" resultType="com.test.dto.CompanyDTO">
       select * from Company where company_Index = #{company_Index}
    </select>
-      <insert id="insertTheCompany" parameterType="java.util.Map">
+   
+   
+    <!-- 기업 회원 등록하기 -->
+    <insert id="insertTheCompany" parameterType="java.util.Map">
       <![CDATA[insert into Company
       (company_Index, company_Id, company_Password, company_UserName,
       company_ResidentNumber, company_Address, company_Email,
@@ -63,13 +74,15 @@
       #{company_Number }, #{company_Type}, null)
       ]]>
    </insert>
+   
+   <!-- 기업 회원 삭제하기 -->
    <delete id="deleteTheCompany">
       delete from Company where company_Index = #{ company_Index }
    </delete>
+   
+   <!-- 기업타입(미용, 호텔, 병원)으로 해당 기업들 가져오기 -->
    <select id="listsCompany" parameterType="java.util.Map"
       resultType="com.test.dto.CompanyDTO">
       select * from Company where company_Type = #{ company_Type }
    </select>
-   <!-- 세미콜론 없이 쿼리문 작성! -->
-
 </mapper>

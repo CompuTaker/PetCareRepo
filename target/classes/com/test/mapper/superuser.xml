@@ -5,6 +5,9 @@
 
 <mapper namespace="com.test.dto.SuperuserDTO">
 
+	<!-- **주의 : 세미콜론 없이 쿼리문 작성!** -->
+
+	<!-- superuser테이블에 해당 아이디와 비밀번호가 있는지 -->
 	<select id="getSuperuser" parameterType="java.util.Map"
 		resultType="com.test.dto.SuperuserDTO">
 		select * from superuser where username = #{username}

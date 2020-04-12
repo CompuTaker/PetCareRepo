@@ -2,11 +2,10 @@ package com.test.dao;
 
 import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import com.test.dto.CompanyDTO;
-import com.test.dto.CustomerDTO;
 
+// DAO 인터페이스 클래스
 public interface CompanyDAO {
 
 	abstract public List<CompanyDTO> listAllCompany();
@@ -23,10 +22,10 @@ public interface CompanyDAO {
 
 	abstract public CompanyDTO searchId(int companyNum);
 
-	public abstract CompanyDTO searchCompanyPW(String company_Name, String company_Id, String company_PhoneNumber);
+	abstract public CompanyDTO searchCompanyPW(String company_Name, String company_Id, String company_PhoneNumber);
 
-	public abstract CompanyDTO checkCompanyID(String company_Id);
+	abstract public CompanyDTO checkCompanyID(String company_Id);
 	
-	public abstract CompanyDTO checkCompanyNumber(int company_Number);
+	abstract public CompanyDTO checkCompanyNumber(int company_Number);
 	
 }
