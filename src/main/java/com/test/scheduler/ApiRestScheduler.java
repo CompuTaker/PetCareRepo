@@ -104,7 +104,6 @@ public class ApiRestScheduler {
 				Node node = child.item(j);
 					System.out.println(node.getNodeName());
 					System.out.println(node.getTextContent());
-					System.out.println("");
 
 			}
 		}
