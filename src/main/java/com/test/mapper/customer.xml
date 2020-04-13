@@ -89,7 +89,8 @@
 		customer_PhoneNumber =
 		#{customer_PhoneNumber},
 		customer_Email = #{customer_Email},
-		customer_Address = #{customer_Address}
+		customer_Address = #{customer_Address},
+		customer_Image = #{customer_Image}
 		where customer_Id =
 		#{customer_Id} and
 		customer_Name = #{customer_Name}
