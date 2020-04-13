@@ -76,6 +76,8 @@
 						onclick="location.href='customer_modify'"> <input
 						type="button" class="mypage-btn-group" value="예약조회하기"
 						onclick="location.href='customer_reserve_check'">
+						<input type="button" class="mypage-btn-group"value="후기모아보기" onclick="location.href='customer_review_mylist'">
+
 				</label></td>
 			</tr>
 		</table>

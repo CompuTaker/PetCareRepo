@@ -21,10 +21,15 @@ import com.test.dao.CompanyDAO;
 import com.test.dao.ReservationDAO;
 import com.test.dto.CompanyDTO;
 import com.test.dto.ReservationDTO;
+import com.test.scheduler.ApiRestScheduler;
+
 
 @Controller // Spring에 Controller 클래스라고 알려주는 Annotation
 @SessionAttributes({ "customer", "company" }) // Model에 저장한 값을 http session에 저장할 수 있게 해주는 Annotation
 public class CompanyController {
+
+@Autowired
+	private ApiRestScheduler apiRestScheduler;
 
 	@Autowired
 	private CompanyDAO companyDao;
@@ -217,6 +222,7 @@ public class CompanyController {
 		String url = "";
 		List<CompanyDTO> hospitalCompanyList = this.companyDao.listsCompany("병원"); // company_Type이 병원인 모든 회사를 가져온다.
 		model.addAttribute("companyList", hospitalCompanyList); // model에 가져온 회사 정보를 저장한다.
+		this.chatRedisAndAPI();
 		url = "company/hospital_company.tiles"; // hospital_company.jsp화면을 띄워준다.
 		return url;
 	}
@@ -244,5 +250,20 @@ public class CompanyController {
 		CompanyDTO company = this.companyDao.listThisCompany(companyIdx); // 넘어온 companyIdx값을 company테이블에 가서 값을 가져온다.
 		model.addAttribute("thisCompany", company); // 가져온 company의 값을 model객체에 저장한다.
 		return "company/company_view.tiles";
+	}
+
+public void chatRedisAndAPI() {
+		// URLEncoder.encode("Q12A07", "UTF-8"); // 애견카페
+		try {
+			this.apiRestScheduler.batchProcess("Q12A07");
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			System.out.println("Public_API_Error -- batchProcess(Q12A07)");
+			e.printStackTrace();
+		}
+		
+		// System.out.println("RedisTemplate @ToStringWSH => " + this.redisTemplate.toString());
+		// System.out.println("REDIS => " + this.valueOps.get("test"));
+		// this.valueOps.set("settingtest", "well-done");
 	}
 }
