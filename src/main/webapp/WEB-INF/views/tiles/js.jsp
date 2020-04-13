@@ -28,9 +28,9 @@ uri="http://www.springframework.org/tags/form" prefix="form"%>
 
 <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
 <script src="resources/script/reserve.js"></script>
-<script src="resources/script/company_Signup.js"></script>
-
+<!-- <script src="resources/script/company_Signup.js"></script>
+ -->
 
 <!-- <script  type="text/javascript"src="resources/script/compnay_Signup.js"></script>
  -->
-<script src="resources/script/customer_Signup.js"></script>
+<!-- <script src="resources/script/customer_Signup.js"></script> -->

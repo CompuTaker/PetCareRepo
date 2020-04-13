@@ -52,7 +52,7 @@ public class CustomerController {
 		
 		ModelAndView ok = new ModelAndView("customer/customer_signup_ok.tiles"); // 중복체크까지 정상적으로 처리한 후 회원가입 버튼을 눌렀을 때 나올
 																					// 화면과 함께 ModelAndView객체 생성
-		ModelAndView redirect = new ModelAndView("customer/customer_signup.tiles"); // 중복체크를 하지 않았을 경우 나올 화면과 함께
+		ModelAndView redirect = new ModelAndView("customer/customer_Signup.tiles"); // 중복체크를 하지 않았을 경우 나올 화면과 함께
 																					// ModelAndView객체 생성
 		redirect.addObject("message", "중복체크 해주세요."); // 중복체크를 하지 않았을 경우 띄울 메시지를 redirect ModelAndView에 저장
 
@@ -64,6 +64,7 @@ public class CustomerController {
 					newCustomer = imageUpload(fileMap,multipartHttpServletRequest,cmap);
 					this.customerDao.insertTheCustomer(newCustomer); // form에 입력한 값을 company테이블에 저장한다.
 				} catch (IOException e) {
+					
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}

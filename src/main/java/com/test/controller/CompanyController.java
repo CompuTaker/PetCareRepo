@@ -44,22 +44,23 @@ public class CompanyController {
 																						// 가져옴
 		ModelAndView ok = new ModelAndView("company/company_signup_ok.tiles"); // 중복체크까지 정상적으로 처리한 후 회원가입 버튼을 눌렀을 때 나올
 																				// 화면과 함께 ModelAndView객체 생성
-		ModelAndView redirect = new ModelAndView("company/company_signup.tiles"); // 중복체크를 하지 않았을 경우 나올 화면과 함께
+		ModelAndView redirect = new ModelAndView("company/company_Signup.tiles"); // 중복체크를 하지 않았을 경우 나올 화면과 함께
 																					// ModelAndView객체 생성
 		redirect.addObject("message", "중복체크 해주세요."); // 중복체크를 하지 않았을 경우 띄울 메시지를 redirect ModelAndView에 저장
-
-		if (isCompanyIdChecked && isCompanyComNumChecked) { // ID와 사업자등록번호 중복체크를 정상적으로 실행했을 경우
+		
+		
+//		if (isCompanyIdChecked && isCompanyComNumChecked) { // ID와 사업자등록번호 중복체크를 정상적으로 실행했을 경우
 			if (isCompanyOk) { // 최종확인 Boolean도 true일 경우
 				this.companyDao.insertTheCompany(cmap); // form에 입력한 값을 company테이블에 저장한다.
 				return ok; // company_signup_ok.jsp화면을 띄운다.
 			}
-		}
+//		}
 
-		System.out.println("중복체크 안함");
-		// 중복체크가 하나라도 안되었을 경우 모든 체크값을 false로 초기화하고 company_signup.jsp화면을 띄운다.
-		isCompanyIdChecked = false;
-		isCompanyComNumChecked = false;
-		isCompanyOk = false;
+//		System.out.println("중복체크 안함");
+//		// 중복체크가 하나라도 안되었을 경우 모든 체크값을 false로 초기화하고 company_signup.jsp화면을 띄운다.
+//		isCompanyIdChecked = false;
+//		isCompanyComNumChecked = false;
+//		isCompanyOk = false;
 		return redirect;
 	}
 
