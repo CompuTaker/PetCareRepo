@@ -10,12 +10,11 @@
 		</table>
 
 		<form class="w-50 ml-auto mr-auto mt-5 mb-5"
-			action="customer_modify_ok" method="post">
+			action="customer_modify_ok" method="post" enctype="multipart/form-data">
 			<div class="mb-5">
 				<img id="img-default"
 					src="<c:url value='/resources/images/profile.png' />" width="100"
-					height="100"> <input type="file" id="Customer_Image"
-					name="Customer_Image" accept="image/*" name="customer_Image" />
+					height="100"> <input type="file" id="Customer_Image" name="imageFile" accept="image/*" />
 			</div>
 
 			<div class="form-group">

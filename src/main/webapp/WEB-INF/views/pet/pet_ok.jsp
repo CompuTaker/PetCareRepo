@@ -4,7 +4,7 @@
 
 <div class="row mx-auto main-container">
 	<div class="col-10 mx-auto main-block">
-		<form class="w-50 ml-auto mr-auto mt-5 mb-5" action="customerprofile"
+		<form class="w-50 ml-auto mr-auto mt-5 mb-5" action="customer_Profile"
 			method="post">
 			<h1>
 				<i class="fas fa-check"></i>

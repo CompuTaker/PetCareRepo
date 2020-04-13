@@ -1,5 +1,6 @@
 package com.test.controller;
 
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -15,8 +16,11 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.SessionAttributes;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.test.amazon.s3;
 import com.test.dao.CustomerDAO;
 import com.test.dao.PetDAO;
 import com.test.dto.CustomerDTO;
@@ -25,7 +29,9 @@ import com.test.dto.PetDTO;
 @Controller // Spring이 해당 클래스가 Controller인 걸 알려주는 Annotation
 @SessionAttributes({ "customer", "company" }) // Model에 저장한 값을 http session에 저장할 수 있게 해주는 Annotation
 public class CustomerController {
-
+	@Autowired
+	private s3 s3;
+	
 	@Autowired
 	private CustomerDAO customerDao;
 
@@ -39,18 +45,29 @@ public class CustomerController {
 	/*
 	 * 고객 회원가입을 누르고 정보를 입력하고 회원가입 버튼을 눌렀을 때 실행되는 메서드
 	 */
-	@RequestMapping("/customer_signupDo")
-	public ModelAndView customer_signupDo(@RequestParam HashMap<String, Object> cmap) { // form에서 입력한 값을 HashMap으로 묶어서
-																						// 가져옴
+	@RequestMapping(value = "/customer_signupDo", method = RequestMethod.POST, headers = ("content-type=multipart/*"))
+	public ModelAndView customer_signupDo(MultipartHttpServletRequest multipartHttpServletRequest,
+			@RequestParam HashMap<String, Object> cmap) { // form에서 입력한 값을 HashMap으로 묶어서 가져옴
+		
+		
 		ModelAndView ok = new ModelAndView("customer/customer_signup_ok.tiles"); // 중복체크까지 정상적으로 처리한 후 회원가입 버튼을 눌렀을 때 나올
 																					// 화면과 함께 ModelAndView객체 생성
-		ModelAndView redirect = new ModelAndView("customer/customer_signup.tiles"); // 중복체크를 하지 않았을 경우 나올 화면과 함께
+		ModelAndView redirect = new ModelAndView("customer/customer_Signup.tiles"); // 중복체크를 하지 않았을 경우 나올 화면과 함께
 																					// ModelAndView객체 생성
 		redirect.addObject("message", "중복체크 해주세요."); // 중복체크를 하지 않았을 경우 띄울 메시지를 redirect ModelAndView에 저장
 
 		if (isCustomerIdChecked && isCustomerResidentNumberChecked) { // ID와 주민등록번호 중복체크를 정상적으로 실행했을 경우
 			if (isCustomerOk) { // 최종확인 Boolean도 true일 경우
-				this.customerDao.insertTheCustomer(cmap); // form에 입력한 값을 company테이블에 저장한다.
+				try {
+					Map<String, MultipartFile> fileMap = multipartHttpServletRequest.getFileMap();
+					HashMap<String, Object> newCustomer;
+					newCustomer = imageUpload(fileMap,multipartHttpServletRequest,cmap);
+					this.customerDao.insertTheCustomer(newCustomer); // form에 입력한 값을 company테이블에 저장한다.
+				} catch (IOException e) {
+					
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
 				return ok; // customer_signup_ok.jsp화면을 띄운다.
 			}
 		}
@@ -60,6 +77,37 @@ public class CustomerController {
 		isCustomerResidentNumberChecked = false;
 		isCustomerOk = false;
 		return redirect;
+	}
+
+	private HashMap<String, Object> imageUpload(Map<String, MultipartFile> fileMap,
+			MultipartHttpServletRequest multipartHttpServletRequest, HashMap<String, Object> cmap) throws IOException {
+String baseUrl = "https://s3.ap-northeast-2.amazonaws.com/petcare2020/";
+		
+		if (fileMap.isEmpty()) { // if(imageFile == null) {
+			System.out.println("NOTHING!!"); // null
+
+		} else {
+
+			MultipartFile multipartFile = multipartHttpServletRequest.getFile("imageFile");
+			String fileName = multipartFile.getOriginalFilename(); // 파일명
+			String fullFileName = baseUrl + fileName;
+
+			// 확장자확인
+			int dotIdx = fileName.lastIndexOf(".");
+			String fileExtension = fileName.substring(dotIdx + 1).toLowerCase();
+			// Wrong file
+			if (!fileExtension.equals("jpg") && !fileExtension.equals("jpeg") && !fileExtension.equals("png")) {
+
+				System.out.println("File Not Valid");
+				// Normal image file
+			} else {
+				// 나머지 정보 DB에 업로드
+				cmap.put("customer_Image", fullFileName);
+				// 이미지는 3S에 업로드
+				s3.uploadFile(multipartFile);
+			}
+		}
+		return cmap;
 	}
 
 	/*
@@ -156,8 +204,16 @@ public class CustomerController {
 	 * 개인정보수정를 고치고 수정 버튼을 눌렀을 때 실행되는 메서드이다.
 	 */
 	@RequestMapping("/customer_modify_ok")
-	public String customer_modify(@RequestParam HashMap<String, Object> cmap) { // form에서 입력한 정보를 HashMap으로 묶어서 가져온다.
-		this.customerDao.updateCustomerInfo(cmap); // 가져온 cmap데이터를 기존 고객 데이터에 update시킨다.
+	public String customer_modify(MultipartHttpServletRequest multipartHttpServletRequest,
+			@RequestParam HashMap<String, Object> cmap) { // form에서 입력한 정보를 HashMap으로 묶어서 가져온다.
+		Map<String, MultipartFile> fileMap = multipartHttpServletRequest.getFileMap();
+		try {
+			HashMap<String, Object> modifyCustomer = imageUpload(fileMap,multipartHttpServletRequest,cmap);
+			this.customerDao.updateCustomerInfo(modifyCustomer); // 가져온 cmap데이터를 기존 고객 데이터에 update시킨다.		
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		return "customer/customer_modify_ok.tiles";
 	}
 

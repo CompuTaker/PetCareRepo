@@ -112,6 +112,13 @@ xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/m
 			<version>${org.aspectj-version}</version>
 		</dependency>	
 		
+		<!-- Amazon S3 -->
+		<dependency>
+	    	<groupId>com.amazonaws</groupId>
+	   		<artifactId>aws-java-sdk</artifactId>
+	   		<version>1.11.66</version>
+		</dependency>
+		
 		<!-- Logging -->
 		<dependency>
 			<groupId>org.slf4j</groupId>

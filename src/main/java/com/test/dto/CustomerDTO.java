@@ -19,7 +19,7 @@ public class CustomerDTO {
 	private String customer_PhoneNumber;
 	private String customer_Address;
 	private String customer_Email;
-	private byte[] customer_Image;
+	private String customer_Image;
 
 	public int getCustomer_Index() {
 		return customer_Index;
@@ -85,11 +85,11 @@ public class CustomerDTO {
 		this.customer_Email = customer_Email;
 	}
 
-	public byte[] getCustomer_Image() {
+	public String getCustomer_Image() {
 		return customer_Image;
 	}
 
-	public void setCustomer_Image(byte[] customer_Image) {
+	public void setCustomer_Image(String customer_Image) {
 		this.customer_Image = customer_Image;
 	}
 	

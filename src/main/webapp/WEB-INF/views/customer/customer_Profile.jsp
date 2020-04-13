@@ -51,7 +51,7 @@
 					<div class="row no-gutters">
 						<div class="col-md-4">
 							<img id="Customer_Image"
-								src="<c:url value='/resources/images/logo.png' />" width="150"
+								src= ${customer.customer_Image} width="150"
 								height="150">
 						</div>
 						<div class="col-md-8">
