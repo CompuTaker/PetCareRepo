@@ -41,7 +41,6 @@
 		location.href = "deleteTheCustomer"; // 세션에서 customerIdx 받아오기!
 	}
 </script>
-
 <div class="row mx-auto main-container">
 	<div class="col-10 mx-auto main-block">
 		<table class="title-table ml-auto mr-auto" height="90">
@@ -53,6 +52,7 @@
 							<img id="Customer_Image"
 								src= ${customer.customer_Image} width="150"
 								height="150">
+								
 						</div>
 						<div class="col-md-8">
 							<div class="card-body">
