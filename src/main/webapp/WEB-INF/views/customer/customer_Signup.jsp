@@ -17,14 +17,13 @@
 				<td><label class="login-title">개인 회원가입</label></td>
 			</tr>
 		</table>
-
-		<form class="w-50 ml-auto mr-auto mt-5 mb-5"
-			action="customer_signupDo" method="post">
+		
+		<!-- 수정함 enctype="multipart/form-data"추가 --> 
+		<form class="w-50 ml-auto mr-auto mt-5 mb-5" action="customer_signupDo" method="post" enctype="multipart/form-data">
 			<div class="mb-5">
 				<img id="img-default"
 					src="<c:url value='/resources/images/profile.png' />" width="100"
-					height="100" /> <input type="file" id="Customer_Image"
-					name="Customer_Image" accept="image/*" name="customer_Image" />
+					height="100" /> <input type="file" id="imageFile" name="imageFile" />
 			</div>
 
 			<div class="form-group">
