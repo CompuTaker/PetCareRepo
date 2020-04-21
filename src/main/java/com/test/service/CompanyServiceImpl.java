@@ -18,6 +18,7 @@ import com.test.dao.ReservationDAO;
 import com.test.dto.CompanyDTO;
 import com.test.dto.ReservationDTO;
 
+
 @Service
 @SessionAttributes({ "customer", "company" })	// Model에 저장한 값을 http session에 저장할 수 있게 해주는 Annotation
 public class CompanyServiceImpl implements CompanyService{
