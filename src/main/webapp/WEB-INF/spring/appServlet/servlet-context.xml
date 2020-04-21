@@ -34,9 +34,11 @@
 	<task:executor id="jobExecutor" pool-size="10" />
 	<task:annotation-driven executor="jobExecutor" scheduler="jobScheduler" />
 	
+	<!--
 	<websocket:handlers>
         <websocket:mapping path="/echo" handler="myHandler"/>
         <websocket:sockjs/>
     </websocket:handlers>
+	-->
 	
 </beans:beans>

@@ -14,8 +14,8 @@ import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.bind.support.SessionStatus;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.test.constants.Constant;
-import com.test.constants.Constant.ESession;
+import com.test.constants.Constants;
+import com.test.constants.Constants.ESession;
 import com.test.dao.CompanyDAO;
 import com.test.dao.CustomerDAO;
 import com.test.dao.PetDAO;
@@ -51,11 +51,11 @@ public class MemberController {
 		if (customer != null && company == null) { // only customer
 			url = "customerprofile";
 			model.addAttribute("customer", customer);
-			Constant.eSession = ESession.eCustomer;
+			Constants.eSession = ESession.eCustomer;
 		} else if (customer == null && company != null) { // only company
 			model.addAttribute("company", company);
 			url = "companyprofile";
-			Constant.eSession = ESession.eCompany;
+			Constants.eSession = ESession.eCompany;
 		} else if (customer != null && company != null) { // company == null
 			System.out.println("고객 & 업체 중복 로그인 방지");
 			status.setComplete();
@@ -69,7 +69,7 @@ public class MemberController {
 
 	@RequestMapping("/logout")
 	public String logout(Model model, SessionStatus status) {
-		Constant.eSession = ESession.eNull;
+		Constants.eSession = ESession.eNull;
 		status.setComplete();
 		System.out.println("~~~logout~~~");
 		return "redirect:/";

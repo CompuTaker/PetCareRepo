@@ -1,46 +1,26 @@
 package com.test.controller;
 
-import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.redis.core.HashOperations;
-import org.springframework.data.redis.core.ListOperations;
-import org.springframework.data.redis.core.RedisTemplate;
-import org.springframework.data.redis.core.SetOperations;
-import org.springframework.data.redis.core.ValueOperations;
-import org.springframework.data.redis.core.ZSetOperations;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.SessionAttributes;
 
-import com.test.scheduler.ApiRestScheduler;
+import com.test.dao.ChatRoomDAO;
+import com.test.dto.ChatRoomDTO;
+import com.test.dto.CustomerDTO;
+import com.test.dto.SuperuserDTO;
 
 @Controller
+@SessionAttributes({ "customer", "company", "superuser" })
 public class ChatController {
 	
 	@Autowired
-	private ApiRestScheduler apiRestScheduler;
-	
-	@Autowired
-	private RedisTemplate<Object, Object> redisTemplate;
-	// @Qualifier("redisTemplate") // javax
-	
-	@Resource(name="redisTemplate")
-	private ValueOperations<String, Object> valueOps;
-	
-	@Resource(name="redisTemplate")
-	private SetOperations<String, String> setOps;
-	
-	@Resource(name="redisTemplate")
-	private ListOperations<String, Object> listOps;
-	
-	@Resource(name="redisTemplate")
-	private ZSetOperations<String, String> zSetOps;
-	
-	@Resource(name="redisTemplate")
-	private HashOperations<String, String, Object> hashOps;
+	private ChatRoomDAO chatRoomDAO;
 	
 	@RequestMapping("/chat")
 	public String chat(Model model, HttpServletRequest request, HttpServletResponse response) {
@@ -48,24 +28,33 @@ public class ChatController {
 	}
 	
 	@RequestMapping("/chatsession")
-	public String chatSession(Model model, HttpServletRequest request, HttpServletResponse response) {
-		this.chatRedisAndAPI();
-		return "chatsession"; // chatsession.jsp
+	public String chatSession(Model model, HttpSession session) {
+		CustomerDTO customer = (CustomerDTO) session.getAttribute("customer");
+		SuperuserDTO superuser = (SuperuserDTO) session.getAttribute("superuser");
+		String url = "";
+		if(customer != null) {
+			
+			ChatRoomDTO chatRoom = this.chatRoomDAO.findAvailableChatRoomWithPriority();
+			this.chatRoomDAO.enterTheChatRoom(chatRoom.getChatRoomIdx(), customer.getCustomer_Index());
+			model.addAttribute("isAdmin", "false");
+			model.addAttribute("idx", customer.getCustomer_Index()); // toString()
+			url = "chatsession";
+			System.out.println("CUSTOMER_TIME");
+			// ChatRoomDTO chatRoom = this.chatRoomDAO.getChatRoomByCustomerIdx(customer.getCustomer_Index());
+		}else if(superuser != null) {
+			
+			this.chatRoomDAO.prepareInTheNewChatRoom(superuser.getIndex()); // admin.getIdx
+			model.addAttribute("isAdmin", "true");
+			model.addAttribute("idx", superuser.getIndex()); // toString()
+			url = "chatsession";
+			System.out.println("ADMIN_TIME");
+			// ChatRoomDTO chatRoom = this.chatRoomDAO.getChatRoomByAdminIdx(superuser.getIndex());
+		}else {
+			url = "redirect:/";
+		}
+		return url; // chatsession.jsp
 	}
 	
-	public void chatRedisAndAPI() {
-		// URLEncoder.encode("Q12A07", "UTF-8"); // 애견카페
-		try {
-			this.apiRestScheduler.batchProcess("Q12A07");
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			System.out.println("Public_API_Error -- batchProcess(Q12A07)");
-			e.printStackTrace();
-		}
-		
-		System.out.println("RedisTemplate @ToStringWSH => " + this.redisTemplate.toString());
-		System.out.println("REDIS => " + this.valueOps.get("test"));
-		this.valueOps.set("settingtest", "well-done");
-	}
+	
 	
 }

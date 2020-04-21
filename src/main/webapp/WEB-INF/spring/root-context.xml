@@ -32,7 +32,9 @@
 	<!--
 	<bean id="myHandler" class="com.hjp.websocket.MyHandler"/>
 	websocket -->
+	<!--
 	<bean id="myHandler" class="com.test.chat.WebSocketHandler" />
+	-->
 	
 	<!-- JMS Configuration -->
 	<bean id="connectionFactory" class="org.apache.activemq.ActiveMQConnectionFactory">

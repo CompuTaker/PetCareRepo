@@ -19,8 +19,13 @@
 		$('#message').val('')
 	});
 	
-	// let sock = new SockJS("http://localhost:8272/hello/echo/");
-	let sock = new SockJS("http://18.180.187.192:8080/hello/echo");
+	var isAdmin = "${isAdmin}";
+	console.log(isAdmin);
+	var idx = "${idx}";
+	console.log(idx);
+	console.log("~~~~~~~~~~~~");
+	let sock = new SockJS("http://localhost:8272/hello/echo?idx="+idx+"&isAdmin="+isAdmin);
+	// let sock = new SockJS("http://18.180.187.192:8080/hello/echo");
 	sock.onmessage = onMessage;
 	sock.onclose = onClose;
 	// 메시지 전송

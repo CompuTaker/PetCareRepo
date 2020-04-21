@@ -12,18 +12,28 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
-import com.test.constants.Constant;
+import com.test.constants.Constants;
 import com.test.dao.ReservationDAO;
 
 @Component
 public class ApiRestScheduler {
 	// => Later only in Batch Server
 	
+	// URLEncoder.encode("Q12A07", "UTF-8"); // 애견카페
+//	try {
+//		this.apiRestScheduler.batchProcess("Q12A07");
+//	} catch (Exception e) {
+//		// TODO Auto-generated catch block
+//		System.out.println("Public_API_Error -- batchProcess(Q12A07)");
+//		e.printStackTrace();
+//	}
+	// 사용법
+	
 	// @Scheduled(cron = "0 38 9 * * *") // 9시 38분 0초 // 초 분 시 * * *
 	public void batchProcess(String category) throws Exception {
 		String detailService = "storeListInUpjong";
-		StringBuilder urlBuilder = new StringBuilder(Constant.PublicAPI_store_service + detailService);
-		String serviceKey = Constant.Service_Key;
+		StringBuilder urlBuilder = new StringBuilder(Constants.PublicAPI_store_service + detailService);
+		String serviceKey = Constants.Service_Key;
 		String parameter = "";
 		urlBuilder.append("?" + URLEncoder.encode("ServiceKey", "UTF-8") + serviceKey);
 
