@@ -1,6 +1,8 @@
 package com.test.controller;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -14,71 +16,90 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.test.service.ReviewService;
+import com.test.dao.CompanyDAO;
+import com.test.dao.CustomerDAO;
+import com.test.dao.PetDAO;
+import com.test.dao.ReservationDAO;
+import com.test.dao.ReviewDAO;
+import com.test.dto.CompanyDTO;
+import com.test.dto.CustomerDTO;
+import com.test.dto.PetDTO;
+import com.test.dto.ReservationDTO;
+import com.test.dto.ReviewDTO;
 
-@Controller										//Spring이 해당 클래스가 Controller인 걸 알려주는 Annotation
-@SessionAttributes({ "customer", "company" })	// Model에 저장한 값을 http session에 저장할 수 있게 해주는 Annotation
-public class ReviewController {	
-	
+@Controller
+@SessionAttributes({ "customer", "company" })
+public class ReviewController {
+
 	@Autowired
-	public ReviewService reviewService;
+	private CustomerDAO customerDao;
 
-	/*
-	 * 고객이 업체찾기>기업리스트 중 선택>후기 를 눌렀을 때 후기 리스트가 나오도록
-	 * 실행되는 메서드이다.
-	 */
+	@Autowired
+	private CompanyDAO companyDao;
+
+	@Autowired
+	private PetDAO petDao;
+
+	@Autowired
+	private ReservationDAO reservationDAO;
+
+	@Autowired
+	public ReviewDAO reviewDAO;
+
+	
 	@RequestMapping("/customer_review_list")
 	public String customerReviewList(Model model, HttpServletRequest request) {
-		return this.reviewService.customerReviewList(model, request);
+		int company_Index = Integer.parseInt(request.getParameter("company_Index"));
+		List<ReviewDTO> itsReviews = this.reviewDAO.listItsReviews(company_Index);
+		model.addAttribute("review", itsReviews);
+		return "customer_review_list";
 	}
 	
-	/*
-	 * 기업이 업체찾기>기업리스트 중 선택>후기 를 눌렀을 때 후기 리스트가 나오도록
-	 * 실행되는 메서드이다.
-	 */
 	@RequestMapping("/company_review_list")
 	public String companyReviewList(Model model, HttpSession session) {
-		return this.reviewService.companyReviewList(model, session);
+		CompanyDTO company = (CompanyDTO) session.getAttribute("company");
+		int company_Index = company.getCompany_Index();
+		System.out.println(company_Index);
+		List<ReviewDTO> itsReviews = this.reviewDAO.listItsReviews(company_Index);
+		model.addAttribute("review", itsReviews);
+		return "company_review_list";
 	}
 	
-	/*
-	 * 기업이 후기 리스트 중에서 자세히 보고자 하는 후기 리스트를 클릭하면 실행되는 메서드이다.
-	 */
 	@RequestMapping("/company_review_view")
 	public String CompanyReviewView(Model model, int reviewIdx) {
-		return this.reviewService.CompanyReviewView(model, reviewIdx);
+		ReviewDTO reviewDTO = this.reviewDAO.listItsReview(reviewIdx);
+		model.addAttribute("review", reviewDTO);
+		return "company_review_view";
 	}
-	
-	/*
-	 * 고객이 후기 리스트 중에서 자세히 보고자 하는 후기 리스트를 클릭하면 실행되는 메서드이다.
-	 */
 	@RequestMapping("/customer_review_view")
 	public String customerReviewView(Model model, int reviewIdx) {
-		return this.reviewService.customerReviewView(model, reviewIdx);
+		ReviewDTO reviewDTO = this.reviewDAO.listItsReview(reviewIdx);
+		model.addAttribute("review", reviewDTO);
+		return "customer_review_view";
 	}
 	
-	/*
-	 * 고객이 이용한 예약에 한 해서 후기를 작성하려고 후기 작성 버튼을 누르면 실행되는 메서드이다.
-	 */
 	@RequestMapping(value = "/customer_review_add", method = RequestMethod.GET)
-	public ModelAndView customerReviewAdd(ModelAndView mv, int index) {		// customer_reserve_check.jsp에서 후기 작성 버튼을 누르면 reservation_Index가 넘어온다.
-		return this.reviewService.customerReviewAdd(mv, index);
+	public ModelAndView customerReviewAdd(ModelAndView mv, int index) {
+		System.out.println(index);
+		int company_Index = this.reservationDAO.selectCompanyIndex(index);
+		mv.addObject("company_Index", company_Index);
+		mv.setViewName("customer_review_add");
+		return mv;
 	}
-	
-	/*
-	 * 리뷰 작성을 누르면 실행되는 메서드이다.
-	 */
 	@RequestMapping("/review_ok")
-	public String review_Ok(@RequestParam HashMap<String, Object> rmap, HttpServletRequest request, HttpSession session ) {	// 리뷰 작성 화면에서 입력한 form값이 HashMap객체로 묶어서 가져온다.
-		return this.reviewService.review_Ok(rmap, request, session);
+	public String review_Ok(@RequestParam HashMap<String, Object> rmap, HttpServletRequest request) {
+		String ratingValue = request.getParameter("review_Rating");
+		rmap.put("review_Rating", ratingValue);
+		this.reviewDAO.insertTheReview(rmap);
+		return "review_ok";
 	}
-	
-	/*
-	 * 고객이 작성한 후기에 기업이 답글을 달아주고 답글 달기 버튼을 누르면 실행되는 메서드이다.
-	 */
 	@RequestMapping("/company_review_ok")
-	public String companyReviewOk(@RequestParam HashMap<String, Object> rmap, HttpServletRequest request, int reviewIdx) {	// 답글 작성 화면에서 입력한 form값이 HashMap객체로 묶어서 가져온다. reviewIdx도 들어온다.
-		return this.reviewService.companyReviewOk(rmap, request, reviewIdx);
+	public String companyReviewOk(@RequestParam HashMap<String, Object> rmap, HttpServletRequest request,int reviewIdx) {
+		rmap.put("review_Index", reviewIdx);
+		System.out.println(rmap.get("review_Index"));
+		System.out.println(rmap.get("review_Comment"));
+		this.reviewDAO.insertTheComent(rmap);
+		return "company_review_ok";
 	}
 	
 }

@@ -3,42 +3,37 @@ package com.test.scheduler;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.io.StringReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLEncoder;
 import java.util.Scanner;
 
-import javax.xml.parsers.DocumentBuilder;
-import javax.xml.parsers.DocumentBuilderFactory;
-import javax.xml.parsers.ParserConfigurationException;
-import javax.xml.xpath.XPath;
-import javax.xml.xpath.XPathConstants;
-import javax.xml.xpath.XPathExpression;
-import javax.xml.xpath.XPathExpressionException;
-import javax.xml.xpath.XPathFactory;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
-import org.w3c.dom.Document;
-import org.w3c.dom.Node;
-import org.w3c.dom.NodeList;
-import org.xml.sax.InputSource;
-import org.xml.sax.SAXException;
 
-import com.test.constants.Constant;
+import com.test.constants.Constants;
 import com.test.dao.ReservationDAO;
 
 @Component
 public class ApiRestScheduler {
 	// => Later only in Batch Server
-
+	
+	// URLEncoder.encode("Q12A07", "UTF-8"); // 애견카페
+//	try {
+//		this.apiRestScheduler.batchProcess("Q12A07");
+//	} catch (Exception e) {
+//		// TODO Auto-generated catch block
+//		System.out.println("Public_API_Error -- batchProcess(Q12A07)");
+//		e.printStackTrace();
+//	}
+	// 사용법
+	
 	// @Scheduled(cron = "0 38 9 * * *") // 9시 38분 0초 // 초 분 시 * * *
 	public void batchProcess(String category) throws Exception {
 		String detailService = "storeListInUpjong";
-		StringBuilder urlBuilder = new StringBuilder(Constant.PublicAPI_store_service + detailService);
-		String serviceKey = Constant.Service_Key;
+		StringBuilder urlBuilder = new StringBuilder(Constants.PublicAPI_store_service + detailService);
+		String serviceKey = Constants.Service_Key;
 		String parameter = "";
 		urlBuilder.append("?" + URLEncoder.encode("ServiceKey", "UTF-8") + serviceKey);
 
@@ -57,68 +52,40 @@ public class ApiRestScheduler {
 		this.useAPI(url);
 		// return List<CompanyDTO>
 	}
-
-	private void useAPI(URL url)
-			throws IOException, ParserConfigurationException, SAXException, XPathExpressionException {
+	
+	private void useAPI(URL url) throws IOException {
 		// TODO Auto-generated method stub
-		// open api 호
 		HttpURLConnection conn = (HttpURLConnection) url.openConnection();
 		conn.setRequestMethod("GET");
 		conn.setRequestProperty("Content-type", "application/json");
-		System.out.println("Response code: " + conn);
-		
+		System.out.println("Response code: " + conn.getResponseCode());
+
 		BufferedReader rd;
-		// 200 성공 300 이상일 경우 에
 		if (conn.getResponseCode() >= 200 && conn.getResponseCode() <= 300) {
-			rd = new BufferedReader(new InputStreamReader(conn.getInputStream(), "UTF-8"));
+			rd = new BufferedReader(new InputStreamReader(conn.getInputStream()));
 		} else {
-			rd = new BufferedReader(new InputStreamReader(conn.getErrorStream(), "UTF-8"));
+			rd = new BufferedReader(new InputStreamReader(conn.getErrorStream()));
 		}
-		String result = "";
-		String line;
-		while ((line = rd.readLine()) != null) {
-			result = result + line.trim();
+		StringBuilder sb = new StringBuilder();
+		String line = "";
+
+		Scanner sc = new Scanner(rd);
+		while (sc.hasNext()) {
+			line = sc.next();
+			System.out.println("*** => " + line);
 		}
-		System.out.println("result: "+result);
+		
+		sc.close();
 		rd.close();
 		conn.disconnect();
 		
-		//result xml parsing
-		this.xmlParse(result);
+		this.xmlParse();
 		// return List<CompanyDTO>;
 	}
-
-	private void xmlParse(String line)
-			throws ParserConfigurationException, SAXException, IOException, XPathExpressionException {
-		// factory 생
-		DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
-		factory.setNamespaceAware(true);
-		DocumentBuilder builder = null;
-		Document doc = null;
-		InputSource is = new InputSource(new StringReader(line));
-		builder = factory.newDocumentBuilder();
-		//xml parsing
-		doc = builder.parse(is);
-		XPathFactory xpathFactory = XPathFactory.newInstance();
-		//xpath 객체 생성 
-		XPath xpath = xpathFactory.newXPath();
-		//items 의item 을 선택
-		XPathExpression expr = xpath.compile("//items/item");
-		//tag name과 값을 가져
-		NodeList nodeList = (NodeList) expr.evaluate(doc, XPathConstants.NODESET);
-		for (int i = 0; i < nodeList.getLength(); i++) {
-			NodeList child = nodeList.item(i).getChildNodes();
-			for (int j = 0; j < child.getLength(); j++) {
-				Node node = child.item(j);
-					System.out.println("tagName: " + node.getNodeName());
-					System.out.println("value: "+node.getTextContent());
-					System.out.println("");
-
-			}
-		}
-
+	
+	private void xmlParse() {
 		// TODO Auto-generated method stub
 		// DOM Parser // XPath
 	}
-
+	
 }

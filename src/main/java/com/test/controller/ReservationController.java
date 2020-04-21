@@ -1,9 +1,10 @@
 package com.test.controller;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,52 +14,118 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.SessionAttributes;
+import com.test.dao.CompanyDAO;
+import com.test.dao.CustomerDAO;
+import com.test.dao.PetDAO;
+import com.test.dao.ReservationDAO;
+import com.test.dto.CompanyDTO;
+import com.test.dto.CustomerDTO;
+import com.test.dto.PetDTO;
+import com.test.dto.ReservationDTO;
 
-import com.test.service.ReservationService;
-
-@Controller										//Spring이 해당 클래스가 Controller인 걸 알려주는 Annotation
-@SessionAttributes({ "customer", "company" })	// Model에 저장한 값을 http session에 저장할 수 있게 해주는 Annotation
+@Controller
+@SessionAttributes({ "customer", "company" })
 public class ReservationController {
 
 	@Autowired
-	private ReservationService reservationService;
+	private CustomerDAO customerDao;
 
-	/*
-	 * 상단에 예약하기 버튼을 누르면 실행되는 메서드이다.
-	 */
+	@Autowired
+	private CompanyDAO companyDao;
+
+	@Autowired
+	private PetDAO petDao;
+
+	@Autowired
+	private ReservationDAO reservationDAO;
+
 	@RequestMapping("/reserve")
 	public String reserve(Model model, HttpServletRequest request) {
-		return this.reservationService.reserve(model, request);
+		String url = "";
+
+		HttpSession session = request.getSession();
+		CustomerDTO customer = (CustomerDTO) session.getAttribute("customer");
+		if (customer != null) {
+			// 고객이 가지고 있는 펫 정보 다 가져오기
+			int customerIdx = customer.getCustomer_Index();
+			System.out.println("예약중인 고객 번호 : " + customerIdx);
+
+			List<PetDTO> itsPets = this.petDao.listItsPets(customerIdx);
+			model.addAttribute("petList", itsPets);
+			// DB에 저장된 회사정보 가져오기
+			List<CompanyDTO> company = this.companyDao.listAllCompany();
+			model.addAttribute("companyList", company);
+
+			url = "reserve";
+		} else {
+			url = "redirect:/";
+		}
+
+		return url;
 	}
 
 	@RequestMapping("/reserve_ok")
 	public String reserve_Ok(@RequestParam HashMap<String, Object> rmap, HttpServletRequest request) {
-		return this.reservationService.reserve_OK(rmap, request);
+		HttpSession session = request.getSession();
+		CustomerDTO customer = (CustomerDTO) session.getAttribute("customer");
+		System.out.println("예약완료지롱");
+		this.userReserve(rmap, customer);
+		return "reserve_ok";
 	}
 
-	/*
-	 * 고객이 마이페이지에서 예약정보조회를 눌렀을 때 실행되는 메서드이다.
-	 */
-	@RequestMapping("/customer_reserve_check")					
+	// 이것도 그냥 customer 인덱스만 넘기면 될 거 같긴 한데 ~~~~~~~~~~~~
+	public int userReserve(HashMap<String, Object> rmap, CustomerDTO customer) {
+		int res = this.reservationDAO.insertTheReservation(rmap, customer.getCustomer_Index());
+		System.out.println("reservation insert result => " + res);
+		return res;
+	}
+
+	@RequestMapping("/customer_reserve_check")
 	public String customer_reservecheck(Model model, HttpSession session) {
-		return this.reservationService.customer_reservecheck(model, session);
+		if (session.getAttribute("customer") != null) {
+			CustomerDTO customer = (CustomerDTO) session.getAttribute("customer");
+			int customerIdx = customer.getCustomer_Index();
+			List<PetDTO> itsPets = this.petDao.listItsPets(customerIdx);
+			List<ReservationDTO> itsReservations = new ArrayList<ReservationDTO>();
+			for (PetDTO petDTO : itsPets) {
+				System.out.println("customer_reserve_check "+petDTO.getPet_Age());
+				List<ReservationDTO> temp = this.reservationDAO.listItsCustReservations(petDTO.getPet_Index());
+				itsReservations.addAll(temp);
+			}
+			// 한번만 넣기
+			model.addAttribute("reservation", itsReservations);
+			model.addAttribute("pet", itsPets);
+		}
+		return "customer_reserve_check"; // login.jsp // views
 	}
 
-	/*
-	 * 기업이 마이페이지에서 예약정보조회를 눌렀을 때 실행되는 메서드이다.
-	 */
 	@RequestMapping("/company_reserve_check")
 	public String company_reservecheck(Model model, HttpSession session) {
-		return this.reservationService.company_reservecheck(model, session);
+		if (session.getAttribute("company") != null) {
+			CompanyDTO company = (CompanyDTO) session.getAttribute("company");
+			int companyIndex = company.getCompany_Index();
+			List<ReservationDTO> itsReservations = this.reservationDAO.listItsCompReservations(companyIndex);
+			model.addAttribute("reservation", itsReservations);
+		}
+		return "company_reserve_check"; // login.jsp // views
 	}
-	
-	/*
-	 * 고객이 예약을 취소할 때 실행되는 메서드이다.
-	 * 예약조회화면에서 정상예약건에 한해서 취소를 누를 수 있다.
-	 */
+
 	@RequestMapping(value = "/customer_reservation_cancel", method = RequestMethod.GET)
-	public String customer_reservation_delete(Model model, HttpSession session, String index, HttpServletResponse response) {
-		return this.reservationService.customer_reservation_delete(model, session, index, response);		
+	public String customer_reservation_delete(Model model, HttpSession session, String index) {
+		System.out.println(index);
+		int reservationNum = Integer.parseInt(index);
+		System.out.println("예약번호: " + reservationNum);
+		CustomerDTO customer = (CustomerDTO) session.getAttribute("customer");
+		int customerIdx = customer.getCustomer_Index();
+		List<ReservationDTO> itsReservations = this.reservationDAO.listItsCustReservations(customerIdx);
+
+		for (ReservationDTO reservationDTO : itsReservations) {
+			if (reservationDTO.getReservation_Index() == reservationNum) {
+				reservationDAO.cancelTheReservation(reservationNum);
+			}
+		}
+		System.out.println("예약취소되었습니다.");
+		return "customerprofile";
 	}
 
 }
