@@ -24,7 +24,7 @@ public class SuperuserController {
 		if(request.getSession().getAttribute("superuser")!= null) {	// 관리자가 로그인해서 session을 가지면 탈퇴회원관리 화면으로 들어가진다.
 			return "admin_drop";
 		}
-		return "admin_login";										// 관리자가 session이 없을 경우 로그인 화면을 띄워준다.
+		return "admin/admin_login.tiles";										// 관리자가 session이 없을 경우 로그인 화면을 띄워준다.
 	}
 	
 	/*
@@ -40,7 +40,7 @@ public class SuperuserController {
 	 */
 	@RequestMapping("/admin_drop")
 	public String drop() {
-		return "admin_drop";
+		return "admin/admin_drop.tiles";
 	}
 	
 	/*
@@ -48,6 +48,6 @@ public class SuperuserController {
 	 */
 	@RequestMapping("/admin_dormant")
 	public String dormant() {
-		return "admin_dormant";
+		return "admin/admin_dormant.tiles";
 	}	
 }
