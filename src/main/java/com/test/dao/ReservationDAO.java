@@ -5,10 +5,9 @@ import java.util.List;
 
 import com.test.dto.ReservationDTO;
 
+// DAO 인터페이스 클래스
 public interface ReservationDAO {
-	
-	abstract public List<ReservationDTO> listOnlyExpiredReservations();
-	
+
 	abstract public List<ReservationDTO> listItsCustReservations(int pet_Index);
 
 	abstract public List<ReservationDTO> listItsCompReservations(int company_Index);

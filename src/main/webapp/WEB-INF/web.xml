@@ -15,18 +15,12 @@
 	</listener>
 	
 	<filter>
-		<filter-name>Encoding</filter-name>
-		<filter-class>org.springframework.web.filter.CharacterEncodingFilter
-		</filter-class>
-		<async-supported>true</async-supported><!-- all filters should be async true for websocket -->
-		<init-param>
-			<param-name>Encoding</param-name>
-			<param-value>UTF-8</param-value>
-		</init-param>
-		<init-param>
-			<param-name>forceEncoding</param-name>
-			<param-value>true</param-value>
-		</init-param><!-- forceEncoding to every request -->
+	  <filter-name>Encoding</filter-name>
+	<filter-class>org.springframework.web.filter.CharacterEncodingFilter</filter-class>
+	<init-param>
+	  <param-name>Encoding</param-name>
+	  <param-value>UTF-8</param-value>
+	</init-param>
 	</filter>
 	<filter-mapping>
 	  <filter-name>Encoding</filter-name>
@@ -34,14 +28,12 @@
 	</filter-mapping>
 	
 	<filter>
-		<filter-name>MultipartFilter</filter-name>
-		<filter-class>org.springframework.web.multipart.support.MultipartFilter
-		</filter-class>
-		<async-supported>true</async-supported><!-- all filters should be async true for websocket -->
+  	  <filter-name>MultipartFilter</filter-name>
+  	  <filter-class>org.springframework.web.multipart.support.MultipartFilter</filter-class>
     </filter>
     <filter-mapping>
-		<filter-name>MultipartFilter</filter-name>
-		<url-pattern>/*</url-pattern>
+  	  <filter-name>MultipartFilter</filter-name>
+  	  <url-pattern>/*</url-pattern>
     </filter-mapping>
 	
 	<!-- Processes application requests -->
@@ -53,12 +45,21 @@
 			<param-value>/WEB-INF/spring/appServlet/servlet-context.xml</param-value>
 		</init-param>
 		<load-on-startup>1</load-on-startup>
-		<async-supported>true</async-supported><!-- all filters should be async true for websocket -->
 	</servlet>
-	
+		
 	<servlet-mapping>
 		<servlet-name>appServlet</servlet-name>
 		<url-pattern>/</url-pattern>
 	</servlet-mapping>
 
+   <error-page>
+    <error-code>404</error-code>
+    <location>/WEB-INF/views/component/errorPage404.jsp</location>
+  </error-page>
+  
+  <error-page>
+    <error-code>500</error-code>
+    <location>/WEB-INF/views/component/errorPage500.jsp</location>
+  </error-page>
+  
 </web-app>

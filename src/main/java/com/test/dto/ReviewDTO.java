@@ -18,7 +18,14 @@ public class ReviewDTO {
 	private byte[] review_Image;
 	private String review_Comment;
 	private int review_Ref;
+	private String customer_id;
 	
+	public String getCustomer_id() {
+		return customer_id;
+	}
+	public void setCustomer_id(String customer_id) {
+		this.customer_id = customer_id;
+	}
 	public int getReview_Index() {
 		return review_Index;
 	}

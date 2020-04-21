@@ -4,20 +4,34 @@
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.test.dto.ReviewDTO">
-	<select id="listItsReviews" parameterType="java.lang.Integer"
-		resultType="com.test.dto.ReviewDTO">
-		select
-		*
-		from
-		Review
-		where company_Index =#{company_Index}
-	</select>
 
+	<!-- **주의 : 세미콜론 없이 쿼리문 작성!** -->
+
+	<!-- 선택한 기업의 리뷰 리스트 보여주기 -->
+	<select id="listItsReviews" parameterType="java.util.Map"
+		resultType="com.test.dto.ReviewDTO">
+		select *
+		from Review
+		where company_Index = #{company_Index}
+	</select>
+	
+	<!-- customer name 찾기 -->
+	<select id="searchCustomerName" resultType="com.test.dto.CustomerDTO">
+		select customer_Name
+		from Customer
+			JOIN Review
+		    on Customer.customer_Id = Review.customer_id
+		  where Review.customer_id = #{customer_id}
+	</select>
+	
+	<!-- 인덱스 번호로 리뷰 찾기 -->
 	<select id="listThisReviewByIdx"
 		resultType="com.test.dto.ReviewDTO">
 		select * from Review where review_Index = #{review_Index}
 	</select>
 
+
+	<!-- 리뷰 등록하기 -->
 	<insert id="insertTheReview" parameterType="java.util.Map">
 		insert into
 		Review
@@ -25,16 +39,22 @@
 		company_Index,
 		review_Title,
 		review_Content,
-		review_Rating)
+		review_Rating,
+		customer_id)
 		values(#{company_Index},#{review_Title},
 		#{review_Content},
-		#{review_Rating})
+		#{review_Rating},
+		#{customer_id})
 	</insert>
+	
+	<!-- 리뷰 삭제하기 -->
 	<delete id="deleteTheReview">
 		delete from Review
 		where review_Index =
 		#{review_Index}
 	</delete>
+	
+	<!-- 리뷰 답글 달기 -->
 	<update id="updateTheComent"  parameterType="java.util.Map">
 		update Review set review_Comment =
 		#{review_Comment}

@@ -4,16 +4,10 @@
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.test.dto.ReservationDTO">
-	
-	<select id="listOnlyExpiredReservations"
-		parameterType="java.util.Date"
-		resultType="com.test.dto.ReservationDTO">
-		select * from Reservation
-		<![CDATA[
-        	where #{todayDate} > reservation_Date
-    	]]>
-	</select>
-	
+
+	<!-- **주의 : 세미콜론 없이 쿼리문 작성!** -->
+
+	<!-- 고객이 가지고 있는 펫 리스트 보여 주기 -->
 	<select id="listPetIndex" parameterType="java.util.Map"
 		resultType="com.test.dto.PetDTO">
 		select *
@@ -23,69 +17,81 @@
 		and
 		pet_Name = #{pet_Name}
 	</select>
+	
+	<!-- 고객 예약 리스트 보여주기-->
 	<select id="listItsCustReservations"
 		parameterType="java.lang.Integer"
 		resultType="com.test.dto.ReservationDTO">
 		select
 		*
 		from
-		reservation reservation
+		Reservation Reservation
 		left join
-		pet pet
+		Pet Pet
 		on
-		reservation.pet_Index = pet.pet_Index
+		Reservation.pet_Index = Pet.pet_Index
 		left join
-		company company
+		Company Company
 		on
-		reservation.company_Index = company.company_Index
+		Reservation.company_Index = Company.company_Index
 		where
-		reservation.pet_Index = #{ pet_Index }
+		Reservation.pet_Index = #{ pet_Index }
 	</select>
+	
+	<!-- 회사 예약 리스트 보여주기 -->
 	<select id="listItsCompReservations"
 		parameterType="java.lang.Integer"
 		resultType="com.test.dto.ReservationDTO">
 		select
 		*
 		from
-		reservation reservation
+		Reservation Reservation
 		left join
-		pet pet
+		Pet Pet
 		on
-		reservation.pet_Index = pet.pet_Index
+		Reservation.pet_Index = Pet.pet_Index
 		left join
-		company company
+		Company Company
 		on
-		reservation.company_Index = company.company_Index
+		Reservation.company_Index = Company.company_Index
 		where
-		reservation.company_Index = #{ company_Index }
+		Reservation.company_Index = #{ company_Index }
 	</select>
+	
+	<!-- 예약인덱스를 통해 회사인덱스 가져오기 -->
 	<select id="getCompanyIndex" parameterType="java.lang.Integer"
 		resultType="java.lang.Integer">
 		select company_Index
-		from reservation
+		from Reservation
 		where reservation_Index =
 		#{reservation_Index}
 	</select>
 
-
+	<!-- 예악하기 -->
 	<insert id="insertTheReservation" parameterType="java.util.Map">
 		insert into
 		Reservation
 		(pet_Index, company_Index, reservation_Date,
-		reservation_Time)
+		reservation_Time, reservation_DetailService)
 		values(#{pet_Index}, #{company_Index},
 		#{reservation_Date},
-		#{reservation_Time})
+		#{reservation_Time},
+		#{reservation_DetailService})
 	</insert>
+		
+	<!-- 예약 삭제하기 -->
 	<delete id="deleteTheReservation">
 		delete from Reservation where reservation_Index = #{
 		reservation_Index }
 	</delete>
+	
+	<!-- 예약 취소하기 -->
 	<update id="cancelTheReservation">
-		update Reservation set
-		reservation_Check = 'canceled' where reservation_Index =
-		#{reservation_Index}
+		update Reservation 
+		set	reservation_Check = 'canceled' 
+		where reservation_Index = #{reservation_Index}
 	</update>
-	<!-- 세미콜론 없이 쿼리문 작성! -->
-
 </mapper>
+
+
+
