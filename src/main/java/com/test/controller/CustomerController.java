@@ -4,11 +4,15 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Random;
 
+import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -29,6 +33,9 @@ import com.test.dto.PetDTO;
 @Controller // Spring이 해당 클래스가 Controller인 걸 알려주는 Annotation
 @SessionAttributes({ "customer", "company" }) // Model에 저장한 값을 http session에 저장할 수 있게 해주는 Annotation
 public class CustomerController {
+	@Inject
+	JavaMailSender mailSender;
+	
 	@Autowired
 	private s3 s3;
 	
@@ -47,8 +54,9 @@ public class CustomerController {
 	 */
 	@RequestMapping(value = "/customer_signupDo", method = RequestMethod.POST, headers = ("content-type=multipart/*"))
 	public ModelAndView customer_signupDo(MultipartHttpServletRequest multipartHttpServletRequest,
-			@RequestParam HashMap<String, Object> cmap) { // form에서 입력한 값을 HashMap으로 묶어서 가져옴
+		String e_mail, HttpServletResponse response_email,	@RequestParam HashMap<String, Object> cmap) { // form에서 입력한 값을 HashMap으로 묶어서 가져옴
 		
+		this.mailSending(multipartHttpServletRequest,e_mail,response_email);
 		
 		ModelAndView ok = new ModelAndView("customer/customer_signup_ok.tiles"); // 중복체크까지 정상적으로 처리한 후 회원가입 버튼을 눌렀을 때 나올
 																					// 화면과 함께 ModelAndView객체 생성
@@ -77,6 +85,14 @@ public class CustomerController {
 		isCustomerResidentNumberChecked = false;
 		isCustomerOk = false;
 		return redirect;
+	}
+
+	private void mailSending(MultipartHttpServletRequest multipartHttpServletRequest, String e_mail, HttpServletResponse response_email) {
+		// TODO Auto-generated method stub
+		Random r = new Random();
+		int ranNum = r.nextInt(99999);
+		String mail = multipartHttpServletRequest.
+		
 	}
 
 	private HashMap<String, Object> imageUpload(Map<String, MultipartFile> fileMap,

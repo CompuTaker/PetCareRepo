@@ -90,6 +90,19 @@ uri="http://www.springframework.org/tags/form" prefix="form"%>
           name="customer_Email"
           required
         />
+        <button type="submit" id="email_auth">이메일 받기</button>
+      </div>
+      <div class="form-group">
+        <label for="Customer_Email">인증번호 입력</label>
+        <input
+          type="text"
+          class="form-control"
+          id="email_number"
+          placeholder="인증번호 입력해주세요"
+          name="email_number"
+          required
+        />
+        <button type="submit" id="email_number">인증</button>
       </div>
 
       <div class="form-group">
