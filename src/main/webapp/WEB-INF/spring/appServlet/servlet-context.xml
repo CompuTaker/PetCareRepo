@@ -39,7 +39,7 @@
    			</beans:list>
   		</beans:property>
 	</beans:bean>
-
+	
 	<context:annotation-config/><!-- Giving ability to read @Configuration annotation-->
 	
 	

@@ -14,12 +14,13 @@ import com.amazonaws.services.s3.AmazonS3Client;
 import com.amazonaws.services.s3.model.CannedAccessControlList;
 import com.amazonaws.services.s3.model.ObjectMetadata;
 import com.amazonaws.services.s3.model.PutObjectRequest;
+
 @Controller
 public class s3 {
 	private static final String BUCKET_NAME = "petcare2020";
     private static final String ACCESS_KEY = "AKIA5MJ53SQDXBHH42PY";
     private static final String SECRET_KEY = "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";
-    private AmazonS3 amazonS3;//인스턴스초기화
+    private static AmazonS3 amazonS3;//인스턴스초기화
  
     public s3() {
     	//인증객체 생성
@@ -27,7 +28,7 @@ public class s3 {
         amazonS3 = new AmazonS3Client(awsCredentials);
     }
  
-    public void uploadFile(MultipartFile multipartfile) throws IOException {
+    public static void uploadFile(MultipartFile multipartfile) throws IOException {
         if (amazonS3 != null) {
         	
             try {

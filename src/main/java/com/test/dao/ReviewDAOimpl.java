@@ -60,7 +60,7 @@ public class ReviewDAOimpl implements ReviewDAO {
 	 * 후기에 작성자 이름을 띄우기 위해 실행되는 메서드이다.
 	 */
 	@Override
-	public CustomerDTO searchCustomerName(String customer_id) {
-		return this.sqlSession.selectOne("searchCustomerName", customer_id);	// mapper에서 "searchCustomerName" id를 가지는 명령문에 customer_id객체를 가지고 실행한다.
+	public List<CustomerDTO> searchCustomerName(String customer_id) {
+		return this.sqlSession.selectList("searchCustomerName", customer_id);	// mapper에서 "searchCustomerName" id를 가지는 명령문에 customer_id객체를 가지고 실행한다.
 	}
 }

@@ -61,7 +61,6 @@
 								<p>이메일: ${customer.customer_Email }</p>
 								<p>주소: ${customer.customer_Address }</p>
 								<p>전화번호: ${customer.customer_PhoneNumber }</p>
-								</p>
 								<p class="card-text">
 									<small class="text-muted">회원가입 날짜 2019.11.12</small>
 								</p>
@@ -107,7 +106,7 @@
 								onclick="location.href='pet_modify?customer_Index=${customer.customer_Index }&pet_Index=${pet.pet_Index }'">
 								<i class="fas fa-edit"></i>
 							</button>
-							<button class="btn">
+							<button class="btn" onclick="location.href='pet_cancel?pet_Index=${pet.pet_Index}'">
 								<i class="fas fa-trash"></i>
 							</button>
 						</td>
