@@ -90,6 +90,13 @@ xsi:schemaLocation="http://maven.apache.org/POM/4.0.0
 		    <version>${org.springframework-version}</version><!-- 4.3.14.RELEASE -->
 		</dependency>
 		
+		<!-- https://mvnrepository.com/artifact/javax.websocket/javax.websocket-api -->
+		<dependency>
+		    <groupId>javax.websocket</groupId>
+		    <artifactId>javax.websocket-api</artifactId>
+		    <version>1.1</version>
+		</dependency>
+		
 		<!-- https://mvnrepository.com/artifact/org.codehaus.jackson/jackson-mapper-asl -->
 		<!--
 		<dependency>
@@ -115,7 +122,7 @@ xsi:schemaLocation="http://maven.apache.org/POM/4.0.0
 		<!-- redis client // spring-data-redis over 2 only works in spring 5 -->
 		<dependency>
 			<groupId>org.springframework.data</groupId>
-			<artifactId>spring-data-redis</artifactId>
+			<artifactId>spring-data-redis</artifactId><!-- 2.2.5.RELEASE -->
 			<version>1.8.23.RELEASE</version><!-- down : 1.5.0.RELEASE -->
 		</dependency>
 		<!-- jedis // both dependencies of redis are for Spring 4.3.9 -->

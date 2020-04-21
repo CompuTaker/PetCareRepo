@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.test.dto.ChatRoomDTO">
+	
+	<select id="listAllChatRoom" resultType="com.test.dto.ChatRoomDTO">
+		select * from ChatRoom;
+	</select>
+	<!-- 세미콜론 없이 쿼리문 작성! -->
+	
+	<insert id="insertTheChatRoom" parameterType="java.util.Map">
+		insert into ChatRoom
+		(customerSession, repName)
+		values
+		(#{customerSession}, #{repName})
+	</insert>
+	
+	<select id="pickOneChatRoomByAdminIdx" parameterType="java.lang.Integer" resultType="com.test.dto.ChatRoomDTO">
+		select * from ChatRoom where adminIdx = #{adminIdx}
+	</select>
+	
+	<select id="pickOneChatRoomByCustomerIdx" parameterType="java.lang.Integer" resultType="com.test.dto.ChatRoomDTO">
+		select * from ChatRoom where customerIdx = #{customerIdx}
+	</select>
+	
+	<update id="specifyAdminWebSocketSessionToTheChatRoom" parameterType="java.util.Map">
+		update ChatRoom set adminWebSocketSession=#{adminWebSocketSession} where chatRoomIdx=#{chatRoomIdx}
+	</update>
+	
+	<update id="specifyCustomerWebSocketSessionToTheChatRoom" parameterType="java.util.Map">
+		update ChatRoom set customerWebSocketSession=#{customerWebSocketSession} where chatRoomIdx=#{chatRoomIdx}
+	</update>
+	
+	<select id="findChatRoomByAdminWebSocketSession" parameterType="java.lang.String" resultType="com.test.dto.ChatRoomDTO">
+		select * from ChatRoom where adminWebSocketSession = #{adminWebSocketSession}
+	</select>
+	
+	<select id="findChatRoomByCustomerWebSocketSession" parameterType="java.lang.String" resultType="com.test.dto.ChatRoomDTO">
+		select * from ChatRoom where customerWebSocketSession = #{customerWebSocketSession}
+	</select>
+	
+	<delete id="deleteChatRoomByAdminWebSocketSession" parameterType="java.lang.String">
+		delete from ChatRoom where adminWebSocketSession = #{adminWebSocketSession}
+	</delete>
+	
+	<delete id="deleteChatRoomByCustomerWebSocketSession" parameterType="java.lang.String">
+		delete from ChatRoom where customerWebSocketSession = #{customerWebSocketSession}
+	</delete>
+	
+</mapper>
