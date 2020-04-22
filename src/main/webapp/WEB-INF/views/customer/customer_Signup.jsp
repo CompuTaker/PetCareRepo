@@ -90,8 +90,20 @@ uri="http://www.springframework.org/tags/form" prefix="form"%>
           name="customer_Email"
           required
         />
+        <button type="button" id="sendEmail">인증 메일 보내기</button>
       </div>
-
+ 		<div class="form-group">
+        <label for="Customer_Email_Code">인증번호</label>
+        <input
+          type="text"
+          class="form-control"
+          id="Customer_Email_Code"
+          placeholder="이메일 인증 코드"
+          name="customer_Email_Code"
+          required
+        />
+        <button type="button" id="checkEmailCode">확인</button>
+      </div>
       <div class="form-group">
         <label for="Customer_PhoneNumber">전화번호</label>
         <input
@@ -170,6 +182,35 @@ uri="http://www.springframework.org/tags/form" prefix="form"%>
   					$("#checkResidentNum").attr("disabled",true);
   				}
   			}
+  		});
+
+    });
+    $("#sendEmail").click(function() {
+  		var customer_Email = $('#Customer_Email').val();
+  		$.ajax({
+  			url : '${pageContext.request.contextPath}/send_email?customer_Email='+ customer_Email,
+  			method : 'POST',
+  			async : false,
+  		
+  			success : function(data) {
+  				alert("사용가능한 이메일입니다. 인증번호를 입력해주세요.");
+	  	    },
+  	  
+  		});
+
+  	});
+    $("#checkEmailCode").click(function() {
+  		var customer_Email = $('#Customer_Email_Code').val();
+  		console.log(customer_Email_Code)
+  		$.ajax({
+  			url : '${pageContext.request.contextPath}/check_email_code?customer_Email_Code='+ customer_Email_Code,
+  			method : 'POST',
+  			async : false,
+  		
+  			success : function(data) {
+  				alert("인증 완료");
+	  	    },
+  	  
   		});
 
   	});
