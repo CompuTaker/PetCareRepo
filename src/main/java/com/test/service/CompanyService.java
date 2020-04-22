@@ -6,6 +6,7 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
+import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.test.dto.CompanyDTO;
@@ -22,7 +23,7 @@ public interface CompanyService {
 
 	abstract public void insertTheCompany(HashMap<String, Object> cmap);
 
-	abstract public ModelAndView company_signupDo(HashMap<String, Object> cmap);
+	abstract public ModelAndView company_signupDo(MultipartHttpServletRequest multipartHttpServletRequest, HashMap<String, Object> cmap);
 
 	abstract public void comIdCheck(String company_Id);
 
@@ -30,5 +31,7 @@ public interface CompanyService {
 
 	abstract public ModelAndView profile(ModelAndView mv, HttpSession session);
 
-	public abstract ModelAndView company_modify(ModelAndView mv, HttpSession session);
+	abstract public ModelAndView company_modify(ModelAndView mv, HttpSession session);
+
+	abstract public void updateCompanyInfo(MultipartHttpServletRequest multipartHttpServletRequest, HashMap<String, Object> cmap);
 }

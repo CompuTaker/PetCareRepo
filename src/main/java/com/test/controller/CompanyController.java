@@ -1,3 +1,4 @@
+
 package com.test.controller;
 
 import java.util.HashMap;
@@ -13,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.SessionAttributes;
+import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.test.dto.CompanyDTO;
@@ -28,9 +30,9 @@ public class CompanyController {
 	/*
 	 * 기업 고객이 company_signup.jsp에서 회원가입 버튼을 눌렀을 때 실행되는 메서드
 	 */
-	@RequestMapping("/company_signupDo")
-	public ModelAndView company_signupDo(@RequestParam HashMap<String, Object> cmap) {	//form에서 입력한 값을 HashMap으로 묶어서 가져옴
-		return this.companyService.company_signupDo(cmap);
+	@RequestMapping(value ="/company_signupDo", method = RequestMethod.POST, headers = ("content-type=multipart/*"))
+	public ModelAndView company_signupDo(@RequestParam HashMap<String, Object> cmap, MultipartHttpServletRequest multipartHttpServletRequest) {	//form에서 입력한 값을 HashMap으로 묶어서 가져옴
+		return this.companyService.company_signupDo(multipartHttpServletRequest, cmap);
 	}
 	
 	/*
@@ -68,7 +70,7 @@ public class CompanyController {
 	/*
 	 * 기업회원이 로그인을 한 후 마이페이지로 이동하게 될 때 실행되는 메서드이다.
 	 */
-	@RequestMapping("/companyprofile")
+	@RequestMapping("/company_Profile")
 	public ModelAndView profile(HttpSession session, ModelAndView mv) {
 		return this.companyService.profile(mv, session);		
 	}
@@ -81,6 +83,16 @@ public class CompanyController {
 		return this.companyService.company_modify(mv, session);
 	}
 
+	/*
+	 * 개인정보수정를 고치고 수정 버튼을 눌렀을 때 실행되는 메서드이다.
+	 */
+	@RequestMapping("/company_modify_ok")
+	public String customer_modify(MultipartHttpServletRequest multipartHttpServletRequest,
+			@RequestParam HashMap<String, Object> cmap) {	// form에서 입력한 정보를 HashMap으로 묶어서 가져온다.
+		this.companyService.updateCompanyInfo(multipartHttpServletRequest, cmap);							// 가져온 cmap데이터를 기존 고객 데이터에 update시킨다.
+		return "company/company_modify_ok.tiles";
+		
+	}
 	/*
 	 * 메인화면의 업체찾기에서 미용실 업체찾기를 눌렀을 경우 실행되는 메서드이다.
 	 */

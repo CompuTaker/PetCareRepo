@@ -10,11 +10,12 @@ prefix="c"%> <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
         <td><label class="login-title">기업 회원가입</label></td>
       </tr>
     </table>
-
+	<!-- 수정함 enctype="multipart/form-data"추가 -->
     <form
       class="w-50 ml-auto mr-auto mt-5 mb-5"
       action="company_signupDo"
       method="post"
+       enctype="multipart/form-data"
     >
       <div class="mb-5">
         <img
@@ -24,9 +25,9 @@ prefix="c"%> <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
           height="100"
         />
         <input
-          type="file"
-          id="Company_Image"
-          name="Company_Image"
+          type="file" 
+          id="imageFile"
+          name="imageFile"
           accept="image/*"
         />
       </div>

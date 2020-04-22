@@ -13,6 +13,7 @@ prefix="c"%>
       class="w-50 ml-auto mr-auto mt-5 mb-5"
       action="company_modify_ok"
       method="post"
+      enctype="multipart/form-data"
     >
       <div class="mb-5">
         <img
@@ -24,9 +25,8 @@ prefix="c"%>
         <input
           type="file"
           id="Company_Image"
-          name="Company_Image"
+          name="imageFile"
           accept="image/*"
-          name="company_Image"
         />
       </div>
 

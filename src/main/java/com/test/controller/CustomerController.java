@@ -68,9 +68,11 @@ public class CustomerController {
 	 * 개인정보수정를 고치고 수정 버튼을 눌렀을 때 실행되는 메서드이다.
 	 */
 	@RequestMapping("/customer_modify_ok")
-	public String customer_modify(@RequestParam HashMap<String, Object> cmap) {	// form에서 입력한 정보를 HashMap으로 묶어서 가져온다.
-		this.customerService.updateCustomerInfo(cmap);							// 가져온 cmap데이터를 기존 고객 데이터에 update시킨다.
-		return "customer_modify_ok";
+	public String customer_modify(MultipartHttpServletRequest multipartHttpServletRequest,
+			@RequestParam HashMap<String, Object> cmap) {	// form에서 입력한 정보를 HashMap으로 묶어서 가져온다.
+		this.customerService.updateCustomerInfo(multipartHttpServletRequest, cmap);							// 가져온 cmap데이터를 기존 고객 데이터에 update시킨다.
+		return "customer/customer_modify_ok.tiles";
+		
 	}
 
 	/*

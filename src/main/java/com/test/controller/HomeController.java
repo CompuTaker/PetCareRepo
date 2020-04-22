@@ -53,7 +53,7 @@ public class HomeController {
 		if (flag.equals("user")) {							// flag가 user이면 고객 회원 가입 화면을 띄워준다.
 			url = "customer/customer_Signup.tiles";
 		} else if (flag.equals("comp")) {
-			url = "company/company_signup.tiles";			// flag가 comp이면 고객 회원 가입 화면을 띄워준다.
+			url = "company/company_Signup.tiles";			// flag가 comp이면 고객 회원 가입 화면을 띄워준다.
 		} else {
 			System.out.println("NoBody");	// 아무 flag가 없을 경우 예외처리
 		}

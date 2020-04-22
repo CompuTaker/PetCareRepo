@@ -6,7 +6,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -18,10 +17,9 @@ public interface CustomerService {
 
 	abstract public void checkCustomerResident(String customer_ResidentNumber);
 
-	abstract public void updateCustomerInfo(HashMap<String, Object> cmap);
+	abstract public void updateCustomerInfo(MultipartHttpServletRequest multipartHttpServletRequest, HashMap<String, Object> cmap);
 
-	abstract public ModelAndView customer_signupDo(MultipartHttpServletRequest multipartHttpServletRequest,
-			@RequestParam HashMap<String, Object> cmap);
+	abstract public ModelAndView customer_signupDo(MultipartHttpServletRequest multipartHttpServletRequest, HashMap<String, Object> cmap);
 
 	abstract public String profile(Model model, HttpSession session);
 

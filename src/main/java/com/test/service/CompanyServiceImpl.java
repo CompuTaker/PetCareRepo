@@ -1,5 +1,6 @@
 package com.test.service;
 
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -9,10 +10,14 @@ import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.SessionAttributes;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.test.amazon.s3;
 import com.test.dao.CompanyDAO;
 import com.test.dao.ReservationDAO;
 import com.test.dto.CompanyDTO;
@@ -60,14 +65,23 @@ public class CompanyServiceImpl implements CompanyService{
 	}
 
 	@Override
-	public ModelAndView company_signupDo(HashMap<String, Object> cmap) {
+	public ModelAndView company_signupDo(MultipartHttpServletRequest multipartHttpServletRequest,
+			@RequestParam HashMap<String, Object> cmap) {
 		ModelAndView ok 	  = new ModelAndView("company/company_signup_ok.tiles");					// 중복체크까지 정상적으로 처리한 후 회원가입 버튼을 눌렀을 때 나올 화면과 함께 ModelAndView객체 생성
+		
 		ModelAndView redirect = new ModelAndView("company/company_Signup.tiles");					// 중복체크를 하지 않았을 경우 나올 화면과 함께 ModelAndView객체 생성
 		redirect.addObject("message", "중복체크 해주세요.");									// 중복체크를 하지 않았을 경우 띄울 메시지를 redirect ModelAndView에 저장
 
 		if (isCompanyIdChecked && isCompanyComNumChecked) {								// ID와 사업자등록번호 중복체크를 정상적으로 실행했을 경우
 			if(isCompanyOk) {															// 최종확인 Boolean도 true일 경우
-				this.companyDao.insertTheCompany(cmap);									// form에 입력한 값을 company테이블에 저장한다.
+				try {
+					Map<String, MultipartFile> fileMap = multipartHttpServletRequest.getFileMap();
+					HashMap<String, Object> newCompany=  imageUpload(fileMap,multipartHttpServletRequest,cmap);
+					this.companyDao.insertTheCompany(newCompany);						// form에 입력한 값을 company테이블에 저장한다.
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
 				return ok;																// company_signup_ok.jsp화면을 띄운다.
 			}
 		}
@@ -78,6 +92,40 @@ public class CompanyServiceImpl implements CompanyService{
 		isCompanyComNumChecked  = false;
 		isCompanyOk 			= false;
 		return redirect;
+	}
+
+	private HashMap<String, Object> imageUpload(Map<String, MultipartFile> fileMap,
+			MultipartHttpServletRequest multipartHttpServletRequest, HashMap<String, Object> cmap) throws IOException {
+		
+		String baseUrl = "https://s3.ap-northeast-2.amazonaws.com/petcare2020/";
+		
+		if (fileMap.isEmpty()) { // if(imageFile == null) {
+			System.out.println("NOTHING!!"); // null
+
+		} else {
+
+			MultipartFile multipartFile = multipartHttpServletRequest.getFile("imageFile");
+			String fileName = multipartFile.getOriginalFilename(); // 파일명
+			String fullFileName = baseUrl + "profile_"+(String)cmap.get("company_Id");
+
+			// 확장자확인
+			int dotIdx = fileName.lastIndexOf(".");
+			String fileExtension = fileName.substring(dotIdx + 1).toLowerCase();
+			// Wrong file
+			if (!fileExtension.equals("jpg") && !fileExtension.equals("jpeg") && !fileExtension.equals("png")) {
+
+				System.out.println("File Not Valid");
+				// Normal image file
+			} else {
+				// 나머지 정보 DB에 업로드
+				System.out.println("파일넹만임ㄴ암  이미지업로드메소드"+fileName);
+				cmap.put("company_Image", fullFileName);
+				s3 s3 = new s3();
+				// 이미지는 3S에 업로드
+				s3.uploadFile(multipartFile, (String)cmap.get("company_Id"));
+			}
+		}
+		return cmap;
 	}
 
 	@Override
@@ -160,5 +208,17 @@ public class CompanyServiceImpl implements CompanyService{
 		mv.addObject("company", company); 						// ModelAndView에 가져온 company 정보를 저장한다.
 		mv.setViewName("company/company_modify.tiles"); 		// 실행시켜 줄 화면(company_modify.jsp)도 셋팅해준다.
 		return mv;
+	}
+
+	@Override
+	public void updateCompanyInfo(MultipartHttpServletRequest multipartHttpServletRequest, @RequestParam HashMap<String, Object> cmap) {
+		Map<String, MultipartFile> fileMap = multipartHttpServletRequest.getFileMap();
+		try {
+			HashMap<String, Object> modifyCompany = imageUpload(fileMap, multipartHttpServletRequest, cmap);
+			this.companyDao.updateCompanyInfo(modifyCompany); // 가져온 cmap데이터를 기존 기업 데이터에 update시킨다.
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 }

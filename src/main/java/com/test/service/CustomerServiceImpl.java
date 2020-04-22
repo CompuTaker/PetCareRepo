@@ -11,8 +11,6 @@ import javax.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.SessionAttributes;
@@ -40,7 +38,7 @@ public class CustomerServiceImpl implements CustomerService{
 	private boolean isCustomerResidentNumberChecked  = false;	// 고객 주민등록번호가 중복인지 아닌지 확인하는 Boolean
 	private boolean isCustomerOk 					 = false;	// 최종적으로 중복인지 아닌지 확인하는 Boolean
 	
-	@RequestMapping(value = "/customer_signupDo", method = RequestMethod.POST, headers = ("content-type=multipart/*"))
+	@Override
 	public ModelAndView customer_signupDo(MultipartHttpServletRequest multipartHttpServletRequest,
 			@RequestParam HashMap<String, Object> cmap) { // form에서 입력한 값을 HashMap으로 묶어서 가져옴
 			
@@ -82,7 +80,7 @@ public class CustomerServiceImpl implements CustomerService{
 
 			MultipartFile multipartFile = multipartHttpServletRequest.getFile("imageFile");
 			String fileName = multipartFile.getOriginalFilename(); // 파일명
-			String fullFileName = baseUrl + fileName;
+			String fullFileName = baseUrl + "profile_"+(String)cmap.get("customer_Id");
 
 			// 확장자확인
 			int dotIdx = fileName.lastIndexOf(".");
@@ -95,8 +93,9 @@ public class CustomerServiceImpl implements CustomerService{
 			} else {
 				// 나머지 정보 DB에 업로드
 				cmap.put("customer_Image", fullFileName);
+				s3 s3 = new s3();
 				// 이미지는 3S에 업로드
-				s3.uploadFile(multipartFile);
+				s3.uploadFile(multipartFile, (String)cmap.get("customer_Id"));
 			}
 		}
 		return cmap;
@@ -134,8 +133,15 @@ public class CustomerServiceImpl implements CustomerService{
 	}
 	
 	@Override
-	public void updateCustomerInfo(HashMap<String, Object> cmap) {
-		this.customerDao.updateCustomerInfo(cmap);		
+	public void updateCustomerInfo(MultipartHttpServletRequest multipartHttpServletRequest, @RequestParam HashMap<String, Object> cmap) {
+		Map<String, MultipartFile> fileMap = multipartHttpServletRequest.getFileMap();
+		try {
+			HashMap<String, Object> modifyCustomer = imageUpload(fileMap, multipartHttpServletRequest, cmap);
+			this.customerDao.updateCustomerInfo(modifyCustomer); // 가져온 cmap데이터를 기존 고객 데이터에 update시킨다.
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 	
 	@Override

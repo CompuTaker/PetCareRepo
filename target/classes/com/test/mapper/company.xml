@@ -71,7 +71,7 @@
       (#{company_Index}, #{company_Id}, #{company_Password},
       #{company_UserName},#{company_ResidentNumber}, #{company_Address},
       #{company_Email}, #{company_UserPhoneNumber}, #{company_Name},
-      #{company_Number }, #{company_Type}, null)
+      #{company_Number }, #{company_Type},#{company_Image})
       ]]>
    </insert>
    
@@ -95,7 +95,8 @@
 		company_Email = #{company_Email},
 		company_Name = #{company_Name},
 		company_UserPhoneNumber = #{company_UserPhoneNumber},
-		company_Type=#{company_Type}
+		company_Type=#{company_Type},
+		company_Image=#{company_Image}
 		where company_Id = #{company_Id} and
 		company_Number = #{company_Number}
 		

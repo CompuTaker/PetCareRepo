@@ -30,8 +30,9 @@
 					style="max-width: 540px;">
 					<div class="row no-gutters">
 						<div class="col-md-4">
-							<img src="<c:url value='/resources/images/profile.png' />"
-								class="card-img" alt="...">
+							<img id="Company_Image"
+							src = ${company.company_Image }  width="150"
+								height="150">
 						</div>
 						<div class="col-md-8">
 							<div class="card-body">
