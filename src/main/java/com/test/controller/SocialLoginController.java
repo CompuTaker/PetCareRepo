@@ -72,12 +72,12 @@ public class SocialLoginController {
       if (customer != null) {
          session.setAttribute("customer", customer);
          Constant.eSession = ESession.eCustomer;
-         return "customerprofile";
+         return "customer/customer_Profile.tiles";
       }
       model.addAttribute("id", id);
       model.addAttribute("nickname", nickname);
 
-      return "customer_signup";
+      return "customer/customer_Signup.tiles";
    }
    
    
