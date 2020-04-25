@@ -59,11 +59,11 @@ public class CustomerController {
 	public void residentNumCheck(@RequestParam("customer_ResidentNumber") String customer_ResidentNumber) {	// customer_signup.jsp에서 name이 customer_ResidentNumber인 값을 가져와 String값으로 저장한다.
 		this.customerService.checkCustomerResident(customer_ResidentNumber);								// 해당 customer_ResidentNumber가 있는지 customer테이블에서 확인해본다.	
 	}
+	
 	@RequestMapping( value = "/send_email" , method=RequestMethod.POST )
     public void mailSending(@RequestParam("customer_Email") String customer_Email, HttpServletResponse response_email) throws IOException {
         Random r = new Random();
         int dice = r.nextInt(900000) + 100000;
-        
         String setfrom = "mjuteamproject2020@gamil.com";
         String tomail = customer_Email; // 받는 사람 이메일
         String title = "회원가입 인증 이메일"; // 제목
@@ -93,7 +93,7 @@ public class CustomerController {
             MimeMessageHelper messageHelper = new MimeMessageHelper(message,
                     true, "UTF-8");
 
-            messageHelper.setFrom(setfrom); // 보내는사람 생략하면 정상작동을 안함
+            messageHelper.setFrom(setfrom); 
             messageHelper.setTo(tomail); // 받는사람 이메일
             messageHelper.setSubject(title); // 메일제목은 생략이 가능하다
             messageHelper.setText(content); // 메일 내용
@@ -104,9 +104,6 @@ public class CustomerController {
         } catch (Exception e) {
             System.out.println(e);
         }
-        
-        
-        
         response_email.setContentType("text/html; charset=UTF-8");
         PrintWriter out_email = response_email.getWriter();
         out_email.println("<script>alert('이메일이 발송되었습니다. 인증번호를 입력해주세요.');</script>");
@@ -118,48 +115,17 @@ public class CustomerController {
 
 	@RequestMapping(value = "/check_email_code{dice}", method = RequestMethod.POST)
     public void checkEmailCode(@RequestParam("customer_Email_Code") String customer_Email_Code,@PathVariable String dice,  HttpServletResponse response_equals) throws IOException {
- 
-        
-        
-        
-        
-        System.out.println("마지막 : customer_Email_Code : "+customer_Email_Code);
-        
-        
-         
-        
-        if (customer_Email_Code.equals(dice)) {
-            
-            //인증번호가 일치할 경우 인증번호가 맞다는 창을 출력하고 회원가입창으로 이동함
-            
-            
-            
-         
-            
+        if (customer_Email_Code.equals(dice)) {   
             response_equals.setContentType("text/html; charset=UTF-8");
             PrintWriter out_equals = response_equals.getWriter();
             out_equals.println("<script>alert('인증번호가 일치하였습니다. 회원가입창으로 이동합니다.');</script>");
             out_equals.flush();
-    
-         
-            
-            
         }else if (customer_Email_Code != dice) {
-            
-            
-         
             response_equals.setContentType("text/html; charset=UTF-8");
             PrintWriter out_equals = response_equals.getWriter();
             out_equals.println("<script>alert('인증번호가 일치하지않습니다. 인증번호를 다시 입력해주세요.'); history.go(-1);</script>");
             out_equals.flush();
-            
-    
-          
-            
         }    
-    
-       
-        
     }
 	   
 	
