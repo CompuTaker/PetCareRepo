@@ -23,7 +23,7 @@ public class CustomerController {
 
 	@Autowired
 	private CustomerService customerService;
-	
+  
 	/*
 	 * 고객 회원가입을 누르고 정보를 입력하고 회원가입 버튼을 눌렀을 때 실행되는 메서드
 	 */

@@ -40,6 +40,17 @@ uri="http://www.springframework.org/tags/form" prefix="form"%>
           name="customer_Id"
           required
         />
+        <c:set var="userId" value="${id}" />
+        <c:choose>
+          <c:when test="${not empty userId}">
+            <script>
+              $("#Customer_Id").val("${userId}");
+              $("#Customer_Id").attr("readonly", true);
+              setCookie("id", $("#Customer_Id").val(), 1);
+              var socialLogin = true;
+            </script>
+          </c:when>
+        </c:choose>
         <button type="button" id="checkId">중복확인</button>
         <div class="check_font" id="id_check"></div>
       </div>
@@ -64,6 +75,16 @@ uri="http://www.springframework.org/tags/form" prefix="form"%>
           name="customer_Name"
           required
         />
+        <c:set var="userName" value="${nickname}" />
+        <c:choose>
+          <c:when test="${not empty userName}">
+            <script>
+              $("#Customer_Name").val("${userName}");
+              $("#Customer_Name").attr("readonly", true);
+              setCookie("name", $("#Customer_Name").val(), 1);
+            </script>
+          </c:when>
+        </c:choose>
       </div>
 
       <div class="form-group">
@@ -122,55 +143,102 @@ uri="http://www.springframework.org/tags/form" prefix="form"%>
 </div>
 <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
 <script type="text/javascript">
-
-  $(function(){
-      var responseMessage = "<c:out value="${message}" />";
-      if(responseMessage != ""){
-          alert(responseMessage)
-      }
+  $(function() {
+     var responseMessage = "<c:out value="${message}" />";
+     if (responseMessage != "") {
+        alert(responseMessage)
+     }
   })
-  	$("#checkId").click(function() {
-  		var customer_Id = $('#Customer_Id').val();
-  		$.ajax({
-  			url : '${pageContext.request.contextPath}/customer_checkId?customer_Id='+ customer_Id,
-  			method : 'GET',
-  			async : false,
-  			complete : function(data) {
-  				if (data.responseText == 1) {
-  					$("#id_check").text("중복입니다.");
-  					$("#id_check").css("color", "red");
-  					$('#Customer_Id').val("");
-  				} else {
-  					$("#id_check").text("사용가능합니다.");
-  					$("#id_check").css("color", "blue");
-  					$('#Customer_Id').attr("readonly",true);
-  					$('#checkId').attr("disabled",true);
-  				}
-  			}
-  		});
 
-  	});
+  $('#Customer_Id').val(getCookie('id'));
+  $('#Customer_Name').val(getCookie('name'));
+  $('#Customer_Email').val(getCookie('email'));
+  $('#Customer_PhoneNumber').val(getCookie('phone'));
+  $('#Customer_Address').val(getCookie('address'));
 
+  $("#Customer_Id").change(function() {
+     setCookie('id', $('#Customer_Id').val(), 1);
+  });
+  $("#Customer_Name").change(function() {
+     setCookie('name', $('#Customer_Name').val(), 1);
 
-  	$("#checkResidentNum").click(function() {
-  		var customer_ResidentNumber = $('#Customer_ResidentNumber').val();
-  		$.ajax({
-  			url : '${pageContext.request.contextPath}/customer_chekResidentNumber?customer_ResidentNumber='+ customer_ResidentNumber,
-  			method : 'GET',
-  			async : false,
-  			complete : function(data) {
-  				if (data.responseText == 1) {
-  					$("#residentNum_check").text("중복입니다.");
-  					$("#residentNum_check").css("color", "red");
-  					$('#Customer_ResidentNumber').val("");
-  				} else {
-  					$("#residentNum_check").text("사용가능합니다.");
-  					$("#residentNum_check").css("color", "blue");
-  					$('#Customer_ResidentNumber').attr("readonly",true);
-  					$("#checkResidentNum").attr("disabled",true);
-  				}
-  			}
-  		});
+  });
+  $("#Customer_Email").change(function() {
+     setCookie('email', $('#Customer_Email').val(), 1);
 
-  	});
+  });
+  $("#Customer_PhoneNumber").change(function() {
+     setCookie('phone', $('#Customer_PhoneNumber').val(), 1);
+
+  });
+  $("#Customer_Address").change(function() {
+     setCookie('address', $('#Customer_Address').val(), 1);
+
+  });
+  $("#checkId")
+        .click(
+              function() {
+                 var customer_Id = $('#Customer_Id').val();
+                 $
+                       .ajax({
+                          url : '${pageContext.request.contextPath}/customer_checkId?customer_Id='
+                                + customer_Id,
+                          method : 'GET',
+                          async : false,
+                          complete : function(data) {
+                             if (data.responseText == 1) {
+                                localStorage.removeItem("id");
+                                $("#id_check").text("중복입니다.");
+                                $("#id_check").css("color", "red");
+                                $('#Customer_Id').val("");
+                             } else {
+                                $("#id_check").text("사용가능합니다.");
+                                $("#id_check").css("color", "blue");
+                                $('#Customer_Id').attr("readonly",
+                                      true);
+                                $('#checkId')
+                                      .attr("disabled", true);
+                             }
+                          }
+                       });
+
+              });
+
+  if (socialLogin) {
+     $("#checkId").trigger("click");
+  }
+
+  $("#checkResidentNum")
+        .click(
+              function() {
+                 var customer_ResidentNumber = $(
+                       '#Customer_ResidentNumber').val();
+                 $
+                       .ajax({
+                          url : '${pageContext.request.contextPath}/customer_chekResidentNumber?customer_ResidentNumber='
+                                + customer_ResidentNumber,
+                          method : 'GET',
+                          async : false,
+                          complete : function(data) {
+                             if (data.responseText == 1) {
+                                $("#residentNum_check").text(
+                                      "중복입니다.");
+                                $("#residentNum_check").css(
+                                      "color", "red");
+                                $('#Customer_ResidentNumber').val(
+                                      "");
+                             } else {
+                                $("#residentNum_check").text(
+                                      "사용가능합니다.");
+                                $("#residentNum_check").css(
+                                      "color", "blue");
+                                $('#Customer_ResidentNumber').attr(
+                                      "readonly", true);
+                                $("#checkResidentNum").attr(
+                                      "disabled", true);
+                             }
+                          }
+                       });
+
+              });
 </script>

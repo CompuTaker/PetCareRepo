@@ -33,3 +33,10 @@ prefix="c"%>
     </div>
   </div>
 </div>
+<script>
+  setCookie("id", "", 1);
+  setCookie("name", "", 1);
+  setCookie("email", "", 1);
+  setCookie("phone", "", 1);
+  setCookie("address", "", 1);
+</script>

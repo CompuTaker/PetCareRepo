@@ -31,13 +31,22 @@
 						  	<button type="submit"  id="btn-login" name="login" class="btn btn-login">로그인</button>
 						</div>
 						<div class="logindiv col-md-6 form-group">
-							<a style="text-decoration: none;" href="signup">
-								회원가입 |
-							<a style="text-decoration: none;" href="search_id"> 아이디 찾기	
-							<a style="text-decoration: none;" href="search_pw"> 비밀번호 찾기		
-						</div>
-			
+							<div style="text-align: center"> 
+							<a href="${kakao_url}">카카오 로그인</a> 
+							</div>
+							<a style="text-decoration: none;" href="signup.html">
+							   회원가입 |
+							<a style="text-decoration: none;" href="search_id"> 아이디 찾기   
+							<a style="text-decoration: none;" href="search_pw"> 비밀번호 찾기      
+						 </div>
 				</form>
 			</div>
 
 		</div>
+<script>
+      setCookie('id', '', 1);
+      setCookie('name', '', 1);
+      setCookie('email', '', 1);
+      setCookie('phone', '', 1);
+      setCookie('address', '', 1);
+   </script>

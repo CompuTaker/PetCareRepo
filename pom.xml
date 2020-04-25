@@ -255,6 +255,12 @@ xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/m
 			<artifactId>tiles-core</artifactId>
 			<version>${org.apache.tiles-version}</version>
 		</dependency>
+		<!-- 카카오 소셜 로그인 구현 -->
+      <dependency>
+         <groupId>org.apache.httpcomponents</groupId>
+         <artifactId>httpclient</artifactId>
+         <version>4.5.12</version>
+      </dependency>
 	</dependencies>
 	
     <build>

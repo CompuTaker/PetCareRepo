@@ -17,6 +17,7 @@ import com.test.constants.Constant.ESession;
 import com.test.dto.CompanyDTO;
 import com.test.dto.CustomerDTO;
 import com.test.service.HomeService;
+import com.test.controller.SocialLoginController;
 
 @Controller									//Spring이 해당 클래스가 Controller인 걸 알려주는 Annotation
 @SessionAttributes({"customer", "company"})	// Model에 저장한 값을 http session에 저장할 수 있게 해주는 Annotation
@@ -25,6 +26,7 @@ public class HomeController {
 	@Autowired	
 	private HomeService homeService;
 	
+	private SocialLoginController socialLogin;
 	/*
 	 * URL에 '/'과 'index'를 입력하면 실행되는 메서드이다.
 	 * 따라서 메인화면(index.jsp)를 실행시켜준다.
@@ -60,15 +62,24 @@ public class HomeController {
 		return url;
 	}	
 	
-	/*
-	 * 로그인 버튼을 누르면 실행되믄 메서드이다.
-	 */
-	@RequestMapping("/login")
-	public String login(Model model) {
-		System.out.println("로그인 화면");
-		return "home/login.tiles"; // login.jsp
-	}
-
+	// /*
+	//  * 로그인 버튼을 누르면 실행되믄 메서드이다.
+	//  */
+	// @RequestMapping("/login")
+	// public String login(Model model) {
+	// 	System.out.println("로그인 화면");
+	// 	return ""; // login.jsp
+	// }
+ 
+   @RequestMapping("/login")
+   public String login(Model model, HttpSession session) {
+      /* 카카오 로그인을 위한 코드 */
+	  System.out.println(session);
+      String kakaoUrl = socialLogin.getAuthorizationKakaoUrl(session);
+      
+      model.addAttribute("kakao_url", kakaoUrl);
+      return "home/login.tiles"; // login.jsp
+   }
 	/*
 	 * 로그인에 값을 입력하고 로그인 버튼을 눌렀을 경우 실행되는 메서드이다.
 	 */
