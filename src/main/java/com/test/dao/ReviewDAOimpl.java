@@ -63,4 +63,12 @@ public class ReviewDAOimpl implements ReviewDAO {
 	public List<CustomerDTO> searchCustomerName(String customer_id) {
 		return this.sqlSession.selectList("searchCustomerName", customer_id);	// mapper에서 "searchCustomerName" id를 가지는 명령문에 customer_id객체를 가지고 실행한다.
 	}
+
+	/*
+	 * 자신이 작성한 후기 리스트를 보여주기 위해 실행되는 메서드이다.
+	 */
+	@Override
+	public List<ReviewDTO> listMyReviews(String customer_id) {
+		return this.sqlSession.selectList("listMyReviews", customer_id);
+	}
 }

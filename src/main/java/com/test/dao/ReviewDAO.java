@@ -22,6 +22,8 @@ public interface ReviewDAO {
 	//고객 이름 찾기
 	public abstract List<CustomerDTO> searchCustomerName(String customer_id);
 	
+	public abstract List<ReviewDTO> listMyReviews(String customer_id);
+	
 //	abstract public int updateTheReview(int review_Index);
 
 }

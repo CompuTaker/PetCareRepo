@@ -1,32 +1,46 @@
 package com.test.controller;
 
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
 import javax.servlet.http.HttpSession;
 
+import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.bind.support.SessionStatus;
 
+import com.github.scribejava.core.model.OAuth2AccessToken;
+import com.google.protobuf.TextFormat.ParseException;
 import com.test.constants.Constant;
 import com.test.constants.Constant.ESession;
 import com.test.dto.CompanyDTO;
 import com.test.dto.CustomerDTO;
 import com.test.service.HomeService;
 import com.test.controller.SocialLoginController;
+import com.test.dao.CustomerDAO;
 
 @Controller									//Spring이 해당 클래스가 Controller인 걸 알려주는 Annotation
 @SessionAttributes({"customer", "company"})	// Model에 저장한 값을 http session에 저장할 수 있게 해주는 Annotation
 public class HomeController {
-	
+	@Autowired
+	private CustomerDAO customerDao;
 	@Autowired	
 	private HomeService homeService;
-	
+	@Autowired	
 	private SocialLoginController socialLogin;
+	private NaverLoginBO naverLoginBO;
+	private String apiResult = null;
+	@Autowired
+	private void setNaverLoginBO(NaverLoginBO naverLoginBO) {
+		this.naverLoginBO = naverLoginBO;
+	}
 	/*
 	 * URL에 '/'과 'index'를 입력하면 실행되는 메서드이다.
 	 * 따라서 메인화면(index.jsp)를 실행시켜준다.
@@ -76,10 +90,39 @@ public class HomeController {
       /* 카카오 로그인을 위한 코드 */
 	  System.out.println(session);
       String kakaoUrl = socialLogin.getAuthorizationKakaoUrl(session);
-      
+	  String naverAuthUrl = naverLoginBO.getAuthorizationUrl(session); //네이버아이디로 인증 URL을 생성하기 위하여 getAuthorizationUrl 메서드 호출한다.
       model.addAttribute("kakao_url", kakaoUrl);
+		model.addAttribute("naver",naverAuthUrl); //login.jsp에서 네이버 로그인 버튼을 눌렀을 때 url 이동을 가능하게 해준다.
+		
       return "home/login.tiles"; // login.jsp
    }
+   //네이버 로그인 서공 시 callback 호출 메서드
+	@RequestMapping("/naverCallback")
+	public String naverCallback(Model model, @RequestParam String code, @RequestParam String state, HttpSession session ) throws IOException, org.json.simple.parser.ParseException {
+		OAuth2AccessToken oauthToken = naverLoginBO.getAccessToken(session, code, state); //네이버아이디로그인 인증이 완료되면 code 파리미터가 전달되고, 이것을 통해 access token을 발급한다.
+		apiResult = naverLoginBO.getUserProfile(oauthToken); //사용자 정보를 읽어온다.
+		JSONParser parser = new JSONParser();
+		JSONObject jsonObj = (JSONObject) parser.parse(apiResult); //String 형식인 apiResult 데이터를 JSON 형태로 바꿔준다.
+		JSONObject response_obj = (JSONObject) jsonObj.get("response"); 
+
+		String id = (String) response_obj.get("id"); //사용자 아이디를 가져온다.
+		
+		if(this.customerDao.checkCustomerID(id) == null) { //최초 로그인일 경우 회원가입을 진행한다. 
+			String name = (String) response_obj.get("name"); //사용자 이름을 가져온다.
+			String email = (String) response_obj.get("email"); //사용자 이메일을 가져온다.
+			model.addAttribute("id", id); //model 객체에 id를 저장한다.
+			model.addAttribute("name", name); //model 객체에 name을 저장한다.
+			model.addAttribute("email", email); //model 객체에 email을 저장한다.
+			System.out.println(response_obj);
+			return "customer/customer_Signup.tiles"; //회원가입 페이지로 이동한다.
+		}else {  
+			CustomerDTO customer = this.customerDao.checkCustomerID(id); //아이디를 통해 고객 정보를 가져온다.
+			model.addAttribute("customer", customer); //model 객체에 customer를 저장한다.
+			Constant.eSession = ESession.eCustomer; // eSession의 값을 eCustomer로 변경해준다. 
+			return "customer/customer_Profile.tiles"; //고객 마이페이지로 이동한다.
+			
+		}
+	}
 	/*
 	 * 로그인에 값을 입력하고 로그인 버튼을 눌렀을 경우 실행되는 메서드이다.
 	 */
