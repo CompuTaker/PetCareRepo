@@ -96,6 +96,7 @@ public class HomeController {
 		
       return "home/login.tiles"; // login.jsp
    }
+   
    //네이버 로그인 서공 시 callback 호출 메서드
 	@RequestMapping("/naverCallback")
 	public String naverCallback(Model model, @RequestParam String code, @RequestParam String state, HttpSession session ) throws IOException, org.json.simple.parser.ParseException {
@@ -123,6 +124,7 @@ public class HomeController {
 			
 		}
 	}
+	
 	/*
 	 * 로그인에 값을 입력하고 로그인 버튼을 눌렀을 경우 실행되는 메서드이다.
 	 */

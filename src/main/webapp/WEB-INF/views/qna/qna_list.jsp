@@ -20,35 +20,18 @@
 
 						</tr>
 					</thead>
-					<c:forEach var="list" items="${list }" varStatus="status">
-						<tr>
-							<th scope="row">
-							<th>
-							<td><c:out value="${list.qna_Index}" /></td>
-							<td><c:out value="${list.qna_Type }" /></td>
-							<td><a href='#' onClick='fn_view(${list.qna_Title})'><c:out
-										value="${list.qna_Title }" /></a></td>
-							<td><c:out value="${list.qna_Writer }" /></td>
-							<td><c:out value="${list.qna_Date }" /></td>
-							<td><c:out value="${list.qna_Viewnum}" /></td>
-							<td></td>
-						</tr>
-
-					</c:forEach>
 					<tbody>
-						<tr onclick="location.href='qna_detailview'">
-
-							<th scope="row">1</th>
-							<td>A</td>
-							<td>궁금한게 있습니다.</td>
-							<td>작성자</td>
-							<td>2019-04-09</td>
-							<td>10</td>
-
-						</tr>
-
+						<c:forEach var="qnalist" items="${qnalist}" varStatus="status">
+							<tr onClick="location.href='qnaDatailView?qna_Id=${qnalist.id }'">
+								<td>${qnalist.id}</td>
+								<td>${qnalist.qna_type}</td>
+								<td>${qnalist.title}</td>
+								<td>${qnalist.writer_name}</td>
+								<td>${qnalist.date}</td>
+								<td>${qnalist.viewnum}</td>
+							</tr>
+						</c:forEach>
 					</tbody>
-
 				</table>
 			</form>
 			<script>
@@ -65,7 +48,7 @@
 
 			<div>
 
-				<a href='qna_write' class="btn btn-success">글쓰기</a>
+				<a href='qnaWrite' class="btn btn-success">글쓰기</a>
 			</div>
 
 		</div>
