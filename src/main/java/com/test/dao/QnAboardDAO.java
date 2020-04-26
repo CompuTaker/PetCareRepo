@@ -15,4 +15,8 @@ public interface QnAboardDAO {
 
 	abstract public void addViewnum(int qnaId);
 
+	abstract public String selectQnaWriterId(String qna_Id);
+
+	abstract public void updateQnaContent(QnAboardDTO qnaDto);
+
 }

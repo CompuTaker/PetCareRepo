@@ -4,9 +4,12 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.List;
 
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.SessionAttributes;
+import org.springframework.web.servlet.ModelAndView;
 
 import com.test.dao.QnAboardDAO;
 import com.test.dto.CustomerDTO;
@@ -68,6 +71,42 @@ public class QnAboardServiceImpl implements QnAboardService{
 			}
 		}
 		return qnaDto;
+	}
+
+	@Override
+	public ModelAndView selectQnaWriterId(ModelAndView mv, HttpSession session, String qna_Id) {
+		int qnaId = Integer.parseInt(qna_Id);
+		try {
+			String loginId = ((CustomerDTO)session.getAttribute("customer")).getCustomer_Id();
+			String qnaWriterId = this.qnaDao.selectQnaWriterId(qna_Id);
+			System.out.println(loginId+" "+qnaWriterId);
+			
+			QnAboardDTO qnaDto = new QnAboardDTO();
+			
+			if(loginId.equals(qnaWriterId)) {
+				System.out.println("들어옴1");
+				for(QnAboardDTO qnaDtoTemp : this.qnaDtoList) {
+					if(qnaDtoTemp.getId() == qnaId) {
+						qnaDto = qnaDtoTemp;
+						System.out.println("for" + qnaDto.getTitle());
+						mv.addObject("qnaData", qnaDto);
+						mv.setViewName("qna/qna_write.tiles");
+						break;
+					}
+				}
+			} else {
+				mv.setViewName("redirect:/qnaPage");
+			}
+
+		} catch (NullPointerException e) {
+			mv.setViewName("redirect:/qnaPage");
+		}
+		return mv;
+	}
+
+	@Override
+	public void updateQnaContent(QnAboardDTO qnaDto) {
+		this.qnaDao.updateQnaContent(qnaDto);		
 	}
 
 }

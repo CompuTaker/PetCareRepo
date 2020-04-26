@@ -10,6 +10,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.SessionAttributes;
+import org.springframework.web.servlet.ModelAndView;
 
 import com.test.constants.Constant;
 import com.test.constants.Constant.ESession;
@@ -62,7 +63,18 @@ public class QnAboardController {
 	public String qnaDatailView(Model model, String qna_Id) {
 		QnAboardDTO qnaDto = this.qnaService.selectQnaDetailView(qna_Id);
 		model.addAttribute("qnaDetail", qnaDto);
+		model.addAttribute("qna_Id", qna_Id);
 		return "qna/qna_detailview.tiles";
 	}
-
+	
+	@RequestMapping("/qnaModify_view")
+	public ModelAndView qnaModify_view(ModelAndView mv, HttpSession session, String qna_Id) {
+		return this.qnaService.selectQnaWriterId(mv, session, qna_Id);
+	}
+	
+	@RequestMapping(value="/qna_content_update", method=RequestMethod.POST)
+	public String qnaContentUpdate(Model model, QnAboardDTO qnaDto) {
+		this.qnaService.updateQnaContent(qnaDto);
+		return "redirect:/";
+	}
 }

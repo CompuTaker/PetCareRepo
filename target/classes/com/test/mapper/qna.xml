@@ -31,4 +31,19 @@
 		where id = #{qnaId}		
 	</update>
 	
+	<select id="selectQnaWriterId" parameterType="java.lang.String"
+		resultType="java.lang.String">
+		select customer_Id 
+		from Qna, Customer 
+		where Qna.writer = Customer.customer_Index 
+		and Qna.id = #{qna_Id}
+	</select>
+	
+	<update id="updateQnaContent" parameterType="com.test.dto.QnAboardDTO">
+		update Qna
+		set title = #{title}, content = #{content}, qna_type = #{qna_type}
+		where id = #{id}		
+	</update>
+	
+	
 </mapper>

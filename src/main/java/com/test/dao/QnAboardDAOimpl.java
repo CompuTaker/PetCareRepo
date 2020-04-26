@@ -35,4 +35,14 @@ public class QnAboardDAOimpl implements QnAboardDAO {
 		this.sqlSession.update("addViewnum", qnaId);
 		
 	}
+
+	@Override
+	public String selectQnaWriterId(String qna_Id) {
+		return this.sqlSession.selectOne("selectQnaWriterId", qna_Id);
+	}
+
+	@Override
+	public void updateQnaContent(QnAboardDTO qnaDto) {
+		this.sqlSession.update("updateQnaContent", qnaDto);
+	}
 }

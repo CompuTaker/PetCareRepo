@@ -19,7 +19,7 @@ prefix="c"%>
         <table class="table table-striped table-hover">
           <tr>
             <td align="center">제목</td>
-            <td><input id="title" name="title" size="50" maxlength="100" /></td>
+            <td><input id="title" name="title" size="50" maxlength="100" value=${qnaData.title }></td>
           </tr>
           <tr>
             <td align="center">내용</td>
@@ -28,7 +28,7 @@ prefix="c"%>
                 id="content"
                 style="width: 400px;"
                 name="content"
-              ></textarea>
+              >${qnaData.content }</textarea>
             </td>
           </tr>
         </table>

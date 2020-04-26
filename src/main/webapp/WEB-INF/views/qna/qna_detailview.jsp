@@ -34,13 +34,13 @@ prefix="c"%>
 
     <form id="qna_write" name="qna_write" action="" method="post">
       <div>
-        <button type="button" class="btn btn-outline-success" onclick="">
+        <button type="button" class="btn btn-outline-success" onclick="location.href='qnaModify_view?qna_Id=${qna_Id}'">
           글 수정
         </button>
         <button
           type="button"
           class="btn btn-outline-secondary"
-          onclick="location.href='qna_list'"
+          onclick="location.href='qnaPage'"
         >
           목록
         </button>
