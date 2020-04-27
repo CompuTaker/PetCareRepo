@@ -52,7 +52,7 @@ public class ReservationServiceImpl implements ReservationService{
 			url = "reserve/reserve.tiles";										// reserve.jsp화면을 띄워준다.
 			
 		} else {																// customer가 존재하지 않으면
-			url = "redirect:/";													// 메인 화면을 띄워준다.
+			url = "redirect:/login";													// 메인 화면을 띄워준다.
 		}
 		return url;
 	}
