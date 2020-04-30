@@ -20,4 +20,6 @@ public interface ReservationDAO {
 
 	abstract public int cancelTheReservation(int reservation_Index);
 
+	abstract public int updateReviewCheck(int reservation_Index);
+
 }

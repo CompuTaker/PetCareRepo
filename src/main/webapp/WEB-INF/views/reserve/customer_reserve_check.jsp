@@ -111,7 +111,8 @@ prefix="c"%>
                       <td>
                         <button
                           class="btn"
-                          onclick="location.href='customer_reservation_cancel?index='+${ reservation.reservation_Index }">
+                          onclick="location.href='customer_reservation_cancel?index='+${ reservation.reservation_Index }"
+                        >
                           <i class="fas fa-trash"></i>
                         </button>
                       </td>
@@ -156,14 +157,7 @@ prefix="c"%>
                       <td>${ reservation.company_Name }</td>
                       <td>${ reservation.reservation_Date }</td>
                       <td>${ reservation.reservation_Time }</td>
-                      <td>
-                        <button
-                          class="btn"
-                          onclick="location.href='customer_review_add?index='+${ reservation.reservation_Index }"
-                        >
-                          <i class="fas fa-trash"></i>
-                        </button>
-                      </td>
+                      <td></td>
                     </tr>
                   </c:if>
                 </c:forEach>
@@ -197,24 +191,47 @@ prefix="c"%>
                   var="reservation"
                   varStatus="counter"
                 >
-                  <c:if test="${reservation.reservation_Check eq 'finished'}">
-                    <tr>
-                      <th scope="row">${ counter.index }</th>
-                      <td>${ reservation.pet_Name }</td>
-                      <td>${ reservation.company_Type }</td>
-                      <td>${ reservation.company_Name }</td>
-                      <td>${ reservation.reservation_Date }</td>
-                      <td>${ reservation.reservation_Time }</td>
-                      <td>
-                        <button
-                          class="btn"
-                          onclick="location.href='customer_review_add?index='+${ reservation.reservation_Index }"
-                        >
-                          <i class="fas fa-edit"></i>
-                        </button>
-                      </td>
-                    </tr>
-                  </c:if>
+                  <c:choose>
+                    <c:when test="${reservation.review_Check eq 0 }">
+                      <c:if
+                        test="${reservation.reservation_Check eq 'finished'}"
+                      >
+                        <tr>
+                          <th scope="row">${ counter.index }</th>
+                          <td>${ reservation.pet_Name }</td>
+                          <td>${ reservation.company_Type }</td>
+                          <td>${ reservation.company_Name }</td>
+                          <td>${ reservation.reservation_Date }</td>
+                          <td>${ reservation.reservation_Time }</td>
+
+                          <td>
+                            <button
+                              class="btn"
+                              onclick="location.href='customer_review_add?index='+${ reservation.reservation_Index }"
+                            >
+                              <i class="fas fa-edit"></i>
+                            </button>
+                          </td>
+                        </tr>
+                      </c:if>
+                    </c:when>
+                    <c:otherwise>
+                      <c:if
+                        test="${reservation.reservation_Check eq 'finished'}"
+                      >
+                        <tr>
+                          <th scope="row">${ counter.index }</th>
+                          <td>${ reservation.pet_Name }</td>
+                          <td>${ reservation.company_Type }</td>
+                          <td>${ reservation.company_Name }</td>
+                          <td>${ reservation.reservation_Date }</td>
+                          <td>${ reservation.reservation_Time }</td>
+
+                          <td></td>
+                        </tr>
+                      </c:if>
+                    </c:otherwise>
+                  </c:choose>
                 </c:forEach>
               </tbody>
             </table>

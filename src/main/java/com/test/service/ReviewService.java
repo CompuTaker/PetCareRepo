@@ -18,7 +18,7 @@ public interface ReviewService {
 
 	public abstract String CompanyReviewView(Model model, int reviewIdx);
 
-	public abstract ModelAndView customerReviewAdd(ModelAndView mv, int index);
+	public abstract ModelAndView customerReviewAdd(ModelAndView mv, int index, int reservation_index);
 
 	public abstract String review_Ok(HashMap<String, Object> rmap, HttpServletRequest request, HttpSession session);
 
