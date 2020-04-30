@@ -10,26 +10,23 @@ prefix="c"%> <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
         <td><label class="login-title">기업 회원가입</label></td>
       </tr>
     </table>
-	<!-- 수정함 enctype="multipart/form-data"추가 -->
+    <!-- 수정함 enctype="multipart/form-data"추가 -->
     <form
       class="w-50 ml-auto mr-auto mt-5 mb-5"
       action="company_signupDo"
       method="post"
-       enctype="multipart/form-data"
+      enctype="multipart/form-data"
     >
       <div class="mb-5">
         <img
-          id="img-default"
-          src="<c:url value='/resources/images/profile.png' />"
-          width="100"
-          height="100"
-        />
-        <input
-          type="file" 
           id="imageFile"
-          name="imageFile"
-          accept="image/*"
+          src="#"
+          style="width: 100px; height: 100px;"
+          onerror='src="<c:url value="/resources/images/profile.png" />"'
+          alt="image"
         />
+
+        <input type="file" onchange="readURL(this);" accept="image/*" />
       </div>
 
       <div class="form-group">
@@ -161,55 +158,65 @@ prefix="c"%> <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
 
 <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
 <script type="text/javascript">
-  $(function(){
-      var responseMessage = "<c:out value="${message}" />";
-      if(responseMessage != ""){
-          alert(responseMessage)
-      }
-  })
+   $(function(){
+       var responseMessage = "<c:out value="${message}" />";
+       if(responseMessage != ""){
+           alert(responseMessage)
+       }
+   })
 
-  $("#checkCompanyId").click(function() {
-  	var company_Id = $('#Company_Id').val();
-  	$.ajax({
-  		url : '${pageContext.request.contextPath}/company_checkcId?company_Id='+ company_Id,
-  		method : 'GET',
-  		async : false,
-  		complete : function(data) {
-  			if (data.responseText == 1) {
-  				$("#companyId_check").text("중복입니다.");
-  				$("#companyId_check").css("color", "red");
-  				$('#Company_Id').val("");
-  			} else {
-  				$("#companyId_check").text("사용가능합니다.");
-  				$("#companyId_check").css("color", "blue");
-  				$('#Company_Id').attr("readonly",true);
-  				$('#checkCompanyId').attr("disabled",true);
-  			}
-  		}
-  	});
+   $("#checkCompanyId").click(function() {
+   	var company_Id = $('#Company_Id').val();
+   	$.ajax({
+   		url : '${pageContext.request.contextPath}/company_checkcId?company_Id='+ company_Id,
+   		method : 'GET',
+   		async : false,
+   		complete : function(data) {
+   			if (data.responseText == 1) {
+   				$("#companyId_check").text("중복입니다.");
+   				$("#companyId_check").css("color", "red");
+   				$('#Company_Id').val("");
+   			} else {
+   				$("#companyId_check").text("사용가능합니다.");
+   				$("#companyId_check").css("color", "blue");
+   				$('#Company_Id').attr("readonly",true);
+   				$('#checkCompanyId').attr("disabled",true);
+   			}
+   		}
+   	});
 
-  });
+   });
 
 
-  $("#checkCompanyNum").click(function() {
-  	var company_Number = $('#Company_Number').val();
-  	$.ajax({
-  		url : '${pageContext.request.contextPath}/company_checkComNum?company_Number='+ company_Number,
-  		method : 'GET',
-  		async : false,
-  		complete : function(data) {
-  			if (data.responseText == 1) {
-  				$("#companyNum_check").text("중복입니다.");
-  				$("#companyNum_check").css("color", "red");
-  				$('#Comapny_Number').val("");
-  			} else {
-  				$("#companyNum_check").text("사용가능합니다.");
-  				$("#companyNum_check").css("color", "blue");
-  				$("#Company_Number").attr("readonly",true);
-  				$('#checkCompanyNum').attr("disabled",true);
-  			}
-  		}
-  	});
+   $("#checkCompanyNum").click(function() {
+   	var company_Number = $('#Company_Number').val();
+   	$.ajax({
+   		url : '${pageContext.request.contextPath}/company_checkComNum?company_Number='+ company_Number,
+   		method : 'GET',
+   		async : false,
+   		complete : function(data) {
+   			if (data.responseText == 1) {
+   				$("#companyNum_check").text("중복입니다.");
+   				$("#companyNum_check").css("color", "red");
+   				$('#Comapny_Number').val("");
+   			} else {
+   				$("#companyNum_check").text("사용가능합니다.");
+   				$("#companyNum_check").css("color", "blue");
+   				$("#Company_Number").attr("readonly",true);
+   				$('#checkCompanyNum').attr("disabled",true);
+   			}
+   		}
+   	});
 
-  });
+   });
+   //이미지 미리보기
+   function readURL(input) {
+    if (input.files && input.files[0]) {
+    var reader = new FileReader();
+    reader.onload = function (e) {
+    $('#imageFile').attr('src', e.target.result);
+  }
+  reader.readAsDataURL(input.files[0]);
+  }
+  }
 </script>
