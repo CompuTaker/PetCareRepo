@@ -28,6 +28,13 @@ uri="http://www.springframework.org/tags/form" prefix="form"%>
 
 <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
 <script src="resources/script/reserve.js"></script>
+<script>
+  setCookie("id", "", 1);
+  setCookie("name", "", 1);
+  setCookie("email", "", 1);
+  setCookie("phone", "", 1);
+  setCookie("address", "", 1);
+</script>
 <!-- <script src="resources/script/company_Signup.js"></script>
  -->
 

@@ -31,7 +31,7 @@
 			</li>
 			<li class="nav-item"><a class="nav-link" href="#">제휴문의</a></li>
 			<li class="nav-item"><a class="nav-link" href="#">공지사항</a></li>
-			<li class="nav-item"><a class="nav-link" href="#">Q&A</a></li>
+			<li class="nav-item"><a class="nav-link" href="qnaPage">Q&A</a></li>
 			<c:if test="${empty customer.customer_Index && empty company.company_Index}">
 				<li class="nav-item"><a class="nav-link" href="loginOrProfile">Login</a>
 			</c:if>
@@ -54,3 +54,19 @@
 		</form>
 	</div>
 </nav>
+<script
+   src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+<script>
+	var setCookie = function(name, value, day) {
+	   var date = new Date();
+	   date.setTime(date.getTime() + day * 60 * 60 * 24 * 1000);
+	   document.cookie = name + '=' + value + ';expires=' + date.toUTCString()
+			 + ';path=/';
+	};
+ 
+	var getCookie = function(name) {
+	   var value = document.cookie.match('(^|;) ?' + name + '=([^;]*)(;|$)');
+	   return value ? value[2] : null;
+	};
+	
+ </script>

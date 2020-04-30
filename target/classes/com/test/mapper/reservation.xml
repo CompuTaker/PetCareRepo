@@ -91,6 +91,17 @@
 		set	reservation_Check = 'canceled' 
 		where reservation_Index = #{reservation_Index}
 	</update>
+
+	<!-- 후기작성 플래그 추가 -->
+	<update id="updateReviewCheck" >
+		update Reservation
+		set review_Check = '1'
+		where reservation_Index = #{reservation_Index}
+	</update>
+
+
+
+
 </mapper>
 
 

@@ -66,7 +66,7 @@ public class ApiRestScheduler {
 		conn.setRequestMethod("GET");
 		conn.setRequestProperty("Content-type", "application/json");
 		System.out.println("Response code: " + conn);
-		
+
 		BufferedReader rd;
 		// 200 성공 300 이상일 경우 에
 		if (conn.getResponseCode() >= 200 && conn.getResponseCode() <= 300) {
@@ -79,11 +79,11 @@ public class ApiRestScheduler {
 		while ((line = rd.readLine()) != null) {
 			result = result + line.trim();
 		}
-		System.out.println("result: "+result);
+		System.out.println("result: " + result);
 		rd.close();
 		conn.disconnect();
-		
-		//result xml parsing
+
+		// result xml parsing
 		this.xmlParse(result);
 		// return List<CompanyDTO>;
 	}
@@ -97,22 +97,22 @@ public class ApiRestScheduler {
 		Document doc = null;
 		InputSource is = new InputSource(new StringReader(line));
 		builder = factory.newDocumentBuilder();
-		//xml parsing
+		// xml parsing
 		doc = builder.parse(is);
 		XPathFactory xpathFactory = XPathFactory.newInstance();
-		//xpath 객체 생성 
+		// xpath 객체 생성
 		XPath xpath = xpathFactory.newXPath();
-		//items 의item 을 선택
+		// items 의item 을 선택
 		XPathExpression expr = xpath.compile("//items/item");
-		//tag name과 값을 가져
+		// tag name과 값을 가져
 		NodeList nodeList = (NodeList) expr.evaluate(doc, XPathConstants.NODESET);
 		for (int i = 0; i < nodeList.getLength(); i++) {
 			NodeList child = nodeList.item(i).getChildNodes();
 			for (int j = 0; j < child.getLength(); j++) {
 				Node node = child.item(j);
-					System.out.println("tagName: " + node.getNodeName());
-					System.out.println("value: "+node.getTextContent());
-					System.out.println("");
+				System.out.println("tagName: " + node.getNodeName());
+				System.out.println("value: " + node.getTextContent());
+				System.out.println("");
 
 			}
 		}

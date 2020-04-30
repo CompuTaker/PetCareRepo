@@ -40,11 +40,13 @@
 		review_Title,
 		review_Content,
 		review_Rating,
-		customer_id)
+		customer_id,
+		reservation_Index)
 		values(#{company_Index},#{review_Title},
 		#{review_Content},
 		#{review_Rating},
-		#{customer_id})
+		#{customer_id},
+		#{reservation_Index})
 	</insert>
 	
 	<!-- 리뷰 삭제하기 -->
@@ -61,4 +63,8 @@
 		where review_Index =
 		#{review_Index}
 	</update>
+
+	
+
+
 </mapper>

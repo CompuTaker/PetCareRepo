@@ -30,8 +30,9 @@
 					style="max-width: 540px;">
 					<div class="row no-gutters">
 						<div class="col-md-4">
-							<img src="<c:url value='/resources/images/profile.png' />"
-								class="card-img" alt="...">
+							<img id="Company_Image"
+							src = ${company.company_Image }  width="150"
+								height="150">
 						</div>
 						<div class="col-md-8">
 							<div class="card-body">
@@ -51,8 +52,9 @@
 				<td><label>기업 고객 마이페이지</label></td>
 			</tr>
 			<tr>
-				<td><input type="button" class="mypage-btn-group" value="후기작성"
-					onclick="location.href='company_review_list'"> <input
+				<td><input type="button" class="mypage-btn-group" value="후기모아보기"
+					onclick="location.href='company_review_list'">
+					 <input
 						type="button" class="mypage-btn-group" value="정보수정하기"
 						onclick="location.href='company_modify'"></td>
 			</tr>

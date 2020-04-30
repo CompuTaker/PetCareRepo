@@ -4,7 +4,7 @@
     var company_Id = $("#Company_Id").val();
     $.ajax({
       url:
-        "/company/company_checkcId?company_Id=" +
+        "${pageContext.request.contextPath}/company_checkcId?company_Id=" +
         company_Id,
       method: "GET",
       async: false,

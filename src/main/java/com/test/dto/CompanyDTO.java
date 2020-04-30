@@ -23,7 +23,7 @@ public class CompanyDTO {
 	private String company_Name;
 	private int company_Number;
 	private String company_Type;
-	private Byte[] company_Image;
+	private String company_Image;
 
 	public int getCompany_Index() {
 		return company_Index;
@@ -113,11 +113,11 @@ public class CompanyDTO {
 		this.company_Type = company_Type;
 	}
 
-	public Byte[] getCompany_Image() {
+	public String getCompany_Image() {
 		return company_Image;
 	}
 
-	public void setCompany_Image(Byte[] company_Image) {
+	public void setCompany_Image(String company_Image) {
 		this.company_Image = company_Image;
 	}
 }
