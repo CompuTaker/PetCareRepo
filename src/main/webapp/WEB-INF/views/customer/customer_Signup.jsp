@@ -21,13 +21,11 @@ uri="http://www.springframework.org/tags/form" prefix="form"%>
       enctype="multipart/form-data"
     >
       <div class="mb-5">
-        <img
-          id="img-default"
-          src="<c:url value='/resources/images/profile.png' />"
-          width="100"
-          height="100"
-        />
-        <input type="file" id="imageFile" name="imageFile" />
+        <img id="imageFile" src="#" style="width: 100px; height: 100px;"
+        onerror='src="<c:url value="/resources/images/profile.png" />"'
+        alt="image" />
+
+        <input type="file" onchange="readURL(this);" accept="image/*" />
       </div>
 
       <div class="form-group">
@@ -157,102 +155,112 @@ uri="http://www.springframework.org/tags/form" prefix="form"%>
 </div>
 <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
 <script type="text/javascript">
-  $(function() {
-     var responseMessage = "<c:out value="${message}" />";
-     if (responseMessage != "") {
-        alert(responseMessage)
-     }
-  })
+   $(function() {
+      var responseMessage = "<c:out value="${message}" />";
+      if (responseMessage != "") {
+         alert(responseMessage)
+      }
+   })
 
-  $('#Customer_Id').val(getCookie('id'));
-  $('#Customer_Name').val(getCookie('name'));
-  $('#Customer_Email').val(getCookie('email'));
-  $('#Customer_PhoneNumber').val(getCookie('phone'));
-  $('#Customer_Address').val(getCookie('address'));
+   $('#Customer_Id').val(getCookie('id'));
+   $('#Customer_Name').val(getCookie('name'));
+   $('#Customer_Email').val(getCookie('email'));
+   $('#Customer_PhoneNumber').val(getCookie('phone'));
+   $('#Customer_Address').val(getCookie('address'));
 
-  $("#Customer_Id").change(function() {
-     setCookie('id', $('#Customer_Id').val(), 1);
-  });
-  $("#Customer_Name").change(function() {
-     setCookie('name', $('#Customer_Name').val(), 1);
+   $("#Customer_Id").change(function() {
+      setCookie('id', $('#Customer_Id').val(), 1);
+   });
+   $("#Customer_Name").change(function() {
+      setCookie('name', $('#Customer_Name').val(), 1);
 
-  });
-  $("#Customer_Email").change(function() {
-     setCookie('email', $('#Customer_Email').val(), 1);
+   });
+   $("#Customer_Email").change(function() {
+      setCookie('email', $('#Customer_Email').val(), 1);
 
-  });
-  $("#Customer_PhoneNumber").change(function() {
-     setCookie('phone', $('#Customer_PhoneNumber').val(), 1);
+   });
+   $("#Customer_PhoneNumber").change(function() {
+      setCookie('phone', $('#Customer_PhoneNumber').val(), 1);
 
-  });
-  $("#Customer_Address").change(function() {
-     setCookie('address', $('#Customer_Address').val(), 1);
+   });
+   $("#Customer_Address").change(function() {
+      setCookie('address', $('#Customer_Address').val(), 1);
 
-  });
-  $("#checkId")
-        .click(
-              function() {
-                 var customer_Id = $('#Customer_Id').val();
-                 $
-                       .ajax({
-                          url : '${pageContext.request.contextPath}/customer_checkId?customer_Id='
-                                + customer_Id,
-                          method : 'GET',
-                          async : false,
-                          complete : function(data) {
-                             if (data.responseText == 1) {
-                                localStorage.removeItem("id");
-                                $("#id_check").text("중복입니다.");
-                                $("#id_check").css("color", "red");
-                                $('#Customer_Id').val("");
-                             } else {
-                                $("#id_check").text("사용가능합니다.");
-                                $("#id_check").css("color", "blue");
-                                $('#Customer_Id').attr("readonly",
-                                      true);
-                                $('#checkId')
-                                      .attr("disabled", true);
-                             }
-                          }
-                       });
+   });
+   $("#checkId")
+         .click(
+               function() {
+                  var customer_Id = $('#Customer_Id').val();
+                  $
+                        .ajax({
+                           url : '${pageContext.request.contextPath}/customer_checkId?customer_Id='
+                                 + customer_Id,
+                           method : 'GET',
+                           async : false,
+                           complete : function(data) {
+                              if (data.responseText == 1) {
+                                 localStorage.removeItem("id");
+                                 $("#id_check").text("중복입니다.");
+                                 $("#id_check").css("color", "red");
+                                 $('#Customer_Id').val("");
+                              } else {
+                                 $("#id_check").text("사용가능합니다.");
+                                 $("#id_check").css("color", "blue");
+                                 $('#Customer_Id').attr("readonly",
+                                       true);
+                                 $('#checkId')
+                                       .attr("disabled", true);
+                              }
+                           }
+                        });
 
-              });
+               });
 
-  if (socialLogin) {
-     $("#checkId").trigger("click");
+   if (socialLogin) {
+      $("#checkId").trigger("click");
+   }
+
+   $("#checkResidentNum")
+         .click(
+               function() {
+                  var customer_ResidentNumber = $(
+                        '#Customer_ResidentNumber').val();
+                  $
+                        .ajax({
+                           url : '${pageContext.request.contextPath}/customer_chekResidentNumber?customer_ResidentNumber='
+                                 + customer_ResidentNumber,
+                           method : 'GET',
+                           async : false,
+                           complete : function(data) {
+                              if (data.responseText == 1) {
+                                 $("#residentNum_check").text(
+                                       "중복입니다.");
+                                 $("#residentNum_check").css(
+                                       "color", "red");
+                                 $('#Customer_ResidentNumber').val(
+                                       "");
+                              } else {
+                                 $("#residentNum_check").text(
+                                       "사용가능합니다.");
+                                 $("#residentNum_check").css(
+                                       "color", "blue");
+                                 $('#Customer_ResidentNumber').attr(
+                                       "readonly", true);
+                                 $("#checkResidentNum").attr(
+                                       "disabled", true);
+                              }
+                           }
+                        });
+
+               });
+               //이미지 미리보기
+   function readURL(input) {
+    if (input.files && input.files[0]) {
+    var reader = new FileReader();
+    reader.onload = function (e) {
+    $('#imageFile').attr('src', e.target.result);
   }
-
-  $("#checkResidentNum")
-        .click(
-              function() {
-                 var customer_ResidentNumber = $(
-                       '#Customer_ResidentNumber').val();
-                 $
-                       .ajax({
-                          url : '${pageContext.request.contextPath}/customer_chekResidentNumber?customer_ResidentNumber='
-                                + customer_ResidentNumber,
-                          method : 'GET',
-                          async : false,
-                          complete : function(data) {
-                             if (data.responseText == 1) {
-                                $("#residentNum_check").text(
-                                      "중복입니다.");
-                                $("#residentNum_check").css(
-                                      "color", "red");
-                                $('#Customer_ResidentNumber').val(
-                                      "");
-                             } else {
-                                $("#residentNum_check").text(
-                                      "사용가능합니다.");
-                                $("#residentNum_check").css(
-                                      "color", "blue");
-                                $('#Customer_ResidentNumber').attr(
-                                      "readonly", true);
-                                $("#checkResidentNum").attr(
-                                      "disabled", true);
-                             }
-                          }
-                       });
-
-              });
+  reader.readAsDataURL(input.files[0]);
+  }
+  }
 </script>
