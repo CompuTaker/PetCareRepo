@@ -124,9 +124,15 @@
 					<label class="col-sm-2 col-form-label" for="Reservation_PType">예약날짜</label>
 					<input type="date" class=" form-control col-sm-4"
 						id="Reservation_PType" placeholder="" name="reservation_Date"
-						required> <label
-						class="col-sm-2 col-form-label font-weight-bold"
-						for="Reservation_PType">예약시간</label> <input type="time"
+						required>
+					<script>
+						var today = new Date().toISOString().split('T')[0];
+						
+						document.getElementById('Reservation_PType').valueAsDate = new Date();
+						document.getElementById('Reservation_PType').setAttribute('min', today);
+					</script>
+					<label class="col-sm-2 col-form-label font-weight-bold" for="Reservation_PType">예약시간</label>
+					<input type="time"
 						class=" form-control col-sm-4" id="Reservation_PType"
 						placeholder="" name="reservation_Time" required>
 				</div>

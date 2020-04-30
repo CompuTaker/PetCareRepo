@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.test.dto.CustomerDTO">
+
+	<!-- **주의 : 세미콜론 없이 쿼리문 작성!** -->
+	
+	<!-- 고객 아이디 선택 -->
+	<select id="getId" parameterType="java.util.Map"
+		resultType="com.test.dto.CustomerDTO">
+		select * from Customer where customer_Id = #{customer_Id}
+	</select>
+	
+	<!-- 고객 주민등록번호 선택 -->
+	<select id ="getResidentNumber" parameterType="java.util.Map" resultType="com.test.dto.CustomerDTO">
+		select * from Customer where customer_ResidentNumber = #{customer_ResidentNumber}
+	</select>
+	
+	<!-- 아이디와 비밀번호가 일치하는 정보 선택 -->
+	<select id="listThisCustomer" parameterType="java.util.Map"
+		resultType="com.test.dto.CustomerDTO">
+		select * from Customer where customer_Id = #{id}
+		and
+		customer_Password = #{pw}
+	</select>
+	
+	<!-- userId와 userPw는 실제 컬럼명, 여기선 map 객체인 user에 저장된 key값들인 id와 pw로 값 찾아내 
+		적어준 것일 뿐 user.id, user.pw, 이렇게 하는 건, 객체를 user란 이름의 객체를 넘겨주어, VO 혹은 DTO로 get해주는 
+		방식이었던 것 -->
+		
+	<!-- customer_Index로 고객 이름 찾아오기 -->
+	<select id="listCustomerName" parameterType="java.util.Map"
+		resultType="com.test.dto.CustomerDTO">
+		select customer_Name from Customer where customer_Index =
+		#{customer_Index}
+	</select>
+
+	<!-- 개인 회원 아이디 찾기: 핸드폰 번호가 일치하는 경우 -->
+	<select id="searchCustomerId" parameterType="java.util.Map"
+		resultType="com.test.dto.CustomerDTO">
+		select * from Customer where customer_Name =
+		#{customer_Name}
+		and
+		customer_PhoneNumber = #{customer_PhoneNumber}
+	</select>
+
+	<!-- 개인 회원 비밀번호 찾기: 아이디와 핸드폰 번호가 일치하는 경우 -->
+	<select id="searchCustomerPW" parameterType="java.util.Map"
+		resultType="com.test.dto.CustomerDTO">
+		select * from Customer where customer_Name =
+		#{customer_Name}
+		and
+		customer_Id = #{customer_Id}
+		and
+		customer_PhoneNumber = #{customer_PhoneNumber}
+	</select>
+
+	<!-- 회원가입시 입력한 정보 저장하기 -->
+	<insert id="insertTheCustomer" parameterType="java.util.Map">
+		insert into
+		Customer
+		(customer_Id, customer_Password, customer_Name,
+		customer_ResidentNumber, customer_PhoneNumber, customer_Address,
+		customer_Email,
+		customer_Image)
+		values(
+		#{customer_Id},
+		#{customer_Password},
+		#{customer_Name}, #{customer_ResidentNumber},
+		#{customer_PhoneNumber},
+		#{customer_Address}, #{customer_Email},
+		#{customer_Image}
+		)
+	</insert>
+
+	<!-- 회원 탈퇴 -->
+	<delete id="deleteTheCustomer">
+		delete from Customer where customer_Id = #{
+		customer_Id }
+	</delete>
+
+
+	<!-- 회원 정보 수정 -->
+	<update id="updateCustomerInfo" parameterType="java.util.Map">
+		update Customer
+		set customer_Password = #{customer_Password},
+		customer_PhoneNumber =
+		#{customer_PhoneNumber},
+		customer_Email = #{customer_Email},
+		customer_Address = #{customer_Address}
+		where customer_Id =
+		#{customer_Id} and
+		customer_Name = #{customer_Name}
+	</update>
+</mapper>
