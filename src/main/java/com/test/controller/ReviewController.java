@@ -52,15 +52,14 @@ public class ReviewController {
 		return this.reviewService.customerReviewList(model, request);
 	}
 	
-	/*
-	 * 기업이 업체찾기>기업리스트 중 선택>후기 를 눌렀을 때 후기 리스트가 나오도록
-	 * 실행되는 메서드이다.
-	 */
-	@RequestMapping("/company_review_list")
-	public String companyReviewList(Model model, HttpSession session) {
-		return this.reviewService.companyReviewList(model, session);
-	}
-	
+   /*
+    * 기업이 업체찾기>기업리스트 중 선택>후기 를 눌렀을 때 후기 리스트가 나오도록
+    * 실행되는 메서드이다.
+    */
+   @RequestMapping("/company_review_list")
+   public String companyReviewList(Model model, HttpSession session) {
+      return this.reviewService.companyReviewList(model, session);
+   }
 	/*
 	 * 기업이 후기 리스트 중에서 자세히 보고자 하는 후기 리스트를 클릭하면 실행되는 메서드이다.
 	 */

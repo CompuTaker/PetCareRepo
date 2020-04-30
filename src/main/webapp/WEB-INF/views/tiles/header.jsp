@@ -54,6 +54,8 @@
 		</form>
 	</div>
 </nav>
+<script
+   src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
 <script>
 	var setCookie = function(name, value, day) {
 	   var date = new Date();
@@ -66,4 +68,5 @@
 	   var value = document.cookie.match('(^|;) ?' + name + '=([^;]*)(;|$)');
 	   return value ? value[2] : null;
 	};
+	
  </script>

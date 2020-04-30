@@ -97,32 +97,33 @@ public class HomeController {
       return "home/login.tiles"; // login.jsp
    }
    //네이버 로그인 서공 시 callback 호출 메서드
-	@RequestMapping("/naverCallback")
-	public String naverCallback(Model model, @RequestParam String code, @RequestParam String state, HttpSession session ) throws IOException, org.json.simple.parser.ParseException {
-		OAuth2AccessToken oauthToken = naverLoginBO.getAccessToken(session, code, state); //네이버아이디로그인 인증이 완료되면 code 파리미터가 전달되고, 이것을 통해 access token을 발급한다.
-		apiResult = naverLoginBO.getUserProfile(oauthToken); //사용자 정보를 읽어온다.
-		JSONParser parser = new JSONParser();
-		JSONObject jsonObj = (JSONObject) parser.parse(apiResult); //String 형식인 apiResult 데이터를 JSON 형태로 바꿔준다.
-		JSONObject response_obj = (JSONObject) jsonObj.get("response"); 
+	   //네이버 로그인 서공 시 callback 호출 메서드
+   @RequestMapping("/naverCallback")
+   public String naverCallback(Model model, @RequestParam String code, @RequestParam String state, HttpSession session ) throws IOException, org.json.simple.parser.ParseException {
+      OAuth2AccessToken oauthToken = naverLoginBO.getAccessToken(session, code, state); //네이버아이디로그인 인증이 완료되면 code 파리미터가 전달되고, 이것을 통해 access token을 발급한다.
+      apiResult = naverLoginBO.getUserProfile(oauthToken); //사용자 정보를 읽어온다.
+      JSONParser parser = new JSONParser();
+      JSONObject jsonObj = (JSONObject) parser.parse(apiResult); //String 형식인 apiResult 데이터를 JSON 형태로 바꿔준다.
+      JSONObject response_obj = (JSONObject) jsonObj.get("response"); 
 
-		String id = (String) response_obj.get("id"); //사용자 아이디를 가져온다.
-		
-		if(this.customerDao.checkCustomerID(id) == null) { //최초 로그인일 경우 회원가입을 진행한다. 
-			String name = (String) response_obj.get("name"); //사용자 이름을 가져온다.
-			String email = (String) response_obj.get("email"); //사용자 이메일을 가져온다.
-			model.addAttribute("id", id); //model 객체에 id를 저장한다.
-			model.addAttribute("name", name); //model 객체에 name을 저장한다.
-			model.addAttribute("email", email); //model 객체에 email을 저장한다.
-			System.out.println(response_obj);
-			return "customer/customer_Signup.tiles"; //회원가입 페이지로 이동한다.
-		}else {  
-			CustomerDTO customer = this.customerDao.checkCustomerID(id); //아이디를 통해 고객 정보를 가져온다.
-			model.addAttribute("customer", customer); //model 객체에 customer를 저장한다.
-			Constant.eSession = ESession.eCustomer; // eSession의 값을 eCustomer로 변경해준다. 
-			return "customer/customer_Profile.tiles"; //고객 마이페이지로 이동한다.
-			
-		}
-	}
+      String id = (String) response_obj.get("id"); //사용자 아이디를 가져온다.
+      
+      if(this.customerDao.checkCustomerID(id) == null) { //최초 로그인일 경우 회원가입을 진행한다. 
+         String name = (String) response_obj.get("name"); //사용자 이름을 가져온다.
+         String email = (String) response_obj.get("email"); //사용자 이메일을 가져온다.
+         model.addAttribute("id", id); //model 객체에 id를 저장한다.
+         model.addAttribute("nickname", name); //model 객체에 name을 저장한다.
+         model.addAttribute("email", email); //model 객체에 email을 저장한다.
+         System.out.println(response_obj);
+         return "customer/customer_Signup.tiles"; //회원가입 페이지로 이동한다.
+      }else {  
+         CustomerDTO customer = this.customerDao.checkCustomerID(id); //아이디를 통해 고객 정보를 가져온다.
+         model.addAttribute("customer", customer); //model 객체에 customer를 저장한다.
+         Constant.eSession = ESession.eCustomer; // eSession의 값을 eCustomer로 변경해준다. 
+         return "customer/customer_Profile.tiles"; //고객 마이페이지로 이동한다.
+         
+      }
+   }
 	/*
 	 * 로그인에 값을 입력하고 로그인 버튼을 눌렀을 경우 실행되는 메서드이다.
 	 */
@@ -135,18 +136,25 @@ public class HomeController {
 		//HomeService에 가서 고객인지 기업인지 확인한다. (Controller - Service - Dao)
 		Object object = this.homeService.listThisMember(loginInfo);	
 		String url = "";
-
+		System.out.print(object);
+	
 		// Object가 CustomerDTO타입일 경우
 		try {
-			url = "customer_Profile";						// 고객 마이페이지 화면을 띄워준다.
-			model.addAttribute("customer", ((CustomerDTO)object));		// model객체에 customer테이블에서 가져온 customer값을 저장해준다.
-			Constant.eSession = ESession.eCustomer;						// eSession의 값을 eCustomer로 변경해준다. (디폴트 = eNull)
+			if(object==null) {
+				status.setComplete();										// sessionAttribute를 초기화해준다.
+				url = "login";		
+			}else {
+				url = "customer_Profile";						// 고객 마이페이지 화면을 띄워준다.
+				model.addAttribute("customer", ((CustomerDTO)object));		// model객체에 customer테이블에서 가져온 customer값을 저장해준다.
+				Constant.eSession = ESession.eCustomer;						// eSession의 값을 eCustomer로 변경해준다. (디폴트 = eNull)
+			}
 		// Object가 CompanyDTO타입일 경우
 		} catch (ClassCastException e) {
 			url = "company_Profile";						// 기업 마이페이지 화면을 띄워준다.
 			model.addAttribute("company", ((CompanyDTO)object));		// model객체에 customer테이블에서 가져온 customer값을 저장해준다.
 			Constant.eSession = ESession.eCompany;						// eSession의 값을 eCompany로 변경해준다. (디폴트 = eNull)	
 		// Object가 Null인 경우 = 정상적인 경우 X
+									// 로그인 화면을 띄워준다.			
 		} catch (NullPointerException e) {
 			status.setComplete();										// sessionAttribute를 초기화해준다.
 			url = "login";												// 로그인 화면을 띄워준다.			

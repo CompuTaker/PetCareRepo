@@ -50,26 +50,6 @@ uri="http://www.springframework.org/tags/form" prefix="form"%>
               var socialLogin = true;
             </script>
           </c:when>
-          <c:when test="${naverId != null}">
-            <input
-              type="text"
-              class="form-control"
-              id="Customer_Id"
-              value="${ naverId}"
-              name="customer_Id"
-              readonly
-            />
-          </c:when>
-          <c:otherwise>
-            <input
-              type="text"
-              class="form-control"
-              id="Customer_Id"
-              placeholder="아이디"
-              name="customer_Id"
-              required
-            />
-          </c:otherwise>
         </c:choose>
         <button type="button" id="checkId">중복확인</button>
         <div class="check_font" id="id_check"></div>
@@ -104,26 +84,6 @@ uri="http://www.springframework.org/tags/form" prefix="form"%>
               setCookie("name", $("#Customer_Name").val(), 1);
             </script>
           </c:when>
-          <c:when test="${naverName != null}">
-            <input
-              type="text"
-              class="form-control"
-              id="Customer_Name"
-              value="${naverName }"
-              name="customer_Name"
-              readonly
-            />
-          </c:when>
-          <c:otherwise>
-            <input
-              type="text"
-              class="form-control"
-              id="Customer_Name"
-              placeholder="이름"
-              name="customer_Name"
-              required
-            />
-          </c:otherwise>
         </c:choose>
       </div>
 
