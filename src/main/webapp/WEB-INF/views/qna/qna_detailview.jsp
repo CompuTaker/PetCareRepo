@@ -10,14 +10,14 @@ prefix="c"%>
         <tr>
           <th>제목</th>
           <td>
-            <label id="qna_Title" name="qna_Title"> ${ list.qna_Title }</label>
+            <label id="qna_Title" name="qna_Title"> ${qnaDetail.title }</label>
           </td>
         </tr>
         <tr>
           <th>내용</th>
           <td>
             <label id="qna_Content" name="qna_Content">
-              ${ list.qna_Content }</label
+              ${ qnaDetail.content }</label
             >
           </td>
         </tr>
@@ -25,7 +25,7 @@ prefix="c"%>
           <th>작성자</th>
           <td>
             <label id="qna_Writer" name="qna_Writer">
-              ${ list.qna_Writer }</label
+              ${ qnaDetail.writer_name }</label
             >
           </td>
         </tr>
@@ -34,13 +34,13 @@ prefix="c"%>
 
     <form id="qna_write" name="qna_write" action="" method="post">
       <div>
-        <button type="button" class="btn btn-outline-success" onclick="">
+        <button type="button" class="btn btn-outline-success" onclick="location.href='qnaModify_view?qna_Id=${qna_Id}'">
           글 수정
         </button>
         <button
           type="button"
           class="btn btn-outline-secondary"
-          onclick="location.href='qna_list'"
+          onclick="location.href='qnaPage'"
         >
           목록
         </button>

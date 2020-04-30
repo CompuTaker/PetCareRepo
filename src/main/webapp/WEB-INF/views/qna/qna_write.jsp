@@ -5,11 +5,11 @@ prefix="c"%>
   <div class="col-10 mx-auto main-block">
     <label class="login-title" for="login-title">Q&A 작성</label>
 
-    <form id="qna_write" name="qna_write" action="qna_board" method="post">
+    <form id="qna_write" name="qna_write" action="qnaAdd" method="post">
       <div class="input-group mb-3">
         <div class="input-group-prepend"></div>
         문의 사항 종류: &nbsp;
-        <select id="menu">
+        <select id="qna_type" name="qna_type">
           <option>A</option>
           <option>B</option>
           <option>C</option>
@@ -19,7 +19,7 @@ prefix="c"%>
         <table class="table table-striped table-hover">
           <tr>
             <td align="center">제목</td>
-            <td><input id="title" name="title" size="50" maxlength="100" /></td>
+            <td><input id="title" name="title" size="50" maxlength="100" value=${qnaData.title }></td>
           </tr>
           <tr>
             <td align="center">내용</td>
@@ -28,7 +28,7 @@ prefix="c"%>
                 id="content"
                 style="width: 400px;"
                 name="content"
-              ></textarea>
+              >${qnaData.content }</textarea>
             </td>
           </tr>
         </table>
@@ -36,7 +36,7 @@ prefix="c"%>
 
       <div>
         <button
-          type="button"
+          type="submit"
           class="btn btn-outline-success"
           onclick="check_blanck()"
         >
@@ -45,7 +45,7 @@ prefix="c"%>
         <button
           type="button"
           class="btn btn-outline-secondary"
-          onclick="location.href='qna_list'"
+          onclick="location.href='qnaPage'"
         >
           목록
         </button>
