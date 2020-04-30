@@ -186,7 +186,7 @@ public class HomeController {
 				url = "company_Profile";			// 기업 마이페이지를 띄워준다.
 			}
 		}
-		return "redirect:" + url;
+		return "redirect:" + url ;
 	}
 	
 	/*

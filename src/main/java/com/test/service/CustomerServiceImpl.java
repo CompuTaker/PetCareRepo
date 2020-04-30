@@ -27,7 +27,6 @@ import com.test.dto.PetDTO;
 @Service
 @SessionAttributes({ "customer", "company" })	// Model에 저장한 값을 http session에 저장할 수 있게 해주는 Annotation
 public class CustomerServiceImpl implements CustomerService{
-	
 	@Autowired
 	private CustomerDAO customerDao;
 	
@@ -52,7 +51,7 @@ public class CustomerServiceImpl implements CustomerService{
 			if (isCustomerOk) { // 최종확인 Boolean도 true일 경우
 				try {
 					Map<String, MultipartFile> fileMap = multipartHttpServletRequest.getFileMap();
-					HashMap<String, Object> newCustomer = imageUpload(fileMap,multipartHttpServletRequest,cmap);
+					HashMap<String, Object> newCustomer = imageUpload(null,fileMap,multipartHttpServletRequest,cmap);
 					this.customerDao.insertTheCustomer(newCustomer); 				// form에 입력한 값을 company테이블에 저장한다.
 				} catch (IOException e) {
 					e.printStackTrace();
@@ -68,34 +67,38 @@ public class CustomerServiceImpl implements CustomerService{
 		return redirect;
 	}
 	
-	private HashMap<String, Object> imageUpload(Map<String, MultipartFile> fileMap,
+	private HashMap<String, Object> imageUpload(String existingImage, Map<String, MultipartFile> fileMap,
 			MultipartHttpServletRequest multipartHttpServletRequest, HashMap<String, Object> cmap) throws IOException {
 		
 		String baseUrl = "https://s3.ap-northeast-2.amazonaws.com/petcare2020/";
-		
+		MultipartFile multipartFile = multipartHttpServletRequest.getFile("imageFile");
+		String fileName = multipartFile.getOriginalFilename(); // 파일명
+		 
 		if (fileMap.isEmpty()) { // if(imageFile == null) {
 			System.out.println("NOTHING!!"); // null
 
 		} else {
+			if(multipartFile.isEmpty()) {
+				System.out.println("널이냐???????"+existingImage);
+				cmap.put("customer_Image", existingImage);
+				System.out.println(cmap.get("customer_Image"));
+			}else {
+				 String fullFileName = baseUrl + "profile_"+(String)cmap.get("customer_Id")+"_"+fileName;
+				// 확장자확인
+					int dotIdx = fileName.lastIndexOf(".");
+					String fileExtension = fileName.substring(dotIdx + 1).toLowerCase();
+					// Wrong file
+					if (!fileExtension.equals("jpg") && !fileExtension.equals("jpeg") && !fileExtension.equals("png")) {
 
-			MultipartFile multipartFile = multipartHttpServletRequest.getFile("imageFile");
-			String fileName = multipartFile.getOriginalFilename(); // 파일명
-			String fullFileName = baseUrl + "profile_"+(String)cmap.get("customer_Id");
-
-			// 확장자확인
-			int dotIdx = fileName.lastIndexOf(".");
-			String fileExtension = fileName.substring(dotIdx + 1).toLowerCase();
-			// Wrong file
-			if (!fileExtension.equals("jpg") && !fileExtension.equals("jpeg") && !fileExtension.equals("png")) {
-
-				System.out.println("File Not Valid");
-				// Normal image file
-			} else {
-				// 나머지 정보 DB에 업로드
-				cmap.put("customer_Image", fullFileName);
-				s3 s3 = new s3();
-				// 이미지는 3S에 업로드
-				s3.uploadFile(multipartFile, (String)cmap.get("customer_Id"));
+						System.out.println("File Not Valid");
+						// Normal image file
+					} else {
+						// 나머지 정보 DB에 업로드
+						cmap.put("customer_Image", fullFileName);
+						s3 s3 = new s3();
+						// 이미지는 3S에 업로드
+						s3.uploadFile(multipartFile, (String)cmap.get("customer_Id"));
+					}
 			}
 		}
 		return cmap;
@@ -135,8 +138,16 @@ public class CustomerServiceImpl implements CustomerService{
 	@Override
 	public void updateCustomerInfo(MultipartHttpServletRequest multipartHttpServletRequest, @RequestParam HashMap<String, Object> cmap) {
 		Map<String, MultipartFile> fileMap = multipartHttpServletRequest.getFileMap();
+		
+		System.out.println("아이디"+cmap.get("customer_Id"));
+		String customerId = (String) cmap.get("customer_Id");
+		
+		CustomerDTO customer = this.customerDao.checkCustomerID(customerId);
+		System.out.println("기존이미지 : "+ customer.getCustomer_Image());
+		
+		String existingImage = customer.getCustomer_Image();
 		try {
-			HashMap<String, Object> modifyCustomer = imageUpload(fileMap, multipartHttpServletRequest, cmap);
+			HashMap<String, Object> modifyCustomer = imageUpload(existingImage,fileMap, multipartHttpServletRequest, cmap);
 			this.customerDao.updateCustomerInfo(modifyCustomer); // 가져온 cmap데이터를 기존 고객 데이터에 update시킨다.
 		} catch (IOException e) {
 			// TODO Auto-generated catch block

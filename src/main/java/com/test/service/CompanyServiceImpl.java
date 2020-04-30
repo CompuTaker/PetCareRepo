@@ -76,7 +76,7 @@ public class CompanyServiceImpl implements CompanyService{
 			if(isCompanyOk) {															// 최종확인 Boolean도 true일 경우
 				try {
 					Map<String, MultipartFile> fileMap = multipartHttpServletRequest.getFileMap();
-					HashMap<String, Object> newCompany=  imageUpload(fileMap,multipartHttpServletRequest,cmap);
+					HashMap<String, Object> newCompany=  imageUpload(null, fileMap,multipartHttpServletRequest,cmap);
 					this.companyDao.insertTheCompany(newCompany);						// form에 입력한 값을 company테이블에 저장한다.
 				} catch (IOException e) {
 					// TODO Auto-generated catch block
@@ -94,35 +94,37 @@ public class CompanyServiceImpl implements CompanyService{
 		return redirect;
 	}
 
-	private HashMap<String, Object> imageUpload(Map<String, MultipartFile> fileMap,
+	private HashMap<String, Object> imageUpload(String existingImage, Map<String, MultipartFile> fileMap,
 			MultipartHttpServletRequest multipartHttpServletRequest, HashMap<String, Object> cmap) throws IOException {
 		
 		String baseUrl = "https://s3.ap-northeast-2.amazonaws.com/petcare2020/";
+		MultipartFile multipartFile = multipartHttpServletRequest.getFile("imageFile");
+		String fileName = multipartFile.getOriginalFilename(); // 파일명
 		
 		if (fileMap.isEmpty()) { // if(imageFile == null) {
 			System.out.println("NOTHING!!"); // null
-
 		} else {
+			if(multipartFile.isEmpty()) {
+				cmap.put("company_Image", existingImage);
+			}else {
+				String fullFileName = baseUrl + "profile_"+(String)cmap.get("company_Id")+"_"+fileName;
 
-			MultipartFile multipartFile = multipartHttpServletRequest.getFile("imageFile");
-			String fileName = multipartFile.getOriginalFilename(); // 파일명
-			String fullFileName = baseUrl + "profile_"+(String)cmap.get("company_Id");
+				// 확장자확인
+				int dotIdx = fileName.lastIndexOf(".");
+				String fileExtension = fileName.substring(dotIdx + 1).toLowerCase();
+				// Wrong file
+				if (!fileExtension.equals("jpg") && !fileExtension.equals("jpeg") && !fileExtension.equals("png")) {
 
-			// 확장자확인
-			int dotIdx = fileName.lastIndexOf(".");
-			String fileExtension = fileName.substring(dotIdx + 1).toLowerCase();
-			// Wrong file
-			if (!fileExtension.equals("jpg") && !fileExtension.equals("jpeg") && !fileExtension.equals("png")) {
-
-				System.out.println("File Not Valid");
-				// Normal image file
-			} else {
-				// 나머지 정보 DB에 업로드
-				System.out.println("파일넹만임ㄴ암  이미지업로드메소드"+fileName);
-				cmap.put("company_Image", fullFileName);
-				s3 s3 = new s3();
-				// 이미지는 3S에 업로드
-				s3.uploadFile(multipartFile, (String)cmap.get("company_Id"));
+					System.out.println("File Not Valid");
+					// Normal image file
+				} else {
+					// 나머지 정보 DB에 업로드
+					System.out.println("파일넹만임ㄴ암  이미지업로드메소드"+fileName);
+					cmap.put("company_Image", fullFileName);
+					s3 s3 = new s3();
+					// 이미지는 3S에 업로드
+					s3.uploadFile(multipartFile, (String)cmap.get("company_Id"));
+				}
 			}
 		}
 		return cmap;
@@ -213,8 +215,13 @@ public class CompanyServiceImpl implements CompanyService{
 	@Override
 	public void updateCompanyInfo(MultipartHttpServletRequest multipartHttpServletRequest, @RequestParam HashMap<String, Object> cmap) {
 		Map<String, MultipartFile> fileMap = multipartHttpServletRequest.getFileMap();
+		
+		String companyId = (String) cmap.get("company_Id");
+		CompanyDTO company = this.companyDao.checkCompanyID(companyId);
+		String existingImage = company.getCompany_Image();
+		
 		try {
-			HashMap<String, Object> modifyCompany = imageUpload(fileMap, multipartHttpServletRequest, cmap);
+			HashMap<String, Object> modifyCompany = imageUpload(existingImage,fileMap, multipartHttpServletRequest, cmap);
 			this.companyDao.updateCompanyInfo(modifyCompany); // 가져온 cmap데이터를 기존 기업 데이터에 update시킨다.
 		} catch (IOException e) {
 			// TODO Auto-generated catch block

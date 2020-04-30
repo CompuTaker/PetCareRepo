@@ -33,8 +33,9 @@ public class s3 {
 				ObjectMetadata metadata = new ObjectMetadata();
 				metadata.setContentType(MediaType.IMAGE_PNG_VALUE);
 				System.out.println("파일의 원래 이름 : " + multipartfile.getOriginalFilename());
+				
 				// 파일 업로드를 위한 request 객체 생성
-				PutObjectRequest putObjectRequest = new PutObjectRequest(Constant.BUCKET_NAME, "profile_" + customer_Id,
+				PutObjectRequest putObjectRequest = new PutObjectRequest(Constant.BUCKET_NAME, "profile_" + customer_Id+"_"+multipartfile.getOriginalFilename(),
 						multipartfile.getInputStream(), metadata);// BUCKET_NAME, 생성될 파일이름, File 바이너리 데이터,메타데이터
 
 				// file permission(공개 조회가 가능 하도록 public Read 로 설정)

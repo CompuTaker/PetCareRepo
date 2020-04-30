@@ -8,7 +8,7 @@ prefix="c" %>
     <h1>회원정보 수정</h1>
     <p>${company.company_Name }님 정보 수정이 완료되었습니다.</p>
     <hr />
-    <a class="btn btn-lg btn-secondary mx-auto" href="index.html" role="button"
+    <a class="btn btn-lg btn-secondary mx-auto" href="index" role="button"
       >확인</a
     >
   </div>
