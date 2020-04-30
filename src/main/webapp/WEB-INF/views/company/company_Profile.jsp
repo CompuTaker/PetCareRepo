@@ -31,7 +31,7 @@
 					<div class="row no-gutters">
 						<div class="col-md-4">
 							<img id="Company_Image"
-							src = ${company.company_Image }  width="150"
+							src = "${company.company_Image}"  width="150"
 								height="150">
 						</div>
 						<div class="col-md-8">
