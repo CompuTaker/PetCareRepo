@@ -17,14 +17,12 @@ import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.bind.support.SessionStatus;
 
 import com.github.scribejava.core.model.OAuth2AccessToken;
-import com.google.protobuf.TextFormat.ParseException;
 import com.test.constants.Constant;
 import com.test.constants.Constant.ESession;
+import com.test.dao.CustomerDAO;
 import com.test.dto.CompanyDTO;
 import com.test.dto.CustomerDTO;
 import com.test.service.HomeService;
-import com.test.controller.SocialLoginController;
-import com.test.dao.CustomerDAO;
 
 @Controller // Spring이 해당 클래스가 Controller인 걸 알려주는 Annotation
 @SessionAttributes({ "customer", "company" }) // Model에 저장한 값을 http session에 저장할 수 있게 해주는 Annotation
