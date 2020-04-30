@@ -33,6 +33,14 @@
             <button type="submit" id="btn-login" name="login"
                class="btn btn-login">로그인</button>
          </div>
+         <div style="margin-bottom: 10;" id="kakao_id_login" style="text-align: center">
+         <a href="${kakao_url}"> <img width="230"
+            src="https://www.gb.go.kr/supportRequest/images/certi_kakao_login.png" /></a>
+      </div>
+      <div  id="naver_id_login" style="text-align: center">
+         <a href="${naver}"> <img width="230"
+            src="https://developers.naver.com/doc/review_201802/CK_bEFnWMeEBjXpQ5o8N_20180202_7aot50.png" /></a>
+      </div>
          <div class="logindiv col-md-6 form-group">
             <a style="text-decoration: none;" href="signup.html"> 회원가입 | <a
                style="text-decoration: none;" href="search_id"> 아이디 찾기 <a
@@ -40,14 +48,7 @@
          </div>
       </form>
       <br>
-      <div id="kakao_id_login" style="text-align: center">
-         <a href="${kakao_url}"> <img width="230"
-            src="https://www.gb.go.kr/supportRequest/images/certi_kakao_login.png" /></a>
-      </div>
-      <div id="naver_id_login" style="text-align: center">
-         <a href="${naver}"> <img width="230"
-            src="https://developers.naver.com/doc/review_201802/CK_bEFnWMeEBjXpQ5o8N_20180202_7aot50.png" /></a>
-      </div>
+      
    </div>
 
 </div>
