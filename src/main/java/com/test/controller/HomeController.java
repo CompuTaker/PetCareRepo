@@ -22,6 +22,7 @@ import com.test.constants.Constant.ESession;
 import com.test.dao.CustomerDAO;
 import com.test.dto.CompanyDTO;
 import com.test.dto.CustomerDTO;
+import com.test.dto.SuperuserDTO;
 import com.test.service.HomeService;
 
 @Controller // Spring이 해당 클래스가 Controller인 걸 알려주는 Annotation
@@ -143,23 +144,30 @@ public class HomeController {
 		// HomeService에 가서 고객인지 기업인지 확인한다. (Controller - Service - Dao)
 		Object object = this.homeService.listThisMember(loginInfo);
 		String url = "";
-		System.out.print(object);
+		System.out.println(object);
+		System.out.println();
 
 		// Object가 CustomerDTO타입일 경우
 		try {
 			if (object == null) {
 				status.setComplete(); // sessionAttribute를 초기화해준다.
 				url = "login";
-			} else {
+			} else if (object instanceof CustomerDTO) {
 				url = "customer_Profile"; // 고객 마이페이지 화면을 띄워준다.
 				model.addAttribute("customer", ((CustomerDTO) object)); // model객체에 customer테이블에서 가져온 customer값을 저장해준다.
 				Constant.eSession = ESession.eCustomer; // eSession의 값을 eCustomer로 변경해준다. (디폴트 = eNull)
+			} else if(object instanceof CompanyDTO) {
+				url = "company_Profile"; // 기업 마이페이지 화면을 띄워준다.
+				model.addAttribute("company", ((CompanyDTO) object)); // model객체에 customer테이블에서 가져온 customer값을 저장해준다.
+				Constant.eSession = ESession.eCompany; // eSession의 값을 eCompany로 변경해준다. (디폴트 = eNull)
+			} else if(object instanceof SuperuserDTO) {
+				url = "admin_drop"; // 기업 마이페이지 화면을 띄워준다.
+				model.addAttribute("superuser", ((SuperuserDTO) object)); // model객체에 customer테이블에서 가져온 customer값을 저장해준다.
+				Constant.eSession = ESession.eSuperuser; // eSessio
 			}
 			// Object가 CompanyDTO타입일 경우
 		} catch (ClassCastException e) {
-			url = "company_Profile"; // 기업 마이페이지 화면을 띄워준다.
-			model.addAttribute("company", ((CompanyDTO) object)); // model객체에 customer테이블에서 가져온 customer값을 저장해준다.
-			Constant.eSession = ESession.eCompany; // eSession의 값을 eCompany로 변경해준다. (디폴트 = eNull)
+			
 			// Object가 Null인 경우 = 정상적인 경우 X
 			// 로그인 화면을 띄워준다.
 		} catch (NullPointerException e) {
@@ -198,9 +206,11 @@ public class HomeController {
 
 			} else if (Constant.eSession == ESession.eCompany) { // eSession = eCompany인 경우
 				url = "company_Profile"; // 기업 마이페이지를 띄워준다.
+			} else if (Constant.eSession == ESession.eSuperuser) { // eSession = eCompany인 경우
+				url = "admin_drop"; // 기업 마이페이지를 띄워준다.
 			}
 		}
-		return "redirect:" + url ;
+		return "redirect:" + url;
 	}
 
 	/*

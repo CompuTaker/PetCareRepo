@@ -42,7 +42,7 @@
             src="https://developers.naver.com/doc/review_201802/CK_bEFnWMeEBjXpQ5o8N_20180202_7aot50.png" /></a>
       </div>
          <div class="logindiv col-md-6 form-group">
-            <a style="text-decoration: none;" href="signup.html"> 회원가입 | <a
+            <a style="text-decoration: none;" href="signup"> 회원가입 | <a
                style="text-decoration: none;" href="search_id"> 아이디 찾기 <a
                   style="text-decoration: none;" href="search_pw"> 비밀번호 찾기 
          </div>

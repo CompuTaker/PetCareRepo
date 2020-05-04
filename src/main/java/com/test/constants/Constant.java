@@ -2,7 +2,7 @@ package com.test.constants;
 
 public class Constant {
 	public static ESession eSession = ESession.eNull;	
-	public enum ESession { eCustomer, eCompany, eNull, eError };
+	public enum ESession { eCustomer, eCompany,eSuperuser, eNull, eError };
 	
 	public static String PublicAPI_store_service = "http://apis.data.go.kr/B553077/api/open/sdsc/";
 	// http://apis.data.go.kr/B553077/api/open/sdsc/storeListInUpjong
