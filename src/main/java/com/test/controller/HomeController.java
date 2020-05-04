@@ -156,18 +156,18 @@ public class HomeController {
 				url = "customer_Profile"; // 고객 마이페이지 화면을 띄워준다.
 				model.addAttribute("customer", ((CustomerDTO) object)); // model객체에 customer테이블에서 가져온 customer값을 저장해준다.
 				Constant.eSession = ESession.eCustomer; // eSession의 값을 eCustomer로 변경해준다. (디폴트 = eNull)
-			} else if(object instanceof CompanyDTO) {
+			} else if (object instanceof CompanyDTO) {
 				url = "company_Profile"; // 기업 마이페이지 화면을 띄워준다.
 				model.addAttribute("company", ((CompanyDTO) object)); // model객체에 customer테이블에서 가져온 customer값을 저장해준다.
 				Constant.eSession = ESession.eCompany; // eSession의 값을 eCompany로 변경해준다. (디폴트 = eNull)
-			} else if(object instanceof SuperuserDTO) {
+			} else if (object instanceof SuperuserDTO) {
 				url = "admin_drop"; // 기업 마이페이지 화면을 띄워준다.
-				model.addAttribute("superuser", ((SuperuserDTO) object)); // model객체에 customer테이블에서 가져온 customer값을 저장해준다.
+				model.addAttribute("superuser", ((SuperuserDTO) object)); // model객체에 customer테이블에서 가져온 customer값을
+																			// 저장해준다.
 				Constant.eSession = ESession.eSuperuser; // eSessio
 			}
 			// Object가 CompanyDTO타입일 경우
 		} catch (ClassCastException e) {
-			
 			// Object가 Null인 경우 = 정상적인 경우 X
 			// 로그인 화면을 띄워준다.
 		} catch (NullPointerException e) {
