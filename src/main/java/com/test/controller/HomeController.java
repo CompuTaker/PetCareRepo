@@ -151,6 +151,7 @@ public class HomeController {
 		try {
 			if (object == null) {
 				status.setComplete(); // sessionAttribute를 초기화해준다.
+				model.addAttribute("message", 1);
 				url = "login";
 			} else if (object instanceof CustomerDTO) {
 				url = "customer_Profile"; // 고객 마이페이지 화면을 띄워준다.

@@ -58,4 +58,8 @@
    setCookie('email', '', 1);
    setCookie('phone', '', 1);
    setCookie('address', '', 1);
+   var res ="<%=request.getParameter("message")%>"; 
+   if (res == 1){
+   	alert("아이디와 비밀번호를 잘못 입력하셨습니다.다시 시도해 주세요 ");
+   }
 </script>
