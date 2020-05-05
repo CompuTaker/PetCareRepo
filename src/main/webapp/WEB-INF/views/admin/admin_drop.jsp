@@ -26,6 +26,8 @@
 		</div>
 
 		<ul class="list-unstyled components">
+				<li><a href="notice_write"> <i class="fas fa-briefcase"></i> 공지사항 작성
+			</a></li>
 			<li><a href="#"> <i class="fas fa-briefcase"></i> 업체계정관리
 			</a></li>
 			<li><a href="#"> <i class="fas fa-briefcase"></i> 신고업체목록
