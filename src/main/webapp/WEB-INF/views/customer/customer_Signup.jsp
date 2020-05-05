@@ -21,9 +21,13 @@ uri="http://www.springframework.org/tags/form" prefix="form"%>
       enctype="multipart/form-data"
     >
       <div class="mb-5">
-        <img id="imageFile" src="#" style="width: 100px; height: 100px;"
-        onerror='src="<c:url value="/resources/images/profile.png" />"'
-        alt="image" />
+        <img
+          id="imageFile"
+          src="#"
+          style="width: 100px; height: 100px;"
+          onerror='src="<c:url value="/resources/images/profile.png" />"'
+          alt="image"
+        />
 
         <input type="file" onchange="readURL(this);" accept="image/*" />
       </div>
@@ -83,20 +87,6 @@ uri="http://www.springframework.org/tags/form" prefix="form"%>
             </script>
           </c:when>
         </c:choose>
-      </div>
-
-      <div class="form-group">
-        <label for="Customer_ResidentNumber">주민번호</label>
-        <input
-          type="text"
-          class="form-control"
-          id="Customer_ResidentNumber"
-          placeholder="고객 주민등록번호"
-          name="customer_ResidentNumber"
-          required
-        />
-        <button type="button" id="checkResidentNum">중복확인</button>
-        <div class="check_RN" id="residentNum_check"></div>
       </div>
 
       <div class="form-group">
@@ -187,12 +177,10 @@ uri="http://www.springframework.org/tags/form" prefix="form"%>
       setCookie('address', $('#Customer_Address').val(), 1);
 
    });
-   $("#checkId")
-         .click(
+   $("#checkId").click(
                function() {
                   var customer_Id = $('#Customer_Id').val();
-                  $
-                        .ajax({
+                  $.ajax({
                            url : '${pageContext.request.contextPath}/customer_checkId?customer_Id='
                                  + customer_Id,
                            method : 'GET',
@@ -220,39 +208,7 @@ uri="http://www.springframework.org/tags/form" prefix="form"%>
       $("#checkId").trigger("click");
    }
 
-   $("#checkResidentNum")
-         .click(
-               function() {
-                  var customer_ResidentNumber = $(
-                        '#Customer_ResidentNumber').val();
-                  $
-                        .ajax({
-                           url : '${pageContext.request.contextPath}/customer_chekResidentNumber?customer_ResidentNumber='
-                                 + customer_ResidentNumber,
-                           method : 'GET',
-                           async : false,
-                           complete : function(data) {
-                              if (data.responseText == 1) {
-                                 $("#residentNum_check").text(
-                                       "중복입니다.");
-                                 $("#residentNum_check").css(
-                                       "color", "red");
-                                 $('#Customer_ResidentNumber').val(
-                                       "");
-                              } else {
-                                 $("#residentNum_check").text(
-                                       "사용가능합니다.");
-                                 $("#residentNum_check").css(
-                                       "color", "blue");
-                                 $('#Customer_ResidentNumber').attr(
-                                       "readonly", true);
-                                 $("#checkResidentNum").attr(
-                                       "disabled", true);
-                              }
-                           }
-                        });
 
-               });
                //이미지 미리보기
    function readURL(input) {
     if (input.files && input.files[0]) {
