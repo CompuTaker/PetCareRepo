@@ -66,18 +66,6 @@ prefix="c"%> <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
       </div>
 
       <div class="form-group">
-        <label for="Company_ResidentNumber">주민 등록 번호</label>
-        <input
-          type="text"
-          class="form-control"
-          id="Company_ResidentNumber"
-          placeholder="사업자 주민등록번호"
-          name="company_ResidentNumber"
-          required
-        />
-      </div>
-
-      <div class="form-group">
         <label for="Company_Address">업체 주소</label>
         <input
           type="text"
