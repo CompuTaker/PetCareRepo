@@ -42,7 +42,7 @@
             src="https://developers.naver.com/doc/review_201802/CK_bEFnWMeEBjXpQ5o8N_20180202_7aot50.png" /></a>
       </div>
          <div class="logindiv col-md-6 form-group">
-            <a style="text-decoration: none;" href="signup.html"> 회원가입 | <a
+            <a style="text-decoration: none;" href="signup"> 회원가입 | <a
                style="text-decoration: none;" href="search_id"> 아이디 찾기 <a
                   style="text-decoration: none;" href="search_pw"> 비밀번호 찾기 
          </div>
@@ -58,4 +58,8 @@
    setCookie('email', '', 1);
    setCookie('phone', '', 1);
    setCookie('address', '', 1);
+   var res ="<%=request.getParameter("message")%>"; 
+   if (res == 1){
+   	alert("아이디와 비밀번호를 잘못 입력하셨습니다.다시 시도해 주세요 ");
+   }
 </script>

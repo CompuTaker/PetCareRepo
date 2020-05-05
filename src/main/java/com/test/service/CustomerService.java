@@ -17,9 +17,11 @@ public interface CustomerService {
 
 	abstract public void checkCustomerResident(String customer_ResidentNumber);
 
-	abstract public void updateCustomerInfo(MultipartHttpServletRequest multipartHttpServletRequest, HashMap<String, Object> cmap);
+	abstract public void updateCustomerInfo(MultipartHttpServletRequest multipartHttpServletRequest,
+			HashMap<String, Object> cmap);
 
-	abstract public ModelAndView customer_signupDo(MultipartHttpServletRequest multipartHttpServletRequest, HashMap<String, Object> cmap);
+	abstract public ModelAndView customer_signupDo(MultipartHttpServletRequest multipartHttpServletRequest,
+			HashMap<String, Object> cmap);
 
 	abstract public String profile(Model model, HttpSession session);
 
@@ -29,4 +31,6 @@ public interface CustomerService {
 
 	abstract public ModelAndView customer_modify(ModelAndView mv, HttpSession session);
 
+	abstract public void updateCustomerInfo(MultipartHttpServletRequest multipartHttpServletRequest,
+			HashMap<String, Object> cmap, Model model);
 }
