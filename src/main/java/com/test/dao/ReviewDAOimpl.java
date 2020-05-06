@@ -37,6 +37,7 @@ public class ReviewDAOimpl implements ReviewDAO {
 	 */
 	@Override
 	public void insertTheReview(HashMap<String, Object> rmap) {
+		System.out.println(rmap);
 		this.sqlSession.insert("insertTheReview", rmap);	// mapper에서 "insertTheReview" id를 가지는 명령문에 rmap객체를 가지고 실행한다.
 	}
 
