@@ -43,20 +43,6 @@ public class CustomerController {
 	}
 
 	/*
-	 * 고객 회원 가입 시 주민등록번호가 중복되었는지 확인해주는 메서드
-	 */
-	@RequestMapping(value = "/customer_chekResidentNumber", method = RequestMethod.GET)
-	public void residentNumCheck(@RequestParam("customer_ResidentNumber") String customer_ResidentNumber) { // customer_signup.jsp에서
-																											// name이
-																											// customer_ResidentNumber인
-																											// 값을 가져와
-																											// String값으로
-																											// 저장한다.
-		this.customerService.checkCustomerResident(customer_ResidentNumber); // 해당 customer_ResidentNumber가 있는지
-																				// customer테이블에서 확인해본다.
-	}
-
-	/*
 	 * 고객회원이 로그인을 한 후 마이페이지로 이동하게 될 때 실행되는 메서드이다.
 	 */
 	@RequestMapping("/customer_Profile")

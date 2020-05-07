@@ -15,8 +15,6 @@ public interface CustomerService {
 
 	abstract public void checkCustomerID(String customer_Id);
 
-	abstract public void checkCustomerResident(String customer_ResidentNumber);
-
 	abstract public void updateCustomerInfo(MultipartHttpServletRequest multipartHttpServletRequest,
 			HashMap<String, Object> cmap);
 
