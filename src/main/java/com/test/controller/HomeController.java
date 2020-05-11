@@ -10,6 +10,8 @@ import javax.servlet.http.HttpSession;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -130,16 +132,6 @@ public class HomeController {
 
 		}
 	}
-	
-	@RequestMapping(value="/test", method=RequestMethod.GET)
-	public Model test (Model model) {
-
-		model.addAttribute("userId", "tsttt");
-		model.addAttribute("password", "1235");
-		
-		System.out.println("test입니다.");
-		return model;
-	}
 
 	/*
 	 * 로그인에 값을 입력하고 로그인 버튼을 눌렀을 경우 실행되는 메서드이다.
@@ -149,7 +141,7 @@ public class HomeController {
 																											// name이 id,
 																											// pw인 값을
 																											// 가져온다.
-		System.out.println("들러옴?");
+		System.out.println("-------------들어옴?-------------");
 		Map<String, String> loginInfo = new HashMap<String, String>(); // mapper에 변수값을 한 번에 전달하기 위해서 생성한 Map객체
 		loginInfo.put("id", id); // Map객체에 Id값을 저장한다.
 		loginInfo.put("pw", pw); // Map객체에 PW값을 저장한다.
@@ -157,14 +149,17 @@ public class HomeController {
 		// HomeService에 가서 고객인지 기업인지 확인한다. (Controller - Service - Dao)
 		Object object = this.homeService.listThisMember(loginInfo);
 		String url = "";
-		System.out.println(object);
+		System.out.println("1. "+object);
 		
 		if(request.getParameter("mobile") != null) {
-			if(object instanceof CustomerDTO) {
-				System.out.println("모바일입니다.");
-				System.out.println(id);
-				System.out.println(pw);
-				return (CustomerDTO) object;
+			System.out.println("2. 모바일입니다.");
+			if(object instanceof CustomerDTO) {			
+				System.out.println("3. "+ id);
+				System.out.println("4. "+pw);
+				return new ResponseEntity<Model>(model, HttpStatus.OK);
+			} else {
+				System.out.println("어림도 없지");
+				return new ResponseEntity<Model>(model, HttpStatus.NOT_FOUND);
 			}
 		} else {
 			System.out.println("웹입니다.");
@@ -199,10 +194,6 @@ public class HomeController {
 
 			return "redirect:" + url;
 		}
-		System.out.println("여기도 들어와?");
-		System.out.println(id);
-		System.out.println(pw);
-		return null;
 	}
 
 	/*
