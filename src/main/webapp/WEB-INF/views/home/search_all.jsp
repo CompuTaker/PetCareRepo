@@ -83,6 +83,7 @@
 						<td>${qnalist.date}</td>
 						<td>${qnalist.viewnum}</td>
 					</tr>
+
 				</c:forEach>
 			</tbody>
 		</table>
