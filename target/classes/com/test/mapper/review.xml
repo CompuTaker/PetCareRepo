@@ -7,6 +7,12 @@
 
 	<!-- **주의 : 세미콜론 없이 쿼리문 작성!** -->
 
+<!-- 자신이 작성한 리뷰 리스트 보여주기 -->
+	<select id = "listMyReviews" parameterType="java.util.Map" resultType="com.test.dto.ReviewDTO">
+		select * from Review
+		where customer_id = #{customer_id}
+	</select>
+
 	<!-- 선택한 기업의 리뷰 리스트 보여주기 -->
 	<select id="listItsReviews" parameterType="java.util.Map"
 		resultType="com.test.dto.ReviewDTO">
@@ -64,7 +70,19 @@
 		#{review_Index}
 	</update>
 
-	
+	<!-- 리뷰 리스트 보여주기-->
+   <select id="listAllReviews" resultType="com.test.dto.ReviewDTO">
+      select * from Review;
+   </select>
+   
+         <!-- 검색어로 리뷰 찾아오기 -->
+   <select id="listThisReviewByTerm" resultType="com.test.dto.ReviewDTO">
+      select * from Review where review_Title like CONCAT('%', #{term}, '%') 
+      or
+      review_Content like CONCAT('%', #{term}, '%') 
+      or
+      customer_id like CONCAT('%', #{term}, '%') 
+   </select>
 
 
 </mapper>

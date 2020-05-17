@@ -6,15 +6,21 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.fasterxml.jackson.annotation.JsonView;
+import com.test.dto.CustomerDTO;
 import com.test.service.CustomerService;
 
 @Controller // Spring이 해당 클래스가 Controller인 걸 알려주는 Annotation
@@ -27,10 +33,20 @@ public class CustomerController {
 	/*
 	 * 고객 회원가입을 누르고 정보를 입력하고 회원가입 버튼을 눌렀을 때 실행되는 메서드
 	 */
-	@RequestMapping(value = "/customer_signupDo", method = RequestMethod.POST, headers = ("content-type=multipart/*"))
-	public ModelAndView customer_signupDo(@RequestParam HashMap<String, Object> cmap,
-			MultipartHttpServletRequest multipartHttpServletRequest) { // form에서 입력한 값을 HashMap으로 묶어서 가져옴
-		return this.customerService.customer_signupDo(multipartHttpServletRequest, cmap);
+	
+	@ResponseBody
+	@RequestMapping(value = "/customer_signupDo", method = RequestMethod.POST, headers = ("content-type=multipart/*"), produces = "application/json; charset=utf-8")	
+	public Object customer_signupDo(@RequestParam HashMap<String, Object> cmap,
+			MultipartHttpServletRequest multipartHttpServletRequest, HttpServletRequest request, Model model) { // form에서 입력한 값을 HashMap으로 묶어서 가져옴
+		System.out.println("들어옴");
+		if(request.getParameter("mobile") != null) {
+			System.out.println("모바일입니다.");
+			System.out.println(cmap);
+			return new ResponseEntity<Model>(model, HttpStatus.OK);
+		} else {
+			return this.customerService.customer_signupDo(multipartHttpServletRequest, cmap);
+		}
+		
 	}
 
 	/*
@@ -40,20 +56,6 @@ public class CustomerController {
 	public void idCheck(@RequestParam("customer_Id") String customer_Id) { // customer_signup.jsp에서 name이 customer_Id인
 																			// 값을 가져와 String값으로 저장한다.
 		this.customerService.checkCustomerID(customer_Id); // 해당 customer_Id가 있는지 customer테이블에서 확인해본다.
-	}
-
-	/*
-	 * 고객 회원 가입 시 주민등록번호가 중복되었는지 확인해주는 메서드
-	 */
-	@RequestMapping(value = "/customer_chekResidentNumber", method = RequestMethod.GET)
-	public void residentNumCheck(@RequestParam("customer_ResidentNumber") String customer_ResidentNumber) { // customer_signup.jsp에서
-																											// name이
-																											// customer_ResidentNumber인
-																											// 값을 가져와
-																											// String값으로
-																											// 저장한다.
-		this.customerService.checkCustomerResident(customer_ResidentNumber); // 해당 customer_ResidentNumber가 있는지
-																				// customer테이블에서 확인해본다.
 	}
 
 	/*

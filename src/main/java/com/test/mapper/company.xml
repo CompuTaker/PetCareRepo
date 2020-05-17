@@ -11,6 +11,11 @@
    <select id="listAllCompany" resultType="com.test.dto.CompanyDTO">
       select * from Company;
    </select>
+   
+   <select id = "countCompanyList" parameterType="java.util.Map"
+      resultType="Integer">
+      select count(*) from Company where company_Type = #{ company_Type }
+   </select>
 
 	<!-- 아이디와 비밀번호가 일치하는 정보 선택 -->
    <select id="listThisCompany" parameterType="java.util.Map"
@@ -84,7 +89,10 @@
    <select id="listsCompany" parameterType="java.util.Map"
       resultType="com.test.dto.CompanyDTO">
       select * from Company where company_Type = #{ company_Type }
+      limit #{pageStart}, #{perPageNum}
    </select>
+   
+   
    <!-- 기업 정보 수정하기 -->
 	<update id = "updateCompanyInfo" parameterType="java.util.Map">
 		update Company
@@ -101,4 +109,9 @@
 		company_Number = #{company_Number}
 		
 	</update>
-</mapper>
+     <!-- 기업명으로 해당 기업 정보 찾아오기 -->
+   <select id="listThisCompanyByName" resultType="com.test.dto.CompanyDTO">
+      select * from Company where company_Name like CONCAT('%', #{company_Name}, '%')
+   </select>
+   
+   </mapper>

@@ -4,7 +4,6 @@ import java.util.List;
 
 import com.test.dto.QnAboardDTO;
 
-
 public interface QnAboardDAO {
 
 	abstract public void insertQnaContents(QnAboardDTO qnaDto);
@@ -19,4 +18,5 @@ public interface QnAboardDAO {
 
 	abstract public void updateQnaContent(QnAboardDTO qnaDto);
 
+	abstract public List<QnAboardDTO> selectQnaByTerm(String term);
 }

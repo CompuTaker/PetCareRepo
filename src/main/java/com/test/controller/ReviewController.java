@@ -38,9 +38,8 @@ public class ReviewController {
 		CustomerDTO customer = (CustomerDTO) session.getAttribute("customer"); // customer session을 가져온다.
 		String customer_id = customer.getCustomer_Id(); // customer에서 아이디를 따로 string 변수에 저장한다.
 		List<ReviewDTO> myReviews = this.reviewDAO.listMyReviews(customer_id); // 아이디를 통해 자신이 작성한 후기 리스트를 가져온다.
-
 		model.addAttribute("myreview", myReviews); // 가져온 후기 리스트를 model 객체에 저장한다.
-		return "customer_review_mylist";
+		return "review/customer_review_mylist.tiles";
 	}
 
 	/*
@@ -80,12 +79,13 @@ public class ReviewController {
 	 */
 	@RequestMapping(value = "/customer_review_add", method = RequestMethod.GET)
 	public ModelAndView customerReviewAdd(ModelAndView mv, int index, @RequestParam("index") int reservation_index) { // customer_reserve_check.jsp에서
-																														// 후기
+
+		// 후기
 		// 작성
 		// 버튼을
 		// 누르면
 		// reservation_Index가 넘어온다.
-		return this.reviewService.customerReviewAdd(mv, index,reservation_index);
+		return this.reviewService.customerReviewAdd(mv, index, reservation_index);
 	}
 
 	/*
@@ -106,4 +106,13 @@ public class ReviewController {
 		return this.reviewService.companyReviewOk(rmap, request, reviewIdx);
 	}
 
+	// 리뷰찾기 : 전체리뷰, 검색된리뷰
+	@RequestMapping("/searchReview")
+	public String searchReview(Model model, HttpServletRequest request) {
+		String url = "";
+		List<ReviewDTO> reviewList = this.reviewService.listsAllReview(request); // 리뷰를 가져온다.
+		model.addAttribute("reviewList", reviewList); // model에 가져온 리뷰 정보를 저장한다.
+		url = "home/search_review.tiles"; // 화면을 띄워준다.
+		return url;
+	}
 }

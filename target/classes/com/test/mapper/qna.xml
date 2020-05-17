@@ -45,5 +45,13 @@
 		where id = #{id}		
 	</update>
 	
+	<select id="listThisQnaByTerm"
+		resultType="com.test.dto.QnAboardDTO">
+		select * from Qna where title like CONCAT('%', #{term}, '%')
+		or
+		writer like CONCAT('%', #{term}, '%')
+		or
+		content like CONCAT('%', #{term}, '%')
+	</select>
 	
 </mapper>

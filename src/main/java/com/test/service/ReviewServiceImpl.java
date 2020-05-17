@@ -120,12 +120,15 @@ public class ReviewServiceImpl implements ReviewService {
 
 	@Override
 	public String review_Ok(HashMap<String, Object> rmap, HttpServletRequest request, HttpSession session) {
+		String reservation = String.valueOf(rmap.get("reservation_Index"));
+		int reservation_Index = Integer.parseInt(reservation);
+		int company_Index = this.reservationDao.selectCompanyIndex(reservation_Index); // reservation_Index를 가지고
+																						// company_Index
 		CustomerDTO customerDTO = (CustomerDTO) session.getAttribute("customer"); // customser session을 가져온다.
 		String customer_id = customerDTO.getCustomer_Id(); // customer id를 String객체에 저장한다.
 		rmap.put("customer_id", customer_id); // customer_id를 HashMap에 저장한다. (기존 form 데이터 + customer_Id)
+		rmap.put("company_Index", company_Index);
 		this.reviewDao.insertTheReview(rmap); // review테이블에 값을 저장한다.
-		String reservation = String.valueOf(rmap.get("reservation_Index"));
-		int reservation_Index = Integer.parseInt(reservation);
 		this.reservationDao.updateReviewCheck(reservation_Index);
 
 		return "review/review_ok.tiles";
@@ -136,6 +139,15 @@ public class ReviewServiceImpl implements ReviewService {
 		rmap.put("review_Index", reviewIdx); // form데이터 + reviewIdx가 HashMap에 저장된다.
 		this.reviewDao.insertTheComent(rmap); // 기업이 단 코멘트를 reviewIdx에 해당하는 review_Comment컬럼에 저장한다.
 		return "review/company_review_ok.tiles";
+	}
+
+	@Override
+	public List<ReviewDTO> listsAllReview(HttpServletRequest request) {
+		String term = request.getParameter("term");
+		if (term != null) {
+			return this.reviewDao.listThisReviewByTerm(term);
+		}
+		return this.reviewDao.listAllReviews();
 	}
 
 }
