@@ -7,10 +7,14 @@
 		-->
 	</typeAliases>
 	<mappers>
-		<mapper resource="mybatis/mappers/company.xml" />
-		<mapper resource="mybatis/mappers/customer.xml" />
-		<mapper resource="mybatis/mappers/pet.xml" />
-		<mapper resource="mybatis/mappers/reservation.xml" />
-		<mapper resource="mybatis/mappers/review.xml" />
+		<mapper resource="mybatis/mapper/company.xml" />
+		<mapper resource="mybatis/mapper/customer.xml" />
+		<mapper resource="mybatis/mapper/pet.xml" />
+		<mapper resource="mybatis/mapper/reservation.xml" />
+		<mapper resource="mybatis/mapper/review.xml" />
+        <mapper resource="mybatis/mapper/chatroom.xml" />
+        <mapper resource="mybatis/mapper/superuser.xml" />
+        <mapper resource="mybatis/mapper/qna.xml" />
+        <mapper resource="mybatis/mapper/notice.xml" />
 	</mappers>
 </configuration>

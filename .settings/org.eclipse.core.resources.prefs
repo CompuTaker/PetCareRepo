@@ -1,6 +1,5 @@
 eclipse.preferences.version=1
 encoding//src/main/java/com/test/controller/CompanyController.java=UTF-8
-encoding//src/main/java/com/test/controller/MemberController.java=UTF-8
 encoding//src/main/java/com/test/dao/CompanyDAOimpl.java=UTF-8
 encoding//src/main/java/com/test/dao/CustomerDAOimpl.java=UTF-8
 encoding//src/main/webapp/resources/css/style.css=UTF-8
