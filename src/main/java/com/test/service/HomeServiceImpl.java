@@ -32,7 +32,7 @@ public class HomeServiceImpl implements HomeService {
 		CustomerDTO customer = this.customerDao.listThisCustomer(loginInfo);
 		CompanyDTO company = this.companyDao.listThisCompany(loginInfo);
 		SuperuserDTO admin = this.superuserDao.loginSuperuser(loginInfo);
-		System.out.println(admin);
+		
 		// customer만 null이 아닐 경우 = 고객 로그인
 		if (customer != null && company == null && admin == null) {
 			return customer;

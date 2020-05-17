@@ -34,7 +34,6 @@ public class CustomerServiceImpl implements CustomerService {
 	private PetDAO petDao;
 
 	private boolean isCustomerIdChecked = false; // 고객 ID가 중복인지 아닌지 확인하는 Boolean
-	private boolean isCustomerResidentNumberChecked = false; // 고객 주민등록번호가 중복인지 아닌지 확인하는 Boolean
 	private boolean isCustomerOk = false; // 최종적으로 중복인지 아닌지 확인하는 Boolean
 
 	@Override
@@ -47,7 +46,7 @@ public class CustomerServiceImpl implements CustomerService {
 																					// ModelAndView객체 생성
 		redirect.addObject("message", "중복체크 해주세요."); // 중복체크를 하지 않았을 경우 띄울 메시지를 redirect ModelAndView에 저장
 
-		if (isCustomerIdChecked && isCustomerResidentNumberChecked) { // ID와 주민등록번호 중복체크를 정상적으로 실행했을 경우
+		if (isCustomerIdChecked) { // ID와 주민등록번호 중복체크를 정상적으로 실행했을 경우
 			if (isCustomerOk) { // 최종확인 Boolean도 true일 경우
 				try {
 					Map<String, MultipartFile> fileMap = multipartHttpServletRequest.getFileMap();
@@ -62,7 +61,6 @@ public class CustomerServiceImpl implements CustomerService {
 		System.out.println("중복체크 안함");
 		// 중복체크가 하나라도 안되었을 경우 모든 체크값을 false로 초기화하고 customer_signup.jsp화면을 띄운다.
 		isCustomerIdChecked = false;
-		isCustomerResidentNumberChecked = false;
 		isCustomerOk = false;
 		return redirect;
 	}
@@ -106,7 +104,9 @@ public class CustomerServiceImpl implements CustomerService {
 
 	@Override
 	@ResponseBody
-	public void checkCustomerID(String customer_Id) {
+	public void checkCustomerID(String customer_Id) {	
+		System.out.println(customer_Id);
+		
 		this.isCustomerIdChecked = true; // 해당 메서드가 실행되었다는 것은 중복체크 버튼을 누른 것이기 때문에 true로 변경
 		CustomerDTO customer = this.customerDao.checkCustomerID(customer_Id); // 해당 customer_Id가 있는지 customer테이블에서
 																				// 확인해본다.
@@ -116,22 +116,8 @@ public class CustomerServiceImpl implements CustomerService {
 		}
 		System.out.println("아디중복체크완료");
 		this.isCustomerOk = true; // customer테이블에 존재하지 않으면 중복이 아니므로 true
-	}
-
-	@Override
-	@ResponseBody
-	public void checkCustomerResident(String customer_ResidentNumber) {
-		this.isCustomerResidentNumberChecked = true; // 해당 메서드가 실행되었다는 것은 중복체크 버튼을 누른 것이기 때문에 true로 변경
-		CustomerDTO customer = this.customerDao.checkCustomerResident(customer_ResidentNumber); // 해당
-																								// customer_ResidentNumber가
-																								// 있는지 customer테이블에서
-																								// 확인해본다.
-		if (customer != null) { // customer테이블에 존재하면
-			System.out.println("주번중복체크안됨");
-			this.isCustomerOk = false; // 주민등록번호가 중복이므로 최종확인은 false
-		}
-		System.out.println("주번중복체크완료");
-		this.isCustomerOk = true; // customer테이블에 존재하지 않으면 중복이 아니므로 true
+		
+		System.out.println(this.isCustomerOk);
 	}
 
 	@Override
