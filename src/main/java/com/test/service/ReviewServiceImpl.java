@@ -141,4 +141,13 @@ public class ReviewServiceImpl implements ReviewService {
 		return "review/company_review_ok.tiles";
 	}
 
+	@Override
+	public List<ReviewDTO> listsAllReview(HttpServletRequest request) {
+		String term = request.getParameter("term");
+		if (term != null) {
+			return this.reviewDao.listThisReviewByTerm(term);
+		}
+		return this.reviewDao.listAllReviews();
+	}
+
 }

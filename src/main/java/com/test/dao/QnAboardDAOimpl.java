@@ -10,15 +10,15 @@ import com.test.dto.QnAboardDTO;
 
 @Repository
 public class QnAboardDAOimpl implements QnAboardDAO {
-	
+
 	@Autowired
 	private SqlSession sqlSession;
 
 	@Override
 	public void insertQnaContents(QnAboardDTO qnaDto) {
-		this.sqlSession.insert("insertQnaContents", qnaDto);		
+		this.sqlSession.insert("insertQnaContents", qnaDto);
 	}
-	
+
 	@Override
 	public List<String> selectQnaWriterNames() {
 		return this.sqlSession.selectList("selectQnaWriterNames");
@@ -33,7 +33,7 @@ public class QnAboardDAOimpl implements QnAboardDAO {
 	@Override
 	public void addViewnum(int qnaId) {
 		this.sqlSession.update("addViewnum", qnaId);
-		
+
 	}
 
 	@Override
@@ -44,5 +44,10 @@ public class QnAboardDAOimpl implements QnAboardDAO {
 	@Override
 	public void updateQnaContent(QnAboardDTO qnaDto) {
 		this.sqlSession.update("updateQnaContent", qnaDto);
+	}
+
+	@Override
+	public List<QnAboardDTO> selectQnaByTerm(String term) {
+		return this.sqlSession.selectList("listThisQnaByTerm", term);
 	}
 }

@@ -106,4 +106,13 @@ public class ReviewController {
 		return this.reviewService.companyReviewOk(rmap, request, reviewIdx);
 	}
 
+	// 리뷰찾기 : 전체리뷰, 검색된리뷰
+	@RequestMapping("/searchReview")
+	public String searchReview(Model model, HttpServletRequest request) {
+		String url = "";
+		List<ReviewDTO> reviewList = this.reviewService.listsAllReview(request); // 리뷰를 가져온다.
+		model.addAttribute("reviewList", reviewList); // model에 가져온 리뷰 정보를 저장한다.
+		url = "home/search_review.tiles"; // 화면을 띄워준다.
+		return url;
+	}
 }

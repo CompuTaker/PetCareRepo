@@ -12,18 +12,19 @@ import org.springframework.web.servlet.ModelAndView;
 import com.test.dto.CompanyDTO;
 
 public interface CompanyService {
-	
+
 	abstract public void comNumCheck(int company_Number);
-	
+
 	abstract public ModelAndView searchId(ModelAndView mv, HttpServletRequest request);
-	
+
 	abstract public List<CompanyDTO> listsCompany(String companyType);
 
 	abstract public CompanyDTO listThisCompany(int companyIdx);
 
 	abstract public void insertTheCompany(HashMap<String, Object> cmap);
 
-	abstract public ModelAndView company_signupDo(MultipartHttpServletRequest multipartHttpServletRequest, HashMap<String, Object> cmap);
+	abstract public ModelAndView company_signupDo(MultipartHttpServletRequest multipartHttpServletRequest,
+			HashMap<String, Object> cmap);
 
 	abstract public void comIdCheck(String company_Id);
 
@@ -33,5 +34,9 @@ public interface CompanyService {
 
 	abstract public ModelAndView company_modify(ModelAndView mv, HttpSession session);
 
-	abstract public void updateCompanyInfo(MultipartHttpServletRequest multipartHttpServletRequest, HashMap<String, Object> cmap);
+	abstract public void updateCompanyInfo(MultipartHttpServletRequest multipartHttpServletRequest,
+			HashMap<String, Object> cmap);
+
+	abstract public List<CompanyDTO> listsAllCompany(HttpServletRequest request);
+
 }

@@ -2,8 +2,10 @@ package com.test.controller;
 
 import java.io.IOException;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.json.simple.JSONObject;
@@ -22,8 +24,13 @@ import com.test.constants.Constant.ESession;
 import com.test.dao.CustomerDAO;
 import com.test.dto.CompanyDTO;
 import com.test.dto.CustomerDTO;
+import com.test.dto.QnAboardDTO;
+import com.test.dto.ReviewDTO;
 import com.test.dto.SuperuserDTO;
+import com.test.service.CompanyService;
 import com.test.service.HomeService;
+import com.test.service.QnAboardService;
+import com.test.service.ReviewService;
 
 @Controller // Spring이 해당 클래스가 Controller인 걸 알려주는 Annotation
 @SessionAttributes({ "customer", "company" }) // Model에 저장한 값을 http session에 저장할 수 있게 해주는 Annotation
@@ -36,6 +43,13 @@ public class HomeController {
 	private SocialLoginController socialLogin;
 	private NaverLoginBO naverLoginBO;
 	private String apiResult = null;
+
+	@Autowired
+	public ReviewService reviewService;
+	@Autowired
+	private CompanyService companyService;
+	@Autowired
+	private QnAboardService qnaBoardService;
 
 	@Autowired
 	private void setNaverLoginBO(NaverLoginBO naverLoginBO) {
@@ -230,4 +244,20 @@ public class HomeController {
 		return "home/search_pw.tiles";
 	}
 
+	// 통합검색
+	@RequestMapping("/searchByTerm")
+	public String searchByTerm(Model model, HttpServletRequest request) {
+		String url = "";
+
+		List<CompanyDTO> companyList = this.companyService.listsAllCompany(request); // 회사를 가져온다.
+		List<ReviewDTO> reviewList = this.reviewService.listsAllReview(request); // 리뷰를 가져온다.
+		List<QnAboardDTO> qnaList = this.qnaBoardService.selectQnaByTerm(request);
+
+		model.addAttribute("companyList", companyList);
+		model.addAttribute("reviewList", reviewList);
+		model.addAttribute("qnalist", qnaList);
+
+		url = "home/search_all.tiles"; // 화면을 띄워준다.
+		return url;
+	}
 }

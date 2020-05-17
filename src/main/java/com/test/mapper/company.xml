@@ -101,4 +101,9 @@
 		company_Number = #{company_Number}
 		
 	</update>
+         <!-- 기업명으로 해당 기업 정보 찾아오기 -->
+   <select id="listThisCompanyByName" resultType="com.test.dto.CompanyDTO">
+      select * from Company where company_Name like CONCAT('%', #{company_Name}, '%')
+   </select>
+
 </mapper>

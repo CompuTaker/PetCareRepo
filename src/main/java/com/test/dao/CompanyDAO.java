@@ -26,9 +26,11 @@ public interface CompanyDAO {
 	abstract public CompanyDTO searchCompanyPW(Map<String, String> company);
 
 	abstract public CompanyDTO checkCompanyID(String company_Id);
-	
+
 	abstract public CompanyDTO checkCompanyNumber(int company_Number);
-	
+
 	abstract public int updateCompanyInfo(HashMap<String, Object> cmap);
+
+	abstract public List<CompanyDTO> listThisCompanyByName(String company_Name);
 
 }
