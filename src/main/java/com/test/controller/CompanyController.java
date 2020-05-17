@@ -3,6 +3,7 @@ package com.test.controller;
 
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -18,6 +19,8 @@ import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.test.dto.CompanyDTO;
+import com.test.dto.Criteria;
+import com.test.dto.PageMaker;
 import com.test.service.CompanyService;
 
 @Controller // Spring에 Controller 클래스라고 알려주는 Annotation
@@ -104,10 +107,27 @@ public class CompanyController {
 	 * 메인화면의 업체찾기에서 미용실 업체찾기를 눌렀을 경우 실행되는 메서드이다.
 	 */
 	@RequestMapping("/beautyCompany")
-	public String beautyCompany(Model model, HttpServletRequest request) {
+	public String beautyCompany(Model model, HttpServletRequest request, Criteria cri) {
+
+		PageMaker pageMaker = new PageMaker();
+		pageMaker.setCri(cri);
+		pageMaker.setTotalCount(this.companyService.countCompanyList("미용실"));
+
+		System.out.println(pageMaker.getTotalCount());
+
+		Map<String, Object> criteria = new HashMap<String, Object>();
+		criteria.put("page", cri.getPage());
+		criteria.put("perPageNum", cri.getPerPageNum());
+		criteria.put("pageStart", cri.getPageStart());
+		criteria.put("company_Type", "미용실");
 		String url = "";
-		List<CompanyDTO> beautyCompanyList = this.companyService.listsCompany("미용실"); // company_Type이 미용실인 모든 회사를 가져온다.
+		List<CompanyDTO> beautyCompanyList = this.companyService.listsCompany(criteria); // company_Type이 미용실인 모든 회사를
+																							// 가져온다.
 		model.addAttribute("companyList", beautyCompanyList); // model에 가져온 회사 정보를 저장한다.
+		model.addAttribute("pageMaker", pageMaker);
+		System.out.println(pageMaker.getStartPage());
+		System.out.print(pageMaker.getEndPage());
+		System.out.println(pageMaker.getCri().toString());
 		url = "company/beauty_company.tiles"; // beauty_company.jsp화면을 띄워준다.
 		return url;
 	}
@@ -116,10 +136,21 @@ public class CompanyController {
 	 * 메인화면의 업체찾기에서 병원 업체찾기를 눌렀을 경우 실행되는 메서드이다.
 	 */
 	@RequestMapping("/hospitalCompany")
-	public String hospitalCompany(Model model, HttpServletRequest request) {
+	public String hospitalCompany(Model model, HttpServletRequest request, Criteria cri) {
+		PageMaker pageMaker = new PageMaker();
+		pageMaker.setCri(cri);
+		pageMaker.setTotalCount(this.companyService.countCompanyList("병원"));
+
+		Map<String, Object> criteria = new HashMap<String, Object>();
+		criteria.put("page", cri.getPage());
+		criteria.put("perPageNum", cri.getPerPageNum());
+		criteria.put("pageStart", cri.getPageStart());
+		criteria.put("company_Type", "병원");
 		String url = "";
-		List<CompanyDTO> hospitalCompanyList = this.companyService.listsCompany("병원"); // company_Type이 병원인 모든 회사를 가져온다.
+		List<CompanyDTO> hospitalCompanyList = this.companyService.listsCompany(criteria); // company_Type이 병원인 모든 회사를
+																							// 가져온다.
 		model.addAttribute("companyList", hospitalCompanyList); // model에 가져온 회사 정보를 저장한다.
+		model.addAttribute("pageMaker", pageMaker);
 		url = "company/hospital_company.tiles"; // hospital_company.jsp화면을 띄워준다.
 		return url;
 	}
@@ -128,10 +159,22 @@ public class CompanyController {
 	 * 메인화면의 업체찾기에서 호텔 업체찾기를 눌렀을 경우 실행되는 메서드이다.
 	 */
 	@RequestMapping("/hotelCompany")
-	public String hotelCompany(Model model, HttpServletRequest request) {
+	public String hotelCompany(Model model, HttpServletRequest request, Criteria cri) {
+		PageMaker pageMaker = new PageMaker();
+		pageMaker.setCri(cri);
+		pageMaker.setTotalCount(this.companyService.countCompanyList("호텔"));
+
+		Map<String, Object> criteria = new HashMap<String, Object>();
+		criteria.put("page", cri.getPage());
+		criteria.put("perPageNum", cri.getPerPageNum());
+		criteria.put("pageStart", cri.getPageStart());
+		criteria.put("company_Type", "호텔");
+
 		String url = "";
-		List<CompanyDTO> hotelCompanyList = this.companyService.listsCompany("호텔"); // company_Type이 호텔인 모든 회사를 가져온다.
+		List<CompanyDTO> hotelCompanyList = this.companyService.listsCompany(criteria); // company_Type이 호텔인 모든 회사를
+																						// 가져온다.
 		model.addAttribute("companyList", hotelCompanyList); // model에 가져온 회사 정보를 저장한다.
+		model.addAttribute("pageMaker", pageMaker);
 		url = "company/hotel_company.tiles"; // hotel_company.jsp화면을 띄워준다.
 		return url;
 	}

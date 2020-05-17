@@ -65,9 +65,9 @@ public class CompanyDAOimpl implements CompanyDAO {
 	 * Company_Type("미용실", "병원", "호텔")에 따라서 결과값을 가져오는 메서드이다.
 	 */
 	@Override
-	public List<CompanyDTO> listsCompany(String companyType) {
-		return this.sqlSession.selectList("listsCompany", companyType); // mapper에서 "listsCompany" id를 가지는 명령문에
-																		// companyType변수를 가지고 실행한다.
+	public List<CompanyDTO> listsCompany(Map<String, Object> map) {
+		return this.sqlSession.selectList("listsCompany", map); // mapper에서 "listsCompany" id를 가지는 명령문에 companyType변수를
+																// 가지고 실행한다.
 
 	}
 
@@ -114,6 +114,12 @@ public class CompanyDAOimpl implements CompanyDAO {
 	@Override
 	public int updateCompanyInfo(HashMap<String, Object> cmap) {
 		return this.sqlSession.update("updateCompanyInfo", cmap);
+	}
+
+	@Override
+	public int countCompanyList(String type) {
+		// TODO Auto-generated method stub
+		return this.sqlSession.selectOne("countCompanyList", type);
 	}
 
 	@Override

@@ -6,7 +6,7 @@ prefix="c"%>
     <label class="login-title" for="login-title">공지사항 상세보기</label>
 
     <div class="notice-table">
-      <table class="table" >
+      <table class="table">
         <tr>
           <th>제목</th>
           <td>
@@ -23,23 +23,18 @@ prefix="c"%>
           <th>내용</th>
           <td>
             <label id="notice_Content" name="notice_Content">
-              ${ noticeDetail.notice_Content }</label
-            >
+              ${ noticeDetail.notice_Content }</label>
           </td>
         </tr>
- 
+
       </table>
     </div>
 
-   
-        <button
-          type="button"
-          class="btn btn-outline-secondary"
-          onclick="location.href='noticePage'"
-        >
-          목록
-        </button>
 
-     
+    <button type="button" class="btn btn-outline-secondary" onclick="location.href='noticePage?page=${param.page }'">
+      목록
+    </button>
+
+
   </div>
 </div>

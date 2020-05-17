@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Map;
 
 import com.test.dto.CompanyDTO;
+import com.test.dto.Criteria;
 
 // DAO 인터페이스 클래스
 public interface CompanyDAO {
@@ -19,7 +20,7 @@ public interface CompanyDAO {
 
 	abstract public int deleteTheCompany(int company_Index);
 
-	abstract public List<CompanyDTO> listsCompany(String companyType);
+	abstract public List<CompanyDTO> listsCompany(Map<String, Object> map);
 
 	abstract public CompanyDTO searchCompanyID(Map<String, String> company);
 
@@ -30,6 +31,8 @@ public interface CompanyDAO {
 	abstract public CompanyDTO checkCompanyNumber(int company_Number);
 
 	abstract public int updateCompanyInfo(HashMap<String, Object> cmap);
+
+	abstract public int countCompanyList(String type);
 
 	abstract public List<CompanyDTO> listThisCompanyByName(String company_Name);
 

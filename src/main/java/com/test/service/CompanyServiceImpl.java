@@ -55,8 +55,8 @@ public class CompanyServiceImpl implements CompanyService {
 	}
 
 	@Override
-	public List<CompanyDTO> listsCompany(String companyType) {
-		return this.companyDao.listsCompany(companyType);
+	public List<CompanyDTO> listsCompany(Map<String, Object> map) {
+		return this.companyDao.listsCompany(map);
 	}
 
 	@Override
@@ -235,6 +235,12 @@ public class CompanyServiceImpl implements CompanyService {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+	}
+
+	@Override
+	public int countCompanyList(String type) {
+		// TODO Auto-generated method stub
+		return this.companyDao.countCompanyList(type);
 	}
 
 	@Override
