@@ -2,6 +2,7 @@ package com.test.dao;
 
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import com.test.dto.ReservationDTO;
 
@@ -21,5 +22,7 @@ public interface ReservationDAO {
 	abstract public int cancelTheReservation(int reservation_Index);
 
 	abstract public int updateReviewCheck(int reservation_Index);
+
+	abstract public List<ReservationDTO> customer_pet_reserve_check(Map<String, Object> petInfo);
 
 }

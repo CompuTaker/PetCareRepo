@@ -6,9 +6,9 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -87,21 +87,41 @@ public class ReservationServiceImpl implements ReservationService{
 	}
 
 	@Override
-	public String customer_reservecheck(Model model, HttpSession session) {
-		if (session.getAttribute("customer") != null) {															// customer session이 존재할 경우
-			CustomerDTO customer = (CustomerDTO) session.getAttribute("customer");								// 가져온 session에서 customer를 가져온다. (DTO로 타입캐스팅)
-			int customerIdx 	 = customer.getCustomer_Index();												// customer에서 index값을 따로 int변수에 저장해준다.
-			List<PetDTO> itsPets = this.petDao.listItsPets(customerIdx);										// customerIdx에 해당하는 모든 펫 정보가 저장된다.	
+	public String customer_reservecheck(Model model, HttpSession session, String petName) {
+		// customer session이 존재할 경우
+		if (session.getAttribute("customer") != null) {		
+			// 가져온 session에서 customer를 가져온다. (DTO로 타입캐스팅)
+			CustomerDTO customer = (CustomerDTO) session.getAttribute("customer");		
+			// customer에서 index값을 따로 int변수에 저장해준다.
+			int customerIdx 	 = customer.getCustomer_Index();							
+			// customerIdx에 해당하는 모든 펫 정보가 저장된다.	
+			List<PetDTO> itsPets = this.petDao.listItsPets(customerIdx);
 			
-			List<ReservationDTO> itsReservations = new ArrayList<ReservationDTO>();								// 모든 예약정보를 저장할 List객체이다.
-			for (PetDTO petDTO : itsPets) {
-				List<ReservationDTO> temp = this.reservationDao.listItsCustReservations(petDTO.getPet_Index());	// 해당 펫 인덱스가 존재하는 예약정보를 가져온다.
-				itsReservations.addAll(temp);																	// itsReservations List객체에 저장한다.
-			}
-			model.addAttribute("reservation", itsReservations);													// 가져온 예약정보를 model객체에 저장한다.
-			model.addAttribute("pet", itsPets);																	// 가져온 펫 정보를 model객체에 저장한다.
-		}
-		return "reserve/customer_reserve_check.tiles"; 
+			if(petName == null || petName.equals("all")) {															
+				// 모든 예약정보를 저장할 List객체이다.
+				List<ReservationDTO> itsReservations = new ArrayList<ReservationDTO>();							
+				// 해당 펫 인덱스가 존재하는 예약정보를 가져온다.
+				for (PetDTO petDTO : itsPets) {
+					List<ReservationDTO> temp = this.reservationDao.listItsCustReservations(petDTO.getPet_Index());	
+					// itsReservations List객체에 저장한다.
+					itsReservations.addAll(temp);																	
+				}
+				// 가져온 예약정보를 model객체에 저장한다.
+				model.addAttribute("reservation", itsReservations);
+				// 가져온 펫 정보를 model객체에 저장한다.		
+				model.addAttribute("pet", itsPets);
+			} else {
+				Map<String, Object> petInfo = new HashMap<String, Object>();
+				petInfo.put("customer_Index", customerIdx);
+				petInfo.put("pet_Name", petName);
+				
+				List<ReservationDTO> reservations = this.reservationDao.customer_pet_reserve_check(petInfo);
+				
+				model.addAttribute("reservation", reservations);
+				model.addAttribute("pet", itsPets);
+			}	
+		} 
+		return "reserve/customer_reserve_check.tiles"; 	
 	}
 
 	@Override
@@ -116,8 +136,8 @@ public class ReservationServiceImpl implements ReservationService{
 	}
 
 	@Override
-	public String customer_reservation_delete(Model model, HttpSession session, String index, HttpServletResponse response) {
-		int reservationNum 	 = Integer.parseInt(index);																// 정상예약화면에서 쓰레기통 모양을 누르면 메서드가 실행되면서 reservation_Index가 넘어온다. (customer_reserve_check.jsp)
+	public String customer_reservation_cancel(Model model, HttpSession session, HttpServletRequest request, String index) {
+		int reservationNum 	 = 	Integer.parseInt(index);							// 정상예약화면에서 쓰레기통 모양을 누르면 메서드가 실행되면서 reservation_Index가 넘어온다. (customer_reserve_check.jsp)
 		CustomerDTO customer = (CustomerDTO) session.getAttribute("customer");										// customer session을 가져온다.
 		int customerIdx 	 = customer.getCustomer_Index();														// customer에서 index값을 따로 int변수에 저장해준다.
 		
@@ -138,14 +158,27 @@ public class ReservationServiceImpl implements ReservationService{
 				break;
 			}
 		}		
-		
-		
-		if(!delete) {
-			return "redirect:/customer_reserve_check";																	// 후에 마이페이지로 이동한다.
+			
+		if(delete) {
+			return "redirect:/customer_reserve_check";																			// 후에 예약확인화면으로 이동한다.
 		} else {
 			return null; 
 		}
 		
 	}
 
+	@Override
+	public String customer_pet_reserve_check(Model model, HttpSession session, String pet_Index) {
+		CustomerDTO customer = (CustomerDTO) session.getAttribute("customer");
+		int customerIdx = customer.getCustomer_Index();
+		
+		Map<String, Object> petInfo = new HashMap<String, Object>();
+		petInfo.put("customer_Index", customerIdx);
+		petInfo.put("pet_Index", pet_Index);
+		
+		List<ReservationDTO> reservations = this.reservationDao.customer_pet_reserve_check(petInfo);
+		model.addAttribute("reservation", reservations);
+		
+		return "reserve/customer_reserve_check.tiles";
+	}
 }

@@ -114,7 +114,7 @@ uri="http://www.springframework.org/tags/form" prefix="form"%>
         <c:forEach items="${ pet }" var="pet">
           <tr>
             <th scope="row">${pet.pet_Index}</th>
-            <td>${pet.pet_Name }</td>
+            <td><a href="customer_pet_reserve_check?pet_Index=${pet.pet_Index}">${pet.pet_Name }</a></td>
             <td>${pet.pet_Type}</td>
             <td>${pet.pet_Age }</td>
             <td>${pet.pet_Gender }</td>

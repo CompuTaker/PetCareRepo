@@ -114,6 +114,7 @@ public class CustomerServiceImpl implements CustomerService {
 			System.out.println("아디중복체크안됨");
 			this.isCustomerOk = false; // 아이디가 중복이므로 최종확인은 false
 		}
+		
 		System.out.println("아디중복체크완료");
 		this.isCustomerOk = true; // customer테이블에 존재하지 않으면 중복이 아니므로 true
 		
@@ -259,5 +260,4 @@ public class CustomerServiceImpl implements CustomerService {
 			e.printStackTrace();
 		}
 	}
-
 }
