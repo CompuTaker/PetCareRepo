@@ -160,25 +160,10 @@ public class ReservationServiceImpl implements ReservationService{
 		}		
 			
 		if(delete) {
-			return "redirect:/customer_reserve_check";																			// 후에 예약확인화면으로 이동한다.
+			return "redirect:/customer_reserve_check";																	// 후에 예약확인화면으로 이동한다.
 		} else {
 			return null; 
 		}
 		
-	}
-
-	@Override
-	public String customer_pet_reserve_check(Model model, HttpSession session, String pet_Index) {
-		CustomerDTO customer = (CustomerDTO) session.getAttribute("customer");
-		int customerIdx = customer.getCustomer_Index();
-		
-		Map<String, Object> petInfo = new HashMap<String, Object>();
-		petInfo.put("customer_Index", customerIdx);
-		petInfo.put("pet_Index", pet_Index);
-		
-		List<ReservationDTO> reservations = this.reservationDao.customer_pet_reserve_check(petInfo);
-		model.addAttribute("reservation", reservations);
-		
-		return "reserve/customer_reserve_check.tiles";
 	}
 }

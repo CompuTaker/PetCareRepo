@@ -59,10 +59,4 @@ public class ReservationController {
 	public String customer_reservation_cancel(Model model, HttpSession session, HttpServletRequest request, String index) {
 		return this.reservationService.customer_reservation_cancel(model, session, request, index);		
 	}
-	
-	@RequestMapping(value="/customer_pet_reserve_check")
-	public String customer_pet_reserve_check(Model model, HttpSession session, String pet_Index) {
-		return this.reservationService.customer_pet_reserve_check(model, session, pet_Index);
-	}
-	
 }
