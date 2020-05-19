@@ -6,8 +6,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -19,12 +17,12 @@ import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.fasterxml.jackson.annotation.JsonView;
-import com.test.dto.CustomerDTO;
 import com.test.service.CustomerService;
 
-@Controller // Spring이 해당 클래스가 Controller인 걸 알려주는 Annotation
-@SessionAttributes({ "customer", "company" }) // Model에 저장한 값을 http session에 저장할 수 있게 해주는 Annotation
+//Spring이 해당 클래스가 Controller인 걸 알려주는 Annotation
+@Controller 
+//Model에 저장한 값을 http session에 저장할 수 있게 해주는 Annotation
+@SessionAttributes({ "customer", "company" }) 
 public class CustomerController {
 
 	@Autowired
@@ -33,20 +31,10 @@ public class CustomerController {
 	/*
 	 * 고객 회원가입을 누르고 정보를 입력하고 회원가입 버튼을 눌렀을 때 실행되는 메서드
 	 */
-	
-	@ResponseBody
-	@RequestMapping(value = "/customer_signupDo", method = RequestMethod.POST, headers = ("content-type=multipart/*"), produces = "application/json; charset=utf-8")	
+	@RequestMapping(value = "/customer_signupDo", method = RequestMethod.POST, headers = "content-type=multipart/*")	
 	public Object customer_signupDo(@RequestParam HashMap<String, Object> cmap,
 			MultipartHttpServletRequest multipartHttpServletRequest, HttpServletRequest request, Model model) { // form에서 입력한 값을 HashMap으로 묶어서 가져옴
-		System.out.println("들어옴");
-		if(request.getParameter("mobile") != null) {
-			System.out.println("모바일입니다.");
-			System.out.println(cmap);
-			return new ResponseEntity<Model>(model, HttpStatus.OK);
-		} else {
-			return this.customerService.customer_signupDo(multipartHttpServletRequest, cmap);
-		}
-		
+		return this.customerService.customer_signupDo(multipartHttpServletRequest, cmap);
 	}
 
 	/*

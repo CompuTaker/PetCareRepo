@@ -43,10 +43,10 @@
 						</div>
 					</div>
 					<div class="form-group">
-						<label class="font-weight-bold" for="inputPhone_2">휴대폰번호</label>
+						<label class="font-weight-bold" for="inputPhone_2">사업자등록번호</label>
 						<div>
-							<input type="text" class="form-control" id="inputPhone_2"
-								name="company_UserPhoneNumber" placeholder="ex) 01012345678">
+							<input type="text" class="form-control" id="company_Number"
+								name="company_Number" placeholder="ex) 9자리 사업자등록번호">
 						</div>
 
 					</div>

@@ -3,7 +3,6 @@ package com.test.controller;
 import java.util.HashMap;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -39,9 +38,9 @@ public class ReservationController {
 	/*
 	 * 고객이 마이페이지에서 예약정보조회를 눌렀을 때 실행되는 메서드이다.
 	 */
-	@RequestMapping("/customer_reserve_check")					
-	public String customer_reservecheck(Model model, HttpSession session) {
-		return this.reservationService.customer_reservecheck(model, session);
+	@RequestMapping(value="/customer_reserve_check", method=RequestMethod.GET)					
+	public String customer_reservecheck(Model model, HttpSession session, String petName) {		
+		return this.reservationService.customer_reservecheck(model, session, petName);
 	}
 
 	/*
@@ -57,8 +56,7 @@ public class ReservationController {
 	 * 예약조회화면에서 정상예약건에 한해서 취소를 누를 수 있다.
 	 */
 	@RequestMapping(value = "/customer_reservation_cancel", method = RequestMethod.GET)
-	public String customer_reservation_delete(Model model, HttpSession session, String index, HttpServletResponse response) {
-		return this.reservationService.customer_reservation_delete(model, session, index, response);		
+	public String customer_reservation_cancel(Model model, HttpSession session, HttpServletRequest request, String index) {
+		return this.reservationService.customer_reservation_cancel(model, session, request, index);		
 	}
-
 }

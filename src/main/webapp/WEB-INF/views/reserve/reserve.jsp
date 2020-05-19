@@ -10,7 +10,7 @@
 			<hr>
 			<!-- 업체선택, 세분화,예약 날짜 ,시간 -->
 			<form method="POST" action="reserve_ok" accept-charset="utf-8"
-				name="reservation" class="reserve-content text-center ">
+				name="reservation" id="reservation" class="reserve-content text-center ">
 				<div>
 					<div class=" form-group row">
 						<label class="col-sm-2 pt-0 col-form-label font-weight-bold"
@@ -115,7 +115,7 @@
 				<div class="form-group row my-5">
 					<label class="col-sm-2 col-form-label font-weight-bold"
 						for="DetailService">기타의견</label> <input type="text"
-						class=" form-control col-sm-10" id="DetailService"
+						class=" form-control col-sm-10" id="reservation_DetailService"
 						placeholder="자세한 사항을 기입해주세요." name="reservation_DetailService"
 						required>
 
@@ -150,4 +150,3 @@
 			</form>
 		</div>
 	</div>
-	

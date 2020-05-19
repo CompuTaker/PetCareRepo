@@ -55,7 +55,7 @@
 		and
 		company_Id = #{company_Id}
 		and
-		company_UserPhoneNumber = #{company_UserPhoneNumber}
+		company_Number = #{company_Number}
 	</select>
    
    

@@ -2,6 +2,7 @@ package com.test.dao;
 
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -77,5 +78,10 @@ public class ReservationDAOimpl implements ReservationDAO {
 	@Override
 	public int updateReviewCheck(int reservation_Index) {
 		return this.sqlSession.update("updateReviewCheck", reservation_Index);
+	}
+
+	@Override
+	public List<ReservationDTO> customer_pet_reserve_check(Map<String, Object> petInfo) {
+		return this.sqlSession.selectList("customer_pet_reserve_check", petInfo);
 	}
 }
