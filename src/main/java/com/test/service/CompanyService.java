@@ -34,4 +34,8 @@ public interface CompanyService {
 	abstract public ModelAndView company_modify(ModelAndView mv, HttpSession session);
 
 	abstract public void updateCompanyInfo(MultipartHttpServletRequest multipartHttpServletRequest, HashMap<String, Object> cmap);
+
+	abstract public boolean checkPW(String company_Id, String company_Password);
+
+	abstract public void deleteTheCompany(String company_Id);
 }

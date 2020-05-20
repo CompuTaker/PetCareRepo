@@ -20,6 +20,12 @@
 
 <title>반려동물 예약</title>
 
+<style type="text/css">
+* {
+   font-family: "Poor Story", cursive;
+}
+</style>
+
 <!-- Bootstrap CSS -->
 <link rel="stylesheet"
 	href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"

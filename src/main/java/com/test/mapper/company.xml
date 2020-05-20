@@ -52,6 +52,19 @@
 		and
 		company_UserPhoneNumber = #{company_UserPhoneNumber}
 	</select>
+	
+	<!-- 회원 탈퇴 -->
+	<delete id="deleteTheCompany">
+		delete from Company where company_Id = #{
+		company_Id }
+	</delete>
+
+    <!-- 비밀번호 체크 -->
+	<select id="checkPWCompany" resultType="int">
+		select count(*) from Company
+ 	 	where company_Id = #{company_Id} and 
+  		company_Password = #{company_Password}
+       </select>
    
    
    <!-- 인덱스로 해당 기업 정보 찾아오기 -->
@@ -74,11 +87,6 @@
       #{company_Number }, #{company_Type},#{company_Image})
       ]]>
    </insert>
-   
-   <!-- 기업 회원 삭제하기 -->
-   <delete id="deleteTheCompany">
-      delete from Company where company_Index = #{ company_Index }
-   </delete>
    
    <!-- 기업타입(미용, 호텔, 병원)으로 해당 기업들 가져오기 -->
    <select id="listsCompany" parameterType="java.util.Map"

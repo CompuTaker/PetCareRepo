@@ -25,7 +25,7 @@ import com.test.dto.CustomerDTO;
 import com.test.dto.PetDTO;
 
 @Service
-@SessionAttributes({ "customer", "company" }) // Model에 저장한 값을 http session에 저장할 수 있게 해주는 Annotation
+@SessionAttributes({ "customer", "company" }) // Model�뿉 ���옣�븳 媛믪쓣 http session�뿉 ���옣�븷 �닔 �엳寃� �빐二쇰뒗 Annotation
 public class CustomerServiceImpl implements CustomerService {
 	@Autowired
 	private CustomerDAO customerDao;
@@ -33,33 +33,37 @@ public class CustomerServiceImpl implements CustomerService {
 	@Autowired
 	private PetDAO petDao;
 
-	private boolean isCustomerIdChecked = false; // 고객 ID가 중복인지 아닌지 확인하는 Boolean
-	private boolean isCustomerOk = false; // 최종적으로 중복인지 아닌지 확인하는 Boolean
+	private boolean isCustomerIdChecked = false; // 怨좉컼 ID媛� 以묐났�씤吏� �븘�땶吏� �솗�씤�븯�뒗 Boolean
+	private boolean isCustomerOk = false; // 理쒖쥌�쟻�쑝濡� 以묐났�씤吏� �븘�땶吏� �솗�씤�븯�뒗 Boolean
 
 	@Override
 	public ModelAndView customer_signupDo(MultipartHttpServletRequest multipartHttpServletRequest,
-			@RequestParam HashMap<String, Object> cmap) { // form에서 입력한 값을 HashMap으로 묶어서 가져옴
+			@RequestParam HashMap<String, Object> cmap) { // form�뿉�꽌 �엯�젰�븳 媛믪쓣 HashMap�쑝濡� 臾띠뼱�꽌 媛��졇�샂
 
-		ModelAndView ok = new ModelAndView("customer/customer_signup_ok.tiles"); // 중복체크까지 정상적으로 처리한 후 회원가입 버튼을 눌렀을 때 나올
-																					// 화면과 함께 ModelAndView객체 생성
-		ModelAndView redirect = new ModelAndView("customer/customer_Signup.tiles"); // 중복체크를 하지 않았을 경우 나올 화면과 함께
-																					// ModelAndView객체 생성
-		redirect.addObject("message", "중복체크 해주세요."); // 중복체크를 하지 않았을 경우 띄울 메시지를 redirect ModelAndView에 저장
+		ModelAndView ok = new ModelAndView("customer/customer_signup_ok.tiles"); // 以묐났泥댄겕源뚯� �젙�긽�쟻�쑝濡� 泥섎━�븳 �썑
+																					// �쉶�썝媛��엯 踰꾪듉�쓣 �닃���쓣 �븣 �굹�삱
+																					// �솕硫닿낵 �븿猿� ModelAndView媛앹껜 �깮�꽦
+		ModelAndView redirect = new ModelAndView("customer/customer_Signup.tiles"); // 以묐났泥댄겕瑜� �븯吏� �븡�븯�쓣 寃쎌슦 �굹�삱
+																					// �솕硫닿낵 �븿猿�
+																					// ModelAndView媛앹껜 �깮�꽦
+		redirect.addObject("message", "以묐났泥댄겕 �빐二쇱꽭�슂."); // 以묐났泥댄겕瑜� �븯吏� �븡�븯�쓣 寃쎌슦 �쓣�슱 硫붿떆吏�瑜� redirect
+															// ModelAndView�뿉 ���옣
 
-		if (isCustomerIdChecked) { // ID와 주민등록번호 중복체크를 정상적으로 실행했을 경우
-			if (isCustomerOk) { // 최종확인 Boolean도 true일 경우
+		if (isCustomerIdChecked) { // ID�� 二쇰�쇰벑濡앸쾲�샇 以묐났泥댄겕瑜� �젙�긽�쟻�쑝濡� �떎�뻾�뻽�쓣 寃쎌슦
+			if (isCustomerOk) { // 理쒖쥌�솗�씤 Boolean�룄 true�씪 寃쎌슦
 				try {
 					Map<String, MultipartFile> fileMap = multipartHttpServletRequest.getFileMap();
 					HashMap<String, Object> newCustomer = imageUpload(null, fileMap, multipartHttpServletRequest, cmap);
-					this.customerDao.insertTheCustomer(newCustomer); // form에 입력한 값을 company테이블에 저장한다.
+					this.customerDao.insertTheCustomer(newCustomer); // form�뿉 �엯�젰�븳 媛믪쓣 company�뀒�씠釉붿뿉 ���옣�븳�떎.
 				} catch (IOException e) {
 					e.printStackTrace();
 				}
-				return ok; // customer_signup_ok.jsp화면을 띄운다.
+				return ok; // customer_signup_ok.jsp�솕硫댁쓣 �쓣�슫�떎.
 			}
 		}
-		System.out.println("중복체크 안함");
-		// 중복체크가 하나라도 안되었을 경우 모든 체크값을 false로 초기화하고 customer_signup.jsp화면을 띄운다.
+		System.out.println("以묐났泥댄겕 �븞�븿");
+		// 以묐났泥댄겕媛� �븯�굹�씪�룄 �븞�릺�뿀�쓣 寃쎌슦 紐⑤뱺 泥댄겕媛믪쓣 false濡� 珥덇린�솕�븯怨�
+		// customer_signup.jsp�솕硫댁쓣 �쓣�슫�떎.
 		isCustomerIdChecked = false;
 		isCustomerOk = false;
 		return redirect;
@@ -70,19 +74,19 @@ public class CustomerServiceImpl implements CustomerService {
 
 		String baseUrl = "https://s3.ap-northeast-2.amazonaws.com/petcare2020/";
 		MultipartFile multipartFile = multipartHttpServletRequest.getFile("imageFile");
-		String fileName = multipartFile.getOriginalFilename(); // 파일명
+		String fileName = multipartFile.getOriginalFilename(); // �뙆�씪紐�
 
 		if (fileMap.isEmpty()) { // if(imageFile == null) {
 			System.out.println("NOTHING!!"); // null
 
 		} else {
 			if (multipartFile.isEmpty()) {
-				System.out.println("널이냐???????" + existingImage);
+				System.out.println("�꼸�씠�깘???????" + existingImage);
 				cmap.put("customer_Image", existingImage);
 				System.out.println(cmap.get("customer_Image"));
 			} else {
 				String fullFileName = baseUrl + "profile_" + (String) cmap.get("customer_Id") + "_" + fileName;
-				// 확장자확인
+				// �솗�옣�옄�솗�씤
 				int dotIdx = fileName.lastIndexOf(".");
 				String fileExtension = fileName.substring(dotIdx + 1).toLowerCase();
 				// Wrong file
@@ -91,10 +95,10 @@ public class CustomerServiceImpl implements CustomerService {
 					System.out.println("File Not Valid");
 					// Normal image file
 				} else {
-					// 나머지 정보 DB에 업로드
+					// �굹癒몄� �젙蹂� DB�뿉 �뾽濡쒕뱶
 					cmap.put("customer_Image", fullFileName);
 					s3 s3 = new s3();
-					// 이미지는 3S에 업로드
+					// �씠誘몄��뒗 3S�뿉 �뾽濡쒕뱶
 					s3.uploadFile(multipartFile, (String) cmap.get("customer_Id"));
 				}
 			}
@@ -104,25 +108,26 @@ public class CustomerServiceImpl implements CustomerService {
 
 	@Override
 	@ResponseBody
-	public void checkCustomerID(String customer_Id) {	
+	public void checkCustomerID(String customer_Id) {
 		System.out.println(customer_Id);
-		
-		this.isCustomerIdChecked = true; // 해당 메서드가 실행되었다는 것은 중복체크 버튼을 누른 것이기 때문에 true로 변경
-		CustomerDTO customer = this.customerDao.checkCustomerID(customer_Id); // 해당 customer_Id가 있는지 customer테이블에서
-																				// 확인해본다.
-		if (customer != null) { // customer테이블에 존재하면
-			System.out.println("아디중복체크안됨");
-			this.isCustomerOk = false; // 아이디가 중복이므로 최종확인은 false
+
+		this.isCustomerIdChecked = true; // �빐�떦 硫붿꽌�뱶媛� �떎�뻾�릺�뿀�떎�뒗 寃껋� 以묐났泥댄겕 踰꾪듉�쓣 �늻瑜� 寃껋씠湲� �븣臾몄뿉 true濡� 蹂�寃�
+		CustomerDTO customer = this.customerDao.checkCustomerID(customer_Id); // �빐�떦 customer_Id媛� �엳�뒗吏�
+																				// customer�뀒�씠釉붿뿉�꽌
+																				// �솗�씤�빐蹂몃떎.
+		if (customer != null) { // customer�뀒�씠釉붿뿉 議댁옱�븯硫�
+			System.out.println("�븘�뵒以묐났泥댄겕�븞�맖");
+			this.isCustomerOk = false; // �븘�씠�뵒媛� 以묐났�씠誘�濡� 理쒖쥌�솗�씤�� false
 		}
-		System.out.println("아디중복체크완료");
-		this.isCustomerOk = true; // customer테이블에 존재하지 않으면 중복이 아니므로 true
-		
+		System.out.println("�븘�뵒以묐났泥댄겕�셿猷�");
+		this.isCustomerOk = true; // customer�뀒�씠釉붿뿉 議댁옱�븯吏� �븡�쑝硫� 以묐났�씠 �븘�땲誘�濡� true
+
 		System.out.println(this.isCustomerOk);
 	}
 
 	@Override
 	public void insertTheCustomer(HashMap<String, Object> cmap) {
-		this.customerDao.insertTheCustomer(cmap); // form에 입력한 값을 company테이블에 저장한다.
+		this.customerDao.insertTheCustomer(cmap); // form�뿉 �엯�젰�븳 媛믪쓣 company�뀒�씠釉붿뿉 ���옣�븳�떎.
 	}
 
 	@Override
@@ -130,17 +135,17 @@ public class CustomerServiceImpl implements CustomerService {
 			@RequestParam HashMap<String, Object> cmap) {
 		Map<String, MultipartFile> fileMap = multipartHttpServletRequest.getFileMap();
 
-		System.out.println("아이디" + cmap.get("customer_Id"));
+		System.out.println("�븘�씠�뵒" + cmap.get("customer_Id"));
 		String customerId = (String) cmap.get("customer_Id");
 
 		CustomerDTO customer = this.customerDao.checkCustomerID(customerId);
-		System.out.println("기존이미지 : " + customer.getCustomer_Image());
+		System.out.println("湲곗〈�씠誘몄� : " + customer.getCustomer_Image());
 
 		String existingImage = customer.getCustomer_Image();
 		try {
 			HashMap<String, Object> modifyCustomer = imageUpload(existingImage, fileMap, multipartHttpServletRequest,
 					cmap);
-			this.customerDao.updateCustomerInfo(modifyCustomer); // 가져온 cmap데이터를 기존 고객 데이터에 update시킨다.
+			this.customerDao.updateCustomerInfo(modifyCustomer); // 媛��졇�삩 cmap�뜲�씠�꽣瑜� 湲곗〈 怨좉컼 �뜲�씠�꽣�뿉 update�떆�궓�떎.
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -149,23 +154,30 @@ public class CustomerServiceImpl implements CustomerService {
 
 	@Override
 	public String profile(Model model, HttpSession session) {
-		if (session.getAttribute("customer") != null) { // customer session이 존재하는 경우
+		if (session.getAttribute("customer") != null) { // customer session�씠 議댁옱�븯�뒗 寃쎌슦
 			try {
-				CustomerDTO customer = (CustomerDTO) session.getAttribute("customer"); // customer session을 DTO로 타입캐스팅을
-																						// 하여 customer에 저장
+				CustomerDTO customer = (CustomerDTO) session.getAttribute("customer"); // customer session�쓣 DTO濡�
+																						// ���엯罹먯뒪�똿�쓣
+																						// �븯�뿬 customer�뿉 ���옣
 
-				Map<String, String> loginInfo = new HashMap<String, String>(); // mapper에 변수값을 한 번에 전달하기 위해서 생성한 Map객체
-				loginInfo.put("id", customer.getCustomer_Id()); // Map객체에 Id값을 저장한다.
-				loginInfo.put("pw", customer.getCustomer_Password()); // Map객체에 PW값을 저장한다.
+				Map<String, String> loginInfo = new HashMap<String, String>(); // mapper�뿉 蹂��닔媛믪쓣 �븳 踰덉뿉 �쟾�떖�븯湲�
+																				// �쐞�빐�꽌 �깮�꽦�븳 Map媛앹껜
+				loginInfo.put("id", customer.getCustomer_Id()); // Map媛앹껜�뿉 Id媛믪쓣 ���옣�븳�떎.
+				loginInfo.put("pw", customer.getCustomer_Password()); // Map媛앹껜�뿉 PW媛믪쓣 ���옣�븳�떎.
 
-				CustomerDTO getCusotmerInfo = this.customerDao.listThisCustomer(loginInfo); // customer값에서 Index를 가지고
-																							// 예약된 값이 있는지 customer테이블에서
-																							// 확인한다.
-				List<PetDTO> itspets = this.petDao.listItsPets(customer.getCustomer_Index()); // customer_Index에 해당하는 모든
-																								// 펫 정보를 pet테이블에서 가져온다.
+				CustomerDTO getCusotmerInfo = this.customerDao.listThisCustomer(loginInfo); // customer媛믪뿉�꽌 Index瑜�
+																							// 媛�吏�怨�
+																							// �삁�빟�맂 媛믪씠 �엳�뒗吏�
+																							// customer�뀒�씠釉붿뿉�꽌
+																							// �솗�씤�븳�떎.
+				List<PetDTO> itspets = this.petDao.listItsPets(customer.getCustomer_Index()); // customer_Index�뿉
+																								// �빐�떦�븯�뒗 紐⑤뱺
+																								// �렖 �젙蹂대��
+																								// pet�뀒�씠釉붿뿉�꽌
+																								// 媛��졇�삩�떎.
 
-				model.addAttribute("pet", itspets); // model객체에 가져온 pet정보를 저장한다.
-				model.addAttribute("customer", getCusotmerInfo); // model객체에 가져온 customer정보를 저장한다.
+				model.addAttribute("pet", itspets); // model媛앹껜�뿉 媛��졇�삩 pet�젙蹂대�� ���옣�븳�떎.
+				model.addAttribute("customer", getCusotmerInfo); // model媛앹껜�뿉 媛��졇�삩 customer�젙蹂대�� ���옣�븳�떎.
 
 				return "customer/customer_Profile.tiles"; // customerprofile.jsp
 			} catch (SecurityException e) {
@@ -174,64 +186,71 @@ public class CustomerServiceImpl implements CustomerService {
 				e.printStackTrace();
 			}
 		} else {
-			// 고객 session이 존재하지 않는데
-			// customerprofile requestMapping이 실행되었을 경우
-			// 예외처리
+			// 怨좉컼 session�씠 議댁옱�븯吏� �븡�뒗�뜲
+			// customerprofile requestMapping�씠 �떎�뻾�릺�뿀�쓣 寃쎌슦
+			// �삁�쇅泥섎━
 		}
-		return null; // 잘못된 접근일 때
+		return null; // �옒紐삳맂 �젒洹쇱씪 �븣
 	}
 
 	@Override
 	public ModelAndView search_id_customer(ModelAndView mv, HttpServletRequest request) {
-		Map<String, String> customer = new HashMap<String, String>(); // 넘어온 변수를 한 번에 저장하기 위해서 만든 Map객체
-		customer.put("customer_Name", request.getParameter("customer_Name")); // Map객체에 Name을 저장한다.
-		customer.put("customer_PhoneNumber", request.getParameter("customer_PhoneNumber")); // Map객체에 PhoneNumber를 저장한다.
+		Map<String, String> customer = new HashMap<String, String>(); // �꽆�뼱�삩 蹂��닔瑜� �븳 踰덉뿉 ���옣�븯湲� �쐞�빐�꽌 留뚮뱺 Map媛앹껜
+		customer.put("customer_Name", request.getParameter("customer_Name")); // Map媛앹껜�뿉 Name�쓣 ���옣�븳�떎.
+		customer.put("customer_PhoneNumber", request.getParameter("customer_PhoneNumber")); // Map媛앹껜�뿉 PhoneNumber瑜�
+																							// ���옣�븳�떎.
 
-		CustomerDTO customerDto = this.customerDao.searchCustomerID(customer); // form에 입력된 name과 phoneNumber를 가지고
-																				// customer테이블에 있는지 확인해본다.
+		CustomerDTO customerDto = this.customerDao.searchCustomerID(customer); // form�뿉 �엯�젰�맂 name怨� phoneNumber瑜�
+																				// 媛�吏�怨�
+																				// customer�뀒�씠釉붿뿉 �엳�뒗吏� �솗�씤�빐蹂몃떎.
 
-		mv.addObject("customer", customerDto); // 가져온 customer값을 ModelAndView객체에 저장한다.
-		mv.setViewName("customer/customer_show_id.tiles"); // ModelAndView객체에 실행할 화면을 셋팅한다.
+		mv.addObject("customer", customerDto); // 媛��졇�삩 customer媛믪쓣 ModelAndView媛앹껜�뿉 ���옣�븳�떎.
+		mv.setViewName("customer/customer_show_id.tiles"); // ModelAndView媛앹껜�뿉 �떎�뻾�븷 �솕硫댁쓣 �뀑�똿�븳�떎.
 		return mv;
 	}
 
 	@Override
 	public String search_pw_customer(ModelAndView mv, HttpServletRequest request) {
-		Map<String, String> customer = new HashMap<String, String>(); // 넘어온 변수를 한 번에 저장하기 위해서 만든 Map객체
-		customer.put("customer_Name", request.getParameter("customer_Name")); // Map객체에 Name을 저장한다.
-		customer.put("customer_Id", request.getParameter("customer_Id")); // Map객체에 ID를 저장한다.
-		customer.put("customer_PhoneNumber", request.getParameter("customer_PhoneNumber")); // Map객체에 PhoneNumber를 저장한다.
+		Map<String, String> customer = new HashMap<String, String>(); // �꽆�뼱�삩 蹂��닔瑜� �븳 踰덉뿉 ���옣�븯湲� �쐞�빐�꽌 留뚮뱺 Map媛앹껜
+		customer.put("customer_Name", request.getParameter("customer_Name")); // Map媛앹껜�뿉 Name�쓣 ���옣�븳�떎.
+		customer.put("customer_Id", request.getParameter("customer_Id")); // Map媛앹껜�뿉 ID瑜� ���옣�븳�떎.
+		customer.put("customer_PhoneNumber", request.getParameter("customer_PhoneNumber")); // Map媛앹껜�뿉 PhoneNumber瑜�
+																							// ���옣�븳�떎.
 
-		CustomerDTO customerDto = this.customerDao.searchCustomerPW(customer); // form에 입력된 name과 id, phoneNumber를 가지고
-																				// customer테이블에 있는지 확인해본다.
+		CustomerDTO customerDto = this.customerDao.searchCustomerPW(customer); // form�뿉 �엯�젰�맂 name怨� id, phoneNumber瑜�
+																				// 媛�吏�怨�
+																				// customer�뀒�씠釉붿뿉 �엳�뒗吏� �솗�씤�빐蹂몃떎.
 
-		String passwordArr[] = customerDto.getCustomer_Password().split(""); // 가져온 패스워드를 하나씩 뜯어서 배열로 저장한다.
-		String password = ""; // 블러처리 후 패스워드를 저장할 변수
+		String passwordArr[] = customerDto.getCustomer_Password().split(""); // 媛��졇�삩 �뙣�뒪�썙�뱶瑜� �븯�굹�뵫 �쑐�뼱�꽌 諛곗뿴濡�
+																				// ���옣�븳�떎.
+		String password = ""; // 釉붾윭泥섎━ �썑 �뙣�뒪�썙�뱶瑜� ���옣�븷 蹂��닔
 
 		for (int i = 0; i < passwordArr.length; i++) {
 			if (i > 2) {
-				password += "*"; // 패스워드의 앞 2자리만 보여주고 나머지는 *로 블러처리한다.
+				password += "*"; // �뙣�뒪�썙�뱶�쓽 �븵 2�옄由щ쭔 蹂댁뿬二쇨퀬 �굹癒몄��뒗 *濡� 釉붾윭泥섎━�븳�떎.
 			} else {
 				password += passwordArr[i];
 			}
 		}
 
-		request.setAttribute("password", password); // company_show_pw.jsp에서 getAttribute로 값을 호출하기 위한 변수
+		request.setAttribute("password", password); // company_show_pw.jsp�뿉�꽌 getAttribute濡� 媛믪쓣 �샇異쒗븯湲� �쐞�븳 蹂��닔
 		return "customer/customer_show_pw.tiles";
 	}
 
 	@Override
 	public ModelAndView customer_modify(ModelAndView mv, HttpSession session) {
-		CustomerDTO customer = (CustomerDTO) session.getAttribute("customer"); // customer session을 가져온다.
+		CustomerDTO customer = (CustomerDTO) session.getAttribute("customer"); // customer session�쓣 媛��졇�삩�떎.
 
-		Map<String, String> loginInfo = new HashMap<String, String>(); // mapper에 변수값을 한 번에 전달하기 위해서 생성한 Map객체
-		loginInfo.put("id", customer.getCustomer_Id()); // Map객체에 Id값을 저장한다.
-		loginInfo.put("pw", customer.getCustomer_Password()); // Map객체에 PW값을 저장한다.
+		Map<String, String> loginInfo = new HashMap<String, String>(); // mapper�뿉 蹂��닔媛믪쓣 �븳 踰덉뿉 �쟾�떖�븯湲� �쐞�빐�꽌 �깮�꽦�븳
+																		// Map媛앹껜
+		loginInfo.put("id", customer.getCustomer_Id()); // Map媛앹껜�뿉 Id媛믪쓣 ���옣�븳�떎.
+		loginInfo.put("pw", customer.getCustomer_Password()); // Map媛앹껜�뿉 PW媛믪쓣 ���옣�븳�떎.
 
-		customer = this.customerDao.listThisCustomer(loginInfo); // customer값에서 Index를 가지고 예약된 값이 있는지 customer테이블에서
-																	// 확인한다.
-		mv.addObject("customer", customer); // ModelAndView에 가져온 customer정보를 저장한다.
-		mv.setViewName("customer/customer_modify.tiles"); // 실행시켜 줄 화면(customer_modify.jsp)도 셋팅해준다.
+		customer = this.customerDao.listThisCustomer(loginInfo); // customer媛믪뿉�꽌 Index瑜� 媛�吏�怨� �삁�빟�맂 媛믪씠 �엳�뒗吏�
+																	// customer�뀒�씠釉붿뿉�꽌
+																	// �솗�씤�븳�떎.
+		mv.addObject("customer", customer); // ModelAndView�뿉 媛��졇�삩 customer�젙蹂대�� ���옣�븳�떎.
+		mv.setViewName("customer/customer_modify.tiles"); // �떎�뻾�떆耳� 以� �솕硫�(customer_modify.jsp)�룄 �뀑�똿�빐以��떎.
 		return mv;
 
 	}
@@ -240,24 +259,37 @@ public class CustomerServiceImpl implements CustomerService {
 	public void updateCustomerInfo(MultipartHttpServletRequest multipartHttpServletRequest,
 			@RequestParam HashMap<String, Object> cmap, Model model) {
 		Map<String, MultipartFile> fileMap = multipartHttpServletRequest.getFileMap();
-		Map<String, String> loginInfo = new HashMap<String, String>(); // mapper에 변수값을 한 번에 전달하기 위해서 생성한 Map객체
-		loginInfo.put("id", (String) cmap.get("customer_Id")); // Map객체에 Id값을 저장한다.
+		Map<String, String> loginInfo = new HashMap<String, String>(); // mapper�뿉 蹂��닔媛믪쓣 �븳 踰덉뿉 �쟾�떖�븯湲� �쐞�빐�꽌 �깮�꽦�븳
+																		// Map媛앹껜
+		loginInfo.put("id", (String) cmap.get("customer_Id")); // Map媛앹껜�뿉 Id媛믪쓣 ���옣�븳�떎.
 		loginInfo.put("pw", (String) cmap.get("customer_Password"));
 
 		CustomerDTO customer = this.customerDao.checkCustomerID((String) cmap.get("customer_Id"));
-		System.out.println("기존이미지 : " + customer.getCustomer_Image());
+		System.out.println("湲곗〈�씠誘몄� : " + customer.getCustomer_Image());
 
 		String existingImage = customer.getCustomer_Image();
 		try {
 			HashMap<String, Object> modifyCustomer = imageUpload(existingImage, fileMap, multipartHttpServletRequest,
 					cmap);
-			this.customerDao.updateCustomerInfo(modifyCustomer); // 가져온 cmap데이터를 기존 고객 데이터에 update시킨다.
-			model.addAttribute("customer", this.customerDao.listThisCustomer(loginInfo)); // 새로 바뀐 고객 정보로 customer
-																							// attribute를 업데이트
+			this.customerDao.updateCustomerInfo(modifyCustomer); // 媛��졇�삩 cmap�뜲�씠�꽣瑜� 湲곗〈 怨좉컼 �뜲�씠�꽣�뿉 update�떆�궓�떎.
+			model.addAttribute("customer", this.customerDao.listThisCustomer(loginInfo)); // �깉濡� 諛붾�� 怨좉컼 �젙蹂대줈
+																							// customer
+																							// attribute瑜� �뾽�뜲�씠�듃
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+	}
+
+	@Override
+	public boolean checkPW(String customer_Id, String customer_Password) {
+		return customerDao.checkPW(customer_Id, customer_Password);
+	}
+
+	@Override
+	public void deleteTheCustomer(String customer_Id) {
+		customerDao.deleteTheCustomer(customer_Id);
+
 	}
 
 }

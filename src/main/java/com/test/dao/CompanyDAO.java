@@ -31,4 +31,8 @@ public interface CompanyDAO {
 	
 	abstract public int updateCompanyInfo(HashMap<String, Object> cmap);
 
+	public abstract int deleteTheCompany(String company_Id);
+
+	public abstract boolean checkPW(String company_Id, String company_Password);
+
 }
