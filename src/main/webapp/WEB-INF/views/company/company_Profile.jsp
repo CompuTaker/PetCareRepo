@@ -32,7 +32,9 @@
 						<div class="col-md-4">
 							<img id="Company_Image"
 							src = "${company.company_Image}"  width="150"
-								height="150">
+								height="150"
+								onerror="this.src='./resources/images/profile.png'"
+								/>
 						</div>
 						<div class="col-md-8">
 							<div class="card-body">

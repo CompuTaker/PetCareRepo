@@ -53,7 +53,7 @@ prefix="c"%>
     <form
       method="POST"
       action="review_ok"
-      accept-charset="utf-8"
+      enctype="multipart/form-data"
       name="reservation"
       class="reserve-content text-center"
     >
@@ -106,18 +106,19 @@ prefix="c"%>
         </div>
       </div>
       <div class="form-group row my-5">
-        <label class="col-sm-2 col-form-label font-weight-bold" for="image"
-          >사진</label
-        >
+        <label class="col-sm-2 col-form-label font-weight-bold" for="image">사진</label>
+        <div id="fileInput">
+         <div id="images"></div>
         <input
           id="image"
-          type="file"
+          multiple = "multiple"
           accept="image/*"
-          onchange="loadFile(event)"
           name="review_Image"
-          multiple
+          type = "file"
+          onchange="loadFile(event)"
         />
-        <div id="images"></div>
+        </div>
+        <div> <input type="button" id="addButton" onclick="addInput();" value="파일추가하기"/></div>
       </div>
 
       <div class="row">
@@ -146,4 +147,15 @@ prefix="c"%>
     y.width = "100";
     y.height = "100";
   };
+  
+  function addInput() {
+		var str = "<p><input type='file' name='review_Image'/></div><a href='#this' name='delete' class='btn'>삭제</a></p> ";
+      $("#fileInput").append(str);
+      $("a[name='delete']").on("click",function(e){
+          deleteInput($(this));         
+      })
+	}
+  function deleteInput(obj){
+      obj.parent().remove();
+  }
 </script>

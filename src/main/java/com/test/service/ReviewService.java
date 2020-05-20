@@ -9,6 +9,7 @@ import javax.servlet.http.HttpSession;
 import com.test.dto.ReviewDTO;
 
 import org.springframework.ui.Model;
+import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.servlet.ModelAndView;
 
 public interface ReviewService {
@@ -23,7 +24,7 @@ public interface ReviewService {
 
 	public abstract ModelAndView customerReviewAdd(ModelAndView mv, int index, int reservation_index);
 
-	public abstract String review_Ok(HashMap<String, Object> rmap, HttpServletRequest request, HttpSession session);
+	public abstract ModelAndView review_Ok(HashMap<String, Object> rmap, MultipartHttpServletRequest multipartHttpServletRequest, HttpSession session);
 
 	public abstract String companyReviewOk(HashMap<String, Object> rmap, HttpServletRequest request, int reviewIdx);
 

@@ -17,16 +17,18 @@
 		<div class="review-div">
 			<label class="font-weight-bold" for="review_Content">내용 : </label>
 		</div>
-		<div class="review-div-image">
-			<c:if test="${not empty review_Image}">
-				<img src="./images/logo.png" id="review_Image" name="review_Image">
-			</c:if>
-		</div>
 		<div class="review-div">
 			<p id="review_Content" name="review_Content">
 				<label id="review_Content" name="review_Content"> ${ review.review_Content }</label>
 			</p>
 		</div>
+		<div class="review-div-image">
+		<c:forEach items="${reviewImage}" var="reviewImage">
+				<img id="review_Image" src="${reviewImage.image_Url }" width="150" height="150"/>
+		</c:forEach>
+		</div>
+					
+				
 		<div class="review-div">
 			<label class="font-weight-bold" for="review_Rating">별점 : </label> <label
 				id="review_Rating" name="review_Rating">${ review.review_Rating }</label>

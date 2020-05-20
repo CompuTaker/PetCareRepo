@@ -1,5 +1,6 @@
 package com.test.service;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -11,13 +12,17 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.SessionAttributes;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.test.amazon.s3;
 import com.test.dao.ReservationDAO;
 import com.test.dao.ReviewDAO;
 import com.test.dto.CompanyDTO;
 import com.test.dto.CustomerDTO;
 import com.test.dto.ReviewDTO;
+import com.test.dto.ReviewImageDTO;
 
 @Service
 @SessionAttributes({ "customer", "company" }) // Model에 저장한 값을 http session에 저장할 수 있게 해주는 Annotation
@@ -91,8 +96,12 @@ public class ReviewServiceImpl implements ReviewService {
 		List<CustomerDTO> customerDTO = this.reviewDao.searchCustomerName(reviewDTO.getCustomer_id()); // 가져온 후기 정보에서
 																										// 고객의 id를 가지고
 																										// 고객 정보를 가져온다.
+		int reservation_Idx = reviewDTO.getReservation_Index();//reservation index를 가지고 리뷰 이미지를 가져온다
+		List<ReviewImageDTO> reviewImage = this.reviewDao.listImages(reservation_Idx);
+
 		model.addAttribute("customerName", customerDTO.get(0).getCustomer_Name()); // model에 고객 이름을 저장한다.
 		model.addAttribute("review", reviewDTO); // model에 후기의 모든 정보를 저장한다.
+		model.addAttribute("reviewImage",reviewImage);//model에 이미지 정보를 저장한다.
 		return "review/customer_review_view.tiles";
 	}
 
@@ -119,7 +128,7 @@ public class ReviewServiceImpl implements ReviewService {
 	}
 
 	@Override
-	public String review_Ok(HashMap<String, Object> rmap, HttpServletRequest request, HttpSession session) {
+	public ModelAndView review_Ok(HashMap<String, Object> rmap, MultipartHttpServletRequest multipartHttpServletRequest, HttpSession session) {
 		String reservation = String.valueOf(rmap.get("reservation_Index"));
 		int reservation_Index = Integer.parseInt(reservation);
 		int company_Index = this.reservationDao.selectCompanyIndex(reservation_Index); // reservation_Index를 가지고
@@ -129,9 +138,52 @@ public class ReviewServiceImpl implements ReviewService {
 		rmap.put("customer_id", customer_id); // customer_id를 HashMap에 저장한다. (기존 form 데이터 + customer_Id)
 		rmap.put("company_Index", company_Index);
 		this.reviewDao.insertTheReview(rmap); // review테이블에 값을 저장한다.
-		this.reservationDao.updateReviewCheck(reservation_Index);
+		this.reservationDao.updateReviewCheck(reservation_Index);// 리뷰 작성시 리뷰 review_Check를 1로 바꿔줌
 
-		return "review/review_ok.tiles";
+		// image처리를 위한 코드
+		HashMap<String, Object> rimap = new HashMap<String, Object>();
+		List<MultipartFile> fileList = multipartHttpServletRequest.getFiles("review_Image"); // 이미지를 list로 넣어줌
+		for(MultipartFile image : fileList) {
+			
+			imageUpload(image, reservation_Index, rimap);
+			
+			this.reviewDao.insertTheReviewImage(rimap); // reviewImage테이블에 값을 저장한다.
+		}
+		
+		ModelAndView ok = new ModelAndView("review/review_ok.tiles");
+		return ok;
+	}
+
+	private void imageUpload(MultipartFile image, int reservation_Index, HashMap<String, Object> rimap) {
+		String baseUrl = "https://s3.ap-northeast-2.amazonaws.com/petcare2020/";
+		String fileName = image.getOriginalFilename();
+		String folderName = "reviewImage";
+		String fullFileName = baseUrl + folderName +"/"+ reservation_Index + "_" + fileName;
+		
+		
+		// 확장자확인
+		int dotIdx = fileName.lastIndexOf(".");
+		String fileExtension = fileName.substring(dotIdx + 1).toLowerCase();
+		// Wrong file
+		if (!fileExtension.equals("jpg") && !fileExtension.equals("jpeg") && !fileExtension.equals("png")) {
+
+			System.out.println("File Not Valid");
+			// Normal image file
+		} else {
+			try {
+				// rimap에 이미지 url 넣기
+				rimap.put("reservation_Index", reservation_Index); // rimap에 reservation_Index 넣기
+				rimap.put("image_Url", fullFileName);
+				
+				s3 s3 = new s3();
+				// 이미지는 3S에 업로드
+				s3.uploadFile(image, folderName, Integer.toString((Integer) rimap.get("reservation_Index")));
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		
 	}
 
 	@Override

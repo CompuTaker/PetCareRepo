@@ -102,6 +102,7 @@ public class CompanyServiceImpl implements CompanyService {
 		String baseUrl = "https://s3.ap-northeast-2.amazonaws.com/petcare2020/";
 		MultipartFile multipartFile = multipartHttpServletRequest.getFile("imageFile");
 		String fileName = multipartFile.getOriginalFilename(); // 파일명
+		String folderName = "profile";
 
 		if (fileMap.isEmpty()) { // if(imageFile == null) {
 			System.out.println("NOTHING!!"); // null
@@ -125,7 +126,7 @@ public class CompanyServiceImpl implements CompanyService {
 					cmap.put("company_Image", fullFileName);
 					s3 s3 = new s3();
 					// 이미지는 3S에 업로드
-					s3.uploadFile(multipartFile, (String) cmap.get("company_Id"));
+					s3.uploadFile(multipartFile, folderName, (String) cmap.get("company_Id"));
 				}
 			}
 		}

@@ -15,7 +15,7 @@ public class ReviewDTO {
 	private String review_Content;
 	private String review_Rating;
 	private int review_ViewsNumber;
-	private byte[] review_Image;
+	private String review_Image;
 	private String review_Comment;
 	private int review_Ref;
 	private String customer_id;
@@ -77,11 +77,11 @@ public class ReviewDTO {
 		this.review_ViewsNumber = review_ViewsNumber;
 	}
 
-	public byte[] getReview_Image() {
+	public String getReview_Image() {
 		return review_Image;
 	}
 
-	public void setReview_Image(byte[] review_Image) {
+	public void setReview_Image(String review_Image) {
 		this.review_Image = review_Image;
 	}
 

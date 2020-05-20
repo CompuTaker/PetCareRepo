@@ -5,6 +5,7 @@ import java.util.List;
 
 import com.test.dto.CustomerDTO;
 import com.test.dto.ReviewDTO;
+import com.test.dto.ReviewImageDTO;
 
 public interface ReviewDAO {
 
@@ -18,6 +19,8 @@ public interface ReviewDAO {
 
 	public abstract void insertTheReview(HashMap<String, Object> rmap);
 
+	public abstract void insertTheReviewImage(HashMap<String, Object> rmap);
+
 	public abstract void insertTheComent(HashMap<String, Object> rmap);
 
 	// 고객 이름 찾기
@@ -25,10 +28,10 @@ public interface ReviewDAO {
 
 	public abstract List<ReviewDTO> listMyReviews(String customer_id);
 
-	// abstract public int updateTheReview(int review_Index);
-
 	abstract public List<ReviewDTO> listAllReviews();
 
 	abstract public List<ReviewDTO> listThisReviewByTerm(String term);
+
+	public abstract List<ReviewImageDTO> listImages(int reservation_Index);
 
 }

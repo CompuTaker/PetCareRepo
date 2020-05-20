@@ -27,7 +27,7 @@ public class s3 {
 		amazonS3 = new AmazonS3Client(awsCredentials);
 	}
 
-	public void uploadFile(MultipartFile multipartfile, String customer_Id) throws IOException {
+	public void uploadFile(MultipartFile multipartfile,  String folderName, String ID) throws IOException {
 		if (amazonS3 != null) {
 			try {
 				ObjectMetadata metadata = new ObjectMetadata();
@@ -35,7 +35,7 @@ public class s3 {
 				System.out.println("파일의 원래 이름 : " + multipartfile.getOriginalFilename());
 				
 				// 파일 업로드를 위한 request 객체 생성
-				PutObjectRequest putObjectRequest = new PutObjectRequest(Constant.BUCKET_NAME, "profile_" + customer_Id+"_"+multipartfile.getOriginalFilename(),
+				PutObjectRequest putObjectRequest = new PutObjectRequest(Constant.BUCKET_NAME+folderName, ID+"_"+multipartfile.getOriginalFilename(),
 						multipartfile.getInputStream(), metadata);// BUCKET_NAME, 생성될 파일이름, File 바이너리 데이터,메타데이터
 
 				// file permission(공개 조회가 가능 하도록 public Read 로 설정)
