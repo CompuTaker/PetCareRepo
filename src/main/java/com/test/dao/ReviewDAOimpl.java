@@ -9,6 +9,7 @@ import org.springframework.stereotype.Repository;
 
 import com.test.dto.CustomerDTO;
 import com.test.dto.ReviewDTO;
+import com.test.dto.ReviewImageDTO;
 
 @Repository	//Spring에 DAO(Data Access Object)클래스라고 알려주는 Annotation
 public class ReviewDAOimpl implements ReviewDAO {
@@ -39,6 +40,15 @@ public class ReviewDAOimpl implements ReviewDAO {
 	public void insertTheReview(HashMap<String, Object> rmap) {
 		System.out.println(rmap);
 		this.sqlSession.insert("insertTheReview", rmap);	// mapper에서 "insertTheReview" id를 가지는 명령문에 rmap객체를 가지고 실행한다.
+	}
+	
+	/*
+	 * 후기 작성을 한 후 등록하기 버튼을 누르면 이미지 부분에만 실행되는 메서드이다.
+	 */
+	@Override
+	public void insertTheReviewImage(HashMap<String, Object> rmap) {
+		System.out.println(rmap);
+		this.sqlSession.insert("insertTheReviewImage", rmap);	
 	}
 
 	/*
@@ -71,5 +81,11 @@ public class ReviewDAOimpl implements ReviewDAO {
 	@Override
 	public List<ReviewDTO> listMyReviews(String customer_id) {
 		return this.sqlSession.selectList("listMyReviews", customer_id);
+	}
+
+	@Override
+	public List<ReviewImageDTO> listImages(int reservation_Index) {
+		System.out.println("여까지들옴?");
+		return this.sqlSession.selectList("listImages",reservation_Index);
 	}
 }

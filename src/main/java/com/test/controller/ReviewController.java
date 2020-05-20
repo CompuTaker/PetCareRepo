@@ -13,6 +13,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.SessionAttributes;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.test.dao.ReviewDAO;
@@ -40,6 +42,7 @@ public class ReviewController {
 		List<ReviewDTO> myReviews = this.reviewDAO.listMyReviews(customer_id); // 아이디를 통해 자신이 작성한 후기 리스트를 가져온다.
 		model.addAttribute("myreview", myReviews); // 가져온 후기 리스트를 model 객체에 저장한다.
 		return "review/customer_review_mylist.tiles";
+		
 	}
 
 	/*
@@ -92,9 +95,18 @@ public class ReviewController {
 	 * 리뷰 작성을 누르면 실행되는 메서드이다.
 	 */
 	@RequestMapping("/review_ok")
-	public String review_Ok(@RequestParam HashMap<String, Object> rmap, HttpServletRequest request,
-			HttpSession session) { // 리뷰 작성 화면에서 입력한 form값이 HashMap객체로 묶어서 가져온다.
-		return this.reviewService.review_Ok(rmap, request, session);
+	public ModelAndView review_Ok(
+			MultipartHttpServletRequest multipartHttpServletRequest,
+			@RequestParam HashMap<String, Object> rmap, HttpSession session) { // 리뷰 작성 화면에서 입력한 form값이 HashMap객체로 묶어서 가져온다.
+		List<MultipartFile> fileList = multipartHttpServletRequest.getFiles("review_Image");
+		
+		// fileList에 잘 들어갔나 찍어보겠습니다
+		for(MultipartFile mf : fileList) {
+			System.out.println(mf+"ssssssssssssssssssssssssssssssssssssssss");
+			System.out.println("너의 이름은 : "+mf.getOriginalFilename());
+		}
+		
+		return this.reviewService.review_Ok(rmap, multipartHttpServletRequest, session);
 	}
 
 	/*

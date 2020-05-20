@@ -35,6 +35,11 @@
 		resultType="com.test.dto.ReviewDTO">
 		select * from Review where review_Index = #{review_Index}
 	</select>
+	
+	<!-- reservation_Index로 리뷰 이미지 찾기 -->
+	<select id="listImages" resultType="com.test.dto.ReviewImageDTO">
+		 select * from ReviewImage where reservation_Index = #{reservation_Index}
+	</select>
 
 
 	<!-- 리뷰 등록하기 -->
@@ -53,6 +58,22 @@
 		#{review_Rating},
 		#{customer_id},
 		#{reservation_Index})
+	</insert>
+	
+	<!-- 리뷰이미지 등록하기 -->
+	<insert id="insertTheReviewImage" parameterType="java.util.Map">
+		insert into
+		ReviewImage
+		(
+		image_Index,
+		image_Url,
+		reservation_Index
+		)
+		values(
+		#{image_Index},
+		#{image_Url},
+		#{reservation_Index}
+		)
 	</insert>
 	
 	<!-- 리뷰 삭제하기 -->

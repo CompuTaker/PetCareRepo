@@ -39,7 +39,7 @@ public class PetServiceImpl implements PetService{
 	@Override
 	public String postModify(PetDTO pet) {
 		this.petDao.update(pet);							// 펫 정보를 수정하고 수정하기 버튼을 누르면 form에 입력한 값들로 기존 펫 정보를 udpate한다.
-		return "redirect:/customer/customer_profile.tiles";	// 펫 정보 수정이 끝나고 난 후 마이페이지로 돌아온다.
+		return "pet/pet_modify_ok.tiles";	// 펫 정보 수정이 끝나고 난 후 마이페이지로 돌아온다.
 	}
 
 	@Override
