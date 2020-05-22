@@ -24,6 +24,9 @@ public interface ReviewDAO {
 	
 	public abstract List<ReviewDTO> listMyReviews(String customer_id);
 	
-//	abstract public int updateTheReview(int review_Index);
+//	abstract public int updateTheReview(int review_Index);.
+	
+	abstract public int countReivewList();
+
 
 }

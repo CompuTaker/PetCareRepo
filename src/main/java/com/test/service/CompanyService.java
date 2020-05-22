@@ -2,6 +2,7 @@ package com.test.service;
 
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -17,7 +18,7 @@ public interface CompanyService {
 	
 	abstract public ModelAndView searchId(ModelAndView mv, HttpServletRequest request);
 	
-	abstract public List<CompanyDTO> listsCompany(String companyType);
+	abstract public List<CompanyDTO> listsCompany(Map<String, Object> map);
 
 	abstract public CompanyDTO listThisCompany(int companyIdx);
 
@@ -34,4 +35,6 @@ public interface CompanyService {
 	abstract public ModelAndView company_modify(ModelAndView mv, HttpSession session);
 
 	abstract public void updateCompanyInfo(MultipartHttpServletRequest multipartHttpServletRequest, HashMap<String, Object> cmap);
+
+	abstract public int countCompanyList(String type);
 }

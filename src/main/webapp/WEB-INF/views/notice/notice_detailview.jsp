@@ -35,7 +35,7 @@ prefix="c"%>
         <button
           type="button"
           class="btn btn-outline-secondary"
-          onclick="location.href='noticePage'"
+          onclick="location.href='noticePage?page=${param.page }'"
         >
           목록
         </button>

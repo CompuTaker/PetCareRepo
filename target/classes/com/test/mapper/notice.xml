@@ -11,11 +11,18 @@
  		values (#{notice_Title}, #{notice_Content})
  	</insert>
  
+ 
+ 	<!-- limit 시작점, 갯수 -->
  	<select id="noticeAllList" resultType="com.test.dto.NoticeDTO">
  		select *
  		from Notice
- 		order by notice_Index desc
+ 		order by notice_Index DESC
+ 		limit #{pageStart},#{perPageNum}
  	</select> 
+ 	
+ 	<select id ="countNoticeList" resultType="Integer">
+ 		select count(*) from Notice
+ 	</select>
  	
  	<select id="noticeDetail" resultType="com.test.dto.NoticeDTO">
  		select * from Notice

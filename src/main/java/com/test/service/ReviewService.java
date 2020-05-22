@@ -8,6 +8,8 @@ import javax.servlet.http.HttpSession;
 import org.springframework.ui.Model;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.test.dto.Criteria;
+
 public interface ReviewService {
 
 	abstract public String customerReviewList(Model model, HttpServletRequest request);

@@ -30,7 +30,7 @@
 			<li class="nav-item"><a class="nav-link" href="reserve">예약하기</a>
 			</li>
 			<li class="nav-item"><a class="nav-link" href="#">제휴문의</a></li>
-			<li class="nav-item"><a class="nav-link" href="noticePage">공지사항</a></li>
+			<li class="nav-item"><a class="nav-link" href="noticePage?page=1">공지사항</a></li>
 			<li class="nav-item"><a class="nav-link" href="qnaPage">Q&A</a></li>
 			<c:if test="${empty customer.customer_Index && empty company.company_Index}">
 				<li class="nav-item"><a class="nav-link" href="loginOrProfile">Login</a>

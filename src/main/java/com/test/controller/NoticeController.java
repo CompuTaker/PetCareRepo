@@ -1,10 +1,7 @@
 package com.test.controller;
 
-import java.lang.ProcessBuilder.Redirect;
 import java.util.HashMap;
 import java.util.List;
-
-import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -13,8 +10,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.SessionAttributes;
 
+import com.test.dto.Criteria;
 import com.test.dto.NoticeDTO;
-import com.test.dto.SuperuserDTO;
+import com.test.dto.PageMaker;
 import com.test.service.NoticeService;
 
 @Controller
@@ -50,9 +48,20 @@ public class NoticeController {
 
 	// 공지사항을 누르면 공지사항 목록이 나온다.
 	@RequestMapping("/noticePage")
-	public String noticePage(Model model, HttpSession session) {
-		List<NoticeDTO> noticeList = this.noticeService.noticeAllList();
+	public String noticePage(Model model, Criteria cri) {	
+
+		PageMaker pageMaker = new PageMaker();
+		pageMaker.setCri(cri);	//현재 페이지 번호와 페이지당 보여줄 게시글 수
+		pageMaker.setTotalCount(this.noticeService.countNoticeList());	//전체 데이터 갯수 조회
+		System.out.println(cri.getPageStart());
+		
+		List<NoticeDTO> noticeList = this.noticeService.noticeAllList(cri);
 		model.addAttribute("noticelist", noticeList);
+		model.addAttribute("pageMaker", pageMaker);
+		System.out.println(pageMaker.getStartPage());
+		System.out.println(pageMaker.getCri());
+
+		
 		return "notice/notice_list.tiles";
 	}
 }

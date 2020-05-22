@@ -13,7 +13,10 @@
 		select *
 		from Review
 		where company_Index = #{company_Index}
+
 	</select>
+
+
 	
 	<!-- customer name 찾기 -->
 	<select id="searchCustomerName" resultType="com.test.dto.CustomerDTO">

@@ -71,4 +71,10 @@ public class ReviewDAOimpl implements ReviewDAO {
 	public List<ReviewDTO> listMyReviews(String customer_id) {
 		return this.sqlSession.selectList("listMyReviews", customer_id);
 	}
+
+	@Override
+	public int countReivewList() {
+		// TODO Auto-generated method stub
+		return this.sqlSession.selectOne("countReviewList");
+	}
 }
