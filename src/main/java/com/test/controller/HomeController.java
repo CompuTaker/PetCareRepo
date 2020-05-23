@@ -10,6 +10,8 @@ import javax.servlet.http.HttpSession;
 
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -38,6 +40,10 @@ import com.test.service.ReviewService;
 @Controller // Spring이 해당 클래스가 Controller인 걸 알려주는 Annotation
 @SessionAttributes({ "customer", "company" }) // Model에 저장한 값을 http session에 저장할 수 있게 해주는 Annotation
 public class HomeController {
+	
+	private Logger logger = LoggerFactory.getLogger(this.getClass());
+	
+	
 	@Autowired
 	private CustomerDAO customerDao;
 	@Autowired
@@ -65,6 +71,7 @@ public class HomeController {
 	@RequestMapping({ "/", "index" })
 	public String index(Model model) {
 		System.out.println("인덱스 페이지에용~");
+		logger.info("b");
 		return "index"; // index.jsp
 	}
 
