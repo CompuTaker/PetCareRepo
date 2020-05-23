@@ -1,13 +1,8 @@
 package com.test.chat;
 
-import javax.annotation.Resource;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.data.redis.core.RedisTemplate;
-import org.springframework.data.redis.core.StringRedisTemplate;
-import org.springframework.data.redis.core.ValueOperations;
 import org.springframework.web.socket.config.annotation.EnableWebSocket;
 import org.springframework.web.socket.config.annotation.WebSocketConfigurer;
 import org.springframework.web.socket.config.annotation.WebSocketHandlerRegistry;
@@ -49,11 +44,13 @@ public class WebSocketConfig implements WebSocketConfigurer {
 		HandShakeInterceptor handShakeInterceptor = new HandShakeInterceptor();
 		return handShakeInterceptor;
 	}
-	
+
 	@Override
 	public void registerWebSocketHandlers(WebSocketHandlerRegistry registry) {
 		// TODO Auto-generated method stub
-		registry.addHandler(webSocketHandler(), "/echo").setAllowedOrigins("*").addInterceptors(handShakeInterceptor()).withSockJS();
+		registry.addHandler(
+				webSocketHandler(), "/echo").addInterceptors(
+						handShakeInterceptor()).setAllowedOrigins("*").withSockJS();
 	}
-	
+
 }

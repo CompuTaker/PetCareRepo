@@ -33,17 +33,37 @@ public class ChatRoomDAOimpl implements ChatRoomDAO {
 	}
 	
 	@Override
-	public ChatRoomDTO pickOneChatRoomByAdminIdx(int adminIdx) {
+	public ChatRoomDTO pickOneChatRoomByAdminIdxWithPriority(int adminIdx) {
 		// TODO Auto-generated method stub
 		System.out.println("~~~" + adminIdx);
-		return this.sqlSession.selectOne("pickOneChatRoomByAdminIdx", adminIdx);
+		List<ChatRoomDTO> chatRooms = this.sqlSession.selectList("pickOneChatRoomByAdminIdxWithPriority", adminIdx);
+		ChatRoomDTO mostUrgentChatRoom = chatRooms.get(0);
+		int min = mostUrgentChatRoom.getPriority();
+		for(ChatRoomDTO chatRoom : chatRooms) {
+			int priority = chatRoom.getPriority();
+			if(min > priority) {
+				min = priority;
+				mostUrgentChatRoom = chatRoom;
+			}
+		}
+		return mostUrgentChatRoom;
 	}
 	
 	@Override
-	public ChatRoomDTO pickOneChatRoomByCustomerIdx(int customerIdx) {
+	public ChatRoomDTO pickOneChatRoomByCustomerIdxWithPriority(int customerIdx) {
 		// TODO Auto-generated method stub
 		System.out.println("~~~" + customerIdx);
-		return this.sqlSession.selectOne("pickOneChatRoomByCustomerIdx", customerIdx);
+		List<ChatRoomDTO> chatRooms = this.sqlSession.selectList("pickOneChatRoomByCustomerIdxWithPriority", customerIdx);
+		ChatRoomDTO mostUrgentChatRoom = chatRooms.get(0);
+		int min = mostUrgentChatRoom.getPriority();
+		for(ChatRoomDTO chatRoom : chatRooms) {
+			int priority = chatRoom.getPriority();
+			if(min > priority) {
+				min = priority;
+				mostUrgentChatRoom = chatRoom;
+			}
+		}
+		return mostUrgentChatRoom;
 	}
 	
 	@Override

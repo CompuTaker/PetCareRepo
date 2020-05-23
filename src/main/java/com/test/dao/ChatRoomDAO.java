@@ -12,9 +12,9 @@ public interface ChatRoomDAO {
 	
 	abstract public int insertTheChatRoom(String customerSession, String repName);
 	
-	abstract public ChatRoomDTO pickOneChatRoomByAdminIdx(int adminIdx);
+	abstract public ChatRoomDTO pickOneChatRoomByAdminIdxWithPriority(int adminIdx);
 	
-	abstract public ChatRoomDTO pickOneChatRoomByCustomerIdx(int customerIdx);
+	abstract public ChatRoomDTO pickOneChatRoomByCustomerIdxWithPriority(int customerIdx);
 	
 	abstract public int specifyAdminWebSocketSessionToTheChatRoom(int chatRoomIdx, String adminWebSocketSession);
 	

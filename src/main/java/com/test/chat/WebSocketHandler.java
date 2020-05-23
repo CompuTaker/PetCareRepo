@@ -133,12 +133,12 @@ public class WebSocketHandler extends TextWebSocketHandler {
 		// System.out.println("AdminOut_RemoveChatRoom_chatRoomIdx => " + chatRoom.getChatRoomIdx() + "///" + session.getId());
 		
 		if(isAdmin) {
-			chatRoom = this.chatRoomDAO.pickOneChatRoomByAdminIdx(idx);
+			chatRoom = this.chatRoomDAO.pickOneChatRoomByAdminIdxWithPriority(idx);
 			// System.out.println("chatRoomIdx => " + chatRoom.getChatRoomIdx() + "///" + session.getId());
 			this.chatRoomDAO.specifyAdminWebSocketSessionToTheChatRoom(chatRoom.getChatRoomIdx(), session.getId());
 			// admin
 		}else {
-			chatRoom = this.chatRoomDAO.pickOneChatRoomByCustomerIdx(idx);
+			chatRoom = this.chatRoomDAO.pickOneChatRoomByCustomerIdxWithPriority(idx);
 			// System.out.println("chatRoomIdx => " + chatRoom.getChatRoomIdx() + "///" + session.getId());
 			this.chatRoomDAO.specifyCustomerWebSocketSessionToTheChatRoom(chatRoom.getChatRoomIdx(), session.getId());
 			// customer
@@ -176,12 +176,12 @@ public class WebSocketHandler extends TextWebSocketHandler {
 		// this.chatRoomDAO.removechatroom();
 		String opponentSessionId = null;
 		if(isAdmin) {
-			chatRoom = this.chatRoomDAO.pickOneChatRoomByAdminIdx(idx);
+			chatRoom = this.chatRoomDAO.pickOneChatRoomByAdminIdxWithPriority(idx); // -- priority
 			opponentSessionId = chatRoom.getCustomerWebSocketSession();
 			this.chatRoomDAO.deleteChatRoomByAdminWebSocketSession(session.getId()); // 채팅방 삭제
 			// admin
 		}else {
-			chatRoom = this.chatRoomDAO.pickOneChatRoomByCustomerIdx(idx);
+			chatRoom = this.chatRoomDAO.pickOneChatRoomByCustomerIdxWithPriority(idx); // -- priority
 			// System.out.println("CustomerOut_RemoveChatRoom_chatRoomIdx => " + chatRoom.getChatRoomIdx() + "///" + session.getId());
 			opponentSessionId = chatRoom.getAdminWebSocketSession();
 			this.chatRoomDAO.deleteChatRoomByCustomerWebSocketSession(session.getId()); // 채팅방 삭제

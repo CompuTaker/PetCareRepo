@@ -17,11 +17,11 @@
 		(#{customerSession}, #{repName})
 	</insert>
 	
-	<select id="pickOneChatRoomByAdminIdx" parameterType="java.lang.Integer" resultType="com.test.dto.ChatRoomDTO">
+	<select id="pickOneChatRoomByAdminIdxWithPriority" parameterType="java.lang.Integer" resultType="com.test.dto.ChatRoomDTO">
 		select * from ChatRoom where adminIdx = #{adminIdx}
 	</select>
 	
-	<select id="pickOneChatRoomByCustomerIdx" parameterType="java.lang.Integer" resultType="com.test.dto.ChatRoomDTO">
+	<select id="pickOneChatRoomByCustomerIdxWithPriority" parameterType="java.lang.Integer" resultType="com.test.dto.ChatRoomDTO">
 		select * from ChatRoom where customerIdx = #{customerIdx}
 	</select>
 	
