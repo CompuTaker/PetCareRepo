@@ -4,6 +4,8 @@ import java.util.List;
 
 import javax.servlet.http.HttpSession;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -21,7 +23,7 @@ import com.test.service.QnAboardService;
 @Controller
 @SessionAttributes({ "customer", "company" })	// Model에 저장한 값을 http session에 저장할 수 있게 해주는 Annotation
 public class QnAboardController {
-	
+	private Logger logger = LoggerFactory.getLogger(this.getClass());
 	@Autowired
 	private QnAboardService qnaService;
 	
@@ -30,6 +32,7 @@ public class QnAboardController {
 	 */
 	@RequestMapping("/qnaPage")
 	public String qnaPage (Model model) {
+		logger.info("/qnaPage - pna_list.jsp , GET");
 		List<QnAboardDTO> qnaDtoList = this.qnaService.selectQnaAllList();
 		model.addAttribute("qnalist", qnaDtoList);
 		return "qna/qna_list.tiles";
@@ -40,6 +43,7 @@ public class QnAboardController {
 	 */
 	@RequestMapping("/qnaWrite")
 	public String qnaWrtie(Model model, HttpSession session) {
+		logger.info("/qnaWrite - qna_write.jsp , GET");
 		if(Constant.eSession == ESession.eNull) {
 			return "home/login.tiles";
 		} else {
@@ -52,6 +56,7 @@ public class QnAboardController {
 	 */
 	@RequestMapping(value="/qnaAdd", method=RequestMethod.POST)
 	public String qnaAdd(QnAboardDTO qnaDto, HttpSession session) {
+		logger.info("/qnaAdd , POST");
 		this.qnaService.insertQnaContents(qnaDto, (CustomerDTO)session.getAttribute("customer"));
 		return "redirect:/qnaPage";
 	}
@@ -61,6 +66,7 @@ public class QnAboardController {
 	 */
 	@RequestMapping("/qnaDatailView")
 	public String qnaDatailView(Model model, String qna_Id) {
+		logger.info("/qnaDatailView - qna_detailview.jsp , GET");
 		QnAboardDTO qnaDto = this.qnaService.selectQnaDetailView(qna_Id);
 		model.addAttribute("qnaDetail", qnaDto);
 		model.addAttribute("qna_Id", qna_Id);
@@ -69,11 +75,13 @@ public class QnAboardController {
 	
 	@RequestMapping("/qnaModify_view")
 	public ModelAndView qnaModify_view(ModelAndView mv, HttpSession session, String qna_Id) {
+		logger.info("/qnaModify_view ");
 		return this.qnaService.selectQnaWriterId(mv, session, qna_Id);
 	}
 	
 	@RequestMapping(value="/qna_content_update", method=RequestMethod.POST)
 	public String qnaContentUpdate(Model model, QnAboardDTO qnaDto) {
+		logger.info("/qna_content_update , POST");
 		this.qnaService.updateQnaContent(qnaDto);
 		return "redirect:/";
 	}

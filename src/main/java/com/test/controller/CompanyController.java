@@ -8,6 +8,8 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -26,7 +28,9 @@ import com.test.service.CompanyService;
 @Controller // Spring에 Controller 클래스라고 알려주는 Annotation
 @SessionAttributes({ "customer", "company" }) // Model에 저장한 값을 http session에 저장할 수 있게 해주는 Annotation
 public class CompanyController {
-
+	
+	private Logger logger = LoggerFactory.getLogger(this.getClass());
+	
 	@Autowired
 	private CompanyService companyService;
 
@@ -36,6 +40,8 @@ public class CompanyController {
 	@RequestMapping(value = "/company_signupDo", method = RequestMethod.POST, headers = ("content-type=multipart/*"))
 	public ModelAndView company_signupDo(@RequestParam HashMap<String, Object> cmap,
 			MultipartHttpServletRequest multipartHttpServletRequest) { // form에서 입력한 값을 HashMap으로 묶어서 가져옴
+		logger.info("/company_signupDo , POST");
+		
 		return this.companyService.company_signupDo(multipartHttpServletRequest, cmap);
 	}
 
@@ -44,7 +50,7 @@ public class CompanyController {
 	 */
 	@RequestMapping(value = "/company_checkcId", method = RequestMethod.GET)
 	public void comIdCheck(@RequestParam("company_Id") String company_Id) { // company_signup.jsp에서 name이 company_Id인 값을
-																			// 가져와 String값으로 저장한다.
+		logger.info("/company_checkcId , GET");																	// 가져와 String값으로 저장한다.
 		this.companyService.comIdCheck(company_Id);
 	}
 
@@ -54,7 +60,7 @@ public class CompanyController {
 	@RequestMapping(value = "/company_checkComNum", method = RequestMethod.GET)
 	public void comNumCheck(@RequestParam("company_Number") int company_Number) { // company_signup.jsp에서 name이
 																					// company_Number인 값을 가져와 int값으로
-																					// 저장한다.
+		logger.info("/company_checkComNum , GET");																		// 저장한다.
 		this.companyService.comNumCheck(company_Number);
 	}
 
@@ -64,7 +70,7 @@ public class CompanyController {
 	@RequestMapping("/company_searchId")
 	public ModelAndView company_searchId(ModelAndView mv, HttpServletRequest request) { // search_id.jsp에서 name값이
 																						// company_Number인 값이 int
-																						// company_Number에 저장된다.
+		logger.info("/company_searchId ");																			// company_Number에 저장된다.
 		return this.companyService.searchId(mv, request); // company_Number에 맞는 id가 있는지 company테이블에서 찾아본다.
 	}
 
@@ -73,6 +79,7 @@ public class CompanyController {
 	 */
 	@RequestMapping(value = "/search_pw_company", method = RequestMethod.POST)
 	public String search_pw_company(ModelAndView mv, HttpServletRequest request) {
+		logger.info("/search_pw_company , POST");	
 		return this.companyService.search_pw_company(mv, request);
 	}
 
@@ -81,6 +88,7 @@ public class CompanyController {
 	 */
 	@RequestMapping("/company_Profile")
 	public ModelAndView profile(HttpSession session, ModelAndView mv) {
+		logger.info("/company_Profile , GET");	
 		return this.companyService.profile(mv, session);
 	}
 
@@ -89,6 +97,7 @@ public class CompanyController {
 	 */
 	@RequestMapping("/company_modify")
 	public ModelAndView company_modify(ModelAndView mv, HttpSession session) {
+		logger.info("/company_modify");	
 		return this.companyService.company_modify(mv, session);
 	}
 
@@ -99,6 +108,7 @@ public class CompanyController {
 	public String customer_modify(MultipartHttpServletRequest multipartHttpServletRequest,
 			@RequestParam HashMap<String, Object> cmap) { // form에서 입력한 정보를 HashMap으로 묶어서 가져온다.
 		this.companyService.updateCompanyInfo(multipartHttpServletRequest, cmap); // 가져온 cmap데이터를 기존 고객 데이터에 update시킨다.
+		logger.info("/company_modify_ok , GET");	
 		return "company/company_modify_ok.tiles";
 
 	}
@@ -108,13 +118,11 @@ public class CompanyController {
 	 */
 	@RequestMapping("/beautyCompany")
 	public String beautyCompany(Model model, HttpServletRequest request, Criteria cri) {
-
+		logger.info("/beautyCompany , GET");	
 		PageMaker pageMaker = new PageMaker();
 		pageMaker.setCri(cri);
 		pageMaker.setTotalCount(this.companyService.countCompanyList("미용실"));
-
-		System.out.println(pageMaker.getTotalCount());
-
+		
 		Map<String, Object> criteria = new HashMap<String, Object>();
 		criteria.put("page", cri.getPage());
 		criteria.put("perPageNum", cri.getPerPageNum());
@@ -125,9 +133,7 @@ public class CompanyController {
 																							// 가져온다.
 		model.addAttribute("companyList", beautyCompanyList); // model에 가져온 회사 정보를 저장한다.
 		model.addAttribute("pageMaker", pageMaker);
-		System.out.println(pageMaker.getStartPage());
-		System.out.print(pageMaker.getEndPage());
-		System.out.println(pageMaker.getCri().toString());
+		
 		url = "company/beauty_company.tiles"; // beauty_company.jsp화면을 띄워준다.
 		return url;
 	}
@@ -137,6 +143,7 @@ public class CompanyController {
 	 */
 	@RequestMapping("/hospitalCompany")
 	public String hospitalCompany(Model model, HttpServletRequest request, Criteria cri) {
+		logger.info("/hospitalCompany , GET");	
 		PageMaker pageMaker = new PageMaker();
 		pageMaker.setCri(cri);
 		pageMaker.setTotalCount(this.companyService.countCompanyList("병원"));
@@ -160,6 +167,7 @@ public class CompanyController {
 	 */
 	@RequestMapping("/hotelCompany")
 	public String hotelCompany(Model model, HttpServletRequest request, Criteria cri) {
+		logger.info("/hotelCompany , GET");	
 		PageMaker pageMaker = new PageMaker();
 		pageMaker.setCri(cri);
 		pageMaker.setTotalCount(this.companyService.countCompanyList("호텔"));
@@ -189,6 +197,8 @@ public class CompanyController {
 																// company리스트를 클릭하면 companyIdx값이 넘어온다. (onclick href 참조)
 		CompanyDTO company = this.companyService.listThisCompany(companyIdx); // 넘어온 companyIdx값을 company테이블에 가서 값을
 																				// 가져온다.
+		
+		logger.info("/company_view , GET");	
 		model.addAttribute("thisCompany", company); // 가져온 company의 값을 model객체에 저장한다.
 		return "company/company_view.tiles";
 	}
@@ -196,6 +206,7 @@ public class CompanyController {
 	// 업체찾기 : 전체엄체, 검색된업체
 	@RequestMapping("/searchCompany")
 	public String searchCompany(Model model, HttpServletRequest request) {
+		logger.info("/searchCompany , GET");	
 		String url = "";
 		List<CompanyDTO> companyList = this.companyService.listsAllCompany(request); // 회사를 가져온다.
 		model.addAttribute("companyList", companyList); // model에 가져온 회사 정보를 저장한다.
