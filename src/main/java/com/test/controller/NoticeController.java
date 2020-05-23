@@ -3,6 +3,8 @@ package com.test.controller;
 import java.util.HashMap;
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,23 +28,23 @@ public class NoticeController {
 
 	// 공지사항 작성 버튼 눌렀을 경우
 	@RequestMapping("/notice_write")
-	public String noticeWrite() {
-		logger.info("/notice_write , GET");
+	public String noticeWrite(HttpServletRequest  request) {
+		logger.info("/notice_write "+request.getMethod());
 		return "notice/notice_write.tiles";
 	}
 
 	// 공지사항 추가
 	@RequestMapping("/notice_add")
-	public String noticeAdd(@RequestParam HashMap<String, Object> hmap) {
-		logger.info("/notice_add , POST");
+	public String noticeAdd(@RequestParam HashMap<String, Object> hmap,HttpServletRequest  request) {
+		logger.info("/notice_add "+request.getMethod());
 		this.noticeService.insertNotice(hmap);
 		return "redirect:/noticePage";
 	}
 
 	// 공지사항 상세보기
 	@RequestMapping("/noticeDetailView")
-	public String noticeDetailView(Model model, @RequestParam("notice_Index") int notice_Index) {
-		logger.info("/notice_detailview , GET");
+	public String noticeDetailView(Model model, @RequestParam("notice_Index") int notice_Index,HttpServletRequest  request) {
+		logger.info("/notice_detailview "+request.getMethod());
 		NoticeDTO notice = this.noticeService.noticeDetail(notice_Index);
 		this.noticeService.addNoticeViewnum(notice_Index);
 		model.addAttribute("noticeDetail", notice);
@@ -51,8 +53,8 @@ public class NoticeController {
 
 	// 공지사항을 누르면 공지사항 목록이 나온다.
 	@RequestMapping("/noticePage")
-	public String noticePage(Model model, Criteria cri) {
-		logger.info("/noticePage , GET");
+	public String noticePage(Model model, Criteria cri,HttpServletRequest  request) {
+		logger.info("/noticePage "+request.getMethod());
 		PageMaker pageMaker = new PageMaker();
 		pageMaker.setCri(cri);
 		pageMaker.setTotalCount(this.noticeService.countNoticeList());

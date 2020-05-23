@@ -17,6 +17,9 @@ import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.test.constants.Constant;
+import com.test.constants.Constant.ESession;
+import com.test.dto.CustomerDTO;
 import com.test.service.CustomerService;
 
 //Spring이 해당 클래스가 Controller인 걸 알려주는 Annotation
@@ -36,7 +39,10 @@ public class CustomerController {
 	@RequestMapping(value = "/customer_signupDo", method = RequestMethod.POST, headers = "content-type=multipart/*")	
 	public Object customer_signupDo(@RequestParam HashMap<String, Object> cmap,
 			MultipartHttpServletRequest multipartHttpServletRequest, HttpServletRequest request, Model model) { // form에서 입력한 값을 HashMap으로 묶어서 가져옴
-			
+		
+		if(Constant.eSession == ESession.eNull) {
+			logger.info("/customer_signupDo "+request.getMethod()+"user : "+"guest");
+		}
 		logger.info("/customer_signupDo "+request.getMethod());
 		return this.customerService.customer_signupDo(multipartHttpServletRequest, cmap);
 	}
@@ -55,7 +61,9 @@ public class CustomerController {
 	 */
 	@RequestMapping("/customer_Profile")
 	public String profile(Model model, HttpSession session,HttpServletRequest  request) {
-		logger.info("/customer_Profile "+request.getMethod());	
+		
+			logger.info("/customer_Profile "+request.getMethod());	
+		
 		return this.customerService.profile(model, session);
 	}
 

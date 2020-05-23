@@ -39,11 +39,11 @@ public class PetController {
 																				// DTO로 타입캐스팅을 하고 customer에 저장한다.
 
 		if (customer != null) { // customer가 존재하면
-			logger.info("/pet_register , GET");
+			logger.info("/pet_register "+request.getMethod());
 			url = "pet/pet_register.tiles"; // 펫 등록 화면(pet_register.jsp)를 띄워준다.
 
 		} else { // customer가 존재하지 않으면
-			logger.info("/ , GET");
+			logger.info("/ "+request.getMethod());
 			url = "redirect:/"; // 메인 화면을 띄워준다.
 		}
 		return url;
@@ -54,9 +54,9 @@ public class PetController {
 	 */
 	@RequestMapping(value = "/pet_modify", method = RequestMethod.GET)
 	public String modify(@RequestParam("customer_Index") int cust_Index, @RequestParam("pet_Index") int pet_Index,
-			Model model) { // customerprofile.jsp에서 name값이 customer_Index, pet_Index인 값을 가져온다.
+			Model model,HttpServletRequest  request) { // customerprofile.jsp에서 name값이 customer_Index, pet_Index인 값을 가져온다.
 							// 펫 정보수정을 누르면 값을 가져온다.
-		logger.info("/pet_modify , GET");
+		logger.info("/pet_modify "+request.getMethod());
 		return this.petService.modify(cust_Index, pet_Index, model);
 	}
 
@@ -64,8 +64,8 @@ public class PetController {
 	 * 고객이 등록한 반려 동물의 정보를 수정할 때 실행되는 메서드이다. RequestMethod.POST
 	 */
 	@RequestMapping(value = "/pet_modify", method = RequestMethod.POST)
-	public String postModify(PetDTO pet) {
-		logger.info("/pet_modify , POST");
+	public String postModify(PetDTO pet,HttpServletRequest  request) {
+		logger.info("/pet_modify "+request.getMethod());
 		return this.petService.postModify(pet);
 	}
 
@@ -75,19 +75,19 @@ public class PetController {
 	@RequestMapping("/pet_ok")
 	public String reserve_Ok(@RequestParam HashMap<String, Object> pmap, HttpServletRequest request) { // form에 입력한 값을을
 																										// HashMap으로 묶어서
-		logger.info("/pet_ok ");																// 가져온다.
+		logger.info("/pet_ok "+request.getMethod());																// 가져온다.
 		return this.petService.reserve_Ok(pmap, request);
 	}
 
 	@RequestMapping("/petcheck")
-	public String petcheck(Model model, HttpSession session) {
-		logger.info("/petcheck ");
+	public String petcheck(Model model, HttpSession session,HttpServletRequest  request) {
+		logger.info("/petcheck "+request.getMethod());
 		return this.petService.petcheck(model, session);
 	}
 
 	@RequestMapping("/pet_cancel")
-	public ModelAndView pet_cancel(@RequestParam String pet_Index, ModelAndView mv) {
-		logger.info("/pet_cancel ");
+	public ModelAndView pet_cancel(@RequestParam String pet_Index, ModelAndView mv,HttpServletRequest  request) {
+		logger.info("/pet_cancel "+request.getMethod());
 		return this.petService.pet_cancel(pet_Index, mv);
 	}
 }

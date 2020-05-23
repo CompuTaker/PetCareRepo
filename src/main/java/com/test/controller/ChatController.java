@@ -24,6 +24,7 @@ public class ChatController {
 	
 	@RequestMapping("/chat")
 	public String chat(Model model, HttpServletRequest request, HttpServletResponse response) {
+		
 		return "chat/chat.tiles"; // chat.jsp
 	}
 	
