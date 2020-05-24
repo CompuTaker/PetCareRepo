@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.test.dto.CompanyDTO">
+
+	<select id="listAllCompany" resultType="com.test.dto.CompanyDTO">
+		select * from Company;
+	</select>
+
+	<select id="listThisCompany" parameterType="java.util.Map"
+		resultType="com.test.dto.CompanyDTO">
+		select * from Company where company_Id = #{ company_Id } and
+		company_Password = #{ company_Password }
+	</select>
+	
+	
+	<!-- userId와 userPw는 실제 컬럼명, 여기선 map 객체인 user에 저장된 key값들인 id와 pw로 값 찾아내 
+		적어준 것일 뿐 user.id, user.pw, 이렇게 하는 건, 객체를 user란 이름의 객체를 넘겨주어, VO 혹은 DTO로 get해주는 
+		방식이었던 것 -->
+		
+	
+	<select id="listThisCompanyByIdx" resultType="com.test.dto.CompanyDTO">
+		select * from Company where company_Index = #{company_Index}
+	</select>
+	
+	<insert id="insertTheCompany" parameterType="java.util.Map">
+		insert into Company
+		(company_Index, company_Id, company_Password, company_UserName,
+		company_ResidentNumber, company_Address, company_Email,
+		company_UserPhoneNumber, company_Name, company_Number, company_Type,
+		company_Image)
+		values
+		(#{company_Index}, #{company_Id}, #{company_Password},
+		#{company_UserName},#{company_ResidentNumber}, #{company_Address},
+		#{company_Email}, #{company_UserPhoneNumber}, #{company_Name},
+		#{company_Number}, #{company_Type}, #{company_Image})
+	</insert>
+
+	<delete id="deleteTheCompany">
+		delete from Company where company_Index = #{ company_Index }
+	</delete>
+	<select id="listsCompany" parameterType="java.util.Map"
+		resultType="com.test.dto.CompanyDTO">
+		select * from Company where company_Type = #{ company_Type }
+	</select>
+	<!-- 세미콜론 없이 쿼리문 작성! -->
+
+</mapper>
