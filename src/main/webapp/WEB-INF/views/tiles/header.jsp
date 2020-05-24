@@ -31,14 +31,15 @@
 			<li class="nav-item"><a class="nav-link" href="qnaPage">Q&A</a></li>
 			<li class="nav-item"><a class="nav-link" href="searchCompany">업체찾기</a></li>
 			<li class="nav-item"><a class="nav-link" href="searchReview">후기</a></li>
-			<c:if test="${empty customer.customer_Index && empty company.company_Index}">
-				<li class="nav-item"><a class="nav-link" href="loginOrProfile">Login</a>
-			</c:if>
-			<c:if test="${not empty company.company_Index && empty customer.customer_Index}">
-				<li class="nav-item"><a class="nav-link" href="loginOrProfile">My
-						page</a></li>
-			</c:if>
-
+			<c:choose>
+			 <c:when test="${empty customer.customer_Index && empty company.company_Index && empty superuser.index}">
+			 				<li class="nav-item"><a class="nav-link" href="loginOrProfile">Login</a>
+			 </c:when>
+			 <c:otherwise>
+			 
+				<li class="nav-item"><a class="nav-link" href="loginOrProfile">My page</a></li>
+			 </c:otherwise>
+			</c:choose>			
 
 		</ul>
 
