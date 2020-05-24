@@ -4,7 +4,7 @@
 
 <link rel="stylesheet" type="text/css"
 	href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
-
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css">
 <div class="row mx-auto main-container">
 	<div class="col-10 mx-auto main-block">
 		<div class="logindiv col-md-6 form-group">
@@ -30,25 +30,28 @@
 				</c:forEach>
 			</tbody>
 		</table>
-		<div class="pull-right">
-			<ul class="btn-group pagination">
+		<div>
+			<ul class="pagination justify-content-center">
 				<c:if test="${pageMaker.prev }">
-					<li><a href='<c:url value="/hotelCompany?page=${pageMaker.startPage-1 }"/>'><i
-								class="fa fa-chevron-left"></i></a>
+					<li class="page-item"><a class="page-link"
+							href='<c:url value="/beautyCompany?page=${pageMaker.startPage-1 }"/>'>&laquo;</a>
 					</li>
 				</c:if>
 				<c:forEach begin="${pageMaker.startPage }" end="${pageMaker.endPage }" var="pageNum">
-					<li><a href='<c:url value="/hotelCompany?page=${pageNum }"/>'>${pageNum }</a>&nbsp;
+					<li class="page-item ${pageMaker.cri.page == pageNum ? " active":"" }"><a class="page-link"
+							href='<c:url value="/beautyCompany?page=${pageNum }"/>'>${pageNum }</a>&nbsp;
 					</li>
 				</c:forEach>
 				<c:if test="${pageMaker.next && pageMaker.endPage >0 }">
-					<li><a href='<c:url value="/hotelCompany?page=${pageMaker.endPage+1 }"/>'><i
-								class="fa fa-chevron-right"></i></a>
+					<li class="page-item"><a class="page-link"
+							href='<c:url value="/beautyCompany?page=${pageMaker.endPage+1 }"/>'>&raquo;</a>
 					</li>
 				</c:if>
 			</ul>
 		</div>
 	</div>
 	</section>
+</div>
+</section>
 </div>
 </div>

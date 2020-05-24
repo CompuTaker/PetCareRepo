@@ -11,6 +11,8 @@
  		values (#{notice_Title}, #{notice_Content})
  	</insert>
  
+ 
+ 	<!-- limit 시작점, 갯수 -->
  	<select id="noticeAllList" resultType="com.test.dto.NoticeDTO">
  		select *
  		from Notice

@@ -34,4 +34,8 @@ public interface ReviewDAO {
 
 	public abstract List<ReviewImageDTO> listImages(int reservation_Index);
 
+	// abstract public int updateTheReview(int review_Index);.
+
+	abstract public int countReivewList();
+
 }

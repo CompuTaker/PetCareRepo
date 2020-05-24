@@ -89,7 +89,7 @@
 			leo risus, porta ac consectetur ac, vestibulum at eros. Praesent
 			commodo cursus magna.</p>
 		<p>
-			<a class="btn btn-secondary" href="beautyCompany" role="button">업체찾기
+			<a class="btn btn-secondary" href="beautyCompany?page=1" role="button">업체찾기
 				»</a>
 		</p>
 	</div>
@@ -109,7 +109,7 @@
 			sit amet fermentum. Fusce dapibus, tellus ac cursus commodo, tortor
 			mauris condimentum nibh.</p>
 		<p>
-			<a class="btn btn-secondary" href="hotelCompany" role="button">업체찾기
+			<a class="btn btn-secondary" href="hotelCompany?page=1" role="button">업체찾기
 				»</a>
 		</p>
 	</div>
@@ -129,7 +129,7 @@
 			Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum
 			nibh, ut fermentum massa justo sit amet risus.</p>
 		<p>
-			<a class="btn btn-secondary" href="hospitalCompany" role="button">업체찾기
+			<a class="btn btn-secondary" href="hospitalCompany?page=1" role="button">업체찾기
 				»</a>
 		</p>
 	</div>

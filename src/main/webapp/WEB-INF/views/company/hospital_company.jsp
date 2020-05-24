@@ -4,7 +4,7 @@
 
 <link rel="stylesheet" type="text/css"
   href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
-
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css">
 <div class="row mx-auto main-container">
   <div class="col-10 mx-auto main-block">
     <div class="logindiv col-md-6 form-group">
@@ -30,21 +30,20 @@
         </c:forEach>
       </tbody>
     </table>
-    <div class="pull-right">
-      <ul class="btn-group pagination">
+    <div>
+      <ul class="pagination justify-content-center">
         <c:if test="${pageMaker.prev }">
-          <li><a href='<c:url value="/hotelCompany?page=${pageMaker.startPage-1 }"/>'><i
-                class="fa fa-chevron-left"></i></a>
-          </li>
+          <li class="page-item"><a class="page-link"
+              href='<c:url value="/hospitalCompany?page=${pageMaker.startPage-1 }"/>'>&laquo;</a></li>
         </c:if>
         <c:forEach begin="${pageMaker.startPage }" end="${pageMaker.endPage }" var="pageNum">
-          <li><a href='<c:url value="/hotelCompany?page=${pageNum }"/>'>${pageNum }</a>&nbsp;
+          <li class="page-item ${pageMaker.cri.page == pageNum ? " active":"" }"><a class="page-link"
+              href='<c:url value="/hospitalCompany?page=${pageNum }"/>'>${pageNum }</a>&nbsp;
           </li>
         </c:forEach>
         <c:if test="${pageMaker.next && pageMaker.endPage >0 }">
-          <li><a href='<c:url value="/hotelCompany?page=${pageMaker.endPage+1 }"/>'><i
-                class="fa fa-chevron-right"></i></a>
-          </li>
+          <li class="page-item"><a class="page-link"
+              href='<c:url value="/hospitalCompany?page=${pageMaker.endPage+1 }"/>'>&raquo;</a></li>
         </c:if>
       </ul>
     </div>
@@ -62,19 +61,18 @@
 
     //html5 에서 제공되는 geolocation 을 통해 현재위치 좌표를 가져온다.
     if (navigator.geolocation) {
-      navigator.geolocation.getCurrentPosition(
-        function (position) {
-          var lat = position.coords.latitude, // 위도
-            lon = position.coords.longitude; // 경도
-          var locPosition = new kakao.maps.LatLng(lat, lon),
-            message = '<div style="padding:5px;">현재 위치</div>';
-          displayMarker(locPosition, message);
-          console.log(lat, lon);
-        },
-        function (error) {
-          console.log("error", error);
-        }
-      );
+      navigator.geolocation
+        .getCurrentPosition(
+          function (position) {
+            var lat = position.coords.latitude, // 위도
+              lon = position.coords.longitude; // 경도
+            var locPosition = new kakao.maps.LatLng(lat,
+              lon), message = '<div style="padding:5px;">현재 위치</div>';
+            displayMarker(locPosition, message);
+            console.log(lat, lon);
+          }, function (error) {
+            console.log("error", error);
+          });
     }
 
     function displayMarker(locPosition, message) {
@@ -83,8 +81,7 @@
         position: locPosition,
       });
 
-      var iwContent = message,
-        iwRemoveable = true;
+      var iwContent = message, iwRemoveable = true;
 
       var infowindow = new kakao.maps.InfoWindow({
         content: iwContent,
@@ -97,5 +94,6 @@
     }
   </script>
   </section>
+</div>
 </div>
 </div>

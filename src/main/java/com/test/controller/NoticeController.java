@@ -51,8 +51,8 @@ public class NoticeController {
 	public String noticePage(Model model, Criteria cri) {
 
 		PageMaker pageMaker = new PageMaker();
-		pageMaker.setCri(cri);
-		pageMaker.setTotalCount(this.noticeService.countNoticeList());
+		pageMaker.setCri(cri); // 현재 페이지 번호와 페이지당 보여줄 게시글 수
+		pageMaker.setTotalCount(this.noticeService.countNoticeList()); // 전체 데이터 갯수 조회
 		System.out.println(cri.getPageStart());
 
 		List<NoticeDTO> noticeList = this.noticeService.noticeAllList(cri);

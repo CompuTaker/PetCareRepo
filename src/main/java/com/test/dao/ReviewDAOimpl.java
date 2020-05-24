@@ -100,5 +100,9 @@ public class ReviewDAOimpl implements ReviewDAO {
 	public List<ReviewImageDTO> listImages(int reservation_Index) {
 		System.out.println("여까지들옴?");
 		return this.sqlSession.selectList("listImages", reservation_Index);
+
+	public int countReivewList() {
+		// TODO Auto-generated method stub
+		return this.sqlSession.selectOne("countReviewList");
 	}
 }
