@@ -36,7 +36,7 @@ public class SocialLoginController {
 
    // 카카오 로그인을 위한 값
    private final static String K_CLIENT_ID = "4d98988d5e3e2dd0bd6136c194a24339";
-   private final static String K_REDIRECT_URI = "http://http://18.181.151.12:8080/PetCareProject/kakaoOauth.do";
+   private final static String K_REDIRECT_URI = "http://18.181.151.12:8080/PetCareProject/kakaoOauth.do";
 
    // 카카오 로그인 창으로 이동하는 url을 리턴
    public String getAuthorizationKakaoUrl(HttpSession session) {
