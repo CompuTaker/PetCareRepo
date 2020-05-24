@@ -40,21 +40,6 @@ public class CustomerServiceImpl implements CustomerService {
 
 	@Override
 	public ModelAndView customer_signupDo(MultipartHttpServletRequest multipartHttpServletRequest,
-<<<<<<< HEAD
-			@RequestParam HashMap<String, Object> cmap) { // form�뿉�꽌 �엯�젰�븳 媛믪쓣 HashMap�쑝濡� 臾띠뼱�꽌 媛��졇�샂
-
-		ModelAndView ok = new ModelAndView("customer/customer_signup_ok.tiles"); // 以묐났泥댄겕源뚯� �젙�긽�쟻�쑝濡� 泥섎━�븳 �썑
-																					// �쉶�썝媛��엯 踰꾪듉�쓣 �닃���쓣 �븣 �굹�삱
-																					// �솕硫닿낵 �븿猿� ModelAndView媛앹껜 �깮�꽦
-		ModelAndView redirect = new ModelAndView("customer/customer_Signup.tiles"); // 以묐났泥댄겕瑜� �븯吏� �븡�븯�쓣 寃쎌슦 �굹�삱
-																					// �솕硫닿낵 �븿猿�
-																					// ModelAndView媛앹껜 �깮�꽦
-		redirect.addObject("message", "以묐났泥댄겕 �빐二쇱꽭�슂."); // 以묐났泥댄겕瑜� �븯吏� �븡�븯�쓣 寃쎌슦 �쓣�슱 硫붿떆吏�瑜� redirect
-															// ModelAndView�뿉 ���옣
-
-		if (isCustomerIdChecked) { // ID�� 二쇰�쇰벑濡앸쾲�샇 以묐났泥댄겕瑜� �젙�긽�쟻�쑝濡� �떎�뻾�뻽�쓣 寃쎌슦
-			if (isCustomerOk) { // 理쒖쥌�솗�씤 Boolean�룄 true�씪 寃쎌슦
-=======
 			@RequestParam HashMap<String, Object> cmap) { // form에서 입력한 값을 HashMap으로 묶어서 가져옴
 
 		ModelAndView ok = new ModelAndView("customer/customer_signup_ok.tiles"); // 중복체크까지 정상적으로 처리한 후 회원가입 버튼을 눌렀을 때 나올
@@ -67,7 +52,6 @@ public class CustomerServiceImpl implements CustomerService {
 			System.out.println("중복체크했네");
 			if (isCustomerOk) { // 최종확인 Boolean도 true일 경우
 				System.out.println("중복도 아니네");
->>>>>>> origin/0524-junseok
 				try {
 					Map<String, MultipartFile> fileMap = multipartHttpServletRequest.getFileMap();
 					Date date = new Date();
@@ -80,20 +64,11 @@ public class CustomerServiceImpl implements CustomerService {
 				} catch (IOException e) {
 					e.printStackTrace();
 				}
-<<<<<<< HEAD
-				return ok; // customer_signup_ok.jsp�솕硫댁쓣 �쓣�슫�떎.
+				return ok; // customer_signup_ok.jsp화면을 띄운다.
 			}
 		}
-		System.out.println("以묐났泥댄겕 �븞�븿");
-		// 以묐났泥댄겕媛� �븯�굹�씪�룄 �븞�릺�뿀�쓣 寃쎌슦 紐⑤뱺 泥댄겕媛믪쓣 false濡� 珥덇린�솕�븯怨�
-		// customer_signup.jsp�솕硫댁쓣 �쓣�슫�떎.
-=======
-				return ok; // customer_signup_ok.jsp화면을 띄운다.
-			} 
-		} 
 		System.out.println("중복체크 안함");
 		// 중복체크가 하나라도 안되었을 경우 모든 체크값을 false로 초기화하고 customer_signup.jsp화면을 띄운다.
->>>>>>> origin/0524-junseok
 		isCustomerIdChecked = false;
 		isCustomerOk = false;
 		return redirect;
@@ -106,7 +81,7 @@ public class CustomerServiceImpl implements CustomerService {
 		MultipartFile multipartFile = multipartHttpServletRequest.getFile("imageFile");
 		String fileName = "";
 		try {
-			fileName = multipartFile.getOriginalFilename(); // 파일명	
+			fileName = multipartFile.getOriginalFilename(); // 파일명
 		} catch (NullPointerException e) {
 			fileName = "/resources/images/profile.png";
 		}
@@ -142,33 +117,16 @@ public class CustomerServiceImpl implements CustomerService {
 	}
 
 	@ResponseBody
-<<<<<<< HEAD
-	public void checkCustomerID(String customer_Id) {
-		System.out.println(customer_Id);
-
-		this.isCustomerIdChecked = true; // �빐�떦 硫붿꽌�뱶媛� �떎�뻾�릺�뿀�떎�뒗 寃껋� 以묐났泥댄겕 踰꾪듉�쓣 �늻瑜� 寃껋씠湲� �븣臾몄뿉 true濡� 蹂�寃�
-		CustomerDTO customer = this.customerDao.checkCustomerID(customer_Id); // �빐�떦 customer_Id媛� �엳�뒗吏�
-																				// customer�뀒�씠釉붿뿉�꽌
-																				// �솗�씤�빐蹂몃떎.
-		if (customer != null) { // customer�뀒�씠釉붿뿉 議댁옱�븯硫�
-			System.out.println("�븘�뵒以묐났泥댄겕�븞�맖");
-			this.isCustomerOk = false; // �븘�씠�뵒媛� 以묐났�씠誘�濡� 理쒖쥌�솗�씤�� false
-		}
-
-		System.out.println("아디중복체크완료");
-		this.isCustomerOk = true; // customer테이블에 존재하지 않으면 중복이 아니므로 true
-
-=======
 	@Override
-	public String checkCustomerID(String customer_Id) {	
+	public String checkCustomerID(String customer_Id) {
 		String idCheck = "";
-		
+
 		System.out.println(customer_Id);
 		// 해당 메서드가 실행되었다는 것은 중복체크 버튼을 누른 것이기 때문에 true로 변경
-		this.isCustomerIdChecked = true; 			
+		this.isCustomerIdChecked = true;
 		// 해당 customer_Id가 있는지 customer테이블에서 확인해본다.
-		CustomerDTO customer = this.customerDao.checkCustomerID(customer_Id); 
-																				
+		CustomerDTO customer = this.customerDao.checkCustomerID(customer_Id);
+
 		if (customer != null) { // customer테이블에 존재하면
 			System.out.println("아디중복");
 			this.isCustomerOk = false; // 아이디가 중복이므로 최종확인은 false
@@ -178,9 +136,8 @@ public class CustomerServiceImpl implements CustomerService {
 			this.isCustomerOk = true; // customer테이블에 존재하지 않으면 중복이 아니므로 true
 			idCheck = "1";
 		}
->>>>>>> origin/0524-junseok
 		System.out.println(this.isCustomerOk);
-		
+
 		return idCheck;
 	}
 
