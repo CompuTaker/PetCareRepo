@@ -81,6 +81,14 @@
 		customer_Id }
 	</delete>
 
+    <!-- 비밀번호 체크 -->
+	<select id="checkPW" resultType="int">
+		select count(*) from Customer
+ 	 	where customer_Id = #{customer_Id} and 
+  		customer_Password = #{customer_Password}
+       </select>
+
+    
 
 	<!-- 회원 정보 수정 -->
 	<update id="updateCustomerInfo" parameterType="java.util.Map">

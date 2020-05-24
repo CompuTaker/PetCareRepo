@@ -1,5 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"%>
-<%@ taglib prefix="tiles" uri="http://tiles.apache.org/tags-tiles" %>
+<%@ taglib prefix="tiles" uri="http://tiles.apache.org/tags-tiles"%>
 
 <%@ taglib uri="http://java.sun.com/jstl/core_rt" prefix="c"%>
 
@@ -29,18 +29,24 @@
 			<li class="nav-item"><a class="nav-link" href="#">제휴문의</a></li>
 			<li class="nav-item"><a class="nav-link" href="noticePage?page=1">공지사항</a></li>
 			<li class="nav-item"><a class="nav-link" href="qnaPage">Q&A</a></li>
+<<<<<<< HEAD
 			<li class="nav-item"><a class="nav-link" href="searchCompany">업체찾기</a></li>
 			<li class="nav-item"><a class="nav-link" href="searchReview">후기</a></li>
 			<c:if test="${empty customer.customer_Index && empty company.company_Index}">
 				<li class="nav-item"><a class="nav-link" href="loginOrProfile">Login</a>
+=======
+			<c:if
+				test="${empty customer.customer_Index && empty company.company_Index}">
+				<li class="nav-item"><a class="nav-link" href="loginOrProfile">Login</a></li>
+>>>>>>> origin/drop_account
 			</c:if>
-			<c:if test="${not empty customer.customer_Index && empty company.company_Index}">
-				<li class="nav-item"><a class="nav-link" href="loginOrProfile">My page</a>
+			<c:if
+				test="${not empty company.company_Index && empty customer.customer_Index}">
+				<li class="nav-item"><a class="nav-link" href="loginOrProfile">My
+						page</a></li>
 			</c:if>
-			<c:if test="${not empty company.company_Index && empty customer.customer_Index}">
-				<li class="nav-item"><a class="nav-link" href="loginOrProfile">My page</a>
-			</c:if>
-			</li>
+
+
 		</ul>
 
 		<form class="menu_form form-inline my-2 my-lg-0" action="searchByTerm" method="get">
@@ -52,6 +58,7 @@
 		</form>
 	</div>
 </nav>
+<<<<<<< HEAD
 <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
 <script>
 	var setCookie = function (name, value, day) {
@@ -66,4 +73,20 @@
 		return value ? value[2] : null;
 	};
 
+=======
+<script
+	src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+<script>
+	var setCookie = function(name, value, day) {
+		var date = new Date();
+		date.setTime(date.getTime() + day * 60 * 60 * 24 * 1000);
+		document.cookie = name + '=' + value + ';expires=' + date.toUTCString()
+				+ ';path=/';
+	};
+
+	var getCookie = function(name) {
+		var value = document.cookie.match('(^|;) ?' + name + '=([^;]*)(;|$)');
+		return value ? value[2] : null;
+	};
+>>>>>>> origin/drop_account
 </script>

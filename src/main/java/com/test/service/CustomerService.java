@@ -31,4 +31,8 @@ public interface CustomerService {
 
 	abstract public void updateCustomerInfo(MultipartHttpServletRequest multipartHttpServletRequest,
 			HashMap<String, Object> cmap, Model model);
+
+	abstract public boolean checkPW(String customer_Id, String customer_Password);
+
+     abstract public void deleteTheCustomer(String customer_Id);
 }

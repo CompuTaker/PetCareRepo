@@ -253,5 +253,15 @@ public class CompanyServiceImpl implements CompanyService {
 		}
 
 		return this.companyDao.listAllCompany();
+
+	public boolean checkPW(String company_Id, String company_Password) {
+		return companyDao.checkPW(company_Id, company_Password);
+
+	}
+
+	@Override
+	public void deleteTheCompany(String company_Id) {
+		companyDao.deleteTheCompany(company_Id);
+
 	}
 }

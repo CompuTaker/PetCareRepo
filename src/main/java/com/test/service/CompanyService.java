@@ -42,4 +42,7 @@ public interface CompanyService {
 
 	abstract public List<CompanyDTO> listsAllCompany(HttpServletRequest request);
 
+	abstract public boolean checkPW(String company_Id, String company_Password);
+
+	abstract public void deleteTheCompany(String company_Id);
 }

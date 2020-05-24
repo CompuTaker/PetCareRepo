@@ -36,4 +36,8 @@ public interface CompanyDAO {
 
 	abstract public List<CompanyDTO> listThisCompanyByName(String company_Name);
 
+	public abstract int deleteTheCompany(String company_Id);
+
+	public abstract boolean checkPW(String company_Id, String company_Password);
+
 }

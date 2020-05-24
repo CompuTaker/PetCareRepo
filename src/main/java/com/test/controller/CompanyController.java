@@ -18,9 +18,12 @@ import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.test.constants.Constant;
+import com.test.constants.Constant.ESession;
 import com.test.dto.CompanyDTO;
 import com.test.dto.Criteria;
 import com.test.dto.PageMaker;
+import com.test.dto.CustomerDTO;
 import com.test.service.CompanyService;
 
 @Controller // Spring에 Controller 클래스라고 알려주는 Annotation
@@ -204,4 +207,38 @@ public class CompanyController {
 		return url;
 	}
 
+	// 탈퇴화면 페이지로 이동
+	@RequestMapping("/deleteTheCompany") // company_delete을 요청하면
+	public String deleteTheCompany() {
+		return "company/company_delete.tiles"; // company_delete.jsp가 return되게
+
+	}
+
+	// 탈퇴처리(고객정보삭제)
+	@RequestMapping("/company_delete_ok")
+	public String company_delete_ok(HttpServletRequest request, HttpSession session) {
+
+		Map<String, Object> cMap = new HashMap<String, Object>();
+		String company_Password = request.getParameter("company_Password");
+		cMap.put("company_Password", company_Password);
+
+		String company_Id = ((CompanyDTO) (session.getAttribute("company"))).getCompany_Id();
+		// 비밀번호 체크
+		boolean result = companyService.checkPW(company_Id, company_Password);
+		System.out.println("비밀번호 체크");
+		if (result) { // 비밀번호가 맞다면 삭제 처리
+			companyService.deleteTheCompany(company_Id);
+			System.out.println("탈퇴성공");
+			if (result) {
+				Constant.eSession = ESession.eNull;
+				session.invalidate(); // 탈퇴시 로그아웃 처리
+			}
+			return "company/company_delete_ok.tiles";
+
+		} else { // 비밀번호가 일치하지 않는다면
+			return "company/company_delete.tiles";
+
+		}
+
+	}
 }

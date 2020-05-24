@@ -34,7 +34,7 @@ uri="http://www.springframework.org/tags/form" prefix="form"%>
   }
 
   function deleteTheCustomer() {
-    location.href = "deleteTheCustomer"; // 세션에서 customerIdx 받아오기!
+    location.href = "deleteTheCustomer"; 
   }
 </script>
 

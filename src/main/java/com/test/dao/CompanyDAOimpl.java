@@ -125,5 +125,21 @@ public class CompanyDAOimpl implements CompanyDAO {
 	@Override
 	public List<CompanyDTO> listThisCompanyByName(String company_Name) {
 		return this.sqlSession.selectList("listThisCompanyByName", company_Name);
+
+	public int deleteTheCompany(String company_Id) {
+		return this.sqlSession.delete("deleteTheCompany", company_Id);
+
+	}
+
+	@Override
+	public boolean checkPW(String company_Id, String company_Password) {
+		boolean result = false;
+		Map<String, String> map = new HashMap<String, String>();
+		map.put("company_Id", company_Id);
+		map.put("company_Password", company_Password);
+		int count = sqlSession.selectOne("checkPWCompany", map);
+		if (count == 1)
+			result = true;
+		return result;
 	}
 }
