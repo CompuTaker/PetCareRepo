@@ -29,18 +29,22 @@ public class HomeController {
 	@RequestMapping("/loginOrProfile")
 	public String loginOrProfile(Model model, HttpSession session) {
 		String url = "";
-		if(Constant.eSession == ESession.eNull) {
+
+		CustomerDTO customer = (CustomerDTO) session.getAttribute("customer");
+		CompanyDTO company = (CompanyDTO) session.getAttribute("company");
+
+		if(customer == null && company == null) {
 			// not logged in
 			url = "login";
-		}else if(Constant.eSession == ESession.eError){
+		}else if(customer == null && company == null){
 			// both logged in
-			url = "/";
+			url = "logout";
 		}else {
 			// eCompany, eCustomer
-			if(Constant.eSession == ESession.eCustomer){
+			if(customer != null){
 				url = "customerprofile";
 				System.out.println("url"+url);
-			}else if(Constant.eSession == ESession.eCompany) {
+			}else if(company != null) {
 				url = "companyprofile";
 			}
 		}
