@@ -234,7 +234,7 @@ public class HomeController {
 	public String loginOrProfile(Model model, HttpSession session, HttpServletRequest request) {
 		logger.info("/loginOrProfile , GET");
 		String url = "";
-		System.out.println(Constant.eSession);
+		logger.info(Constant.eSession.toString());
 		if (Constant.eSession == ESession.eNull) { // eSession = eNull인 경우
 			url = "login"; // 로그인 화면을 띄워준다.
 
