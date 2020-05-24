@@ -36,7 +36,7 @@ import com.test.service.QnAboardService;
 import com.test.service.ReviewService;
 
 @Controller // Spring이 해당 클래스가 Controller인 걸 알려주는 Annotation
-@SessionAttributes({ "customer", "company" }) // Model에 저장한 값을 http session에 저장할 수 있게 해주는 Annotation
+@SessionAttributes({ "customer", "company", "superuser" }) // Model에 저장한 값을 http session에 저장할 수 있게 해주는 Annotation
 public class HomeController {
 
 	private Logger logger = LoggerFactory.getLogger(this.getClass());
@@ -235,8 +235,12 @@ public class HomeController {
 		logger.info("/loginOrProfile , GET");
 		String url = "";
 		logger.info(Constant.eSession.toString());
-		System.out.println(model.containsAttribute("customer"));
-		if (session.getAttribute("customer") == null) { // eSession = eNull인 경우
+
+		CustomerDTO customer = (CustomerDTO) session.getAttribute("customer");
+		CompanyDTO company = (CompanyDTO) session.getAttribute("company");
+		SuperuserDTO admin = (SuperuserDTO) session.getAttribute("superuser");
+
+		if (customer == null && company == null && admin == null) { // eSession = eNull인 경우
 			url = "login"; // 로그인 화면을 띄워준다.
 		} else { // 둘 다 아닐경우
 			if (Constant.eSession == ESession.eCustomer) { // eSession = eCustomer인 경우
