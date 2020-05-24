@@ -125,6 +125,7 @@ public class CompanyDAOimpl implements CompanyDAO {
 	@Override
 	public List<CompanyDTO> listThisCompanyByName(String company_Name) {
 		return this.sqlSession.selectList("listThisCompanyByName", company_Name);
+	}
 
 	public int deleteTheCompany(String company_Id) {
 		return this.sqlSession.delete("deleteTheCompany", company_Id);
