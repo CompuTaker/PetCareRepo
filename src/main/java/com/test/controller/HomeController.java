@@ -235,12 +235,9 @@ public class HomeController {
 		logger.info("/loginOrProfile , GET");
 		String url = "";
 		logger.info(Constant.eSession.toString());
-		if (Constant.eSession == ESession.eNull) { // eSession = eNull인 경우
+		System.out.println(model.containsAttribute("customer"));
+		if (model.containsAttribute("customer")) { // eSession = eNull인 경우
 			url = "login"; // 로그인 화면을 띄워준다.
-
-		} else if (Constant.eSession == ESession.eError) { // eSession = eError인 경우
-			url = "/"; // 메인 화면을 띄워준다.
-			logger.info("/ " + request.getMethod());
 		} else { // 둘 다 아닐경우
 			if (Constant.eSession == ESession.eCustomer) { // eSession = eCustomer인 경우
 				url = "customer_Profile"; // 고객 마이페이지를 띄워준다.
