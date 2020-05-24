@@ -54,7 +54,9 @@ uri="http://www.springframework.org/tags/form" prefix="form"%>
           </c:when>
         </c:choose>
         <button type="button" id="checkId">중복확인</button>
+        
         <div class="check_font" id="id_check"></div>
+        
       </div>
       <div class="form-group">
         <label for="Customer_Password">비밀번호</label>
@@ -180,24 +182,23 @@ uri="http://www.springframework.org/tags/form" prefix="form"%>
    $("#checkId").click(
                function() {
                   var customer_Id = $('#Customer_Id').val();
-                  $.ajax({
-                           url : '${pageContext.request.contextPath}/customer_checkId?customer_Id='
-                                 + customer_Id,
-                           method : 'GET',
+				  $.ajax({
+                           url : '${pageContext.request.contextPath}/customer_checkId?customer_Id='+ customer_Id,
+                           method : 'POST',
                            async : false,
                            complete : function(data) {
-                              if (data.responseText == 1) {
+                              if (data.responseText == 0) {
+                            	 console.log("들어옴");
                                  localStorage.removeItem("id");
                                  $("#id_check").text("중복입니다.");
                                  $("#id_check").css("color", "red");
                                  $('#Customer_Id').val("");
                               } else {
+                            	 console.log("사용가능?");
                                  $("#id_check").text("사용가능합니다.");
                                  $("#id_check").css("color", "blue");
-                                 $('#Customer_Id').attr("readonly",
-                                       true);
-                                 $('#checkId')
-                                       .attr("disabled", true);
+                                 $('#Customer_Id').attr("readonly", true);
+                                 $('#checkId').attr("disabled", true);
                               }
                            }
                         });
