@@ -13,7 +13,7 @@ public interface CustomerService {
 
 	abstract public void insertTheCustomer(HashMap<String, Object> cmap);
 
-	abstract public void checkCustomerID(String customer_Id);
+	abstract public String checkCustomerID(String customer_Id);
 
 	abstract public void updateCustomerInfo(MultipartHttpServletRequest multipartHttpServletRequest,
 			HashMap<String, Object> cmap);

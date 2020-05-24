@@ -20,6 +20,7 @@ public class CustomerDTO {
 	private String customer_Address;
 	private String customer_Email;
 	private String customer_Image;
+	private String subscribe_Date;
 
 	public int getCustomer_Index() {
 		return customer_Index;
@@ -92,6 +93,15 @@ public class CustomerDTO {
 	public void setCustomer_Image(String customer_Image) {
 		this.customer_Image = customer_Image;
 	}
+
+	public String getSubscribe_Date() {
+		return subscribe_Date;
+	}
+
+	public void setSubscribe_Date(String subscribe_Date) {
+		this.subscribe_Date = subscribe_Date;
+	}
+	
 	
 	
 }

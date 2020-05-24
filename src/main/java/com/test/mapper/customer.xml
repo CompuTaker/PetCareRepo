@@ -62,17 +62,14 @@
 		insert into
 		Customer
 		(customer_Id, customer_Password, customer_Name,
-		customer_ResidentNumber, customer_PhoneNumber, customer_Address,
-		customer_Email,
+		customer_PhoneNumber, customer_Address,
+		customer_Email, subscribe_Date,
 		customer_Image)
 		values(
-		#{customer_Id},
-		#{customer_Password},
-		#{customer_Name}, #{customer_ResidentNumber},
-		#{customer_PhoneNumber},
-		#{customer_Address}, #{customer_Email},
-		#{customer_Image}
-		)
+		#{customer_Id},	#{customer_Password}, #{customer_Name},
+		#{customer_PhoneNumber}, #{customer_Address}, 
+		#{customer_Email}, #{subscribe_Date}, 
+		#{customer_Image})
 	</insert>
 
 	<!-- 회원 탈퇴 -->

@@ -1,6 +1,8 @@
 package com.test.service;
 
 import java.io.IOException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -47,17 +49,24 @@ public class CustomerServiceImpl implements CustomerService {
 		redirect.addObject("message", "중복체크 해주세요."); // 중복체크를 하지 않았을 경우 띄울 메시지를 redirect ModelAndView에 저장
 
 		if (isCustomerIdChecked) { // ID와 주민등록번호 중복체크를 정상적으로 실행했을 경우
+			System.out.println("중복체크했네");
 			if (isCustomerOk) { // 최종확인 Boolean도 true일 경우
+				System.out.println("중복도 아니네");
 				try {
 					Map<String, MultipartFile> fileMap = multipartHttpServletRequest.getFileMap();
+					Date date = new Date();
+					SimpleDateFormat dateformat = new SimpleDateFormat("yyyy-MM-dd");
+					String subScribe_Date = dateformat.format(date);
+					System.out.println(subScribe_Date);
+					cmap.put("subscribe_Date", subScribe_Date);
 					HashMap<String, Object> newCustomer = imageUpload(null, fileMap, multipartHttpServletRequest, cmap);
 					this.customerDao.insertTheCustomer(newCustomer); // form에 입력한 값을 company테이블에 저장한다.
 				} catch (IOException e) {
 					e.printStackTrace();
 				}
 				return ok; // customer_signup_ok.jsp화면을 띄운다.
-			}
-		}
+			} 
+		} 
 		System.out.println("중복체크 안함");
 		// 중복체크가 하나라도 안되었을 경우 모든 체크값을 false로 초기화하고 customer_signup.jsp화면을 띄운다.
 		isCustomerIdChecked = false;
@@ -70,7 +79,13 @@ public class CustomerServiceImpl implements CustomerService {
 
 		String baseUrl = "https://s3.ap-northeast-2.amazonaws.com/petcare2020/";
 		MultipartFile multipartFile = multipartHttpServletRequest.getFile("imageFile");
-		String fileName = multipartFile.getOriginalFilename(); // 파일명
+		String fileName = "";
+		try {
+			fileName = multipartFile.getOriginalFilename(); // 파일명	
+		} catch (NullPointerException e) {
+			fileName = "/resources/images/profile.png";
+		}
+
 		String folderName = "profile";
 
 		if (fileMap.isEmpty()) { // if(imageFile == null) {
@@ -101,23 +116,29 @@ public class CustomerServiceImpl implements CustomerService {
 		return cmap;
 	}
 
-	@Override
 	@ResponseBody
-	public void checkCustomerID(String customer_Id) {	
+	@Override
+	public String checkCustomerID(String customer_Id) {	
+		String idCheck = "";
+		
 		System.out.println(customer_Id);
-		
-		this.isCustomerIdChecked = true; // 해당 메서드가 실행되었다는 것은 중복체크 버튼을 누른 것이기 때문에 true로 변경
-		CustomerDTO customer = this.customerDao.checkCustomerID(customer_Id); // 해당 customer_Id가 있는지 customer테이블에서
-																				// 확인해본다.
+		// 해당 메서드가 실행되었다는 것은 중복체크 버튼을 누른 것이기 때문에 true로 변경
+		this.isCustomerIdChecked = true; 			
+		// 해당 customer_Id가 있는지 customer테이블에서 확인해본다.
+		CustomerDTO customer = this.customerDao.checkCustomerID(customer_Id); 
+																				
 		if (customer != null) { // customer테이블에 존재하면
-			System.out.println("아디중복체크안됨");
+			System.out.println("아디중복");
 			this.isCustomerOk = false; // 아이디가 중복이므로 최종확인은 false
+			idCheck = "0";
+		} else {
+			System.out.println("아디사용가능");
+			this.isCustomerOk = true; // customer테이블에 존재하지 않으면 중복이 아니므로 true
+			idCheck = "1";
 		}
-		
-		System.out.println("아디중복체크완료");
-		this.isCustomerOk = true; // customer테이블에 존재하지 않으면 중복이 아니므로 true
-		
 		System.out.println(this.isCustomerOk);
+		
+		return idCheck;
 	}
 
 	@Override

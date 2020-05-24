@@ -58,7 +58,7 @@ uri="http://www.springframework.org/tags/form" prefix="form"%>
                 <p>주소: ${customer.customer_Address }</p>
                 <p>전화번호: ${customer.customer_PhoneNumber }</p>
                 <p class="card-text">
-                  <small class="text-muted">회원가입 날짜 2019.11.12</small>
+                  <small class="text-muted">회원가입 날짜 : ${customer.subscribe_Date}</small>
                 </p>
               </div>
             </div>

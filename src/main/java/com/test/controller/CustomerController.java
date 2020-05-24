@@ -8,7 +8,6 @@ import javax.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -28,7 +27,7 @@ public class CustomerController {
 	@Autowired
 	private CustomerService customerService;
 
-	/*
+	/*	
 	 * 고객 회원가입을 누르고 정보를 입력하고 회원가입 버튼을 눌렀을 때 실행되는 메서드
 	 */
 	@RequestMapping(value = "/customer_signupDo", method = RequestMethod.POST, headers = "content-type=multipart/*")	
@@ -40,10 +39,11 @@ public class CustomerController {
 	/*
 	 * 고객 회원 가입 시 아이디가 중복되었는지 확인해주는 메서드
 	 */
-	@RequestMapping(value = "/customer_checkId", method = RequestMethod.GET)
-	public void idCheck(@RequestParam("customer_Id") String customer_Id) { // customer_signup.jsp에서 name이 customer_Id인
-																			// 값을 가져와 String값으로 저장한다.
-		this.customerService.checkCustomerID(customer_Id); // 해당 customer_Id가 있는지 customer테이블에서 확인해본다.
+	@ResponseBody
+	@RequestMapping(value = "/customer_checkId", method = RequestMethod.POST)
+	public String idCheck(@RequestParam("customer_Id") String customer_Id) { // customer_signup.jsp에서 name이 customer_Id인 값을 가져와 String값으로 저장한다.
+		// 해당 customer_Id가 있는지 customer테이블에서 확인해본다.
+		return this.customerService.checkCustomerID(customer_Id);
 	}
 
 	/*

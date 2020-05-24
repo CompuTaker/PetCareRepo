@@ -42,7 +42,7 @@ public class SocialLoginController {
    
    //카카오 로그인 창으로 이동하는 url을 리턴
    public String getAuthorizationKakaoUrl(HttpSession session) {
-
+	   System.out.println("getAuthorizationKakaoUrl");
       String kakaoUrl = "https://kauth.kakao.com/oauth/authorize?" + "client_id=" + K_CLIENT_ID + "&redirect_uri="
             + K_REDIRECT_URI + "&response_type=code";
       return kakaoUrl;
@@ -58,12 +58,12 @@ public class SocialLoginController {
    @RequestMapping(value = "/kakaoOauth.do")
    public String getKakaoSignIn(ModelMap model, @RequestParam("code") String code, HttpSession session)
          throws Exception {
+	   
+	   System.out.println("getKakaoSignIn");
       JsonNode userInfo = getKakaoUserInfo(code);
-      
 
       String id = userInfo.get("id").toString();
       String nickname = userInfo.get("properties").get("nickname").toString().replaceAll("\"", "");
-
       
       System.out.println(id + nickname);
       
