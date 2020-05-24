@@ -30,25 +30,22 @@ import com.test.dto.CustomerDTO;
 
 @Controller
 public class SocialLoginController {
-   
-   
+
    @Autowired
    private CustomerDAO customerDao;
-   
-   //카카오 로그인을 위한 값 
+
+   // 카카오 로그인을 위한 값
    private final static String K_CLIENT_ID = "4d98988d5e3e2dd0bd6136c194a24339";
-   private final static String K_REDIRECT_URI = "http://localhost:8090/hello/kakaoOauth.do";
-   
-   
-   //카카오 로그인 창으로 이동하는 url을 리턴
+   private final static String K_REDIRECT_URI = "http://http://18.181.151.12:8080/PetCareProject/kakaoOauth.do";
+
+   // 카카오 로그인 창으로 이동하는 url을 리턴
    public String getAuthorizationKakaoUrl(HttpSession session) {
-	   System.out.println("getAuthorizationKakaoUrl");
+      System.out.println("getAuthorizationKakaoUrl");
       String kakaoUrl = "https://kauth.kakao.com/oauth/authorize?" + "client_id=" + K_CLIENT_ID + "&redirect_uri="
             + K_REDIRECT_URI + "&response_type=code";
       return kakaoUrl;
    }
-   
-   
+
    /**
     * 카카오 로그인 콜백
     *
@@ -58,16 +55,16 @@ public class SocialLoginController {
    @RequestMapping(value = "/kakaoOauth.do")
    public String getKakaoSignIn(ModelMap model, @RequestParam("code") String code, HttpSession session)
          throws Exception {
-	   
-	   System.out.println("getKakaoSignIn");
+
+      System.out.println("getKakaoSignIn");
       JsonNode userInfo = getKakaoUserInfo(code);
 
       String id = userInfo.get("id").toString();
       String nickname = userInfo.get("properties").get("nickname").toString().replaceAll("\"", "");
-      
+
       System.out.println(id + nickname);
-      
-      //카카오로 로그인한 유저의 아이디가 디비에 있으면 마이페이지로 이동
+
+      // 카카오로 로그인한 유저의 아이디가 디비에 있으면 마이페이지로 이동
       CustomerDTO customer = customerDao.checkCustomerID(id);
       if (customer != null) {
          session.setAttribute("customer", customer);
@@ -79,49 +76,47 @@ public class SocialLoginController {
 
       return "customer/customer_Signup.tiles";
    }
-   
-   
-   //카카오한테 권한을 허락한 사용자의 정보를 넘겨받는다.
+
+   // 카카오한테 권한을 허락한 사용자의 정보를 넘겨받는다.
    public JsonNode getKakaoUserInfo(String autorize_code) {
 
-         final String RequestUrl = "https://kapi.kakao.com/v2/user/me";
+      final String RequestUrl = "https://kapi.kakao.com/v2/user/me";
 
-         final HttpClient client = HttpClientBuilder.create().build();
-         final HttpPost post = new HttpPost(RequestUrl);
-         String accessToken = getAccessToken(autorize_code);
-         // add header
-         post.addHeader("Authorization", "Bearer " + accessToken);
+      final HttpClient client = HttpClientBuilder.create().build();
+      final HttpPost post = new HttpPost(RequestUrl);
+      String accessToken = getAccessToken(autorize_code);
+      // add header
+      post.addHeader("Authorization", "Bearer " + accessToken);
 
-         JsonNode returnNode = null;
+      JsonNode returnNode = null;
 
-         try {
+      try {
 
-           final HttpResponse response = client.execute(post);
-           final int responseCode = response.getStatusLine().getStatusCode();
-           System.out.println("\nSending 'POST' request to URL : " + RequestUrl);
-           System.out.println("Response Code : " + responseCode);
+         final HttpResponse response = client.execute(post);
+         final int responseCode = response.getStatusLine().getStatusCode();
+         System.out.println("\nSending 'POST' request to URL : " + RequestUrl);
+         System.out.println("Response Code : " + responseCode);
 
-           // JSON 형태 반환값 처리
-           ObjectMapper mapper = new ObjectMapper();
-           returnNode = mapper.readTree(response.getEntity().getContent());
-         } catch (UnsupportedEncodingException e) {
+         // JSON 형태 반환값 처리
+         ObjectMapper mapper = new ObjectMapper();
+         returnNode = mapper.readTree(response.getEntity().getContent());
+      } catch (UnsupportedEncodingException e) {
 
-           e.printStackTrace();
-         } catch (ClientProtocolException e) {
+         e.printStackTrace();
+      } catch (ClientProtocolException e) {
 
-           e.printStackTrace();
-         } catch (IOException e) {
+         e.printStackTrace();
+      } catch (IOException e) {
 
-           e.printStackTrace();
-         } finally {
+         e.printStackTrace();
+      } finally {
 
-           // clear resources
-         }
-         return returnNode;
-       }
+         // clear resources
+      }
+      return returnNode;
+   }
 
-
-   //카카오한테 엑세스토큰을 받는다.
+   // 카카오한테 엑세스토큰을 받는다.
    public String getAccessToken(String autorize_code) {
 
       final String RequestUrl = "https://kauth.kakao.com/oauth/token";
