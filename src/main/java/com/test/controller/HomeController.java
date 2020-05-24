@@ -236,7 +236,7 @@ public class HomeController {
 		String url = "";
 		logger.info(Constant.eSession.toString());
 		System.out.println(model.containsAttribute("customer"));
-		if (model.containsAttribute("customer")) { // eSession = eNull인 경우
+		if (session.getAttribute("customer") == null) { // eSession = eNull인 경우
 			url = "login"; // 로그인 화면을 띄워준다.
 		} else { // 둘 다 아닐경우
 			if (Constant.eSession == ESession.eCustomer) { // eSession = eCustomer인 경우
