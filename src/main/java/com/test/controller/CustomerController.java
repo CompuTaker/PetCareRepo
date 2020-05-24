@@ -6,6 +6,8 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -27,6 +29,8 @@ import com.test.service.CustomerService;
 @SessionAttributes({ "customer", "company" })
 public class CustomerController {
 
+	private Logger logger = LoggerFactory.getLogger(this.getClass());
+
 	@Autowired
 	private CustomerService customerService;
 
@@ -41,6 +45,11 @@ public class CustomerController {
 																												// HashMap으로
 																												// 묶어서
 																												// 가져옴
+
+		if (Constant.eSession == ESession.eNull) {
+			logger.info("/customer_signupDo " + request.getMethod() + "user : " + "guest");
+		}
+		logger.info("/customer_signupDo " + request.getMethod());
 		return this.customerService.customer_signupDo(multipartHttpServletRequest, cmap);
 	}
 
@@ -48,17 +57,21 @@ public class CustomerController {
 	 * 怨좉컼 �쉶�썝 媛��엯 �떆 �븘�씠�뵒媛� 以묐났�릺�뿀�뒗吏� �솗�씤�빐二쇰뒗 硫붿꽌�뱶
 	 */
 	@RequestMapping(value = "/customer_checkId", method = RequestMethod.GET)
-	public void idCheck(@RequestParam("customer_Id") String customer_Id) { // customer_signup.jsp�뿉�꽌 name�씠
-																			// customer_Id�씤
-																			// 媛믪쓣 媛��졇�� String媛믪쑝濡� ���옣�븳�떎.
-		this.customerService.checkCustomerID(customer_Id); // �빐�떦 customer_Id媛� �엳�뒗吏� customer�뀒�씠釉붿뿉�꽌 �솗�씤�빐蹂몃떎.
+	public void idCheck(@RequestParam("customer_Id") String customer_Id, HttpServletRequest request) { // customer_signup.jsp에서
+																										// name이
+																										// customer_Id인
+		logger.info("/customer_checkId " + request.getMethod()); // 값을 가져와 String값으로 저장한다.
+		this.customerService.checkCustomerID(customer_Id); // 해당 customer_Id가 있는지 customer테이블에서 확인해본다.
 	}
 
 	/*
 	 * 怨좉컼�쉶�썝�씠 濡쒓렇�씤�쓣 �븳 �썑 留덉씠�럹�씠吏�濡� �씠�룞�븯寃� �맆 �븣 �떎�뻾�릺�뒗 硫붿꽌�뱶�씠�떎.
 	 */
 	@RequestMapping("/customer_Profile")
-	public String profile(Model model, HttpSession session) {
+	public String profile(Model model, HttpSession session, HttpServletRequest request) {
+
+		logger.info("/customer_Profile " + request.getMethod());
+
 		return this.customerService.profile(model, session);
 	}
 
@@ -66,7 +79,8 @@ public class CustomerController {
 	 * 怨좉컼�씠 留덉씠�럹�씠吏��뿉�꽌 媛쒖씤�젙蹂댁닔�젙�쓣 �닃���쓣 �븣 �떎�뻾�릺�뒗 硫붿꽌�뱶
 	 */
 	@RequestMapping("/customer_modify")
-	public ModelAndView customer_modify(ModelAndView mv, HttpSession session) {
+	public ModelAndView customer_modify(ModelAndView mv, HttpSession session, HttpServletRequest request) {
+		logger.info("/customer_modify " + request.getMethod());
 		return this.customerService.customer_modify(mv, session);
 	}
 
@@ -75,11 +89,14 @@ public class CustomerController {
 	 */
 	@RequestMapping("/customer_modify_ok")
 	public String customer_modify(MultipartHttpServletRequest multipartHttpServletRequest,
-			@RequestParam HashMap<String, Object> cmap, Model model) { // form�뿉�꽌 �엯�젰�븳 �젙蹂대�� HashMap�쑝濡� 臾띠뼱�꽌
-																		// 媛��졇�삩�떎.
-		this.customerService.updateCustomerInfo(multipartHttpServletRequest, cmap, model); // 媛��졇�삩 cmap�뜲�씠�꽣瑜� 湲곗〈
-																							// 怨좉컼 �뜲�씠�꽣�뿉
-																							// update�떆�궓�떎.
+			@RequestParam HashMap<String, Object> cmap, Model model, HttpServletRequest request) { // form에서 입력한 정보를
+																									// HashMap으로 묶어서
+																									// 가져온다.
+		this.customerService.updateCustomerInfo(multipartHttpServletRequest, cmap, model); // 가져온 cmap데이터를 기존 고객 데이터에
+																							// update시킨다.
+
+		logger.info("/customer_modify_ok " + request.getMethod());
+
 		return "customer/customer_modify_ok.tiles";
 
 	}
@@ -89,6 +106,7 @@ public class CustomerController {
 	 */
 	@RequestMapping(value = "/search_id_customer", method = RequestMethod.POST)
 	public ModelAndView search_id_customer(ModelAndView mv, HttpServletRequest request) {
+		logger.info("/search_id_customer" + request.getMethod());
 		return this.customerService.search_id_customer(mv, request);
 	}
 
@@ -97,6 +115,7 @@ public class CustomerController {
 	 */
 	@RequestMapping(value = "/search_pw_customer", method = RequestMethod.POST)
 	public String search_pw_customer(ModelAndView mv, HttpServletRequest request) {
+		logger.info("/search_pw_customer" + request.getMethod());
 		return this.customerService.search_pw_customer(mv, request);
 	}
 

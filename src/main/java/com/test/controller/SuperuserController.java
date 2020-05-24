@@ -2,6 +2,8 @@ package com.test.controller;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -11,6 +13,9 @@ import com.test.service.SuperuserService;
 
 @Controller		//Spring이 해당 클래스가 Controller인 걸 알려주는 Annotation
 public class SuperuserController {
+	
+	
+	private Logger logger = LoggerFactory.getLogger(this.getClass());
 	
 	@Autowired
 	private SuperuserService superuserService;
@@ -22,6 +27,7 @@ public class SuperuserController {
 	@RequestMapping("/admin_login")
 	public String login(HttpServletRequest request) {
 		if(request.getSession().getAttribute("superuser")!= null) {	// 관리자가 로그인해서 session을 가지면 탈퇴회원관리 화면으로 들어가진다.
+			logger.info("/admin_login "+request.getMethod());
 			return "admin_drop";
 		}
 		return "admin/admin_login.tiles";										// 관리자가 session이 없을 경우 로그인 화면을 띄워준다.
@@ -32,6 +38,7 @@ public class SuperuserController {
 	 */
 	@RequestMapping(value="/admin_login", method = RequestMethod.POST)
 	public String getAdmin(HttpServletRequest request) {
+		logger.info("/admin_login "+request.getMethod());
 		return this.superuserService.getAdmin(request);
 	}
 	
@@ -39,7 +46,8 @@ public class SuperuserController {
 	 * 탈퇴회원관리를 눌렀을 때 실행되는 메서드이다.
 	 */
 	@RequestMapping("/admin_drop")
-	public String drop() {
+	public String drop(HttpServletRequest request) {
+		logger.info("/admin_drop "+request.getMethod());
 		return "admin/admin_drop.tiles";
 	}
 	
@@ -47,7 +55,8 @@ public class SuperuserController {
 	 * 휴면회원관리를 눌렀을 때 실행되는 메서드이다.
 	 */
 	@RequestMapping("/admin_dormant")
-	public String dormant() {
+	public String dormant( HttpServletRequest request) {
+		logger.info("/admin_dormant "+request.getMethod());
 		return "admin/admin_dormant.tiles";
 	}	
 }

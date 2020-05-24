@@ -10,9 +10,9 @@ import javax.servlet.http.HttpSession;
 
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -38,6 +38,10 @@ import com.test.service.ReviewService;
 @Controller // Spring이 해당 클래스가 Controller인 걸 알려주는 Annotation
 @SessionAttributes({ "customer", "company" }) // Model에 저장한 값을 http session에 저장할 수 있게 해주는 Annotation
 public class HomeController {
+	
+	private Logger logger = LoggerFactory.getLogger(this.getClass());
+	
+	
 	@Autowired
 	private CustomerDAO customerDao;
 	@Autowired
@@ -63,8 +67,8 @@ public class HomeController {
 	 * URL에 '/'과 'index'를 입력하면 실행되는 메서드이다. 따라서 메인화면(index.jsp)를 실행시켜준다.
 	 */
 	@RequestMapping({ "/", "index" })
-	public String index(Model model) {
-		System.out.println("인덱스 페이지에용~");
+	public String index(Model model,HttpServletRequest  request) {
+		logger.info(" / - index.jsp "+request.getMethod());
 		return "index"; // index.jsp
 	}
 
@@ -72,7 +76,8 @@ public class HomeController {
 	 * 로그인창에 회원가입 버튼을 누르면 실행되는 메서드이다. 기업 회원가입, 고객 회원가입 중 어떤 회원가입을 할 지 화면을 띄워준다.
 	 */
 	@RequestMapping("/signup")
-	public String signup(Model model) {
+	public String signup(Model model,HttpServletRequest  request) {
+		logger.info("/signup - signup.jsp "+request.getMethod());
 		return "home/signup.tiles"; // signup.jsp
 	}
 
@@ -80,14 +85,17 @@ public class HomeController {
 	 * 기업, 고객 회원가입 중 하나를 눌렀을 때 실행되는 메서드이다.
 	 */
 	@RequestMapping("/signupDo")
-	public String signupDo(String flag) { // signup.jsp에 hidden으로 숨겨진 flag값을 가져와서 어떤 회원가입 종류를 눌렀는지 확인한다.
+	public String signupDo(String flag,HttpServletRequest  request) { // signup.jsp에 hidden으로 숨겨진 flag값을 가져와서 어떤 회원가입 종류를 눌렀는지 확인한다.
 		String url = "";
+		logger.info(" /signupDo "+request.getMethod());
 		if (flag.equals("user")) { // flag가 user이면 고객 회원 가입 화면을 띄워준다.
+			logger.info(" /customer_Signup "+request.getMethod());
 			url = "customer/customer_Signup.tiles";
 		} else if (flag.equals("comp")) {
+			logger.info(" /company_Signup "+request.getMethod());
 			url = "company/company_Signup.tiles"; // flag가 comp이면 고객 회원 가입 화면을 띄워준다.
 		} else {
-			System.out.println("NoBody"); // 아무 flag가 없을 경우 예외처리
+			logger.info(" /signupDo , [NoBody] "+request.getMethod());
 		}
 		return url;
 	}
@@ -102,9 +110,9 @@ public class HomeController {
 	// }
 
 	@RequestMapping("/login")
-	public String login(Model model, HttpSession session) {
+	public String login(Model model, HttpSession session,HttpServletRequest  request) {
+		logger.info(" login.jsp "+request.getMethod());
 		/* 카카오 로그인을 위한 코드 */
-		System.out.println(session);
 		String kakaoUrl = socialLogin.getAuthorizationKakaoUrl(session);
 		String naverAuthUrl = naverLoginBO.getAuthorizationUrl(session); // 네이버아이디로 인증 URL을 생성하기 위하여 getAuthorizationUrl
 																			// 메서드 호출한다.
@@ -135,7 +143,6 @@ public class HomeController {
 			model.addAttribute("id", id); // model 객체에 id를 저장한다.
 			model.addAttribute("nickname", name); // model 객체에 name을 저장한다.
 			model.addAttribute("email", email); // model 객체에 email을 저장한다.
-			System.out.println(response_obj);
 			return "customer/customer_Signup.tiles"; // 회원가입 페이지로 이동한다.
 		} else {
 			CustomerDTO customer = this.customerDao.checkCustomerID(id); // 아이디를 통해 고객 정보를 가져온다.
@@ -152,7 +159,8 @@ public class HomeController {
 	 */
 	@RequestMapping(value="/loginDo", method=RequestMethod.POST)
 	public Object loginDo(Model model, String id, String pw, HttpSession session, SessionStatus status, HttpServletRequest request) {
-
+		
+		logger.info(" /loginDo "+request.getMethod());
 		Map<String, String> loginInfo = new HashMap<String, String>(); // mapper에 변수값을 한 번에 전달하기 위해서 생성한 Map객체
 		loginInfo.put("id", id); // Map객체에 Id값을 저장한다.
 		loginInfo.put("pw", pw); // Map객체에 PW값을 저장한다.
@@ -166,15 +174,18 @@ public class HomeController {
 				// sessionAttribute를 초기화해준다.
 				status.setComplete(); 
 				model.addAttribute("message", 1);
+				logger.info(" /login "+request.getMethod());
 				url = "login";
 			} else if (object instanceof CustomerDTO) {
 				// 고객 마이페이지 화면을 띄워준다.
+				logger.info(" /customer_Profile "+request.getMethod());
 				url = "customer_Profile"; 
 				// model객체에 customer테이블에서 가져온 customer값을 저장해준다.
 				model.addAttribute("customer", ((CustomerDTO) object)); 
 				// eSession의 값을 eCustomer로 변경해준다. (디폴트 = eNull)
 				Constant.eSession = ESession.eCustomer; 
 			} else if (object instanceof CompanyDTO) {
+				logger.info(" /company_Profile "+request.getMethod());
 				// 기업 마이페이지 화면을 띄워준다.
 				url = "company_Profile"; 
 				// model객체에 customer테이블에서 가져온 customer값을 저장해준다.
@@ -182,6 +193,7 @@ public class HomeController {
 				// eSession의 값을 eCompany로 변경해준다. (디폴트 = eNull)
 				Constant.eSession = ESession.eCompany; 
 			} else if (object instanceof SuperuserDTO) {
+				logger.info(" /admin_drop "+request.getMethod());
 				// 기업 마이페이지 화면을 띄워준다.
 				url = "admin_drop"; 
 				// model객체에 customer테이블에서 가져온 customer값을 저장해준다.
@@ -197,6 +209,7 @@ public class HomeController {
 			// sessionAttribute를 초기화해준다.
 			status.setComplete(); 
 			// 로그인 화면을 띄워준다.
+			logger.info(" /login ");
 			url = "login"; 
 			}
 		return "redirect:" + url;
@@ -207,7 +220,8 @@ public class HomeController {
 	 * 마이페이지에서 로그아웃 버튼을 클릭했을 경우 실행되는 메서드
 	 */
 	@RequestMapping("/logout")
-	public String logout(Model model, SessionStatus status) {
+	public String logout(Model model, SessionStatus status,HttpServletRequest  request) {
+		logger.info("/logout "+request.getMethod());
 		Constant.eSession = ESession.eNull; // eSession의 값을 null로 초기화
 		status.setComplete(); // sessionAttribute를 초기화해준다.
 		return "redirect:/";
@@ -217,22 +231,25 @@ public class HomeController {
 	 * 상단의 Login버튼 or My page 버튼을 눌렀을 경우 화면 매핑을 다르게 해주기 위한 메서드
 	 */
 	@RequestMapping("/loginOrProfile")
-	public String loginOrProfile(Model model, HttpSession session) {
+	public String loginOrProfile(Model model, HttpSession session,HttpServletRequest  request) {
+		logger.info("/loginOrProfile , GET");
 		String url = "";
 		if (Constant.eSession == ESession.eNull) { // eSession = eNull인 경우
 			url = "login"; // 로그인 화면을 띄워준다.
-
+			
 		} else if (Constant.eSession == ESession.eError) { // eSession = eError인 경우
 			url = "/"; // 메인 화면을 띄워준다.
-
+			logger.info("/ "+request.getMethod());
 		} else { // 둘 다 아닐경우
 			if (Constant.eSession == ESession.eCustomer) { // eSession = eCustomer인 경우
-				url = "customer_Profile"; // 고객 마이페이지를 띄워준다.
-
+				url = "customer_Profile"; // 고객 마이페이지를 띄워준다. 
+				logger.info("/customer_Profile "+request.getMethod());
 			} else if (Constant.eSession == ESession.eCompany) { // eSession = eCompany인 경우
 				url = "company_Profile"; // 기업 마이페이지를 띄워준다.
+				logger.info("/company_Profile "+request.getMethod());
 			} else if (Constant.eSession == ESession.eSuperuser) { // eSession = eCompany인 경우
 				url = "admin_drop"; // 기업 마이페이지를 띄워준다.
+				logger.info("/admin_drop "+request.getMethod());
 			}
 		}
 		return "redirect:" + url;
@@ -242,7 +259,8 @@ public class HomeController {
 	 * 로그인 창에서 아이디 찾기 버튼을 눌렀을 경우 실행되는 메서드
 	 */
 	@RequestMapping("/search_id")
-	public String searchID() {
+	public String searchID(HttpServletRequest  request) {
+		logger.info("/search_id - search_id.jsp "+request.getMethod());
 		return "home/search_id.tiles";
 	}
 
@@ -250,7 +268,8 @@ public class HomeController {
 	 * 로그인 창에서 비밀번호 찾기 버튼을 눌렀을 경우 실행되는 메서드
 	 */
 	@RequestMapping("/search_pw")
-	public String search_pw() {
+	public String search_pw(HttpServletRequest  request) {
+		logger.info("/search_pw - search_pw.jsp "+request.getMethod());
 		return "home/search_pw.tiles";
 	}
 
@@ -258,7 +277,7 @@ public class HomeController {
 	@RequestMapping("/searchByTerm")
 	public String searchByTerm(Model model, HttpServletRequest request) {
 		String url = "";
-
+		logger.info("/searchByTerm - search_all.jsp "+request.getMethod());
 		List<CompanyDTO> companyList = this.companyService.listsAllCompany(request); // 회사를 가져온다.
 		List<ReviewDTO> reviewList = this.reviewService.listsAllReview(request); // 리뷰를 가져온다.
 		List<QnAboardDTO> qnaList = this.qnaBoardService.selectQnaByTerm(request);
