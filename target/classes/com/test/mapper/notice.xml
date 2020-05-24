@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
@@ -35,3 +36,40 @@
 		where notice_Index = #{notice_Index}		
 	</update>
  </mapper>
+=======
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  
+<mapper namespace="com.test.dto.NoticeDTO">
+ 	
+ 	<insert id="noticeWrite" parameterType="java.util.Map">
+ 		insert into Notice
+ 		(notice_Title, notice_Content)
+ 		values (#{notice_Title}, #{notice_Content})
+ 	</insert>
+ 
+ 	<select id="noticeAllList" resultType="com.test.dto.NoticeDTO">
+ 		select *
+ 		from Notice
+ 		order by notice_Index DESC
+ 		limit #{pageStart},#{perPageNum}
+ 	</select> 
+ 	
+ 	<select id ="countNoticeList" resultType="Integer">
+ 		select count(*) from Notice
+ 	</select>
+ 	
+ 	<select id="noticeDetail" resultType="com.test.dto.NoticeDTO">
+ 		select * from Notice
+ 		where notice_Index = #{notice_Index}
+ 	</select>
+ 	
+ 	<update id="addNoticeViewnum" parameterType="java.lang.Integer">
+		update Notice
+		set notice_Viewnum = notice_Viewnum + 1
+		where notice_Index = #{notice_Index}		
+	</update>
+ </mapper>
+>>>>>>> origin/0524-junseok

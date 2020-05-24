@@ -34,8 +34,13 @@ public class CustomerController {
 	@Autowired
 	private CustomerService customerService;
 
+<<<<<<< HEAD
 	/*
 	 * 怨좉컼 �쉶�썝媛��엯�쓣 �늻瑜닿퀬 �젙蹂대�� �엯�젰�븯怨� �쉶�썝媛��엯 踰꾪듉�쓣 �닃���쓣 �븣 �떎�뻾�릺�뒗 硫붿꽌�뱶
+=======
+	/*	
+	 * 고객 회원가입을 누르고 정보를 입력하고 회원가입 버튼을 눌렀을 때 실행되는 메서드
+>>>>>>> origin/0524-junseok
 	 */
 	@RequestMapping(value = "/customer_signupDo", method = RequestMethod.POST, headers = "content-type=multipart/*")
 	public Object customer_signupDo(@RequestParam HashMap<String, Object> cmap,
@@ -56,12 +61,20 @@ public class CustomerController {
 	/*
 	 * 怨좉컼 �쉶�썝 媛��엯 �떆 �븘�씠�뵒媛� 以묐났�릺�뿀�뒗吏� �솗�씤�빐二쇰뒗 硫붿꽌�뱶
 	 */
+<<<<<<< HEAD
 	@RequestMapping(value = "/customer_checkId", method = RequestMethod.GET)
 	public void idCheck(@RequestParam("customer_Id") String customer_Id, HttpServletRequest request) { // customer_signup.jsp에서
 																										// name이
 																										// customer_Id인
 		logger.info("/customer_checkId " + request.getMethod()); // 값을 가져와 String값으로 저장한다.
 		this.customerService.checkCustomerID(customer_Id); // 해당 customer_Id가 있는지 customer테이블에서 확인해본다.
+=======
+	@ResponseBody
+	@RequestMapping(value = "/customer_checkId", method = RequestMethod.POST)
+	public String idCheck(@RequestParam("customer_Id") String customer_Id) { // customer_signup.jsp에서 name이 customer_Id인 값을 가져와 String값으로 저장한다.
+		// 해당 customer_Id가 있는지 customer테이블에서 확인해본다.
+		return this.customerService.checkCustomerID(customer_Id);
+>>>>>>> origin/0524-junseok
 	}
 
 	/*

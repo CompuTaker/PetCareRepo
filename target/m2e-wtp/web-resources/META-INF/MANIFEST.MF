@@ -1,5 +1,10 @@
 Manifest-Version: 1.0
+<<<<<<< HEAD
 Built-By: g92ki
 Build-Jdk: 11.0.1
+=======
+Built-By: JUNSUGI
+Build-Jdk: 1.8.0_241
+>>>>>>> origin/0524-junseok
 Created-By: Maven Integration for Eclipse
 
