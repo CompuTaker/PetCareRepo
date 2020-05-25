@@ -32,14 +32,15 @@
 			<li class="nav-item"><a class="nav-link" href="searchCompany">업체찾기</a></li>
 			<li class="nav-item"><a class="nav-link" href="searchReview">후기</a></li>
 			<c:choose>
-			 <c:when test="${empty customer.customer_Index && empty company.company_Index && empty superuser.index}">
-			 				<li class="nav-item"><a class="nav-link" href="loginOrProfile">Login</a>
-			 </c:when>
-			 <c:otherwise>
-			 
-				<li class="nav-item"><a class="nav-link" href="loginOrProfile">My page</a></li>
-			 </c:otherwise>
-			</c:choose>			
+				<c:when
+					test="${empty customer.customer_Index && empty company.company_Index && empty superuser.superuser_Index}">
+					<li class="nav-item"><a class="nav-link" href="loginOrProfile">Login</a>
+				</c:when>
+				<c:otherwise>
+
+					<li class="nav-item"><a class="nav-link" href="loginOrProfile">My page</a></li>
+				</c:otherwise>
+			</c:choose>
 
 		</ul>
 
