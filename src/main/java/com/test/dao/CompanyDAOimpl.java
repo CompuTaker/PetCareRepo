@@ -103,7 +103,7 @@ public class CompanyDAOimpl implements CompanyDAO {
 	 * 기업회원가입시 사업자등록번호를 중복체크를 위해서 실행되는 메서드이다.
 	 */
 	@Override
-	public CompanyDTO checkCompanyNumber(int company_Number) {
+	public CompanyDTO checkCompanyNumber(String company_Number) {
 		return this.sqlSession.selectOne("companyNumber", company_Number); // mapper에서 "companyNumber" id를 가지는 명령문에
 																			// company_Number변수를 가지고 실행한다.
 	}
