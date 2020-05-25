@@ -16,6 +16,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.servlet.ModelAndView;
@@ -25,7 +26,6 @@ import com.test.constants.Constant.ESession;
 import com.test.dto.CompanyDTO;
 import com.test.dto.Criteria;
 import com.test.dto.PageMaker;
-import com.test.dto.CustomerDTO;
 import com.test.service.CompanyService;
 
 @Controller // Spring에 Controller 클래스라고 알려주는 Annotation
@@ -51,22 +51,24 @@ public class CompanyController {
 	/*
 	 * 기업 회원 가입 시 아이디가 중복되었는지 확인해주는 메서드
 	 */
-	@RequestMapping(value = "/company_checkcId", method = RequestMethod.GET)
-	public void comIdCheck(@RequestParam("company_Id") String company_Id,HttpServletRequest request) { // company_signup.jsp에서 name이 company_Id인 값을
+	@ResponseBody
+	@RequestMapping(value = "/company_checkcId", method = RequestMethod.POST)
+	public String comIdCheck(@RequestParam("company_Id") String company_Id,HttpServletRequest request) { // company_signup.jsp에서 name이 company_Id인 값을
 		if(Constant.eSession == ESession.eNull) {
 			logger.info("/company_checkcId "+request.getMethod());			
 		}// 가져와 String값으로 저장한다.
-		this.companyService.comIdCheck(company_Id);
+		return this.companyService.comIdCheck(company_Id);
 	}
 
 	/*
 	 * 기업 회원 가입 시 사업자등록번호가 중복되었는지 확인해주는 메서드
 	 */
-	@RequestMapping(value = "/company_checkComNum", method = RequestMethod.GET)
-	public void comNumCheck(@RequestParam("company_Number") int company_Number,HttpServletRequest request) { // company_signup.jsp에서 name이
+	@ResponseBody
+	@RequestMapping(value = "/company_checkComNum", method = RequestMethod.POST)
+	public String comNumCheck(@RequestParam("company_Number") int company_Number,HttpServletRequest request) { // company_signup.jsp에서 name이
 																					// company_Number인 값을 가져와 int값으로
 		logger.info("/company_checkComNum "+request.getMethod());																		// 저장한다.
-		this.companyService.comNumCheck(company_Number);
+		return this.companyService.comNumCheck(company_Number);
 	}
 
 	/*
