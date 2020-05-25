@@ -14,7 +14,7 @@ import com.test.dto.CompanyDTO;
 
 public interface CompanyService {
 
-	abstract public void comNumCheck(int company_Number);
+	abstract public String comNumCheck(int company_Number);
 
 	abstract public ModelAndView searchId(ModelAndView mv, HttpServletRequest request);
 
@@ -27,7 +27,7 @@ public interface CompanyService {
 	abstract public ModelAndView company_signupDo(MultipartHttpServletRequest multipartHttpServletRequest,
 			HashMap<String, Object> cmap);
 
-	abstract public void comIdCheck(String company_Id);
+	abstract public String comIdCheck(String company_Id);
 
 	abstract public String search_pw_company(ModelAndView mv, HttpServletRequest request);
 

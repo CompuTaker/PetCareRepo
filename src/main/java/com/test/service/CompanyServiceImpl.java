@@ -135,25 +135,39 @@ public class CompanyServiceImpl implements CompanyService {
 
 	@Override
 	@ResponseBody
-	public void comIdCheck(String company_Id) {
+	public String comIdCheck(String company_Id) {
+		System.out.println(company_Id);
+		String idCheck = "";
+		
 		isCompanyIdChecked = true; // 해당 메서드가 실행되었다는 것은 중복체크 버튼을 누른 것이기 때문에 true로 변경
 		CompanyDTO company = this.companyDao.checkCompanyID(company_Id); // 해당 company_Id가 있는지 company테이블에서 확인해본다.
 		if (company != null) { // company테이블에 존재하면
 			isCompanyOk = false; // 아이디가 중복이므로 최종확인은 false
+			idCheck = "0";
+		} else {
+			isCompanyOk = true; // company테이블에 존재하지 않으면 중복이 아니므로 true
+			idCheck = "1";
 		}
-		isCompanyOk = true; // company테이블에 존재하지 않으면 중복이 아니므로 true
+		System.out.println(idCheck);
+		return idCheck;
 	}
 
 	@Override
 	@ResponseBody
-	public void comNumCheck(int company_Number) {
+	public String comNumCheck(int company_Number) {
+		String comNumCheck = ""; 
 		isCompanyComNumChecked = true; // 해당 메서드가 실행되었다는 것은 중복체크 버튼을 누른 것이기 때문에 true로 변경
 		CompanyDTO company = this.companyDao.checkCompanyNumber(company_Number); // 해당 company_Number가 있는지 company테이블에서
 																					// 확인해본다.
 		if (company != null) { // company테이블에 존재하면
 			isCompanyOk = false; // 사업자등록번호가 중복이므로 최종확인은 false
+			comNumCheck = "0";
+		} else {
+			isCompanyOk = true; // company테이블에 존재하지 않으면 중복이 아니므로 true
+			comNumCheck = "1";
 		}
-		isCompanyOk = true; // company테이블에 존재하지 않으면 중복이 아니므로 true
+		return comNumCheck;
+		
 	}
 
 	@Override

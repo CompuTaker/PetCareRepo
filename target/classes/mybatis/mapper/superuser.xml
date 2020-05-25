@@ -10,9 +10,9 @@
 	<!-- superuser테이블에 해당 아이디와 비밀번호가 있는지 -->
 	<select id="getSuperuser" parameterType="java.util.Map"
 		resultType="com.test.dto.SuperuserDTO">
-		select * from superuser where id = #{id}
+		select * from Superuser where superuser_Id = #{id}
 		and
-		pw = #{pw}
+		superuser_Password = #{pw}
 	</select>
 
 </mapper>

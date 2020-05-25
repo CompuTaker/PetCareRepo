@@ -36,7 +36,7 @@ import com.test.service.QnAboardService;
 import com.test.service.ReviewService;
 
 @Controller // Spring이 해당 클래스가 Controller인 걸 알려주는 Annotation
-@SessionAttributes({ "customer", "company", "superuser"}) // Model에 저장한 값을 http session에 저장할 수 있게 해주는 Annotation
+@SessionAttributes({ "customer", "company" }) // Model에 저장한 값을 http session에 저장할 수 있게 해주는 Annotation
 public class HomeController {
 	
 	private Logger logger = LoggerFactory.getLogger(this.getClass());
@@ -231,30 +231,29 @@ public class HomeController {
 	 * 상단의 Login버튼 or My page 버튼을 눌렀을 경우 화면 매핑을 다르게 해주기 위한 메서드
 	 */
 	@RequestMapping("/loginOrProfile")
-	public String loginOrProfile(Model model, HttpSession session, HttpServletRequest request) {
+	public String loginOrProfile(Model model, HttpSession session,HttpServletRequest request) {
 		logger.info("/loginOrProfile , GET");
 		String url = "";
+		System.out.println(Constant.eSession);
 		if (Constant.eSession == ESession.eNull) { // eSession = eNull인 경우
-			url = "login"; // 로그인 화면을 띄워준다.
+			url = "login"; // 로그인 화면을 띄워준다.	
+		} else if (Constant.eSession == ESession.eError) { // eSession = eError인 경우
+			url = "/"; // 메인 화면을 띄워준다.
+			logger.info("/ "+request.getMethod());
 		} else { // 둘 다 아닐경우
-			if ((CustomerDTO)session.getAttribute("customer") != null) { // eSession = eCustomer인 경우
+			if (Constant.eSession == ESession.eCustomer) { // eSession = eCustomer인 경우
 				url = "customer_Profile"; // 고객 마이페이지를 띄워준다. 
 				logger.info("/customer_Profile "+request.getMethod());
-			} else if ((CompanyDTO)session.getAttribute("company") != null) { // eSession = eCompany인 경우
+			} else if (Constant.eSession == ESession.eCompany) { // eSession = eCompany인 경우
 				url = "company_Profile"; // 기업 마이페이지를 띄워준다.
 				logger.info("/company_Profile "+request.getMethod());
-			} else if ((SuperuserDTO)session.getAttribute("superuser") != null) { // eSession = eCompany인 경우
+			} else if (Constant.eSession == ESession.eSuperuser) { // eSession = eCompany인 경우
 				url = "admin_drop"; // 기업 마이페이지를 띄워준다.
 				logger.info("/admin_drop "+request.getMethod());
 			}
 		}
 		return "redirect:" + url;
 	}
-	
-	/* else if (Constant.eSession == ESession.eError) { // eSession = eError인 경우
-			url = "/"; // 메인 화면을 띄워준다.
-			logger.info("/ "+request.getMethod());
-		}*/
 
 	/*
 	 * 로그인 창에서 아이디 찾기 버튼을 눌렀을 경우 실행되는 메서드
