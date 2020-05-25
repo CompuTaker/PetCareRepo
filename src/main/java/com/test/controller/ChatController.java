@@ -44,9 +44,9 @@ public class ChatController {
 			// ChatRoomDTO chatRoom = this.chatRoomDAO.getChatRoomByCustomerIdx(customer.getCustomer_Index());
 		}else if(superuser != null) {
 			
-			this.chatRoomDAO.prepareInTheNewChatRoom(superuser.getIndex()); // admin.getIdx
+			this.chatRoomDAO.prepareInTheNewChatRoom(superuser.getSuperuser_Index()); // admin.getIdx
 			model.addAttribute("isAdmin", "true");
-			model.addAttribute("idx", superuser.getIndex()); // toString()
+			model.addAttribute("idx", superuser.getSuperuser_Index()); // toString()
 			url = "chat/chatsession.tiles";
 			System.out.println("ADMIN_TIME");
 			// ChatRoomDTO chatRoom = this.chatRoomDAO.getChatRoomByAdminIdx(superuser.getIndex());
