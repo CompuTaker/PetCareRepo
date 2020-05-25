@@ -149,7 +149,7 @@ prefix="c"%> <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
           id="Company_Type"
           placeholder="업종"
           name="company_Type"
-          required
+          required 
         />
       </div>
 
