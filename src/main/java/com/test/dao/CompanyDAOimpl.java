@@ -76,7 +76,7 @@ public class CompanyDAOimpl implements CompanyDAO {
 	 */
 	@Override
 	public CompanyDTO searchCompanyID(Map<String, String> company) {
-		return this.sqlSession.selectOne("searchId", company); // mapper에서 "searchId" id를 가지는 명령문에 companyNum변수를 가지고
+		return this.sqlSession.selectOne("searchCompanyID", company); // mapper에서 "searchId" id를 가지는 명령문에 companyNum변수를 가지고
 																// 실행한다.
 	}
 

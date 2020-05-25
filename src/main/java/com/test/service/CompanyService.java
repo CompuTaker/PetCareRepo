@@ -27,7 +27,7 @@ public interface CompanyService {
 	abstract public ModelAndView company_signupDo(MultipartHttpServletRequest multipartHttpServletRequest,
 			HashMap<String, Object> cmap);
 
-	abstract public void comIdCheck(String company_Id);
+	abstract public String comIdCheck(String company_Id);
 
 	abstract public String search_pw_company(ModelAndView mv, HttpServletRequest request);
 

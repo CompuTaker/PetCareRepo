@@ -48,6 +48,9 @@ public class CompanyServiceImpl implements CompanyService {
 		company.put("company_Number", request.getParameter("company_Number")); // company_Number에 저장된다.
 		CompanyDTO companyDto = this.companyDao.searchCompanyID(company); // company_Number에 맞는 id가 있는지 company테이블에서
 																			// 찾아본다.
+		
+		System.out.println("사업자번호로 찾아온 기업아이디 : " + companyDto.getCompany_Id());
+		
 		mv.addObject("company", companyDto);
 		mv.setViewName("company/company_show_id.tiles");
 		return mv;
@@ -78,8 +81,14 @@ public class CompanyServiceImpl implements CompanyService {
 			if (isCompanyOk) { // 최종확인 Boolean도 true일 경우
 				try {
 					Map<String, MultipartFile> fileMap = multipartHttpServletRequest.getFileMap();
-					HashMap<String, Object> newCompany = imageUpload(null, fileMap, multipartHttpServletRequest, cmap);
-					this.companyDao.insertTheCompany(newCompany); // form에 입력한 값을 company테이블에 저장한다.
+					if(fileMap != null) {
+						HashMap<String, Object> newCompany = imageUpload(null, fileMap, multipartHttpServletRequest, cmap);
+						this.companyDao.insertTheCompany(newCompany); // form에 입력한 값을 company테이블에 저장한다.
+					} else {
+						System.out.println(cmap.get("company_Id") + ": 이미지를 등록하지 않고 회원가입을 했습니다.");
+						this.companyDao.insertTheCompany(cmap); // form에 입력한 값을 company테이블에 저장한다.
+					}
+					
 				} catch (IOException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
@@ -135,13 +144,23 @@ public class CompanyServiceImpl implements CompanyService {
 
 	@Override
 	@ResponseBody
-	public void comIdCheck(String company_Id) {
-		isCompanyIdChecked = true; // 해당 메서드가 실행되었다는 것은 중복체크 버튼을 누른 것이기 때문에 true로 변경
+	public String comIdCheck(String company_Id) {
+		String idCheck = "";
+		System.out.println("중복확인할 입력받은 id : " + company_Id);
 		CompanyDTO company = this.companyDao.checkCompanyID(company_Id); // 해당 company_Id가 있는지 company테이블에서 확인해본다.
+		
 		if (company != null) { // company테이블에 존재하면
-			isCompanyOk = false; // 아이디가 중복이므로 최종확인은 false
+			System.out.println("아디중복");
+			this.isCompanyOk = false; // 아이디가 중복이므로 최종확인은 false
+			idCheck = "0";
+		} else {
+			System.out.println("아디사용가능");
+			this.isCompanyOk = true; // company테이블에 존재하지 않으면 중복이 아니므로 true
+			idCheck = "1";
 		}
-		isCompanyOk = true; // company테이블에 존재하지 않으면 중복이 아니므로 true
+		System.out.println(this.isCompanyOk);
+
+		return idCheck;
 	}
 
 	@Override

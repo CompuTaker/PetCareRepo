@@ -39,6 +39,20 @@ prefix="c"%> <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
           name="company_Id"
           required
         />
+        
+           <c:set var="userId" value="${id}" />
+        <c:choose>
+          <c:when test="${not empty userId}">
+            <script>
+              $("#Company_Id").val("${userId}");
+              $("#Company_Id").attr("readonly", true);
+              setCookie("id", $("#Company_Id").val(), 1); 
+              var socialLogin = true;
+            </script>
+          </c:when>
+           </c:choose>
+        
+        
         <button type="button" id="checkCompanyId">중복확인</button>
         <div class="check_CI" id="companyId_check"></div>
       </div>
@@ -157,14 +171,19 @@ prefix="c"%> <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
    	var company_Id = $('#Company_Id').val();
    	$.ajax({
    		url : '${pageContext.request.contextPath}/company_checkcId?company_Id='+ company_Id,
-   		method : 'GET',
+   		method : 'POST',
    		async : false,
    		complete : function(data) {
-   			if (data.responseText == 1) {
+   			if (data.responseText == 0) {
+   				console.log("중복입니다")
+   				console.log(data.responseText);
+   				console.log(date);
    				$("#companyId_check").text("중복입니다.");
    				$("#companyId_check").css("color", "red");
    				$('#Company_Id').val("");
    			} else {
+   				console.log("중복이 아닙니다.")
+   				console.log(data.responseText);
    				$("#companyId_check").text("사용가능합니다.");
    				$("#companyId_check").css("color", "blue");
    				$('#Company_Id').attr("readonly",true);
@@ -174,7 +193,9 @@ prefix="c"%> <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
    	});
 
    });
-
+   if (socialLogin) {
+	      $("#checkCompanyId").trigger("click");
+	   }
 
    $("#checkCompanyNum").click(function() {
    	var company_Number = $('#Company_Number').val();
