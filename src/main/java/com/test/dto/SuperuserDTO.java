@@ -8,12 +8,12 @@ public class SuperuserDTO {
 	private String superuser_Id;
 	private String superuser_Password;
 
-	public int getIndex() {
+	public int getSuperuser_Index() {
 		return superuser_Index;
 	}
 
-	public void setIndex(int index) {
-		this.superuser_Index = index;
+	public void setSuperuser_Index(int superuser_Index) {
+		this.superuser_Index = superuser_Index;
 	}
 
 	public String getUsername() {
