@@ -101,7 +101,12 @@ public class CompanyServiceImpl implements CompanyService {
 
 		String baseUrl = "https://s3.ap-northeast-2.amazonaws.com/petcare2020/";
 		MultipartFile multipartFile = multipartHttpServletRequest.getFile("imageFile");
-		String fileName = multipartFile.getOriginalFilename(); // 파일명
+		String fileName = "";
+		try {
+			fileName = multipartFile.getOriginalFilename(); // 파일명
+		} catch (NullPointerException e) {
+			fileName = "/resources/images/profile.png";
+		}
 		String folderName = "profile";
 
 		if (fileMap.isEmpty()) { // if(imageFile == null) {
@@ -110,7 +115,7 @@ public class CompanyServiceImpl implements CompanyService {
 			if (multipartFile.isEmpty()) {
 				cmap.put("company_Image", existingImage);
 			} else {
-				String fullFileName = baseUrl + "profile_" + (String) cmap.get("company_Id") + "_" + fileName;
+				String fullFileName = baseUrl + folderName +"/" + (String) cmap.get("company_Id") + "_" + fileName;
 
 				// 확장자확인
 				int dotIdx = fileName.lastIndexOf(".");

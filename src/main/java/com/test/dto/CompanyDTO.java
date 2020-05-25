@@ -24,6 +24,7 @@ public class CompanyDTO {
 	private int company_Number;
 	private String company_Type;
 	private String company_Image;
+	private int company_Flag;
 
 	public int getCompany_Index() {
 		return company_Index;
@@ -119,5 +120,13 @@ public class CompanyDTO {
 
 	public void setCompany_Image(String company_Image) {
 		this.company_Image = company_Image;
+	}
+
+	public int getCompany_Flag() {
+		return company_Flag;
+	}
+
+	public void setCompany_Flag(int company_Flag) {
+		this.company_Flag = company_Flag;
 	}
 }
