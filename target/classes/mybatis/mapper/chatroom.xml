@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.test.dto.ChatRoomDTO">
+	
+	<select id="listAllChatRoom" resultType="com.test.dto.ChatRoomDTO">
+		select * from ChatRoom;
+	</select>
+	<!-- 세미콜론 없이 쿼리문 작성! -->
+	
+	<insert id="insertTheChatRoom" parameterType="java.util.Map">
+		insert into ChatRoom
+		(customerSession, repName)
+		values
+		(#{customerSession}, #{repName})
+	</insert>
+	
+	<insert id="prepareInTheNewChatRoom" parameterType="java.lang.Integer">
+		insert into ChatRoom (adminIdx) values (#{adminIdx})
+	</insert>
+	
+	<select id="getChatRoomByAdminIdx" parameterType="java.lang.Integer" resultType="com.test.dto.ChatRoomDTO">
+		select * from ChatRoom where adminIdx=#{adminIdx}
+	</select>
+	
+	<select id="getChatRoomByCustomerIdx" parameterType="java.lang.Integer" resultType="com.test.dto.ChatRoomDTO">
+		select * from ChatRoom where customerIdx=#{customerIdx}
+	</select>
+	
+	<select id="findAvailableChatRoomWithPriority" parameterType="java.lang.Integer" resultType="com.test.dto.ChatRoomDTO">
+		select * from ChatRoom where priority=#{priority}
+	</select>
+	
+	<update id="enterTheChatRoom" parameterType="java.util.Map">
+		update ChatRoom set customerIdx=#{customerIdx} where chatRoomIdx=#{chatRoomIdx}
+	</update>
+	
+</mapper>
