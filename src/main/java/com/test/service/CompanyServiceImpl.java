@@ -175,7 +175,7 @@ public class CompanyServiceImpl implements CompanyService {
 		Map<String, String> company = new HashMap<String, String>(); // 넘어온 변수를 한 번에 mapper에 넘겨주기 위해서 만든 Map객체
 		company.put("company_UserName", request.getParameter("company_UserName")); // Map객체에 이름을 저장한다.
 		company.put("company_Id", request.getParameter("company_Id")); // Map객체에 아이디를 저장한다.
-		company.put("company_UserPhoneNumber", request.getParameter("company_UserPhoneNumber")); // Map객체에 핸드폰번호를 저장한다.
+		company.put("company_Number", request.getParameter("company_Number")); // Map객체에 사업자번호를 저장한다.
 
 		CompanyDTO companyDto = this.companyDao.searchCompanyPW(company);
 
