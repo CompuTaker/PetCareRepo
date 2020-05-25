@@ -18,7 +18,6 @@ import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.test.constants.Constant;
-import com.test.constants.Constant.ESession;
 import com.test.dto.CustomerDTO;
 import com.test.service.CustomerService;
 
@@ -125,7 +124,7 @@ public class CustomerController {
 			customerService.deleteTheCustomer(customer_Id);
 			System.out.println("탈퇴성공");
 			if (result) {
-				Constant.eSession = ESession.eNull;
+				// jpoo // Constant.eSession = ESession.eNull;
 				session.invalidate(); // 탈퇴시 로그아웃 처리
 			}
 			return "customer/customer_delete_ok.tiles";

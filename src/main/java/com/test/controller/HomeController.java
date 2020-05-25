@@ -23,7 +23,6 @@ import org.springframework.web.bind.support.SessionStatus;
 
 import com.github.scribejava.core.model.OAuth2AccessToken;
 import com.test.constants.Constant;
-import com.test.constants.Constant.ESession;
 import com.test.dao.CustomerDAO;
 import com.test.dto.CompanyDTO;
 import com.test.dto.CustomerDTO;
@@ -147,7 +146,8 @@ public class HomeController {
 		} else {
 			CustomerDTO customer = this.customerDao.checkCustomerID(id); // 아이디를 통해 고객 정보를 가져온다.
 			model.addAttribute("customer", customer); // model 객체에 customer를 저장한다.
-			Constant.eSession = ESession.eCustomer; // eSession의 값을 eCustomer로 변경해준다.
+			// jpoo // Constant.eSession = ESession.eCustomer; // eSession의 값을 eCustomer로
+			// 변경해준다.
 			return "customer/customer_Profile.tiles"; // 고객 마이페이지로 이동한다.
 
 		}
@@ -183,7 +183,7 @@ public class HomeController {
 				// model객체에 customer테이블에서 가져온 customer값을 저장해준다.
 				model.addAttribute("customer", ((CustomerDTO) object));
 				// eSession의 값을 eCustomer로 변경해준다. (디폴트 = eNull)
-				Constant.eSession = ESession.eCustomer;
+				// jpoo // Constant.eSession = ESession.eCustomer;
 			} else if (object instanceof CompanyDTO) {
 				logger.info(" /company_Profile " + request.getMethod());
 				// 기업 마이페이지 화면을 띄워준다.
@@ -191,7 +191,7 @@ public class HomeController {
 				// model객체에 customer테이블에서 가져온 customer값을 저장해준다.
 				model.addAttribute("company", ((CompanyDTO) object));
 				// eSession의 값을 eCompany로 변경해준다. (디폴트 = eNull)
-				Constant.eSession = ESession.eCompany;
+				// jpoo // Constant.eSession = ESession.eCompany;
 			} else if (object instanceof SuperuserDTO) {
 				logger.info(" /admin_drop " + request.getMethod());
 				// 기업 마이페이지 화면을 띄워준다.
@@ -199,7 +199,7 @@ public class HomeController {
 				// model객체에 customer테이블에서 가져온 customer값을 저장해준다.
 				model.addAttribute("superuser", ((SuperuserDTO) object));
 				// eSessio의 값을 eSuperuser로 변경해준다. (디폴트 = eNull)
-				Constant.eSession = ESession.eSuperuser;
+				// jpoo // Constant.eSession = ESession.eSuperuser;
 			}
 			// Object가 CompanyDTO타입일 경우
 		} catch (ClassCastException e) {
@@ -222,7 +222,7 @@ public class HomeController {
 	@RequestMapping("/logout")
 	public String logout(Model model, SessionStatus status, HttpServletRequest request) {
 		logger.info("/logout " + request.getMethod());
-		Constant.eSession = ESession.eNull; // eSession의 값을 null로 초기화
+		// jpoo // Constant.eSession = ESession.eNull; // eSession의 값을 null로 초기화
 		status.setComplete(); // sessionAttribute를 초기화해준다.
 		return "redirect:/";
 	}
@@ -234,7 +234,8 @@ public class HomeController {
 	public String loginOrProfile(Model model, HttpSession session, HttpServletRequest request) {
 		logger.info("/loginOrProfile , GET");
 		String url = "";
-		logger.info(Constant.eSession.toString());
+
+		// jpoo // logger.info(Constant.eSession.toString());
 
 		CustomerDTO customer = (CustomerDTO) session.getAttribute("customer");
 		CompanyDTO company = (CompanyDTO) session.getAttribute("company");
@@ -243,16 +244,35 @@ public class HomeController {
 		if (customer == null && company == null && admin == null) { // eSession = eNull인 경우
 			url = "login"; // 로그인 화면을 띄워준다.
 		} else { // 둘 다 아닐경우
-			if (Constant.eSession == ESession.eCustomer) { // eSession = eCustomer인 경우
-				url = "customer_Profile"; // 고객 마이페이지를 띄워준다.
-				logger.info("/customer_Profile " + request.getMethod());
-			} else if (Constant.eSession == ESession.eCompany) { // eSession = eCompany인 경우
-				url = "company_Profile"; // 기업 마이페이지를 띄워준다.
-				logger.info("/company_Profile " + request.getMethod());
-			} else if (Constant.eSession == ESession.eSuperuser) { // eSession = eCompany인 경우
-				url = "admin_drop"; // 기업 마이페이지를 띄워준다.
-				logger.info("/admin_drop " + request.getMethod());
+			// jpoo // if (Constant.eSession == ESession.eCustomer) { // eSession =
+			// eCustomer인 경우
+			// url = "customer_Profile"; // 고객 마이페이지를 띄워준다.
+			// logger.info("/customer_Profile " + request.getMethod());
+			// } else if (Constant.eSession == ESession.eCompany) { // eSession = eCompany인
+			// 경우
+			// url = "company_Profile"; // 기업 마이페이지를 띄워준다.
+			// logger.info("/company_Profile " + request.getMethod());
+			// } else if (Constant.eSession == ESession.eSuperuser) { // eSession =
+			// eCompany인 경우
+			// url = "admin_drop"; // 기업 마이페이지를 띄워준다.
+			// logger.info("/admin_drop " + request.getMethod());
+			// } // jpoo
+			// jpgood
+			if (customer == null && company == null && admin == null) { // eSession = eNull인 경우
+				url = "login"; // 로그인 화면을 띄워준다.
+			} else { // 둘 다 아닐경우
+				if (customer != null) { // eSession = eCustomer인 경우
+					url = "customer_Profile"; // 고객 마이페이지를 띄워준다.
+					logger.info("/customer_Profile " + request.getMethod());
+				} else if (company != null) { // eSession = eCompany인 경우
+					url = "company_Profile"; // 기업 마이페이지를 띄워준다.
+					logger.info("/company_Profile " + request.getMethod());
+				} else if (admin != null) { // eSession = eCompany인 경우
+					url = "admin_drop"; // 기업 마이페이지를 띄워준다.
+					logger.info("/admin_drop " + request.getMethod());
+				}
 			}
+			// jpgood
 		}
 		return "redirect:" + url;
 	}

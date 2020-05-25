@@ -24,7 +24,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.test.constants.Constant;
-import com.test.constants.Constant.ESession;
 import com.test.dao.CustomerDAO;
 import com.test.dto.CustomerDTO;
 
@@ -68,7 +67,7 @@ public class SocialLoginController {
       CustomerDTO customer = customerDao.checkCustomerID(id);
       if (customer != null) {
          session.setAttribute("customer", customer);
-         Constant.eSession = ESession.eCustomer;
+         // jpoo // Constant.eSession = ESession.eCustomer;
          return "customer/customer_Profile.tiles";
       }
       model.addAttribute("id", id);

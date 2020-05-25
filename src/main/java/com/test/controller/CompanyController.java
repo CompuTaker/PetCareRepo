@@ -16,24 +16,24 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.test.constants.Constant;
-import com.test.constants.Constant.ESession;
 import com.test.dto.CompanyDTO;
 import com.test.dto.Criteria;
 import com.test.dto.PageMaker;
+import com.test.dto.SuperuserDTO;
+import com.test.dto.CustomerDTO;
 import com.test.service.CompanyService;
 
 @Controller // Spring에 Controller 클래스라고 알려주는 Annotation
 @SessionAttributes({ "customer", "company" }) // Model에 저장한 값을 http session에 저장할 수 있게 해주는 Annotation
 public class CompanyController {
-	
+
 	private Logger logger = LoggerFactory.getLogger(this.getClass());
-	
+
 	@Autowired
 	private CompanyService companyService;
 
@@ -42,33 +42,38 @@ public class CompanyController {
 	 */
 	@RequestMapping(value = "/company_signupDo", method = RequestMethod.POST, headers = ("content-type=multipart/*"))
 	public ModelAndView company_signupDo(@RequestParam HashMap<String, Object> cmap,
-			MultipartHttpServletRequest multipartHttpServletRequest,HttpServletRequest request) { // form에서 입력한 값을 HashMap으로 묶어서 가져옴
-		
-		logger.info("/company_signupDo "+request.getMethod()+" user: "+request.getSession());
+			MultipartHttpServletRequest multipartHttpServletRequest, HttpServletRequest request) { // form에서 입력한 값을
+																									// HashMap으로 묶어서 가져옴
+
+		logger.info("/company_signupDo " + request.getMethod() + " user: " + request.getSession());
 		return this.companyService.company_signupDo(multipartHttpServletRequest, cmap);
 	}
 
 	/*
 	 * 기업 회원 가입 시 아이디가 중복되었는지 확인해주는 메서드
 	 */
-	@ResponseBody
-	@RequestMapping(value = "/company_checkcId", method = RequestMethod.POST)
-	public String comIdCheck(@RequestParam("company_Id") String company_Id,HttpServletRequest request) { // company_signup.jsp에서 name이 company_Id인 값을
-		if(Constant.eSession == ESession.eNull) {
-			logger.info("/company_checkcId "+request.getMethod());			
-		}// 가져와 String값으로 저장한다.
-		return this.companyService.comIdCheck(company_Id);
+	@RequestMapping(value = "/company_checkcId", method = RequestMethod.GET)
+	public void comIdCheck(@RequestParam("company_Id") String company_Id, HttpServletRequest request,
+			HttpSession session) {
+		// company_signup.jsp에서 name이 company_Id인 값을
+		CompanyDTO company = (CompanyDTO) session.getAttribute("company"); // jpgood
+
+		// jpoo // if(Constant.eSession == ESession.eNull) { // jpoo
+		if (company == null) { // jpgood
+			logger.info("/company_checkcId " + request.getMethod());
+		} // 가져와 String값으로 저장한다.
+		this.companyService.comIdCheck(company_Id);
 	}
 
 	/*
 	 * 기업 회원 가입 시 사업자등록번호가 중복되었는지 확인해주는 메서드
 	 */
-	@ResponseBody
-	@RequestMapping(value = "/company_checkComNum", method = RequestMethod.POST)
-	public String comNumCheck(@RequestParam("company_Number") int company_Number,HttpServletRequest request) { // company_signup.jsp에서 name이
-																					// company_Number인 값을 가져와 int값으로
-		logger.info("/company_checkComNum "+request.getMethod());																		// 저장한다.
-		return this.companyService.comNumCheck(company_Number);
+	@RequestMapping(value = "/company_checkComNum", method = RequestMethod.GET)
+	public void comNumCheck(@RequestParam("company_Number") int company_Number, HttpServletRequest request) { // company_signup.jsp에서
+																												// name이
+		// company_Number인 값을 가져와 int값으로
+		logger.info("/company_checkComNum " + request.getMethod()); // 저장한다.
+		this.companyService.comNumCheck(company_Number);
 	}
 
 	/*
@@ -77,7 +82,7 @@ public class CompanyController {
 	@RequestMapping("/company_searchId")
 	public ModelAndView company_searchId(ModelAndView mv, HttpServletRequest request) { // search_id.jsp에서 name값이
 																						// company_Number인 값이 int
-		logger.info("/company_searchId "+request.getMethod());																			// company_Number에 저장된다.
+		logger.info("/company_searchId " + request.getMethod()); // company_Number에 저장된다.
 		return this.companyService.searchId(mv, request); // company_Number에 맞는 id가 있는지 company테이블에서 찾아본다.
 	}
 
@@ -86,7 +91,7 @@ public class CompanyController {
 	 */
 	@RequestMapping(value = "/search_pw_company", method = RequestMethod.POST)
 	public String search_pw_company(ModelAndView mv, HttpServletRequest request) {
-		logger.info("/search_pw_company "+request.getMethod());	
+		logger.info("/search_pw_company " + request.getMethod());
 		return this.companyService.search_pw_company(mv, request);
 	}
 
@@ -94,8 +99,8 @@ public class CompanyController {
 	 * 기업회원이 로그인을 한 후 마이페이지로 이동하게 될 때 실행되는 메서드이다.
 	 */
 	@RequestMapping("/company_Profile")
-	public ModelAndView profile(HttpSession session, ModelAndView mv,HttpServletRequest request) {
-		logger.info("/company_Profile "+request.getMethod());	
+	public ModelAndView profile(HttpSession session, ModelAndView mv, HttpServletRequest request) {
+		logger.info("/company_Profile " + request.getMethod());
 		return this.companyService.profile(mv, session);
 	}
 
@@ -103,8 +108,8 @@ public class CompanyController {
 	 * 기업회원이 정보를 수정하고자 할 때 실행되는 메서드이다.
 	 */
 	@RequestMapping("/company_modify")
-	public ModelAndView company_modify(ModelAndView mv, HttpSession session,HttpServletRequest request) {
-		logger.info("/company_modify "+request.getMethod());	
+	public ModelAndView company_modify(ModelAndView mv, HttpSession session, HttpServletRequest request) {
+		logger.info("/company_modify " + request.getMethod());
 		return this.companyService.company_modify(mv, session);
 	}
 
@@ -112,10 +117,10 @@ public class CompanyController {
 	 * 개인정보수정를 고치고 수정 버튼을 눌렀을 때 실행되는 메서드이다.
 	 */
 	@RequestMapping("/company_modify_ok")
-	public String customer_modify(MultipartHttpServletRequest multipartHttpServletRequest,HttpServletRequest request
-			,@RequestParam HashMap<String, Object> cmap) { // form에서 입력한 정보를 HashMap으로 묶어서 가져온다.
+	public String customer_modify(MultipartHttpServletRequest multipartHttpServletRequest, HttpServletRequest request,
+			@RequestParam HashMap<String, Object> cmap) { // form에서 입력한 정보를 HashMap으로 묶어서 가져온다.
 		this.companyService.updateCompanyInfo(multipartHttpServletRequest, cmap); // 가져온 cmap데이터를 기존 고객 데이터에 update시킨다.
-		logger.info("/company_modify_ok "+request.getMethod());	
+		logger.info("/company_modify_ok " + request.getMethod());
 		return "company/company_modify_ok.tiles";
 
 	}
@@ -125,11 +130,11 @@ public class CompanyController {
 	 */
 	@RequestMapping("/beautyCompany")
 	public String beautyCompany(Model model, HttpServletRequest request, Criteria cri) {
-		logger.info("/beautyCompany "+request.getMethod());	
+		logger.info("/beautyCompany " + request.getMethod());
 		PageMaker pageMaker = new PageMaker();
 		pageMaker.setCri(cri);
 		pageMaker.setTotalCount(this.companyService.countCompanyList("미용실"));
-		
+
 		Map<String, Object> criteria = new HashMap<String, Object>();
 		criteria.put("page", cri.getPage());
 		criteria.put("perPageNum", cri.getPerPageNum());
@@ -141,7 +146,7 @@ public class CompanyController {
 																							// 가져온다.
 		model.addAttribute("companyList", beautyCompanyList); // model에 가져온 회사 정보를 저장한다.
 		model.addAttribute("pageMaker", pageMaker);
-		
+
 		url = "company/beauty_company.tiles"; // beauty_company.jsp화면을 띄워준다.
 		return url;
 	}
@@ -151,7 +156,7 @@ public class CompanyController {
 	 */
 	@RequestMapping("/hospitalCompany")
 	public String hospitalCompany(Model model, HttpServletRequest request, Criteria cri) {
-		logger.info("/hospitalCompany "+request.getMethod());	
+		logger.info("/hospitalCompany " + request.getMethod());
 		PageMaker pageMaker = new PageMaker();
 		pageMaker.setCri(cri);
 		pageMaker.setTotalCount(this.companyService.countCompanyList("병원"));
@@ -175,7 +180,7 @@ public class CompanyController {
 	 */
 	@RequestMapping("/hotelCompany")
 	public String hotelCompany(Model model, HttpServletRequest request, Criteria cri) {
-		logger.info("/hotelCompany "+request.getMethod());	
+		logger.info("/hotelCompany " + request.getMethod());
 		PageMaker pageMaker = new PageMaker();
 		pageMaker.setCri(cri);
 		pageMaker.setTotalCount(this.companyService.countCompanyList("호텔"));
@@ -200,13 +205,14 @@ public class CompanyController {
 	 * 정보를 보려고 할 때 실행되는 메서드이다.
 	 */
 	@RequestMapping("/company_view")
-	public String companyView(Model model, int companyIdx,HttpServletRequest request) { // 각 beautyCompany.jsp, hospitalCompany.jsp,
-																// hotelCompany.jsp파일에서
-																// company리스트를 클릭하면 companyIdx값이 넘어온다. (onclick href 참조)
+	public String companyView(Model model, int companyIdx, HttpServletRequest request) { // 각 beautyCompany.jsp,
+																							// hospitalCompany.jsp,
+		// hotelCompany.jsp파일에서
+		// company리스트를 클릭하면 companyIdx값이 넘어온다. (onclick href 참조)
 		CompanyDTO company = this.companyService.listThisCompany(companyIdx); // 넘어온 companyIdx값을 company테이블에 가서 값을
 																				// 가져온다.
-		
-		logger.info("/company_view "+request.getMethod());	
+
+		logger.info("/company_view " + request.getMethod());
 		model.addAttribute("thisCompany", company); // 가져온 company의 값을 model객체에 저장한다.
 		return "company/company_view.tiles";
 	}
@@ -214,7 +220,7 @@ public class CompanyController {
 	// 업체찾기 : 전체엄체, 검색된업체
 	@RequestMapping("/searchCompany")
 	public String searchCompany(Model model, HttpServletRequest request) {
-		logger.info("/searchCompany "+request.getMethod());	
+		logger.info("/searchCompany " + request.getMethod());
 		String url = "";
 		List<CompanyDTO> companyList = this.companyService.listsAllCompany(request); // 회사를 가져온다.
 		model.addAttribute("companyList", companyList); // model에 가져온 회사 정보를 저장한다.
@@ -245,7 +251,7 @@ public class CompanyController {
 			companyService.deleteTheCompany(company_Id);
 			System.out.println("탈퇴성공");
 			if (result) {
-				Constant.eSession = ESession.eNull;
+				// jpoo // Constant.eSession = ESession.eNull;
 				session.invalidate(); // 탈퇴시 로그아웃 처리
 			}
 			return "company/company_delete_ok.tiles";
