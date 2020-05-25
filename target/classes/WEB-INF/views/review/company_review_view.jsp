@@ -95,12 +95,12 @@
 
 </div>
 <script type="text/javascript">
-		var loadFile = function(event) {
-			var x = document.createElement('img'), y = document.getElementById(
-					"images").appendChild(x);
-			console.log('d');
-			y.src = URL.createObjectURL(event.target.files[0]);
-			y.width = '100';
-			y.height = '100';
-		};
-	</script>
+	var loadFile = function(event) {
+		var x = document.createElement('img'), y = document.getElementById(
+				"images").appendChild(x);
+		console.log('d');
+		y.src = URL.createObjectURL(event.target.files[0]);
+		y.width = '100';
+		y.height = '100';
+	};
+</script>

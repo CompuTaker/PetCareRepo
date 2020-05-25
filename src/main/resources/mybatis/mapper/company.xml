@@ -82,12 +82,12 @@
     <insert id="insertTheCompany" parameterType="java.util.Map">
       <![CDATA[insert into Company
       (company_Index, company_Id, company_Password, company_UserName,
-      company_ResidentNumber, company_Address, company_Email,
+      company_Address, company_Email,
       company_UserPhoneNumber, company_Name, company_Number, company_Type,
       company_Image)
       values
       (#{company_Index}, #{company_Id}, #{company_Password},
-      #{company_UserName},#{company_ResidentNumber}, #{company_Address},
+      #{company_UserName}, #{company_Address},
       #{company_Email}, #{company_UserPhoneNumber}, #{company_Name},
       #{company_Number }, #{company_Type},#{company_Image})
       ]]>
@@ -106,7 +106,6 @@
 		update Company
 		set company_Password=#{company_Password},
 		company_UserName = #{company_UserName},
-		company_ResidentNumber = #{company_ResidentNumber},
 		company_Address = #{company_Address},
 		company_Email = #{company_Email},
 		company_Name = #{company_Name},

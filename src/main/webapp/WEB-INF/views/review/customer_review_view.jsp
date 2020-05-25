@@ -23,22 +23,26 @@
 			</p>
 		</div>
 		<div class="review-div-image">
-		<c:forEach items="${reviewImage}" var="reviewImage">
-				<img id="review_Image" src="${reviewImage.image_Url }" width="150" height="150"/>
-		</c:forEach>
+			<c:forEach items="${reviewImage}" var="reviewImage">
+				<img id="review_Image" src="${reviewImage.image_Url }" width="150"
+					height="150" />
+			</c:forEach>
 		</div>
-					
-				
+
 		<div class="review-div">
 			<label class="font-weight-bold" for="review_Rating">별점 : </label> <label
 				id="review_Rating" name="review_Rating">${ review.review_Rating }</label>
 		</div>
 		<hr>
+		<h4 class="font-weight-bold p-5">[Review Comment]</h4>
+		<hr>
+		
 		<div class="review-div">
 			<label class="font-weight-bold" for="customer_Name">댓글 : </label> <label
 				id="review_Comment" name="review_Comment"> ${ review.review_Comment }</label>
 		</div>
-
+	
+			<hr>
 		<button onclick="history.back()"
 			class="btn btn-secondary btn-lg mx-auto">목록</button>
 

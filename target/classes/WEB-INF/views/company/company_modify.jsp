@@ -65,17 +65,7 @@ prefix="c"%>
         />
       </div>
 
-      <div class="form-group">
-        <label for="Company_ResidentNumber">주민 등록 번호</label>
-        <input
-          type="text"
-          class="form-control"
-          id="Company_ResidentNumber"
-          placeholder="사업자 주민등록번호"
-          name="company_ResidentNumber"
-          value="${company.company_ResidentNumber }"
-        />
-      </div>
+    
 
       <div class="form-group">
         <label for="Company_Address">업체 주소</label>
