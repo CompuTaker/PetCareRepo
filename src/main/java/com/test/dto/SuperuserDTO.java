@@ -12,24 +12,24 @@ public class SuperuserDTO {
 		return superuser_Index;
 	}
 
-	public void setSuperuser_Index(int superuser_Index) {
-		this.superuser_Index = superuser_Index;
+	public void setSuperuser_Index(int index) {
+		this.superuser_Index = index;
 	}
 
 	public String getUsername() {
 		return superuser_Id;
 	}
 
-	public void setUsername(String username) {
-		this.superuser_Id = username;
+	public void setUsername(String superuser_Id) {
+		this.superuser_Id = superuser_Id;
 	}
 
 	public String getPassword() {
 		return superuser_Password;
 	}
 
-	public void setPassword(String password) {
-		this.superuser_Password = password;
+	public void setPassword(String superuser_Password) {
+		this.superuser_Password = superuser_Password;
 	}
 
 }
