@@ -121,7 +121,7 @@ public class CompanyServiceImpl implements CompanyService {
 			if (multipartFile.isEmpty()) {
 				cmap.put("company_Image", existingImage);
 			} else {
-				String fullFileName = baseUrl + folderName + "/" + (String) cmap.get("compamy_Id") + "_" + fileName;
+				String fullFileName = baseUrl + folderName + "/" + (String) cmap.get("company_Id") + "_" + fileName;
 
 				// 확장자확인
 				int dotIdx = fileName.lastIndexOf(".");
