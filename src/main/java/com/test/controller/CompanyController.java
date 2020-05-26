@@ -55,7 +55,7 @@ public class CompanyController {
 	 * 기업 회원 가입 시 아이디가 중복되었는지 확인해주는 메서드
 	 */
 	@ResponseBody
-	@RequestMapping(value = "/company_checkcId", method = RequestMethod.GET)
+	@RequestMapping(value = "/company_checkId", method = RequestMethod.GET)
 	public String comIdCheck(@RequestParam("company_Id") String company_Id, HttpServletRequest request,
 			HttpSession session) {
 		// company_signup.jsp에서 name이 company_Id인 값을
