@@ -27,7 +27,7 @@
    <!-- 기업 회원 아이디 찾기 -->
    <select id="searchCompanyID" 
       resultType="com.test.dto.CompanyDTO">
-      select company_Id from Company where company_Number = #{ company_Number }
+      select * from Company where company_Number = #{ company_Number }
    </select>
    
    <!-- userId와 userPw는 실제 컬럼명, 여기선 map 객체인 user에 저장된 key값들인 id와 pw로 값 찾아내 
@@ -38,13 +38,13 @@
     <!-- 기업 회원 아이디 선택하기 -->
  	<select id="companyId" parameterType="java.util.Map"
 		resultType="com.test.dto.CompanyDTO">
-		select company_Id from Company where company_Id = #{company_Id}
+		select * from Company where company_Id = #{company_Id}
 	</select>
 	
 	<!-- 기업 번호 선택하기 -->
 	 <select id="companyNumber"  parameterType="java.util.Map"
 		resultType="com.test.dto.CompanyDTO">
-		select company_Number from Company where company_Number = #{company_Number}
+		select * from Company where company_Number = #{company_Number}
 	</select>
 	
 	<!-- 기업 회원 비밀번호 찾기 -->

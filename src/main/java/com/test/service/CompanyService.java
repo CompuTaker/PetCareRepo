@@ -14,7 +14,7 @@ import com.test.dto.CompanyDTO;
 
 public interface CompanyService {
 
-	abstract public String comNumCheck(int company_Number);
+	abstract public String comNumCheck(String company_Number);
 
 	abstract public ModelAndView searchId(ModelAndView mv, HttpServletRequest request);
 

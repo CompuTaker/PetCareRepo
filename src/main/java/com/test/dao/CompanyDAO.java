@@ -28,7 +28,7 @@ public interface CompanyDAO {
 
 	abstract public CompanyDTO checkCompanyID(String company_Id);
 
-	abstract public CompanyDTO checkCompanyNumber(int company_Number);
+	abstract public CompanyDTO checkCompanyNumber(String company_Number);
 
 	abstract public int updateCompanyInfo(HashMap<String, Object> cmap);
 

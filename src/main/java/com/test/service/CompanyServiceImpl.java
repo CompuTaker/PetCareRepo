@@ -48,6 +48,9 @@ public class CompanyServiceImpl implements CompanyService {
 		company.put("company_Number", request.getParameter("company_Number")); // company_Number에 저장된다.
 		CompanyDTO companyDto = this.companyDao.searchCompanyID(company); // company_Number에 맞는 id가 있는지 company테이블에서
 																			// 찾아본다.
+
+		System.out.println("사업자번호로 찾아온 기업아이디 : " + companyDto.getCompany_Id());
+
 		mv.addObject("company", companyDto);
 		mv.setViewName("company/company_show_id.tiles");
 		return mv;
@@ -75,10 +78,11 @@ public class CompanyServiceImpl implements CompanyService {
 		redirect.addObject("message", "중복체크 해주세요."); // 중복체크를 하지 않았을 경우 띄울 메시지를 redirect ModelAndView에 저장
 
 		if (isCompanyIdChecked && isCompanyComNumChecked) { // ID와 사업자등록번호 중복체크를 정상적으로 실행했을 경우
-			if (isCompanyOk) { // 최종확인 Boolean도 true일 경우
+			if (isCompanyOk) {
 				try {
 					Map<String, MultipartFile> fileMap = multipartHttpServletRequest.getFileMap();
 					HashMap<String, Object> newCompany = imageUpload(null, fileMap, multipartHttpServletRequest, cmap);
+					System.out.println("이미지가 있는가? : " + fileMap);
 					this.companyDao.insertTheCompany(newCompany); // form에 입력한 값을 company테이블에 저장한다.
 				} catch (IOException e) {
 					// TODO Auto-generated catch block
@@ -101,12 +105,14 @@ public class CompanyServiceImpl implements CompanyService {
 
 		String baseUrl = "https://s3.ap-northeast-2.amazonaws.com/petcare2020/";
 		MultipartFile multipartFile = multipartHttpServletRequest.getFile("imageFile");
-		String fileName = "";
+		String fileName = ""; // 파일명
+
 		try {
 			fileName = multipartFile.getOriginalFilename(); // 파일명
 		} catch (NullPointerException e) {
 			fileName = "/resources/images/profile.png";
 		}
+
 		String folderName = "profile";
 
 		if (fileMap.isEmpty()) { // if(imageFile == null) {
@@ -115,7 +121,7 @@ public class CompanyServiceImpl implements CompanyService {
 			if (multipartFile.isEmpty()) {
 				cmap.put("company_Image", existingImage);
 			} else {
-				String fullFileName = baseUrl + folderName +"/" + (String) cmap.get("company_Id") + "_" + fileName;
+				String fullFileName = baseUrl + folderName + "/" + (String) cmap.get("compamy_Id") + "_" + fileName;
 
 				// 확장자확인
 				int dotIdx = fileName.lastIndexOf(".");
@@ -141,9 +147,8 @@ public class CompanyServiceImpl implements CompanyService {
 	@Override
 	@ResponseBody
 	public String comIdCheck(String company_Id) {
-		System.out.println(company_Id);
 		String idCheck = "";
-		
+
 		isCompanyIdChecked = true; // 해당 메서드가 실행되었다는 것은 중복체크 버튼을 누른 것이기 때문에 true로 변경
 		CompanyDTO company = this.companyDao.checkCompanyID(company_Id); // 해당 company_Id가 있는지 company테이블에서 확인해본다.
 		if (company != null) { // company테이블에 존재하면
@@ -153,17 +158,17 @@ public class CompanyServiceImpl implements CompanyService {
 			isCompanyOk = true; // company테이블에 존재하지 않으면 중복이 아니므로 true
 			idCheck = "1";
 		}
-		System.out.println(idCheck);
 		return idCheck;
 	}
 
 	@Override
 	@ResponseBody
-	public String comNumCheck(int company_Number) {
-		String comNumCheck = ""; 
+	public String comNumCheck(String company_Number) {
+		String comNumCheck = "";
 		isCompanyComNumChecked = true; // 해당 메서드가 실행되었다는 것은 중복체크 버튼을 누른 것이기 때문에 true로 변경
 		CompanyDTO company = this.companyDao.checkCompanyNumber(company_Number); // 해당 company_Number가 있는지 company테이블에서
-																					// 확인해본다.
+		// 확인해본다.
+		System.out.println(company);
 		if (company != null) { // company테이블에 존재하면
 			isCompanyOk = false; // 사업자등록번호가 중복이므로 최종확인은 false
 			comNumCheck = "0";
@@ -172,7 +177,7 @@ public class CompanyServiceImpl implements CompanyService {
 			comNumCheck = "1";
 		}
 		return comNumCheck;
-		
+
 	}
 
 	@Override
@@ -273,7 +278,7 @@ public class CompanyServiceImpl implements CompanyService {
 
 		return this.companyDao.listAllCompany();
 	}
-	
+
 	public boolean checkPW(String company_Id, String company_Password) {
 		return companyDao.checkPW(company_Id, company_Password);
 
