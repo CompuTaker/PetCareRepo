@@ -57,7 +57,6 @@ public class CustomerDAOimpl implements CustomerDAO {
 	 */
 	@Override
 	public CustomerDTO searchCustomerID(Map<String, String> customer) {
-		System.out.println(this.sqlSession.selectOne("searchCustomerId", customer));
 		return this.sqlSession.selectOne("searchCustomerId", customer); // mapper에서 "searchCustomerId" id를 가지는 명령문에
 																		// customer객체를 가지고 실행한다.
 	}

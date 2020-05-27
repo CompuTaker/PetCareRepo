@@ -10,6 +10,7 @@ import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.SessionAttributes;
@@ -46,13 +47,15 @@ public class CompanyServiceImpl implements CompanyService {
 	public ModelAndView searchId(ModelAndView mv, HttpServletRequest request) {
 		Map<String, String> company = new HashMap<String, String>();
 		company.put("company_Number", request.getParameter("company_Number")); // company_Number에 저장된다.
-		CompanyDTO companyDto = this.companyDao.searchCompanyID(company); // company_Number에 맞는 id가 있는지 company테이블에서
-																			// 찾아본다.
-
-		System.out.println("사업자번호로 찾아온 기업아이디 : " + companyDto.getCompany_Id());
-
-		mv.addObject("company", companyDto);
-		mv.setViewName("company/company_show_id.tiles");
+		try {
+			CompanyDTO companyDto = this.companyDao.searchCompanyID(company); // company_Number에 맞는 id가 있는지 company테이블에서 찾아본다.
+			
+			mv.addObject("companyId", companyDto);
+			mv.setViewName("company/company_show_id.tiles");
+		} catch (NullPointerException e) {
+			mv.addObject("message", 1);
+			mv.setViewName("redirect:/search_id");
+		}
 		return mv;
 
 	}
@@ -181,27 +184,35 @@ public class CompanyServiceImpl implements CompanyService {
 	}
 
 	@Override
-	public String search_pw_company(ModelAndView mv, HttpServletRequest request) {
+	public String search_pw_company(Model model, HttpServletRequest request) {
 		Map<String, String> company = new HashMap<String, String>(); // 넘어온 변수를 한 번에 mapper에 넘겨주기 위해서 만든 Map객체
 		company.put("company_UserName", request.getParameter("company_UserName")); // Map객체에 이름을 저장한다.
 		company.put("company_Id", request.getParameter("company_Id")); // Map객체에 아이디를 저장한다.
 		company.put("company_Number", request.getParameter("company_Number")); // Map객체에 사업자번호를 저장한다.
 
-		CompanyDTO companyDto = this.companyDao.searchCompanyPW(company);
+		String url = "";
+		
+		try {
+			CompanyDTO companyDto = this.companyDao.searchCompanyPW(company);
 
-		String passwordArr[] = companyDto.getCompany_Password().split(""); // 가져온 패스워드를 하나씩 뜯어서 배열로 저장한다.
-		String password = ""; // 블러처리 후 패스워드를 저장할 변수
+			String passwordArr[] = companyDto.getCompany_Password().split(""); // 가져온 패스워드를 하나씩 뜯어서 배열로 저장한다.
+			String password = ""; // 블러처리 후 패스워드를 저장할 변수
 
-		for (int i = 0; i < passwordArr.length; i++) {
-			if (i > 2) {
-				password += "*"; // 패스워드의 앞 2자리만 보여주고 나머지는 *로 블러처리한다.
-			} else {
-				password += passwordArr[i];
+			for (int i = 0; i < passwordArr.length; i++) {
+				if (i > 2) {
+					password += "*"; // 패스워드의 앞 2자리만 보여주고 나머지는 *로 블러처리한다.
+				} else {
+					password += passwordArr[i];
+				}
 			}
+			request.setAttribute("password", password); // company_show_pw.jsp에서 getAttribute로 값을 호출하기 위한 변수
+			url = "company/company_show_pw.tiles";
+		} catch (NullPointerException e) {
+			model.addAttribute("message", 1);
+			url = "redirect:/search_pw";
 		}
 
-		request.setAttribute("password", password); // company_show_pw.jsp에서 getAttribute로 값을 호출하기 위한 변수
-		return "company/company_show_pw.tiles";
+		return url;
 	}
 
 	@Override

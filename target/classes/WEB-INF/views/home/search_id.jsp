@@ -94,4 +94,9 @@ prefix="c"%>
       document.getElementById("searchP").style.display = "";
     }
   }
+  
+  var res ="<%=request.getParameter("message")%>"; 
+  if (res == 1){
+  	alert("입력하신 정보가 맞지 않습니다. 다시 시도해 주세요. ");
+  }
 </script>

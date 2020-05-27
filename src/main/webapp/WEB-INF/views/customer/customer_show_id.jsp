@@ -8,12 +8,11 @@
 			<h1>
 				<i class="fas fa-check"></i>
 			</h1>
-			<h1>일반회원님의 아이디는${ customer.customer_Id } 입니다</h1>
+			<h1>일반회원님의 아이디는 <%=request.getAttribute("customerId") %> 입니다</h1>
 
 			<hr>
 
-			<a class="btn btn-lg btn-secondary mx-auto" href="login"
-				.html" role="button">로그인 화면으로 돌아가기</a>
+			<a class="btn btn-lg btn-secondary mx-auto" href="login" role="button">로그인 화면으로 돌아가기</a>
 		</div>
 	</div>
 </div>

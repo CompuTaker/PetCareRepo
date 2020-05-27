@@ -13,7 +13,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -22,12 +21,9 @@ import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.test.constants.Constant;
 import com.test.dto.CompanyDTO;
 import com.test.dto.Criteria;
 import com.test.dto.PageMaker;
-import com.test.dto.SuperuserDTO;
-import com.test.dto.CustomerDTO;
 import com.test.service.CompanyService;
 
 @Controller // Spring에 Controller 클래스라고 알려주는 Annotation
@@ -94,9 +90,9 @@ public class CompanyController {
 	 * 로그인창에 있는 비밀번호 찾기 중에서 기업회원 비밀번호 찾기를 눌렀을 경우
 	 */
 	@RequestMapping(value = "/search_pw_company", method = RequestMethod.POST)
-	public String search_pw_company(ModelAndView mv, HttpServletRequest request) {
+	public String search_pw_company(Model model, HttpServletRequest request) {
 		logger.info("/search_pw_company " + request.getMethod());
-		return this.companyService.search_pw_company(mv, request);
+		return this.companyService.search_pw_company(model, request);
 	}
 
 	/*

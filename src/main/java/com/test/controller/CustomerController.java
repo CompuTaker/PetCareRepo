@@ -17,7 +17,6 @@ import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.test.constants.Constant;
 import com.test.dto.CustomerDTO;
 import com.test.service.CustomerService;
 
@@ -97,8 +96,8 @@ public class CustomerController {
 	 * 濡쒓렇�씤李쎌뿉�꽌 鍮꾨�踰덊샇 李얘린瑜� �늻瑜닿퀬 怨좉컼 鍮꾨�踰덊샇 李얘린瑜� �븯硫� �떎�뻾�릺�뒗 硫붿꽌�뱶
 	 */
 	@RequestMapping(value = "/search_pw_customer", method = RequestMethod.POST)
-	public String search_pw_customer(ModelAndView mv, HttpServletRequest request) {
-		return this.customerService.search_pw_customer(mv, request);
+	public String search_pw_customer(Model model, HttpServletRequest request) {
+		return this.customerService.search_pw_customer(model, request);
 	}
 
 	// 탈퇴화면 페이지로 이동

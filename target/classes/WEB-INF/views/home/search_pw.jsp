@@ -103,5 +103,14 @@
             document.getElementById("searchI").style.display = "none";
             document.getElementById("searchP").style.display = "";
          }
+      }     
+
+      var res ="<%=request.getParameter("message")%>"; 
+      if (res == 1){
+      	alert("입력한 정보가 맞지 않습니다. 다시 확인해주세요.");
       }
-   </script>
+</script>      
+<script>
+
+</script>
+

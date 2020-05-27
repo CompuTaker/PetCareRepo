@@ -7,6 +7,7 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
+import org.springframework.ui.Model;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -29,7 +30,7 @@ public interface CompanyService {
 
 	abstract public String comIdCheck(String company_Id);
 
-	abstract public String search_pw_company(ModelAndView mv, HttpServletRequest request);
+	abstract public String search_pw_company(Model model, HttpServletRequest request);
 
 	abstract public ModelAndView profile(ModelAndView mv, HttpSession session);
 

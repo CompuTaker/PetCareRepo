@@ -25,7 +25,7 @@ public interface CustomerService {
 
 	abstract public ModelAndView search_id_customer(ModelAndView mv, HttpServletRequest request);
 
-	abstract public String search_pw_customer(ModelAndView mv, HttpServletRequest request);
+	abstract public String search_pw_customer(Model model, HttpServletRequest request);
 
 	abstract public ModelAndView customer_modify(ModelAndView mv, HttpSession session);
 
