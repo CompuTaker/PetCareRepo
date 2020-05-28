@@ -57,17 +57,28 @@ public class PetController {
 			Model model,HttpServletRequest  request) { // customerprofile.jsp에서 name값이 customer_Index, pet_Index인 값을 가져온다.
 							// 펫 정보수정을 누르면 값을 가져온다.
 		logger.info("/pet_modify "+request.getMethod());
-		return this.petService.modify(cust_Index, pet_Index, model);
+		return this.petService.modify(cust_Index, pet_Index, model,request);
 	}
 
 	/*
 	 * 고객이 등록한 반려 동물의 정보를 수정할 때 실행되는 메서드이다. RequestMethod.POST
 	 */
 	@RequestMapping(value = "/pet_modify", method = RequestMethod.POST)
-	public String postModify(PetDTO pet,HttpServletRequest  request) {
+	public String pet_modify(PetDTO pet,HttpServletRequest  request) {
 		logger.info("/pet_modify "+request.getMethod());
-		return this.petService.postModify(pet);
+		return this.petService.postModify(pet,request);
 	}
+	
+//	/*
+//	 * 펫 수정하기 완료
+//	 */
+//	@RequestMapping("/pet_modify_ok")
+//	public String modify_Ok(HttpServletRequest  request) { 		
+//		logger.info("/pet_ok "+request.getMethod());																
+//		return "pet/pet_modify_ok.tiles";
+//	}
+
+	
 
 	/*
 	 * 펫 등록하기에서 등록하기 버튼을 누르면 실행되는 메서드이다.

@@ -12,9 +12,9 @@ import com.test.dto.PetDTO;
 
 public interface PetService {
 
-	abstract public String modify(int cust_Index, int pet_Index, Model model);
+	abstract public String modify(int cust_Index, int pet_Index, Model model,HttpServletRequest  request);
 
-	abstract public String postModify(PetDTO pet);
+	abstract public String postModify(PetDTO pet,HttpServletRequest  request);
 
 	abstract public String reserve_Ok(HashMap<String, Object> pmap, HttpServletRequest request);
 
