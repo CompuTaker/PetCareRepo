@@ -1,6 +1,13 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+
+<script type="text/javascript">
+function logout() {
+    location.href = "logout";
+  }
+</script>
+
 <div class="wrapper">
 
 	<!-- Sidebar  -->
@@ -58,7 +65,7 @@
 							<div class="dropdown-menu" aria-labelledby="navbarDropdown">
 								<a class="dropdown-item" href="#">Profile</a> <a
 									class="dropdown-item" href="#">Settings</a> <a
-									class="dropdown-item" href="admin_login">Log Out</a>
+									class="dropdown-item" onclick="logout();">Log Out</a>
 							</div></li>
 					</ul>
 				</div>

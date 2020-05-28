@@ -89,9 +89,9 @@ public class ReviewServiceImpl implements ReviewService {
 	}
 
 	@Override
-	public String customerReviewView(Model model, int reviewIdx) {
+	public String customerReviewView(Model model, int review_Index) {
 		System.out.println("자세한 후기 보기?");
-		ReviewDTO reviewDTO = this.reviewDao.listItsReview(reviewIdx); // reviewIdx(customer_review_view.jsp에서)를 가지고 후기의
+		ReviewDTO reviewDTO = this.reviewDao.listItsReview(review_Index); // reviewIdx(customer_review_view.jsp에서)를 가지고 후기의
 																		// 자세한 내용을 가져온다.
 		List<CustomerDTO> customerDTO = this.reviewDao.searchCustomerName(reviewDTO.getCustomer_id()); // 가져온 후기 정보에서
 																										// 고객의 id를 가지고
@@ -201,5 +201,14 @@ public class ReviewServiceImpl implements ReviewService {
 		}
 		return this.reviewDao.listAllReviews();
 	}
+	
+	// 후기모아보기>리뷰 삭제
+	@Override
+	public ModelAndView review_cancel(String review_Index, ModelAndView mv) {
+		int reviewIdx = Integer.parseInt(review_Index);
+		this.reviewDao.deleteTheReview(reviewIdx);
+		mv.setViewName("redirect:customer_review_mylist");
+		return mv;
+			}
 
 }

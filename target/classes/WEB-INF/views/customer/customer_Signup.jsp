@@ -14,17 +14,34 @@ uri="http://www.springframework.org/tags/form" prefix="form"%>
     </table>
 
     <!-- 수정함 enctype="multipart/form-data"추가 -->
-    <form class="w-50 ml-auto mr-auto mt-5 mb-5" action="customer_signupDo" method="post" enctype="multipart/form-data">
+    <form
+      class="w-50 ml-auto mr-auto mt-5 mb-5"
+      action="customer_signupDo"
+      method="post"
+      enctype="multipart/form-data"
+    >
       <div class="mb-5">
-        <img id="imageFile" src="#" style="width: 100px; height: 100px;"
-          onerror='src="<c:url value="/resources/images/profile.png" />"' alt="image" />
+        <img
+          id="imageFile"
+          src="#"
+          style="width: 100px; height: 100px;"
+          onerror='src="<c:url value="/resources/images/profile.png" />"'
+          alt="image"
+        />
 
-        <input id="imageFile" name="imageFile" type="file" onchange="readURL(this);" accept="image/*" />
+        <input type="file" onchange="readURL(this);" accept="image/*" />
       </div>
 
       <div class="form-group">
         <label for="Customer_Id">아이디</label>
-        <input type="text" class="form-control" id="Customer_Id" placeholder="아이디" name="customer_Id" required />
+        <input
+          type="text"
+          class="form-control"
+          id="Customer_Id"
+          placeholder="아이디"
+          name="customer_Id"
+          required
+        />
         <c:set var="userId" value="${id}" />
         <c:choose>
           <c:when test="${not empty userId}">
@@ -37,18 +54,31 @@ uri="http://www.springframework.org/tags/form" prefix="form"%>
           </c:when>
         </c:choose>
         <button type="button" id="checkId">중복확인</button>
-
+        
         <div class="check_font" id="id_check"></div>
-
+        
       </div>
       <div class="form-group">
         <label for="Customer_Password">비밀번호</label>
-        <input type="password" class="form-control" id="Customer_Password" placeholder="비밀번호" name="customer_Password"
-          required />
+        <input
+          type="password"
+          class="form-control"
+          id="Customer_Password"
+          placeholder="비밀번호"
+          name="customer_Password"
+          required
+        />
       </div>
       <div class="form-group">
         <label for="Customer_Name">이름</label>
-        <input type="text" class="form-control" id="Customer_Name" placeholder="이름" name="customer_Name" required />
+        <input
+          type="text"
+          class="form-control"
+          id="Customer_Name"
+          placeholder="이름"
+          name="customer_Name"
+          required
+        />
         <c:set var="userName" value="${nickname}" />
         <c:choose>
           <c:when test="${not empty userName}">
@@ -65,26 +95,50 @@ uri="http://www.springframework.org/tags/form" prefix="form"%>
         <label for="Customer_Email">이메일</label>
         <c:choose>
           <c:when test="${naverEmail != null}">
-            <input type="text" class="form-control" id="Customer_Email" value="${naverEmail }" name="customer_Email"
-              readonly />
+            <input
+              type="text"
+              class="form-control"
+              id="Customer_Email"
+              value="${naverEmail }"
+              name="customer_Email"
+              readonly
+            />
           </c:when>
           <c:otherwise>
-            <input type="text" class="form-control" id="Customer_Email" placeholder="이메일" name="customer_Email"
-              required />
+            <input
+              type="text"
+              class="form-control"
+              id="Customer_Email"
+              placeholder="이메일"
+              name="customer_Email"
+              required
+            />
           </c:otherwise>
         </c:choose>
       </div>
 
       <div class="form-group">
         <label for="Customer_PhoneNumber">전화번호</label>
-        <input type="text" class="form-control" id="Customer_PhoneNumber" placeholder="전화번호" name="customer_PhoneNumber"
-          required />
+        <input
+          type="text"
+          class="form-control"
+          id="Customer_PhoneNumber"
+          placeholder="전화번호"
+          name="customer_PhoneNumber"
+          required
+        />
       </div>
 
       <div class="form-group">
         <label for="Customer_Address">주소</label>
-        <input type="text" class="form-control" id="Customer_Address" placeholder="주소" name="customer_Address"
-          required />
+        <input
+          type="text"
+          class="form-control"
+          id="Customer_Address"
+          placeholder="주소"
+          name="customer_Address"
+          required
+        />
       </div>
 
       <button type="submit" class="btn btn-primary">회원가입</button>
@@ -93,77 +147,77 @@ uri="http://www.springframework.org/tags/form" prefix="form"%>
 </div>
 <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
 <script type="text/javascript">
-  $(function () {
-    var responseMessage = "<c:out value="${ message }" />";
-    if (responseMessage != "") {
-      alert(responseMessage)
-    }
-  })
-
-  $('#Customer_Id').val(getCookie('id'));
-  $('#Customer_Name').val(getCookie('name'));
-  $('#Customer_Email').val(getCookie('email'));
-  $('#Customer_PhoneNumber').val(getCookie('phone'));
-  $('#Customer_Address').val(getCookie('address'));
-
-  $("#Customer_Id").change(function () {
-    setCookie('id', $('#Customer_Id').val(), 1);
-  });
-  $("#Customer_Name").change(function () {
-    setCookie('name', $('#Customer_Name').val(), 1);
-
-  });
-  $("#Customer_Email").change(function () {
-    setCookie('email', $('#Customer_Email').val(), 1);
-
-  });
-  $("#Customer_PhoneNumber").change(function () {
-    setCookie('phone', $('#Customer_PhoneNumber').val(), 1);
-
-  });
-  $("#Customer_Address").change(function () {
-    setCookie('address', $('#Customer_Address').val(), 1);
-
-  });
-  $("#checkId").click(
-    function () {
-      var customer_Id = $('#Customer_Id').val();
-      $.ajax({
-        url: '${pageContext.request.contextPath}/customer_checkId?customer_Id=' + customer_Id,
-        method: 'POST',
-        async: false,
-        complete: function (data) {
-          if (data.responseText == 0) {
-            console.log("들어옴");
-            localStorage.removeItem("id");
-            $("#id_check").text("중복입니다.");
-            $("#id_check").css("color", "red");
-            $('#Customer_Id').val("");
-          } else {
-            console.log("사용가능?");
-            $("#id_check").text("사용가능합니다.");
-            $("#id_check").css("color", "blue");
-            $('#Customer_Id').attr("readonly", true);
-            $('#checkId').attr("disabled", true);
-          }
-        }
-      });
-
-    });
-
-  if (socialLogin) {
-    $("#checkId").trigger("click");
-  }
-
-
-  //이미지 미리보기
-  function readURL(input) {
-    if (input.files && input.files[0]) {
-      var reader = new FileReader();
-      reader.onload = function (e) {
-        $('#imageFile').attr('src', e.target.result);
+   $(function() {
+      var responseMessage = "<c:out value="${message}" />";
+      if (responseMessage != "") {
+         alert(responseMessage)
       }
-      reader.readAsDataURL(input.files[0]);
-    }
+   })
+
+   $('#Customer_Id').val(getCookie('id'));
+   $('#Customer_Name').val(getCookie('name'));
+   $('#Customer_Email').val(getCookie('email'));
+   $('#Customer_PhoneNumber').val(getCookie('phone'));
+   $('#Customer_Address').val(getCookie('address'));
+
+   $("#Customer_Id").change(function() {
+      setCookie('id', $('#Customer_Id').val(), 1);
+   });
+   $("#Customer_Name").change(function() {
+      setCookie('name', $('#Customer_Name').val(), 1);
+
+   });
+   $("#Customer_Email").change(function() {
+      setCookie('email', $('#Customer_Email').val(), 1);
+
+   });
+   $("#Customer_PhoneNumber").change(function() {
+      setCookie('phone', $('#Customer_PhoneNumber').val(), 1);
+
+   });
+   $("#Customer_Address").change(function() {
+      setCookie('address', $('#Customer_Address').val(), 1);
+
+   });
+   $("#checkId").click(
+               function() {
+                  var customer_Id = $('#Customer_Id').val();
+				  $.ajax({
+                           url : '${pageContext.request.contextPath}/customer_checkId?customer_Id='+ customer_Id,
+                           method : 'POST',
+                           async : false,
+                           complete : function(data) {
+                              if (data.responseText == 0) {
+                            	 console.log("들어옴");
+                                 localStorage.removeItem("id");
+                                 $("#id_check").text("중복입니다.");
+                                 $("#id_check").css("color", "red");
+                                 $('#Customer_Id').val("");
+                              } else {
+                            	 console.log("사용가능?");
+                                 $("#id_check").text("사용가능합니다.");
+                                 $("#id_check").css("color", "blue");
+                                 $('#Customer_Id').attr("readonly", true);
+                                 $('#checkId').attr("disabled", true);
+                              }
+                           }
+                        });
+
+               });
+
+   if (socialLogin) {
+      $("#checkId").trigger("click");
+   }
+
+
+               //이미지 미리보기
+   function readURL(input) {
+    if (input.files && input.files[0]) {
+    var reader = new FileReader();
+    reader.onload = function (e) {
+    $('#imageFile').attr('src', e.target.result);
+  }
+  reader.readAsDataURL(input.files[0]);
+  }
   }
 </script>
