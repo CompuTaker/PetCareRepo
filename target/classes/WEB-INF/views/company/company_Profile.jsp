@@ -58,36 +58,15 @@
 					onclick="location.href='company_review_list'">
 					 <input
 						type="button" class="mypage-btn-group" value="정보수정하기"
-						onclick="location.href='company_modify'"></td>
+						onclick="location.href='company_modify'">
+						
+					<input type="button" class="mypage-btn-group" value="예약정보조회"
+					onclick="location.href='company_reserve_check?page=1'"></td>
+				
 			</tr>
 		</table>
 
-		<span class="mb-3">최근 예약 정보</span>
-		<table class="table">
-			<caption></caption>
-			<thead>
-				<tr>
-					<th>예약 번호</th>
-					<th>강아지 이름</th>
-					<th>날짜</th>
-					<th>시간</th>
-					<th>요청사항</th>
-				</tr>
-			</thead>
-			<tbody>
-				<c:forEach items="${ reserve }" var="reserve" varStatus="count">
-					<tr>
-						<td>${ count.index }</td>
-						<td>${ reserve.pet_Name }</td>
-						<td>${ reserve.reservation_Date }</td>
-						<td>${ reserve.reservation_Time }</td>
-						<td>${ reserve.reservation_DetailService }</td>
-					</tr>
-					<!-- session에 저장된 customer -->
-				</c:forEach>
-			</tbody>
-			<tfoot></tfoot>
-		</table>
+		
 
 		<input type="button" class="mypage-btn-group" value="로그아웃"
 			onclick="logout();"> <input type="button"

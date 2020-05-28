@@ -1,6 +1,7 @@
 package com.test.controller;
 
 import java.util.HashMap;
+import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -15,6 +16,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.SessionAttributes;
 
+import com.test.dto.Criteria;
+import com.test.dto.ReservationDTO;
 import com.test.service.ReservationService;
 
 @Controller										//Spring이 해당 클래스가 Controller인 걸 알려주는 Annotation
@@ -55,9 +58,12 @@ public class ReservationController {
 	 * 기업이 마이페이지에서 예약정보조회를 눌렀을 때 실행되는 메서드이다.
 	 */
 	@RequestMapping("/company_reserve_check")
-	public String company_reservecheck(Model model, HttpSession session,HttpServletRequest request) {
+	public String company_reservecheck(Model model, HttpSession session,HttpServletRequest request,Criteria cri) {
 		logger.info("/company_reserve_check "+request.getMethod());
-		return this.reservationService.company_reservecheck(model, session);
+		List<ReservationDTO> itsReservations = this.reservationService.company_reservecheck(model,session, cri);	// companyIndex에 해당하는 모든 예약정보를 가져온다.
+		
+		model.addAttribute("reservation", itsReservations);	
+		return "reserve/company_reserve_check.tiles";
 	}
 	
 	/*

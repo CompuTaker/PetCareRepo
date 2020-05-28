@@ -10,13 +10,12 @@
 				<thead>
 					<tr>
 						<th>예약번호</th>
-						<th>서비스 종류</th>
 						<th>이름</th>
 						<th>나이</th>
 						<th>중성화수술여부</th>
 						<th>성별</th>
 						<th>무게</th>
-						<th>종</th>
+						<th>요구사항</th>
 						<th>예약날짜</th>
 						<th>시간</th>
 						<th>예약상태</th>
@@ -31,7 +30,6 @@
 								class="border-0 bg-white font-weight-bold text-center"
 								name="index" placeholder=${ reservation.reservation_Index }
 								value=${ reservation.reservation_Index } readonly="readonly" /></td>
-							<td>${ reservation.company_Type }</td>
 							<td>${ reservation.pet_Name }</td>
 							<td>${ reservation.pet_Age }</td>
 							<td><c:choose>
@@ -41,6 +39,7 @@
 							<td>${ reservation.pet_Gender }</td>
 							<td>${ reservation.pet_Weight }</td>
 							<td>${ reservation.pet_Type }</td>
+							<td>${ reservation.reservation_DetailService }</td>
 							<td>${ reservation.reservation_Date }</td>
 							<td>${ reservation.reservation_Time }</td>
 							<td>${ reservation.reservation_Check }</td>
@@ -52,6 +51,26 @@
 					</form>
 				</c:forEach>
 			</table>
+			
+			<div>
+			<ul class="pagination justify-content-center">
+				<c:if test="${pageMaker.prev }">
+					<li class="page-item"><a class="page-link"
+							href='<c:url value="/company_reserve_check?page=${pageMaker.startPage-1 }"/>'>&laquo;</a>
+					</li>
+				</c:if>
+				<c:forEach begin="${pageMaker.startPage }" end="${pageMaker.endPage }" var="pageNum">
+					<li class="page-item ${pageMaker.cri.page == pageNum ? " active":"" }"><a class="page-link"
+							href='<c:url value="/company_reserve_check?page=${pageNum }"/>'>${pageNum }</a>&nbsp;
+					</li>
+				</c:forEach>
+				<c:if test="${pageMaker.next && pageMaker.endPage >0 }">
+					<li class="page-item"><a class="page-link"
+							href='<c:url value="/company_reserve_check?page=${pageMaker.endPage+1 }"/>'>&raquo;</a>
+					</li>
+				</c:if>
+			</ul>
+		</div>
 
 		</section>
 
