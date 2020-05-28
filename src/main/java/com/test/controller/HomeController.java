@@ -300,7 +300,7 @@ public class HomeController {
 	public String searchByTerm(Model model, HttpServletRequest request,Criteria cri) {
 		String url = "";
 		logger.info("/searchByTerm - search_all.jsp " + request.getMethod());
-		List<CompanyDTO> companyList = this.companyService.listsAllCompany(request); // 회사를 가져온다.
+		List<CompanyDTO> companyList = this.companyService.listsAllCompany(model,request,cri); // 회사를 가져온다.
 		List<ReviewDTO> reviewList = this.reviewService.listsAllReview(model, request, cri); // 리뷰를 가져온다.
 		List<QnAboardDTO> qnaList = this.qnaBoardService.selectQnaByTerm(request);
 

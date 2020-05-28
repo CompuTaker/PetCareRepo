@@ -34,9 +34,9 @@ public class ReservationController {
 	 * 상단에 예약하기 버튼을 누르면 실행되는 메서드이다.
 	 */
 	@RequestMapping("/reserve")
-	public String reserve(Model model, HttpServletRequest request) {
+	public String reserve(Model model, HttpServletRequest request,Criteria cri) {
 		logger.info("/reserve "+request.getMethod());
-		return this.reservationService.reserve(model, request);
+		return this.reservationService.reserve(model, cri,request);
 	}
 
 	@RequestMapping("/reserve_ok")

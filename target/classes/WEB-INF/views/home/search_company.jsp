@@ -19,8 +19,9 @@
 		</div>
 		<div class="row my-3 justify-content-end">
 			<form class="menu_form form-inline m-2  my-lg-0" action="searchCompany" method="get">
-				<input class="menu_form_input form-control mr-sm-2" type="search" placeholder="업체명검색"
-					aria-label="Search" name="term" />
+				<input class="menu_form_input form-control mr-sm-2" type="search" placeholder="업체명검색" aria-label="Search"
+					name="term" />
+					<input type="hidden" name="page" value="${pageMaker.cri.page}"/>
 				<button class="menu_form_btn btn btn-outline-success my-2 my-sm-0" type="submit">
 					<i class="fas fa-search"></i>
 				</button>
@@ -45,16 +46,24 @@
 				</c:forEach>
 			</tbody>
 		</table>
-		<div class="row my-3 justify-content-center">
-			<nav aria-label="Page navigation example">
-				<ul class="pagination">
-					<li class="page-item"><a class="page-link" href="#">Previous</a></li>
-					<li class="page-item"><a class="page-link" href="#">1</a></li>
-					<li class="page-item"><a class="page-link" href="#">2</a></li>
-					<li class="page-item"><a class="page-link" href="#">3</a></li>
-					<li class="page-item"><a class="page-link" href="#">Next</a></li>
-				</ul>
-			</nav>
+	<div>
+			<ul class="pagination justify-content-center">
+				<c:if test="${pageMaker.prev }">
+					<li class="page-item"><a class="page-link"
+							href='<c:url value="/searchComapny?term=${param.term }&page=${pageMaker.startPage-1 }"/>'>&laquo;</a>
+					</li>
+				</c:if>
+				<c:forEach begin="${pageMaker.startPage }" end="${pageMaker.endPage }" var="pageNum">
+					<li class="page-item ${pageMaker.cri.page == pageNum ? " active":"" }"><a class="page-link"
+							href='<c:url value="/searchCompany?term=${param.term }&page=${pageNum }"/>'>${pageNum }</a>&nbsp;
+					</li>
+				</c:forEach>
+				<c:if test="${pageMaker.next && pageMaker.endPage >0 }">
+					<li class="page-item"><a class="page-link"
+							href='<c:url value="/searchCompany?term=${param.term }&page=${pageMaker.endPage+1 }"/>'>&raquo;</a>
+					</li>
+				</c:if>
+			</ul>
 		</div>
 	</div>
 </div>

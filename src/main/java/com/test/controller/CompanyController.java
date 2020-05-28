@@ -219,10 +219,10 @@ public class CompanyController {
 
 	// 업체찾기 : 전체엄체, 검색된업체
 	@RequestMapping("/searchCompany")
-	public String searchCompany(Model model, HttpServletRequest request) {
+	public String searchCompany(Model model, HttpServletRequest request,Criteria cri) {
 		logger.info("/searchCompany " + request.getMethod());
 		String url = "";
-		List<CompanyDTO> companyList = this.companyService.listsAllCompany(request); // 회사를 가져온다.
+		List<CompanyDTO> companyList = this.companyService.listsAllCompany(model,request,cri); // 회사를 가져온다.
 		model.addAttribute("companyList", companyList); // model에 가져온 회사 정보를 저장한다.
 		url = "home/search_company.tiles"; // 화면을 띄워준다.
 		return url;

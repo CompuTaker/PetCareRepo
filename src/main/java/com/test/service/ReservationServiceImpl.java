@@ -41,7 +41,7 @@ public class ReservationServiceImpl implements ReservationService{
 	private ReservationDAO reservationDao;
 
 	@Override
-	public String reserve(Model model, HttpServletRequest request) {
+	public String reserve(Model model, Criteria cri,HttpServletRequest request) {
 		String url = "";
 		HttpSession session = request.getSession();								// session을 가져온다.
 		CustomerDTO customer = (CustomerDTO) session.getAttribute("customer");	// 가져온 session에서 customer를 가져온다.
@@ -50,7 +50,7 @@ public class ReservationServiceImpl implements ReservationService{
 		if (customer != null) {													// customer가 존재하면
 			int customerIdx 		 = customer.getCustomer_Index();			// customer에서 index값만 따로 int변수에 저장한다.
 			List<PetDTO> itsPets	 = this.petDao.listItsPets(customerIdx);	// customerIdx에 해당하는 모든 펫 정보가 저장된다.			
-			List<CompanyDTO> company = this.companyDao.listAllCompany();		// 모든 회사 정보를 전부 가져온다.
+			List<CompanyDTO> company = this.companyDao.listAllCompany(cri);		// 모든 회사 정보를 전부 가져온다.
 			
 			model.addAttribute("petList", itsPets);								// model객체에 가져온 펫 정보가 저장된다.
 			model.addAttribute("companyList", company);							// model객체에 가져온 회사 정보가 저장된다.

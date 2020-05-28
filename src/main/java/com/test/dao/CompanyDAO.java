@@ -10,7 +10,7 @@ import com.test.dto.Criteria;
 // DAO 인터페이스 클래스
 public interface CompanyDAO {
 
-	abstract public List<CompanyDTO> listAllCompany();
+	abstract public List<CompanyDTO> listAllCompany(Criteria cri);
 
 	abstract public CompanyDTO listThisCompany(Map<String, String> loginInfo);
 
@@ -34,10 +34,12 @@ public interface CompanyDAO {
 
 	abstract public int countCompanyList(String type);
 
-	abstract public List<CompanyDTO> listThisCompanyByName(String company_Name);
+	abstract public List<CompanyDTO> listThisCompanyByName(Map<String, Object> map);
 
 	public abstract int deleteTheCompany(String company_Id);
 
 	public abstract boolean checkPW(String company_Id, String company_Password);
+	
+	public abstract int countCompanyByName(String company_Name);
 
 }

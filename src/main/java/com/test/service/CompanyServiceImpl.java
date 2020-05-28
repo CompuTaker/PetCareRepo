@@ -22,6 +22,8 @@ import com.test.amazon.s3;
 import com.test.dao.CompanyDAO;
 import com.test.dao.ReservationDAO;
 import com.test.dto.CompanyDTO;
+import com.test.dto.Criteria;
+import com.test.dto.PageMaker;
 import com.test.dto.ReservationDTO;
 
 @Service
@@ -275,14 +277,30 @@ public class CompanyServiceImpl implements CompanyService {
 	}
 
 	@Override
-	public List<CompanyDTO> listsAllCompany(HttpServletRequest request) {
+	public List<CompanyDTO> listsAllCompany(Model model,HttpServletRequest request,Criteria cri){
 		String term = request.getParameter("term");
 
-		if (term != null) {
-			return this.companyDao.listThisCompanyByName(term);
-		}
+		PageMaker pageMaker = new PageMaker();
 
-		return this.companyDao.listAllCompany();
+		
+		if (term != null) {
+			pageMaker.setCri(cri);
+			pageMaker.setTotalCount(this.companyDao.countCompanyByName(term));
+			
+			Map<String,Object> map = new HashMap<String,Object>();
+			map.put("page", cri.getPage());
+			map.put("perPageNum", cri.getPerPageNum());
+			map.put("pageStart",cri.getPageStart());
+			map.put("company_Name", term);
+			model.addAttribute("pageMaker",pageMaker);
+						
+			return this.companyDao.listThisCompanyByName(map);
+		}
+		pageMaker.setCri(cri);
+		pageMaker.setTotalCount(this.companyDao.countCompanyByName(term));
+		model.addAttribute("pageMaker",pageMaker);
+
+		return this.companyDao.listAllCompany(cri);
 	}
 
 	public boolean checkPW(String company_Id, String company_Password) {
