@@ -23,6 +23,7 @@ import com.test.dto.CompanyDTO;
 import com.test.dto.CustomerDTO;
 import com.test.dto.PetDTO;
 import com.test.dto.ReservationDTO;
+import com.test.dto.SuperuserDTO;
 
 @Service
 @SessionAttributes({ "customer", "company" })	// Model에 저장한 값을 http session에 저장할 수 있게 해주는 Annotation
@@ -42,6 +43,8 @@ public class ReservationServiceImpl implements ReservationService{
 		String url = "";
 		HttpSession session = request.getSession();								// session을 가져온다.
 		CustomerDTO customer = (CustomerDTO) session.getAttribute("customer");	// 가져온 session에서 customer를 가져온다.
+		SuperuserDTO superuser = (SuperuserDTO) session.getAttribute("superuser");
+		
 		if (customer != null) {													// customer가 존재하면
 			int customerIdx 		 = customer.getCustomer_Index();			// customer에서 index값만 따로 int변수에 저장한다.
 			List<PetDTO> itsPets	 = this.petDao.listItsPets(customerIdx);	// customerIdx에 해당하는 모든 펫 정보가 저장된다.			
@@ -54,6 +57,11 @@ public class ReservationServiceImpl implements ReservationService{
 		} else {																// customer가 존재하지 않으면
 			url = "redirect:/login";													// 메인 화면을 띄워준다.
 		}
+		if (superuser != null) {													// customer가 존재하면
+
+			url = "reserve/reserve.tiles";										// reserve.jsp화면을 띄워준다.
+			
+		} 
 		return url;
 	}
 

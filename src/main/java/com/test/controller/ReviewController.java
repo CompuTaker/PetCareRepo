@@ -83,9 +83,9 @@ public class ReviewController {
 	 * 고객이 후기 리스트 중에서 자세히 보고자 하는 후기 리스트를 클릭하면 실행되는 메서드이다.
 	 */
 	@RequestMapping("/customer_review_view")
-	public String customerReviewView(Model model, int reviewIdx, HttpServletRequest request) {
+	public String customerReviewView(Model model, int review_Index, HttpServletRequest request) {
 		logger.info("/customer_review_view "+request.getMethod());
-		return this.reviewService.customerReviewView(model, reviewIdx);
+		return this.reviewService.customerReviewView(model, review_Index);
 	}
 
 	/*
@@ -138,4 +138,10 @@ public class ReviewController {
 		logger.info("/searchReview "+request.getMethod());
 		return url;
 	}
+	
+	// 리뷰 삭제
+	@RequestMapping("/review_cancel")
+	public ModelAndView review_cancel(@RequestParam String review_Index, ModelAndView mv) {
+			return this.reviewService.review_cancel(review_Index, mv);
+			}
 }

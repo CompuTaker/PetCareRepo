@@ -1,5 +1,10 @@
 Manifest-Version: 1.0
+<<<<<<< HEAD
 Built-By: JUNSUGI
 Build-Jdk: 1.8.0_241
+=======
+Built-By: Administrator
+Build-Jdk: 1.8.0_77
+>>>>>>> origin/QA8
 Created-By: Maven Integration for Eclipse
 
