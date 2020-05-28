@@ -133,13 +133,13 @@ public class CompanyController {
 		logger.info("/beautyCompany " + request.getMethod());
 		PageMaker pageMaker = new PageMaker();
 		pageMaker.setCri(cri);
-		pageMaker.setTotalCount(this.companyService.countCompanyList("미용실"));
+		pageMaker.setTotalCount(this.companyService.countCompanyList("미용"));
 
 		Map<String, Object> criteria = new HashMap<String, Object>();
 		criteria.put("page", cri.getPage());
 		criteria.put("perPageNum", cri.getPerPageNum());
 		criteria.put("pageStart", cri.getPageStart());
-		criteria.put("company_Type", "미용실");
+		criteria.put("company_Type", "미용");
 
 		String url = "";
 		List<CompanyDTO> beautyCompanyList = this.companyService.listsCompany(criteria); // company_Type이 미용실인 모든 회사를
