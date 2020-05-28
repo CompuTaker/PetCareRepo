@@ -6,7 +6,7 @@
             <div class="col-10 mx-auto main-block">
             
                 <h1><i class="fas fa-check"></i></h1>    
-                <h1>기업회원님의 아이디는 ${ companyId.company_Id } 입니다</h1>
+                <h1>기업회원님의 아이디는 <%=request.getAttribute("companyId") %> 입니다</h1>
               
                 <hr>
                   
