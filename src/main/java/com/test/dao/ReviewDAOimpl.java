@@ -2,11 +2,13 @@ package com.test.dao;
 
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import com.test.dto.Criteria;
 import com.test.dto.CustomerDTO;
 import com.test.dto.ReviewDTO;
 import com.test.dto.ReviewImageDTO;
@@ -88,13 +90,13 @@ public class ReviewDAOimpl implements ReviewDAO {
 	}
 
 	@Override
-	public List<ReviewDTO> listAllReviews() {
-		return this.sqlSession.selectList("listAllReviews");
+	public List<ReviewDTO> listAllReviews(Criteria cri) {
+		return this.sqlSession.selectList("listAllReviews",cri);
 	}
 
 	@Override
-	public List<ReviewDTO> listThisReviewByTerm(String term) {
-		return this.sqlSession.selectList("listThisReviewByTerm", term);
+	public List<ReviewDTO> listThisReviewByTerm(Map<String,Object> map) {
+		return this.sqlSession.selectList("listThisReviewByTerm", map);
 	}
 
 	public List<ReviewImageDTO> listImages(int reservation_Index) {
@@ -105,5 +107,11 @@ public class ReviewDAOimpl implements ReviewDAO {
 	public int countReivewList() {
 		// TODO Auto-generated method stub
 		return this.sqlSession.selectOne("countReviewList");
+	}
+	
+	@Override
+	public int countReivewByTerm(String term) {
+		// TODO Auto-generated method stub
+		return this.sqlSession.selectOne("countReivewByTerm",term);
 	}
 }

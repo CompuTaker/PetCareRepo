@@ -22,6 +22,22 @@
 
 	</select>
 
+<!-- 후기 데이터 총 갯수 -->
+	<select id="countReviewList" parameterType="java.util.Map" resultType="Integer">
+		select count(*) from Review
+		
+	</select>
+
+	<!-- 검색어 후기 데이터 총 갯수 -->
+	<select id="countReivewByTerm" parameterType="java.util.Map"  resultType="Integer">
+		select count(*) from Review
+		 where review_Title like CONCAT('%', #{term}, '%') 
+      or
+      review_Content like CONCAT('%', #{term}, '%') 
+      or
+      customer_id like CONCAT('%', #{term}, '%') 
+		
+	</select>
 
 	
 	<!-- customer name 찾기 -->
@@ -96,16 +112,21 @@
 
 	<!-- 리뷰 리스트 보여주기-->
    <select id="listAllReviews" resultType="com.test.dto.ReviewDTO">
-      select * from Review;
+      select * from Review
+      order by review_Index DESC
+      limit #{pageStart}, #{perPageNum}
    </select>
    
          <!-- 검색어로 리뷰 찾아오기 -->
-   <select id="listThisReviewByTerm" resultType="com.test.dto.ReviewDTO">
-      select * from Review where review_Title like CONCAT('%', #{term}, '%') 
+   <select id="listThisReviewByTerm" parameterType="java.util.Map" 
+   resultType="com.test.dto.ReviewDTO">
+      select * from Review 
+      where review_Title like CONCAT('%', #{term}, '%') 
       or
       review_Content like CONCAT('%', #{term}, '%') 
       or
       customer_id like CONCAT('%', #{term}, '%') 
+      limit #{pageStart}, #{perPageNum}
    </select>
 
 

@@ -2,7 +2,9 @@ package com.test.dao;
 
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
+import com.test.dto.Criteria;
 import com.test.dto.CustomerDTO;
 import com.test.dto.ReviewDTO;
 import com.test.dto.ReviewImageDTO;
@@ -28,14 +30,16 @@ public interface ReviewDAO {
 
 	public abstract List<ReviewDTO> listMyReviews(String customer_id);
 
-	abstract public List<ReviewDTO> listAllReviews();
+	abstract public List<ReviewDTO> listAllReviews(Criteria cri);
 
-	abstract public List<ReviewDTO> listThisReviewByTerm(String term);
+	abstract public List<ReviewDTO> listThisReviewByTerm(  Map<String, Object> map);
 
 	public abstract List<ReviewImageDTO> listImages(int reservation_Index);
 
 	// abstract public int updateTheReview(int review_Index);.
 
 	abstract public int countReivewList();
+
+	public abstract int countReivewByTerm(String term);
 
 }

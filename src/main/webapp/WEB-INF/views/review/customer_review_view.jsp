@@ -43,7 +43,7 @@
 		</div>
 	
 			<hr>
-		<button onclick="history.back()"
+	<button onclick="location.href='searchReview?term=${param.term }&page=${param.page}'"
 			class="btn btn-secondary btn-lg mx-auto">목록</button>
 
 	</div>
