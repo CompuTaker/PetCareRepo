@@ -25,7 +25,7 @@
    </select>
    
    <!-- 기업 회원 아이디 찾기 -->
-   <select id="searchCompanyID" 
+   <select id="searchCompanyID" parameterType="java.util.Map"
       resultType="com.test.dto.CompanyDTO">
       select * from Company where company_Number = #{ company_Number }
    </select>

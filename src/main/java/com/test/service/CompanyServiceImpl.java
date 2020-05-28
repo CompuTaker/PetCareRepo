@@ -49,15 +49,14 @@ public class CompanyServiceImpl implements CompanyService {
 		company.put("company_Number", request.getParameter("company_Number")); // company_Number에 저장된다.
 		try {
 			CompanyDTO companyDto = this.companyDao.searchCompanyID(company); // company_Number에 맞는 id가 있는지 company테이블에서 찾아본다.
-			
-			mv.addObject("companyId", companyDto);
+			request.setAttribute("companyId", companyDto.getCompany_Id());
 			mv.setViewName("company/company_show_id.tiles");
+			
 		} catch (NullPointerException e) {
 			mv.addObject("message", 1);
 			mv.setViewName("redirect:/search_id");
 		}
 		return mv;
-
 	}
 
 	@Override
