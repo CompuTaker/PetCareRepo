@@ -111,5 +111,10 @@ public class CustomerDAOimpl implements CustomerDAO {
 		return this.sqlSession.delete("deleteTheCustomer", customer_Id);
 	}
 
+	@Override
+	public List<CustomerDTO> getDropCustomers() {
+		return this.sqlSession.selectList("getDropCustomers");
+	}
+
 	
 }

@@ -46,4 +46,6 @@ public interface CompanyService {
 	abstract public boolean checkPW(String company_Id, String company_Password);
 
 	abstract public void deleteTheCompany(String company_Id);
+
+	abstract public List<CompanyDTO> getDropCompanys();
 }

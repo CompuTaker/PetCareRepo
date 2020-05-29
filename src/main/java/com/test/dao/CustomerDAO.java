@@ -28,6 +28,8 @@ public interface CustomerDAO {
 	public abstract CustomerDTO checkCustomerResident(String customer_residentNumber);
 
 	public abstract boolean checkPW(String customer_Id, String customer_Password);
+
+	abstract public List<CustomerDTO> getDropCustomers();
 	
 
 	

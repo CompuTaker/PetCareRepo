@@ -299,4 +299,12 @@ public class CompanyServiceImpl implements CompanyService {
 		companyDao.deleteTheCompany(company_Id);
 
 	}
+
+	/*
+	 * 기업고객 중 탈퇴한 계정 가져오는 메서드
+	 */
+	@Override
+	public List<CompanyDTO> getDropCompanys() {
+		return this.companyDao.getDropCompanys();
+	}
 }

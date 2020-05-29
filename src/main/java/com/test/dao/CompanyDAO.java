@@ -5,7 +5,6 @@ import java.util.List;
 import java.util.Map;
 
 import com.test.dto.CompanyDTO;
-import com.test.dto.Criteria;
 
 // DAO 인터페이스 클래스
 public interface CompanyDAO {
@@ -39,5 +38,7 @@ public interface CompanyDAO {
 	public abstract int deleteTheCompany(String company_Id);
 
 	public abstract boolean checkPW(String company_Id, String company_Password);
+
+	abstract public List<CompanyDTO> getDropCompanys();
 
 }

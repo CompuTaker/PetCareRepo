@@ -100,4 +100,10 @@
 		#{customer_Id} and
 		customer_Name = #{customer_Name}
 	</update>
+	
+	<select id="getDropCustomers" resultType="com.test.dto.CustomerDTO">
+		select * 
+		from Customer
+		where flag = 1
+	</select>
 </mapper>

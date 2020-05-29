@@ -87,11 +87,9 @@ function logout() {
 										<th><input type="checkbox" id="check-all" class="flat"></th>
 										<th class="column-title">이름</th>
 										<th class="column-title">아이디</th>
+										<th class="column-title">이메일</th>
+										<th class="column-title">주소</th>
 										<th class="column-title">가입날짜</th>
-										<th class="column-title">가입날짜</th>
-										<th class="column-title">가입날짜</th>
-										<th class="column-title">가입날짜</th>
-										<th class="column-title">이름</th>
 										<th class="column-title"></th>
 									</tr>
 								</thead>
@@ -99,17 +97,16 @@ function logout() {
 									<tr class="customer_list">
 										<td class="a-center "><input type="checkbox" class="flat"
 											name="table_records"></td>
-										<td class=" ">asdf</td>
-										<td class=" ">asdf</td>
-										<td class=" ">asdf</td>
-										<td class=" ">asdf</td>
-										<td class=" ">asdf</td>
-										<td class=" ">asdf</td>
-										<td class=" ">asdf</a></td>
-										<td class=" "><button class="btn">
-												<i class="fas fa-trash"></i>
-											</button></td>
-
+										<c:forEach items="${ dropCustomer }" var="customer">
+											<td class=" ">${customer.customer_Name}</td>
+											<td class=" ">${customer.customer_Id}</td>
+											<td class=" ">${customer.customer_Email}</td>
+											<td class=" ">${customer.customer_Address}</td>
+											<td class=" ">${customer.subscribe_Date}</td>
+											<td class=" "><button class="btn">
+													<i class="fas fa-trash"></i>
+												</button></td>
+										</c:forEach>
 									</tr>
 								</tbody>
 							</table>
@@ -132,13 +129,12 @@ function logout() {
 									<tr class="headings">
 										<th><input type="checkbox" id="check-all" class="flat">
 										</th>
-										<th class="column-title">이름</th>
+										<th class="column-title">기업 이름</th>
 										<th class="column-title">아이디</th>
+										<th class="column-title">업주 이름</th>
+										<th class="column-title">이메일</th>
+										<th class="column-title">주소</th>
 										<th class="column-title">가입날짜</th>
-										<th class="column-title">가입날짜</th>
-										<th class="column-title">가입날짜</th>
-										<th class="column-title">가입날짜</th>
-										<th class="column-title">이름</th>
 										<th class="column-title"></th>
 									</tr>
 								</thead>
@@ -146,16 +142,17 @@ function logout() {
 									<tr class="company_list">
 										<td class="a-center"><input type="checkbox" class="flat"
 											name="table_records"></td>
-										<td class=" ">asdf</td>
-										<td class=" ">asdf</td>
-										<td class=" ">asdf</td>
-										<td class=" ">asdf</td>
-										<td class=" ">asdf</td>
-										<td class=" ">asdf</td>
-										<td class=" ">asdf</td>
-										<td class=" "><button class="btn">
-												<i class="fas fa-trash"></i>
-											</button></td>
+										<c:forEach items="${ dropCompany }" var="company">
+											<td class=" ">${company.company_Name}</td>
+											<td class=" ">${company.company_Id}</td>
+											<td class=" ">${company.company_UserName}</td>
+											<td class=" ">${company.company_Email}</td>
+											<td class=" ">${company.company_Address}</td>
+											<td class=" ">${company.subscribe_Date}</td>
+											<td class=" "><button class="btn">
+													<i class="fas fa-trash"></i>
+												</button></td>
+										</c:forEach>
 									</tr>
 								</tbody>
 							</table>

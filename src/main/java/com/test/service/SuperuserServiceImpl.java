@@ -38,5 +38,4 @@ public class SuperuserServiceImpl implements SuperuserService {
 		return "admin/admin_login.tiles"; // superuser가 없는 경우 로그인 화면을 띄워준다.
 
 	}
-
 }

@@ -143,4 +143,9 @@ public class CompanyDAOimpl implements CompanyDAO {
 			result = true;
 		return result;
 	}
+
+	@Override
+	public List<CompanyDTO> getDropCompanys() {
+		return this.sqlSession.selectList("getDropCompanys");
+	}
 }

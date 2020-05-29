@@ -24,6 +24,7 @@ public class CompanyDTO {
 	private int company_Number;
 	private String company_Type;
 	private String company_Image;
+	private String subscribe_Date;
 	private int flag;
 
 	public int getCompany_Index() {
@@ -129,4 +130,14 @@ public class CompanyDTO {
 	public void setFlag(int flag) {
 		this.flag = flag;
 	}
+
+	public String getSubscribe_Date() {
+		return subscribe_Date;
+	}
+
+	public void setSubscribe_Date(String subscribe_Date) {
+		this.subscribe_Date = subscribe_Date;
+	}
+	
 }
+

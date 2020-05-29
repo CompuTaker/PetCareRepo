@@ -1,5 +1,7 @@
 package com.test.controller;
 
+import java.util.List;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
@@ -7,12 +9,17 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.bind.support.SessionStatus;
 
+import com.test.dto.CompanyDTO;
+import com.test.dto.CustomerDTO;
 import com.test.dto.SuperuserDTO;
+import com.test.service.CompanyService;
+import com.test.service.CustomerService;
 import com.test.service.SuperuserService;
 
 @Controller // Spring이 해당 클래스가 Controller인 걸 알려주는 Annotation
@@ -23,6 +30,12 @@ public class SuperuserController {
 
 	@Autowired
 	private SuperuserService superuserService;
+
+	@Autowired
+	private CompanyService companyService;
+
+	@Autowired
+	private CustomerService customerService;
 
 	/*
 	 * 상단의 관리자 버튼을 누르면 실행되는 메서드이다. RequestMethod.GET
@@ -65,10 +78,17 @@ public class SuperuserController {
 	 * 탈퇴회원관리를 눌렀을 때 실행되는 메서드이다.
 	 */
 	@RequestMapping("/admin_drop")
-	public String drop(HttpServletRequest request) {
+	public String drop(HttpServletRequest request, Model model) {
 		logger.info("/admin_drop " + request.getMethod());
+		
+		List<CustomerDTO> customers = this.customerService.getDropCustomers();
+		List<CompanyDTO> companys = this.companyService.getDropCompanys();
+		
+		model.addAttribute("dropCustomer", customers);		
+		model.addAttribute("dropCompany", companys);
 		return "admin/admin_drop.tiles";
 	}
+	
 
 	/*
 	 * 휴면회원관리를 눌렀을 때 실행되는 메서드이다.
