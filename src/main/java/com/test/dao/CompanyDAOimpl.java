@@ -11,6 +11,7 @@ import org.springframework.stereotype.Repository;
 import com.test.dto.CompanyDTO;
 import com.test.dto.Criteria;
 
+
 @Repository // Spring에 DAO(Data Access Object)클래스라고 알려주는 Annotation
 public class CompanyDAOimpl implements CompanyDAO {
 
