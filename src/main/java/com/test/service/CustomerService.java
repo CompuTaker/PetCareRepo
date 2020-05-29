@@ -1,6 +1,7 @@
 package com.test.service;
 
 import java.util.HashMap;
+import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -8,6 +9,8 @@ import javax.servlet.http.HttpSession;
 import org.springframework.ui.Model;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.servlet.ModelAndView;
+
+import com.test.dto.CustomerDTO;
 
 public interface CustomerService {
 
@@ -34,5 +37,7 @@ public interface CustomerService {
 
 	abstract public boolean checkPW(String customer_Id, String customer_Password);
 
-     abstract public void deleteTheCustomer(String customer_Id);
+    abstract public void deleteTheCustomer(String customer_Id);
+
+    abstract public  List<CustomerDTO> getDropCustomers();
 }

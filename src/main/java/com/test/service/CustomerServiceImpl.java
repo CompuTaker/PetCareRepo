@@ -317,4 +317,12 @@ public class CustomerServiceImpl implements CustomerService {
 
 	}
 
+	/*
+	 * 탈퇴한 사람들의 리스트를 가져오는 메서드
+	 */
+	@Override
+	public List<CustomerDTO> getDropCustomers() {
+		return this.customerDao.getDropCustomers();
+	}
+
 }

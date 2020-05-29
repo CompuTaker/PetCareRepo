@@ -35,7 +35,6 @@ public interface CompanyService {
 
 	abstract public ModelAndView profile(ModelAndView mv, HttpSession session);
 
-	
 	abstract public ModelAndView company_modify(ModelAndView mv, HttpSession session);
 
 	abstract public void updateCompanyInfo(MultipartHttpServletRequest multipartHttpServletRequest,
@@ -43,9 +42,11 @@ public interface CompanyService {
 
 	abstract public int countCompanyList(String type);
 
-	abstract public List<CompanyDTO> listsAllCompany(Model model,HttpServletRequest request,Criteria cri);
+	abstract public List<CompanyDTO> listsAllCompany(Model model, HttpServletRequest request, Criteria cri);
+
 	abstract public boolean checkPW(String company_Id, String company_Password);
 
 	abstract public void deleteTheCompany(String company_Id);
-	
+
+	abstract public List<CompanyDTO> getDropCompanys();
 }

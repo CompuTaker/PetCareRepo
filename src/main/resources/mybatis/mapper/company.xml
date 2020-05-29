@@ -125,7 +125,12 @@
    <select id="listThisCompanyByName" parameterType="java.util.Map" resultType="com.test.dto.CompanyDTO">
       select * from Company where company_Name like CONCAT('%', #{company_Name}, '%')
       limit #{pageStart}, #{perPageNum}
-      
    </select>
    
-   </mapper>
+   <select id="getDropCompanys" resultType="com.test.dto.CompanyDTO">
+   		select *
+   		from Company
+   		where flag = 1
+   </select>
+   
+ </mapper>

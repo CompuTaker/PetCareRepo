@@ -22,7 +22,7 @@ public class CompanyDAOimpl implements CompanyDAO {
 	 */
 	@Override
 	public List<CompanyDTO> listAllCompany(Criteria cri) {
-		return this.sqlSession.selectList("listAllCompany",cri);
+		return this.sqlSession.selectList("listAllCompany", cri);
 	}
 
 	/*
@@ -77,8 +77,9 @@ public class CompanyDAOimpl implements CompanyDAO {
 	 */
 	@Override
 	public CompanyDTO searchCompanyID(Map<String, String> company) {
-		return this.sqlSession.selectOne("searchCompanyID", company); // mapper에서 "searchId" id를 가지는 명령문에 companyNum변수를 가지고
-																// 실행한다.
+		return this.sqlSession.selectOne("searchCompanyID", company); // mapper에서 "searchId" id를 가지는 명령문에 companyNum변수를
+																		// 가지고
+		// 실행한다.
 	}
 
 	/*
@@ -124,7 +125,7 @@ public class CompanyDAOimpl implements CompanyDAO {
 	}
 
 	@Override
-	public List<CompanyDTO> listThisCompanyByName( Map<String,Object> map) {
+	public List<CompanyDTO> listThisCompanyByName(Map<String, Object> map) {
 		return this.sqlSession.selectList("listThisCompanyByName", map);
 	}
 
@@ -148,6 +149,10 @@ public class CompanyDAOimpl implements CompanyDAO {
 	@Override
 	public int countCompanyByName(String company_Name) {
 		// TODO Auto-generated method stub
-		return this.sqlSession.selectOne("countCompanyByName",company_Name);
+		return this.sqlSession.selectOne("countCompanyByName", company_Name);
+	}
+
+	public List<CompanyDTO> getDropCompanys() {
+		return this.sqlSession.selectList("getDropCompanys");
 	}
 }
