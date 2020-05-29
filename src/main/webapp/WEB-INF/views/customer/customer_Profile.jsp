@@ -94,6 +94,7 @@ uri="http://www.springframework.org/tags/form" prefix="form"%>
       </thead>
       <tbody>
         <c:forEach items="${ pet }" var="pet">
+      <c:if test="${pet.flag eq 0}">
           <tr>
             <td><a href="customer_reserve_check?petName=${pet.pet_Name }">${pet.pet_Name }</a></td>
             <td>${pet.pet_Type}</td>
@@ -111,6 +112,7 @@ uri="http://www.springframework.org/tags/form" prefix="form"%>
               </button>
             </td>
           </tr>
+        </c:if>
         </c:forEach>
       </tbody>
     </table>

@@ -26,10 +26,13 @@
 	</insert>
 
 	<!-- 펫 삭제하기 -->
-	<delete id="deleteThePet">
+	<!-- <delete id="deleteThePet">
 		delete from Pet where pet_Index = #{ pet_Index }
-	</delete>
+	</delete> -->
 	
+	<update id="deleteThePet">
+		update Pet SET flag = 1 WHERE pet_Index = #{pet_Index}
+	</update>
 
 	<!-- 펫 수정하기 -->
 	<update id="updateThePet">

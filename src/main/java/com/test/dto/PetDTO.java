@@ -17,6 +17,8 @@ public class PetDTO {
 	private boolean pet_IsNeutralized;
 	private int pet_Weight;
 	private String pet_History;
+	private int flag;
+	
 
 	public int getPet_Index() {
 		return pet_Index;
@@ -89,5 +91,11 @@ public class PetDTO {
 	public void setPet_History(String pet_History) {
 		this.pet_History = pet_History;
 	}
-	
+	public int getFlag() {
+		return flag;
+	}
+	public void setFlag(int flag) {
+		this.flag = flag;
+	}
+
 }
