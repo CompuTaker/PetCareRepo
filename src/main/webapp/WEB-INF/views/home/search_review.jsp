@@ -21,7 +21,7 @@
 			<form class="menu_form form-inline m-2  my-lg-0" action="searchReview" method="get">
 				<input class="menu_form_input form-control mr-sm-2" type="search" placeholder="검색" aria-label="Search"
 					name="term" />
-					<input type="hidden" name="page" value="${pageMaker.cri.page }"/>
+				<input type="hidden" name="page" value="${pageMaker.cri.page }" />
 				<button class="menu_form_btn btn btn-outline-success my-2 my-sm-0" type="submit">
 					<i class="fas fa-search"></i>
 				</button>
@@ -38,8 +38,9 @@
 			</thead>
 			<tbody>
 				<c:forEach items="${ reviewList }" var="review">
-					<tr onclick="location.href='customer_review_view?reviewIdx=${review.review_Index}&term=${param.term }&page=${pageMaker.cri.page }'">
-						<td>${review.review_Index }</td>
+					<tr
+						onclick="location.href='customer_review_view?review_Index=${review.review_Index}&term=${param.term }&page=${pageMaker.cri.page }'">
+						<td>${review.review_Index}</td>
 						<td>${review.review_Title}</td>
 						<td>${review.customer_id}</td>
 					</tr>
@@ -55,7 +56,8 @@
 				</c:if>
 				<c:forEach begin="${pageMaker.startPage }" end="${pageMaker.endPage }" var="pageNum">
 					<li class="page-item ${pageMaker.cri.page == pageNum ? " active":"" }"><a class="page-link"
-							href='<c:url value="/searchReview?term=${param.term }&page=${pageNum }"/>'>${pageNum }</a>&nbsp;
+							href='<c:url value="/searchReview?term=${param.term }&page=${pageNum }"/>'>${pageNum
+							}</a>&nbsp;
 					</li>
 				</c:forEach>
 				<c:if test="${pageMaker.next && pageMaker.endPage >0 }">
