@@ -11,7 +11,7 @@ public interface ReservationDAO {
 
 	abstract public List<ReservationDTO> listItsCustReservations(int pet_Index);
 
-	abstract public List<ReservationDTO> listItsCompReservations(int company_Index);
+	abstract public List<ReservationDTO> listItsCompReservations(Map<String, Object> map);
 
 	abstract public int selectCompanyIndex(int reservation_Index);
 
@@ -24,5 +24,7 @@ public interface ReservationDAO {
 	abstract public int updateReviewCheck(int reservation_Index);
 
 	abstract public List<ReservationDTO> customer_pet_reserve_check(Map<String, Object> petInfo);
+	
+	abstract public int countCompReservations(int company_Index);
 
 }

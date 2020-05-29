@@ -30,8 +30,10 @@ public interface ReviewService {
 
 	public abstract String companyReviewOk(HashMap<String, Object> rmap, HttpServletRequest request, int reviewIdx);
 
-	abstract public List<ReviewDTO> listsAllReview(HttpServletRequest request);
+	abstract public List<ReviewDTO> listsAllReview(Model model,HttpServletRequest request,Criteria cri);
 
 	ModelAndView review_cancel(String review_Index, ModelAndView mv);
+
+	abstract public int countReivewList();
 
 }

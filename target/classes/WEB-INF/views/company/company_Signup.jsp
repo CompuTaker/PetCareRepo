@@ -82,7 +82,11 @@ prefix="c"%> <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
 
       <div class="form-group">
         <label for="Company_Type">업종</label>
-        <input type="text" class="form-control" id="Company_Type" placeholder="업종" name="company_Type" required />
+        <select id="company_Type" name="company_Type">
+        	<option value="미용" >미용</option>
+        	<option value="병원" >병원</option>
+        	<option value="호텔">호텔</option>
+        </select>
       </div>
 
       <button type="submit" class="btn btn-primary">회원가입</button>
@@ -98,7 +102,6 @@ prefix="c"%> <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
       alert(responseMessage)
     }
   })
-
   $("#checkCompanyId").click(function () {
     var company_Id = $('#Company_Id').val();
     $.ajax({
@@ -118,10 +121,7 @@ prefix="c"%> <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
         }
       }
     });
-
   });
-
-
   $("#checkCompanyNum").click(function () {
     console.log("들어옴");
     var company_Number = $('#Company_Number').val();
@@ -144,7 +144,6 @@ prefix="c"%> <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
         }
       }
     });
-
   });
   //이미지 미리보기
   function readURL(input) {

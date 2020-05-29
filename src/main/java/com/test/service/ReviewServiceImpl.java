@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -20,7 +21,9 @@ import com.test.amazon.s3;
 import com.test.dao.ReservationDAO;
 import com.test.dao.ReviewDAO;
 import com.test.dto.CompanyDTO;
+import com.test.dto.Criteria;
 import com.test.dto.CustomerDTO;
+import com.test.dto.PageMaker;
 import com.test.dto.ReviewDTO;
 import com.test.dto.ReviewImageDTO;
 
@@ -194,12 +197,31 @@ public class ReviewServiceImpl implements ReviewService {
 	}
 
 	@Override
-	public List<ReviewDTO> listsAllReview(HttpServletRequest request) {
+	public List<ReviewDTO> listsAllReview(Model model,HttpServletRequest request,Criteria cri) {
 		String term = request.getParameter("term");
+				
+		PageMaker pageMaker = new PageMaker();
+
 		if (term != null) {
-			return this.reviewDao.listThisReviewByTerm(term);
+			pageMaker.setCri(cri);
+			pageMaker.setTotalCount(this.reviewDao.countReivewByTerm(term));
+						
+			Map<String, Object> map = new HashMap<String,Object>();
+			map.put("page",cri.getPage());
+			map.put("perPageNum",cri.getPerPageNum());
+			map.put("pageStart", cri.getPageStart());
+			map.put("term", term);
+			model.addAttribute("pageMaker",pageMaker);
+			
+			return this.reviewDao.listThisReviewByTerm(map);
 		}
-		return this.reviewDao.listAllReviews();
+		
+		pageMaker.setCri(cri);
+		pageMaker.setTotalCount(this.reviewDao.countReivewList());
+		
+		model.addAttribute("pageMaker", pageMaker);
+		
+		return this.reviewDao.listAllReviews(cri);
 	}
 	
 	// 후기모아보기>리뷰 삭제
@@ -210,5 +232,10 @@ public class ReviewServiceImpl implements ReviewService {
 		mv.setViewName("redirect:customer_review_mylist");
 		return mv;
 			}
+	
+	@Override
+	public int countReivewList() {
+		return this.reviewDao.countReivewList();
+	}
 
 }

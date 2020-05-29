@@ -133,13 +133,13 @@ public class CompanyController {
 		logger.info("/beautyCompany " + request.getMethod());
 		PageMaker pageMaker = new PageMaker();
 		pageMaker.setCri(cri);
-		pageMaker.setTotalCount(this.companyService.countCompanyList("미용실"));
+		pageMaker.setTotalCount(this.companyService.countCompanyList("미용"));
 
 		Map<String, Object> criteria = new HashMap<String, Object>();
 		criteria.put("page", cri.getPage());
 		criteria.put("perPageNum", cri.getPerPageNum());
 		criteria.put("pageStart", cri.getPageStart());
-		criteria.put("company_Type", "미용실");
+		criteria.put("company_Type", "미용");
 
 		String url = "";
 		List<CompanyDTO> beautyCompanyList = this.companyService.listsCompany(criteria); // company_Type이 미용실인 모든 회사를
@@ -219,10 +219,10 @@ public class CompanyController {
 
 	// 업체찾기 : 전체엄체, 검색된업체
 	@RequestMapping("/searchCompany")
-	public String searchCompany(Model model, HttpServletRequest request) {
+	public String searchCompany(Model model, HttpServletRequest request,Criteria cri) {
 		logger.info("/searchCompany " + request.getMethod());
 		String url = "";
-		List<CompanyDTO> companyList = this.companyService.listsAllCompany(request); // 회사를 가져온다.
+		List<CompanyDTO> companyList = this.companyService.listsAllCompany(model,request,cri); // 회사를 가져온다.
 		model.addAttribute("companyList", companyList); // model에 가져온 회사 정보를 저장한다.
 		url = "home/search_company.tiles"; // 화면을 띄워준다.
 		return url;

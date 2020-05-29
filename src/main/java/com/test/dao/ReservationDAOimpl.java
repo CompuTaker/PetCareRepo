@@ -49,9 +49,9 @@ public class ReservationDAOimpl implements ReservationDAO {
 	 * 기업이 자기 가게에 예약된 정보를 보기 위한 메서드이다.
 	 */
 	@Override
-	public List<ReservationDTO> listItsCompReservations(int company_Index) {
-		return this.sqlSession.selectList("listItsCompReservations", company_Index); // mapper에서
-																						// "listItsCompReservations" id를
+	public List<ReservationDTO> listItsCompReservations(Map<String,Object> map) {
+
+		return this.sqlSession.selectList("listItsCompReservations", map);// "listItsCompReservations" id를
 																						// 가지는 명령문에 company_Index변수를 가지고
 																						// 실행한다.
 	}
@@ -79,9 +79,14 @@ public class ReservationDAOimpl implements ReservationDAO {
 	public int updateReviewCheck(int reservation_Index) {
 		return this.sqlSession.update("updateReviewCheck", reservation_Index);
 	}
-
 	@Override
 	public List<ReservationDTO> customer_pet_reserve_check(Map<String, Object> petInfo) {
 		return this.sqlSession.selectList("customer_pet_reserve_check", petInfo);
+	}
+
+	@Override
+	public int countCompReservations(int company_Index) {
+		System.out.println(company_Index);
+		return this.sqlSession.selectOne("countCompReservations", company_Index);
 	}
 }

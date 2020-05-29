@@ -20,7 +20,9 @@ import com.test.dao.CompanyDAO;
 import com.test.dao.PetDAO;
 import com.test.dao.ReservationDAO;
 import com.test.dto.CompanyDTO;
+import com.test.dto.Criteria;
 import com.test.dto.CustomerDTO;
+import com.test.dto.PageMaker;
 import com.test.dto.PetDTO;
 import com.test.dto.ReservationDTO;
 import com.test.dto.SuperuserDTO;
@@ -39,7 +41,7 @@ public class ReservationServiceImpl implements ReservationService{
 	private ReservationDAO reservationDao;
 
 	@Override
-	public String reserve(Model model, HttpServletRequest request) {
+	public String reserve(Model model, Criteria cri,HttpServletRequest request) {
 		String url = "";
 		HttpSession session = request.getSession();								// session을 가져온다.
 		CustomerDTO customer = (CustomerDTO) session.getAttribute("customer");	// 가져온 session에서 customer를 가져온다.
@@ -48,7 +50,7 @@ public class ReservationServiceImpl implements ReservationService{
 		if (customer != null) {													// customer가 존재하면
 			int customerIdx 		 = customer.getCustomer_Index();			// customer에서 index값만 따로 int변수에 저장한다.
 			List<PetDTO> itsPets	 = this.petDao.listItsPets(customerIdx);	// customerIdx에 해당하는 모든 펫 정보가 저장된다.			
-			List<CompanyDTO> company = this.companyDao.listAllCompany();		// 모든 회사 정보를 전부 가져온다.
+			List<CompanyDTO> company = this.companyDao.listAllCompany(cri);		// 모든 회사 정보를 전부 가져온다.
 			
 			model.addAttribute("petList", itsPets);								// model객체에 가져온 펫 정보가 저장된다.
 			model.addAttribute("companyList", company);							// model객체에 가져온 회사 정보가 저장된다.
@@ -133,14 +135,24 @@ public class ReservationServiceImpl implements ReservationService{
 	}
 
 	@Override
-	public String company_reservecheck(Model model, HttpSession session) {
-		if (session.getAttribute("company") != null) {															// company session이 존재할 경우
+	public List<ReservationDTO> company_reservecheck(Model model, HttpSession session,Criteria cri) {
+																// company session이 존재할 경우
 			CompanyDTO company = (CompanyDTO) session.getAttribute("company");									// 가져온 session에서 company를 가져온다. (DTO로 타입캐스팅)
-			int companyIndex = company.getCompany_Index();														// company에서 index값을 따로 int변수에 저장해준다.
-			List<ReservationDTO> itsReservations = this.reservationDao.listItsCompReservations(companyIndex);	// companyIndex에 해당하는 모든 예약정보를 가져온다.
-			model.addAttribute("reservation", itsReservations);													// 가져온 예약정보를 model객체에 저장한다.
-		}
-		return "reserve/company_reserve_check.tiles"; 
+			int company_Index = company.getCompany_Index();														// company에서 index값을 따로 int변수에 저장해준다.
+			
+			PageMaker pageMaker = new PageMaker();
+			pageMaker.setCri(cri);
+			pageMaker.setTotalCount(this.reservationDao.countCompReservations(company_Index));
+			
+			Map<String, Object> map = new HashMap<String,Object>();
+			map.put("page",cri.getPage());
+			map.put("perPageNum",cri.getPerPageNum());
+			map.put("pageStart", cri.getPageStart());
+			map.put("company_Index", company_Index);
+																		// 가져온 예약정보를 model객체에 저장한다.
+			model.addAttribute("pageMaker", pageMaker);
+		
+		return this.reservationDao.listItsCompReservations(map); 
 	}
 
 	@Override

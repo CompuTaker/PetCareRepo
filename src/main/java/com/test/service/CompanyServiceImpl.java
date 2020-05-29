@@ -22,6 +22,8 @@ import com.test.amazon.s3;
 import com.test.dao.CompanyDAO;
 import com.test.dao.ReservationDAO;
 import com.test.dto.CompanyDTO;
+import com.test.dto.Criteria;
+import com.test.dto.PageMaker;
 import com.test.dto.ReservationDTO;
 
 @Service
@@ -220,11 +222,7 @@ public class CompanyServiceImpl implements CompanyService {
 			try {
 				CompanyDTO company = (CompanyDTO) session.getAttribute("company"); // company session을 DTO로 타입캐스팅을 하여
 																					// company에 저장
-				List<ReservationDTO> companyReserve = this.reservationDao
-						.listItsCompReservations(company.getCompany_Index()); // company값에서 Index를 가지고 예약된 값이 있는지
-																				// Reservation테이블에서 확인한다.
-
-				mv.addObject("reserve", companyReserve); // model객체에 가져온 예약리스트를 저장한다.
+				
 				mv.setViewName("company/company_Profile.tiles"); // 실행할 view인 companyprofile.jsp를 설정해준다.
 			} catch (SecurityException e) {
 				e.printStackTrace();
@@ -279,14 +277,30 @@ public class CompanyServiceImpl implements CompanyService {
 	}
 
 	@Override
-	public List<CompanyDTO> listsAllCompany(HttpServletRequest request) {
+	public List<CompanyDTO> listsAllCompany(Model model,HttpServletRequest request,Criteria cri){
 		String term = request.getParameter("term");
 
-		if (term != null) {
-			return this.companyDao.listThisCompanyByName(term);
-		}
+		PageMaker pageMaker = new PageMaker();
 
-		return this.companyDao.listAllCompany();
+		
+		if (term != null) {
+			pageMaker.setCri(cri);
+			pageMaker.setTotalCount(this.companyDao.countCompanyByName(term));
+			
+			Map<String,Object> map = new HashMap<String,Object>();
+			map.put("page", cri.getPage());
+			map.put("perPageNum", cri.getPerPageNum());
+			map.put("pageStart",cri.getPageStart());
+			map.put("company_Name", term);
+			model.addAttribute("pageMaker",pageMaker);
+						
+			return this.companyDao.listThisCompanyByName(map);
+		}
+		pageMaker.setCri(cri);
+		pageMaker.setTotalCount(this.companyDao.countCompanyByName(term));
+		model.addAttribute("pageMaker",pageMaker);
+
+		return this.companyDao.listAllCompany(cri);
 	}
 
 	public boolean checkPW(String company_Id, String company_Password) {

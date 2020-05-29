@@ -22,9 +22,9 @@ import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.bind.support.SessionStatus;
 
 import com.github.scribejava.core.model.OAuth2AccessToken;
-import com.test.constants.Constant;
 import com.test.dao.CustomerDAO;
 import com.test.dto.CompanyDTO;
+import com.test.dto.Criteria;
 import com.test.dto.CustomerDTO;
 import com.test.dto.QnAboardDTO;
 import com.test.dto.ReviewDTO;
@@ -297,11 +297,11 @@ public class HomeController {
 
 	// 통합검색
 	@RequestMapping("/searchByTerm")
-	public String searchByTerm(Model model, HttpServletRequest request) {
+	public String searchByTerm(Model model, HttpServletRequest request,Criteria cri) {
 		String url = "";
 		logger.info("/searchByTerm - search_all.jsp " + request.getMethod());
-		List<CompanyDTO> companyList = this.companyService.listsAllCompany(request); // 회사를 가져온다.
-		List<ReviewDTO> reviewList = this.reviewService.listsAllReview(request); // 리뷰를 가져온다.
+		List<CompanyDTO> companyList = this.companyService.listsAllCompany(model,request,cri); // 회사를 가져온다.
+		List<ReviewDTO> reviewList = this.reviewService.listsAllReview(model, request, cri); // 리뷰를 가져온다.
 		List<QnAboardDTO> qnaList = this.qnaBoardService.selectQnaByTerm(request);
 
 		model.addAttribute("companyList", companyList);

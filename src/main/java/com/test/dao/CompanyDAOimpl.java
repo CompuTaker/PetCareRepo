@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import com.test.dto.CompanyDTO;
+import com.test.dto.Criteria;
 
 @Repository // Spring에 DAO(Data Access Object)클래스라고 알려주는 Annotation
 public class CompanyDAOimpl implements CompanyDAO {
@@ -20,8 +21,8 @@ public class CompanyDAOimpl implements CompanyDAO {
 	 * Company테이블에 저장된 모든 회사 정보들을 가져올 때 실행되는 메서드이다.
 	 */
 	@Override
-	public List<CompanyDTO> listAllCompany() {
-		return this.sqlSession.selectList("listAllCompany");
+	public List<CompanyDTO> listAllCompany(Criteria cri) {
+		return this.sqlSession.selectList("listAllCompany",cri);
 	}
 
 	/*
@@ -123,8 +124,8 @@ public class CompanyDAOimpl implements CompanyDAO {
 	}
 
 	@Override
-	public List<CompanyDTO> listThisCompanyByName(String company_Name) {
-		return this.sqlSession.selectList("listThisCompanyByName", company_Name);
+	public List<CompanyDTO> listThisCompanyByName( Map<String,Object> map) {
+		return this.sqlSession.selectList("listThisCompanyByName", map);
 	}
 
 	public int deleteTheCompany(String company_Id) {
@@ -142,5 +143,11 @@ public class CompanyDAOimpl implements CompanyDAO {
 		if (count == 1)
 			result = true;
 		return result;
+	}
+
+	@Override
+	public int countCompanyByName(String company_Name) {
+		// TODO Auto-generated method stub
+		return this.sqlSession.selectOne("countCompanyByName",company_Name);
 	}
 }
