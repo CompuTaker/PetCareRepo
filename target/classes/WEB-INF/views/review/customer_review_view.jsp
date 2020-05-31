@@ -45,6 +45,8 @@
 			<hr>
 		<button onclick="history.back()"
 			class="btn btn-secondary btn-lg mx-auto">목록</button>
+		<button onclick="location.href='customer_review_modify?review_Index=${review.review_Index}'"
+			class="btn btn-secondary btn-lg mx-auto">수정하기</button>
 
 	</div>
 

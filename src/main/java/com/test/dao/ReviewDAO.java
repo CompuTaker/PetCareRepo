@@ -3,6 +3,8 @@ package com.test.dao;
 import java.util.HashMap;
 import java.util.List;
 
+import org.springframework.web.servlet.ModelAndView;
+
 import com.test.dto.CustomerDTO;
 import com.test.dto.ReviewDTO;
 import com.test.dto.ReviewImageDTO;
@@ -37,5 +39,9 @@ public interface ReviewDAO {
 	// abstract public int updateTheReview(int review_Index);.
 
 	abstract public int countReivewList();
+	
+	public abstract void updateTheReview(HashMap<String, Object> rmap);
+	
+	public abstract void deleteTheReviewImage(int reservation_Index);
 
 }

@@ -33,5 +33,9 @@ public interface ReviewService {
 	abstract public List<ReviewDTO> listsAllReview(HttpServletRequest request);
 
 	ModelAndView review_cancel(String review_Index, ModelAndView mv);
+	
+	public abstract ModelAndView customerReviewModify(ModelAndView mv, int reviewIdx);
+	public abstract void customerReviewUpdate(MultipartHttpServletRequest multipartHttpServletRequest,
+			HashMap<String, Object> rmap, Model model);
 
 }

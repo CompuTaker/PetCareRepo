@@ -6,6 +6,7 @@ import java.util.List;
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
+import org.springframework.web.servlet.ModelAndView;
 
 import com.test.dto.CustomerDTO;
 import com.test.dto.ReviewDTO;
@@ -105,5 +106,28 @@ public class ReviewDAOimpl implements ReviewDAO {
 	public int countReivewList() {
 		// TODO Auto-generated method stub
 		return this.sqlSession.selectOne("countReviewList");
+	}
+	
+	/*
+	 * 후기를 수정한 후 '수정완료'버튼을 누르면 실행되는 메서드이다.
+	 */
+	@Override
+	public void updateTheReview (HashMap<String, Object> rmap) {
+
+		this.sqlSession.update("updateTheReview", rmap); // mapper에서 "updateTheReview" 명령문에 rmap객체를 가지고 실행한다.
+		
+		
+	}
+	/*
+	 * 후기를 수정한 후 '수정완료'버튼을 누르면 실행되는 메서드이다.
+	 * reviewImage테이블에 수정된 이미지url을 insert하기 전 , reservation_Index과 일치하는 기존의 record를 delete한다.
+	 */
+	@Override
+	public void deleteTheReviewImage (int reservation_Index) {
+
+		this.sqlSession.delete("deleteTheReviewImage", reservation_Index); // mapper에서 "deleteTheReviewImage"id를 가지는 명령문 실행
+																			//	reservation_Index를 가지고 명령문을 실행.
+		
+		
 	}
 }

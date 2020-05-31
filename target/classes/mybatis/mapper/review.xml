@@ -7,8 +7,9 @@
 
 	<!-- **주의 : 세미콜론 없이 쿼리문 작성!** -->
 
-<!-- 자신이 작성한 리뷰 리스트 보여주기 -->
-	<select id = "listMyReviews" parameterType="java.util.Map" resultType="com.test.dto.ReviewDTO">
+	<!-- 자신이 작성한 리뷰 리스트 보여주기 -->
+	<select id="listMyReviews" parameterType="java.util.Map"
+		resultType="com.test.dto.ReviewDTO">
 		select * from Review
 		where customer_id = #{customer_id}
 	</select>
@@ -23,25 +24,26 @@
 	</select>
 
 
-	
+
 	<!-- customer name 찾기 -->
-	<select id="searchCustomerName" resultType="com.test.dto.CustomerDTO">
+	<select id="searchCustomerName"
+		resultType="com.test.dto.CustomerDTO">
 		select customer_Name
 		from Customer
-			JOIN Review
-		    on Customer.customer_Id = Review.customer_id
-		  where Review.customer_id = #{customer_id}
+		JOIN Review
+		on Customer.customer_Id = Review.customer_id
+		where Review.customer_id = #{customer_id}
 	</select>
-	
+
 	<!-- 인덱스 번호로 리뷰 찾기 -->
 	<select id="listThisReviewByIdx"
 		resultType="com.test.dto.ReviewDTO">
 		select * from Review where review_Index = #{review_Index}
 	</select>
-	
+
 	<!-- reservation_Index로 리뷰 이미지 찾기 -->
 	<select id="listImages" resultType="com.test.dto.ReviewImageDTO">
-		 select * from ReviewImage where reservation_Index = #{reservation_Index}
+		select * from ReviewImage where reservation_Index = #{reservation_Index}
 	</select>
 
 
@@ -62,7 +64,7 @@
 		#{customer_id},
 		#{reservation_Index})
 	</insert>
-	
+
 	<!-- 리뷰이미지 등록하기 -->
 	<insert id="insertTheReviewImage" parameterType="java.util.Map">
 		insert into
@@ -78,35 +80,51 @@
 		#{reservation_Index}
 		)
 	</insert>
-	
+
 	<!-- 리뷰 삭제하기 -->
 	<delete id="deleteTheReview">
 		delete from Review
 		where review_Index =
 		#{review_Index}
 	</delete>
-	
+
 	<!-- 리뷰 답글 달기 -->
-	<update id="updateTheComent"  parameterType="java.util.Map">
-		update Review set review_Comment =
+	<update id="updateTheComent" parameterType="java.util.Map">
+		update Review set
+		review_Comment =
 		#{review_Comment}
 		where review_Index =
 		#{review_Index}
 	</update>
 
-	<!-- 리뷰 리스트 보여주기-->
-   <select id="listAllReviews" resultType="com.test.dto.ReviewDTO">
-      select * from Review;
-   </select>
-   
-         <!-- 검색어로 리뷰 찾아오기 -->
-   <select id="listThisReviewByTerm" resultType="com.test.dto.ReviewDTO">
-      select * from Review where review_Title like CONCAT('%', #{term}, '%') 
-      or
-      review_Content like CONCAT('%', #{term}, '%') 
-      or
-      customer_id like CONCAT('%', #{term}, '%') 
-   </select>
+	<!-- 리뷰 리스트 보여주기 -->
+	<select id="listAllReviews" resultType="com.test.dto.ReviewDTO">
+		select * from Review;
+	</select>
 
+	<!-- 검색어로 리뷰 찾아오기 -->
+	<select id="listThisReviewByTerm"
+		resultType="com.test.dto.ReviewDTO">
+		select * from Review where review_Title like CONCAT('%', #{term}, '%')
+		or
+		review_Content like CONCAT('%', #{term}, '%')
+		or
+		customer_id like CONCAT('%', #{term}, '%')
+	</select>
 
+	<!-- 후기수정하기 (제목, 내용) -->
+	<update id="updateTheReview" parameterType="java.util.Map">
+		update Review
+		set review_Title = #{ review_Title },
+		review_Content = #{ review_Content },
+		review_Rating = #{ review_Rating }
+		where review_Index = #{ review_Index }
+	</update>
+	
+	<!-- 후기수정하기 (이미지) 삭제부분-->
+	<delete id="deleteTheReviewImage" parameterType="java.util.Map">
+		delete from ReviewImage 
+		where reservation_Index = #{ reservation_Index };
+	</delete>
+	
 </mapper>
