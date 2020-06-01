@@ -154,4 +154,36 @@ public class ReviewController {
 	public ModelAndView review_cancel(@RequestParam String review_Index, ModelAndView mv) {
 			return this.reviewService.review_cancel(review_Index, mv);
 			}
+	
+	
+	/*
+	 * 고객 후기 수정
+	 * 고객이 후기상세보기에서 후기를 수정을 원할때 실행되는 메서드이다.
+	 */
+	@RequestMapping("/customer_review_modify")
+	public ModelAndView customerReviewModify(ModelAndView mv, int review_Index, HttpServletRequest request) {
+		logger.info("/customer_review_modify "+request.getMethod());
+		
+		return this.reviewService.customerReviewModify(mv, review_Index);
+	}
+	
+	/*
+	 * 고객 후기 수정 완료
+	 * 고객이 후기 수정을 완료했을 때, 실행되는 메서드이다.
+	 */
+	@RequestMapping("/customer_review_modify_ok")
+	public String customerReviewUpdate(@RequestParam HashMap<String, Object> rmap, Model model, HttpSession session,
+			MultipartHttpServletRequest multipartHttpServletRequest, HttpServletRequest request) {
+		
+		logger.info("/customer_review_modify_ok "+request.getMethod());
+		
+		CustomerDTO customer = (CustomerDTO) session.getAttribute("customer"); // customer session을 가져온다.
+		String customer_id = customer.getCustomer_Id(); // customer에서 아이디를 따로 string 변수에 저장한다.
+		List<ReviewDTO> myReviews = this.reviewDAO.listMyReviews(customer_id); // 아이디를 통해 자신이 작성한 후기 리스트를 가져온다.
+		model.addAttribute("myreview", myReviews); // 가져온 후기 리스트를 model 객체에 저장한다.
+		
+		this.reviewService.customerReviewUpdate(multipartHttpServletRequest, rmap, model);
+		
+		return "review/customer_review_mylist.tiles";
+	}
 }

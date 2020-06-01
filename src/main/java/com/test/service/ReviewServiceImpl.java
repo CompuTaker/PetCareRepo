@@ -12,6 +12,7 @@ import javax.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
@@ -243,5 +244,48 @@ public class ReviewServiceImpl implements ReviewService {
 		return this.reviewDao.countReivewList();
 	}
 
+	// 후기 수정하기
+	@Override
+	public ModelAndView customerReviewModify(ModelAndView mv, int review_Index) {
+		System.out.println("후기수정하기_ReviewServiceImpl 수정할 리뷰 index : " + review_Index);
+		ReviewDTO review = this.reviewDao.listItsReview(review_Index); // reviewIdx(customer_review_view.jsp에서)를 가지고 후기의
+																			// 자세한 내용을 가져온다.
+		int reservation_Idx = review.getReservation_Index();//reservation index를 가지고 리뷰 이미지를 가져온다
+		List<ReviewImageDTO> reviewImage = this.reviewDao.listImages(reservation_Idx);
+		
+		mv.addObject("review", review); 
+		mv.addObject("reviewImage",reviewImage);
+		mv.setViewName("review/customer_review_modify.tiles"); 
+		return mv;
+
+	}
+	
+	// 후기 수정완료
+	@Override
+	public void customerReviewUpdate(MultipartHttpServletRequest multipartHttpServletRequest,
+			@RequestParam HashMap<String, Object> rmap, Model model) {
+
+		System.out.println("후기수정하기_ReviewServiceImpl 수정되는 리뷰 index : " + rmap.get("review_Index"));
+
+		// 입력받은 값에서 reservation_Index를 가져온다.
+		String reservation = String.valueOf(rmap.get("reservation_Index"));
+		int reservation_Index = Integer.parseInt(reservation);
+		
+		this.reviewDao.deleteTheReviewImage(reservation_Index);    // 수정된 이미지를 저장하기 전에, ReviewImage테이블에서 reservation_Index에 해당하는 컬럼을 지움(기존이미지삭제)
+
+		// 이미지 업로드 메소드를 호출하는 부분
+		HashMap<String, Object> rimap = new HashMap<String, Object>(); // 이미지를 저장하기 위한 HashMap 생성
+		List<MultipartFile> fileList = multipartHttpServletRequest.getFiles("review_Image"); // 이미지를 list로 넣어줌
+		for (MultipartFile image : fileList) {
+
+			imageUpload(image, reservation_Index, rimap);
+
+			this.reviewDao.insertTheReviewImage(rimap); // reviewImage테이블에 값을 저장한다.
+			System.out.println("이미지insert");
+
+		}
+		this.reviewDao.updateTheReview(rmap);
+			
+	}
 
 }

@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Map;
 
 import com.test.dto.Criteria;
+import org.springframework.web.servlet.ModelAndView;
 import com.test.dto.CustomerDTO;
 import com.test.dto.ReviewDTO;
 import com.test.dto.ReviewImageDTO;
@@ -39,6 +40,10 @@ public interface ReviewDAO {
 	// abstract public int updateTheReview(int review_Index);.
 
 	abstract public int countReivewList();
+	
+	public abstract void updateTheReview(HashMap<String, Object> rmap);
+	
+	public abstract void deleteTheReviewImage(int reservation_Index);
 
 	public abstract int countReivewByTerm(String term);
 
