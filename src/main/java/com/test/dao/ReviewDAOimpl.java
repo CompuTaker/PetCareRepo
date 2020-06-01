@@ -118,6 +118,7 @@ public class ReviewDAOimpl implements ReviewDAO {
 	@Override
 	public int deleteTheComment(int reviewIdx) {
 		return this.sqlSession.update("deleteTheComent",reviewIdx);
+	}
 	/*
 	 * 후기를 수정한 후 '수정완료'버튼을 누르면 실행되는 메서드이다.
 	 */
