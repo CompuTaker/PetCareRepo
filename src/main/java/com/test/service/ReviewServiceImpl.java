@@ -233,8 +233,8 @@ public class ReviewServiceImpl implements ReviewService {
 	// 후기모아보기>리뷰 삭제
 	@Override
 	public ModelAndView review_cancel(String review_Index, ModelAndView mv) {
-		int review_Index = Integer.parseInt(review_Index);
-		this.reviewDao.deleteTheReview(review_Index);
+		int index = Integer.parseInt(review_Index);
+		this.reviewDao.deleteTheReview(index);
 		mv.setViewName("redirect:customer_review_mylist");
 		return mv;
 			}
