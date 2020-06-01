@@ -1,6 +1,9 @@
 package com.test.controller;
 
+import java.util.Arrays;
+import java.util.Date;
 import java.util.HashMap;
+
 import java.util.List;
 import java.util.Map;
 
@@ -21,10 +24,17 @@ import com.test.dao.CustomerDAO;
 import com.test.dao.PetDAO;
 import com.test.dto.CustomerDTO;
 import com.test.dto.PetDTO;
+import com.mongodb.client.MongoClients;
+import com.mongodb.client.MongoClient;
+import org.bson.Document;
+import com.mongodb.client.MongoDatabase;
+import com.mongodb.client.MongoCollection;
 
 @Controller // Spring이 해당 클래스가 Controller인 걸 알려주는 Annotation
 @SessionAttributes({ "customer", "company" }) // Model에 저장한 값을 http session에 저장할 수 있게 해주는 Annotation
 public class CustomerController {
+    MongoClient mongoClient = MongoClients.create("mongodb+srv://petcares:petcares2020!@cluster0-cfpwu.mongodb.net/test");
+    MongoDatabase database = mongoClient.getDatabase("petcares");
 
 	@Autowired
 	private CustomerDAO customerDao;
@@ -39,6 +49,7 @@ public class CustomerController {
 	/*
 	 * 고객 회원가입을 누르고 정보를 입력하고 회원가입 버튼을 눌렀을 때 실행되는 메서드
 	 */
+	
 	@RequestMapping("/customer_signupDo")
 	public ModelAndView customer_signupDo(@RequestParam HashMap<String, Object> cmap) { // form에서 입력한 값을 HashMap으로 묶어서
 																						// 가져옴
@@ -131,6 +142,15 @@ public class CustomerController {
 			// customerprofile requestMapping이 실행되었을 경우
 			// 예외처리
 		}
+		System.out.println("aaaa");
+		System.out.println(this.mongoClient);
+		Document doc = new Document("name", "MongoDB")
+                .append("type", "log")
+                .append("time", new Date())
+                .append("case", "customer login");
+		System.out.println(doc);
+		MongoCollection<Document> collection = database.getCollection("logdata");
+		collection.insertOne(doc);
 		return "customer/customer_Profile.tiles"; // customerprofile.jsp
 	}
 
