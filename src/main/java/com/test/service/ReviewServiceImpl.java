@@ -110,8 +110,8 @@ public class ReviewServiceImpl implements ReviewService {
 	}
 
 	@Override
-	public String CompanyReviewView(Model model, int reviewIdx) {
-		ReviewDTO reviewDTO = this.reviewDao.listItsReview(reviewIdx); // reviewIdx(company_review_list.jsp에서)를 가지고 후기의
+	public String CompanyReviewView(Model model, int review_Index) {
+		ReviewDTO reviewDTO = this.reviewDao.listItsReview(review_Index); // reviewIdx(company_review_list.jsp에서)를 가지고 후기의
 																		// 자세한 내용을 가져온다.
 		List<CustomerDTO> customerDTO = this.reviewDao.searchCustomerName(reviewDTO.getCustomer_id()); // 가져온 후기 정보에서
 																										// 고객의 id를 가지고
@@ -191,15 +191,15 @@ public class ReviewServiceImpl implements ReviewService {
 	}
 
 	@Override
-	public String companyReviewOk(HashMap<String, Object> rmap, HttpServletRequest request, int reviewIdx) {
-		rmap.put("review_Index", reviewIdx); // form데이터 + reviewIdx가 HashMap에 저장된다.
+	public String companyReviewOk(HashMap<String, Object> rmap, HttpServletRequest request, int review_Index) {
+		rmap.put("review_Index", review_Index); // form데이터 + reviewIdx가 HashMap에 저장된다.
 		this.reviewDao.insertTheComent(rmap); // 기업이 단 코멘트를 reviewIdx에 해당하는 review_Comment컬럼에 저장한다.
 		return "review/company_review_ok.tiles";
 	}
 
 	@Override
-	public String companyCommentDelete(HttpServletRequest request, int reviewIdx) {
-		this.reviewDao.deleteTheComment(reviewIdx);
+	public String companyCommentDelete(HttpServletRequest request, int review_Index) {
+		this.reviewDao.deleteTheComment(review_Index);
 		return "review/company_comment_delete.tiles";
 	}
 	@Override
@@ -233,8 +233,8 @@ public class ReviewServiceImpl implements ReviewService {
 	// 후기모아보기>리뷰 삭제
 	@Override
 	public ModelAndView review_cancel(String review_Index, ModelAndView mv) {
-		int reviewIdx = Integer.parseInt(review_Index);
-		this.reviewDao.deleteTheReview(reviewIdx);
+		int review_Index = Integer.parseInt(review_Index);
+		this.reviewDao.deleteTheReview(review_Index);
 		mv.setViewName("redirect:customer_review_mylist");
 		return mv;
 			}

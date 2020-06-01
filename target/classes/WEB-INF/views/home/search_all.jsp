@@ -49,7 +49,7 @@
 			</thead>
 			<tbody>
 				<c:forEach items="${ reviewList }" var="review">
-					<tr onclick="location.href='customer_review_view?reviewIdx=${review.review_Index}'">
+					<tr onclick="location.href='customer_review_view?review_Index=${review.review_Index}'">
 						<td>${review.review_Index }</td>
 						<td>${review.review_Title}</td>
 						<td>${review.customer_id}</td>

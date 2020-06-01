@@ -60,8 +60,8 @@ public class ReviewDAOimpl implements ReviewDAO {
 	 * 여러 후기 리스트 중 자세히 보고싶은 후기를 눌렀을 경우 실행되는 메서드이다.
 	 */
 	@Override
-	public ReviewDTO listItsReview(int reviewIdx) {
-		return this.sqlSession.selectOne("listThisReviewByIdx", reviewIdx); // mapper에서 "listThisReviewByIdx" id를 가지는
+	public ReviewDTO listItsReview(int review_Index) {
+		return this.sqlSession.selectOne("listThisReviewByIdx", review_Index); // mapper에서 "listThisReviewByIdx" id를 가지는
 																			// 명령문에 reviewIdx변수를 가지고 실행한다.
 	}
 
@@ -116,8 +116,8 @@ public class ReviewDAOimpl implements ReviewDAO {
 	}
 
 	@Override
-	public int deleteTheComment(int reviewIdx) {
-		return this.sqlSession.update("deleteTheComent",reviewIdx);
+	public int deleteTheComment(int review_Index) {
+		return this.sqlSession.update("deleteTheComent",review_Index);
 	}
 	/*
 	 * 후기를 수정한 후 '수정완료'버튼을 누르면 실행되는 메서드이다.

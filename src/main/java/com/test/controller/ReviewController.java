@@ -75,9 +75,9 @@ public class ReviewController {
 	 * 기업이 후기 리스트 중에서 자세히 보고자 하는 후기 리스트를 클릭하면 실행되는 메서드이다.
 	 */
 	@RequestMapping("/company_review_view")
-	public String CompanyReviewView(Model model, int reviewIdx, HttpServletRequest request) {
+	public String CompanyReviewView(Model model, int review_Index, HttpServletRequest request) {
 		logger.info("/company_review_view "+request.getMethod());
-		return this.reviewService.CompanyReviewView(model, reviewIdx);
+		return this.reviewService.CompanyReviewView(model, review_Index);
 	}
 
 	/*
@@ -122,16 +122,16 @@ public class ReviewController {
 	 */
 	@RequestMapping("/company_review_ok")
 	public String companyReviewOk(@RequestParam HashMap<String, Object> rmap, HttpServletRequest request,
-			int reviewIdx) { // 답글 작성 화면에서 입력한 form값이 HashMap객체로 묶어서 가져온다. reviewIdx도 들어온다.
+			int review_Index) { // 답글 작성 화면에서 입력한 form값이 HashMap객체로 묶어서 가져온다. reviewIdx도 들어온다.
 		
 		logger.info("/company_review_ok "+request.getMethod());
-		return this.reviewService.companyReviewOk(rmap, request, reviewIdx);
+		return this.reviewService.companyReviewOk(rmap, request, review_Index);
 	}
 	@RequestMapping("/company_comment_delete")
-	public String companyReviewDelete(HttpServletRequest request,int reviewIdx) { // reviewIdx도 들어온다.
+	public String companyReviewDelete(HttpServletRequest request,int review_Index) { // reviewIdx도 들어온다.
 
 		logger.info("/company_comment_delete "+request.getMethod());
-		return this.reviewService.companyCommentDelete(request, reviewIdx);
+		return this.reviewService.companyCommentDelete(request, review_Index);
 	}
 
 	// 리뷰찾기 : 전체리뷰, 검색된리뷰

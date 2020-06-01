@@ -14,7 +14,7 @@ public interface ReviewDAO {
 
 	abstract public List<ReviewDTO> listItsReviews(int company_Index);
 
-	abstract public ReviewDTO listItsReview(int reviewIdx);
+	abstract public ReviewDTO listItsReview(int review_Index);
 	// abstract public int insertTheReview(HashMap<String, Object> rmap, int
 	// customer_Index);
 
@@ -47,6 +47,6 @@ public interface ReviewDAO {
 
 	public abstract int countReivewByTerm(String term);
 
-	public abstract int deleteTheComment(int reviewIdx);
+	public abstract int deleteTheComment(int review_Index);
 
 }
