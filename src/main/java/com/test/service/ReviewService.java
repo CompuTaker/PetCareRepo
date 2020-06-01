@@ -36,4 +36,6 @@ public interface ReviewService {
 
 	abstract public int countReivewList();
 
+	public abstract String companyCommentDelete(HttpServletRequest request, int reviewIdx);
+
 }

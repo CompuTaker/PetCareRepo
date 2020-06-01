@@ -100,7 +100,6 @@ public class ReviewDAOimpl implements ReviewDAO {
 	}
 
 	public List<ReviewImageDTO> listImages(int reservation_Index) {
-		System.out.println("여까지들옴?");
 		return this.sqlSession.selectList("listImages", reservation_Index);
 	}
 
@@ -113,5 +112,10 @@ public class ReviewDAOimpl implements ReviewDAO {
 	public int countReivewByTerm(String term) {
 		// TODO Auto-generated method stub
 		return this.sqlSession.selectOne("countReivewByTerm",term);
+	}
+
+	@Override
+	public int deleteTheComment(int reviewIdx) {
+		return this.sqlSession.update("deleteTheComent",reviewIdx);
 	}
 }

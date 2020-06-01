@@ -42,4 +42,6 @@ public interface ReviewDAO {
 
 	public abstract int countReivewByTerm(String term);
 
+	public abstract int deleteTheComment(int reviewIdx);
+
 }

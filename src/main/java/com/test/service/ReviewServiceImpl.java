@@ -197,6 +197,11 @@ public class ReviewServiceImpl implements ReviewService {
 	}
 
 	@Override
+	public String companyCommentDelete(HttpServletRequest request, int reviewIdx) {
+		this.reviewDao.deleteTheComment(reviewIdx);
+		return "review/company_comment_delete.tiles";
+	}
+	@Override
 	public List<ReviewDTO> listsAllReview(Model model,HttpServletRequest request,Criteria cri) {
 		String term = request.getParameter("term");
 				
@@ -237,5 +242,6 @@ public class ReviewServiceImpl implements ReviewService {
 	public int countReivewList() {
 		return this.reviewDao.countReivewList();
 	}
+
 
 }

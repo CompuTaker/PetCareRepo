@@ -109,6 +109,12 @@
 		where review_Index =
 		#{review_Index}
 	</update>
+	<!-- 리뷰 답글 삭제하기 -->
+	<update id="deleteTheComent" parameterType="Integer">
+		update Review set review_Comment = null 
+		where review_Index =
+		#{review_Index}
+	</update>
 
 	<!-- 리뷰 리스트 보여주기-->
    <select id="listAllReviews" resultType="com.test.dto.ReviewDTO">

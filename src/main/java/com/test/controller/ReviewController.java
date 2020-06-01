@@ -127,6 +127,12 @@ public class ReviewController {
 		logger.info("/company_review_ok "+request.getMethod());
 		return this.reviewService.companyReviewOk(rmap, request, reviewIdx);
 	}
+	@RequestMapping("/company_comment_delete")
+	public String companyReviewDelete(HttpServletRequest request,int reviewIdx) { // reviewIdx도 들어온다.
+
+		logger.info("/company_comment_delete "+request.getMethod());
+		return this.reviewService.companyCommentDelete(request, reviewIdx);
+	}
 
 	// 리뷰찾기 : 전체리뷰, 검색된리뷰
 	@RequestMapping("/searchReview")

@@ -80,9 +80,10 @@
 			accept-charset="utf-8" name="review-comment" class="review-comment ">
 			<div class="review-div">
 				<label class="font-weight-bold" for="review_Comment">답글</label> <br>
-				<textarea id="review_Comment" style="width: 90%;" rows="3"
+				<textarea class="review_Comment"  onkeyup="success()" id="review_Comment" style="width: 90%;" rows="3"
 					name="review_Comment">${ review.review_Comment }</textarea>
-				<input type="submit"></input>
+				<input id="send"type="submit"  value="등록" disabled></input>
+				<input type="button" value="삭제" onclick="deleteCheck()"></input>
 			</div>
 		</form>
 
@@ -103,4 +104,21 @@
 		y.width = '100';
 		y.height = '100';
 	};
+	
+	function deleteCheck(){
+		if(confirm("정말 삭제하시겠습니까?")==true){
+			location.href="company_comment_delete?reviewIdx=${review.review_Index}";
+		}else{
+			return false;
+		}
+	}
+
+	function success() {
+		 if(document.getElementById("review_Comment").value==="") { 
+	            document.getElementById('send').disabled = true; 
+	        } else { 
+	            document.getElementById('send').disabled = false;
+	        }
+	    }
+
 </script>
