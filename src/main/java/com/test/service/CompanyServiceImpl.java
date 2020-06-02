@@ -297,7 +297,8 @@ public class CompanyServiceImpl implements CompanyService {
 			return this.companyDao.listThisCompanyByName(map);
 		}
 		pageMaker.setCri(cri);
-		pageMaker.setTotalCount(this.companyDao.countCompanyByName(term));
+		pageMaker.setTotalCount(this.companyDao.countAllCompany());
+		
 		model.addAttribute("pageMaker",pageMaker);
 
 		return this.companyDao.listAllCompany(cri);
