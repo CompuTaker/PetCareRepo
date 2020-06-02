@@ -29,6 +29,14 @@ prefix="c"%>
             >
           </td>
         </tr>
+         <tr>
+          <th>댓글</th>
+          <td>
+            <label id="qna_reply" name="qna_reply">
+              ${ qnaReply.qna_Comment }</label
+            >
+          </td>
+        </tr>
       </table>
     </div>
 
@@ -44,8 +52,8 @@ prefix="c"%>
         >
           목록
         </button>
-        <button type="button" class="btn btn-outline-danger" onclick="">
-          답변
+        <button type="button" class="btn btn-outline-success" onclick="location.href='qna_reply'">
+          댓글
         </button>
       </div>
     </form>

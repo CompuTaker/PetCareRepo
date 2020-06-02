@@ -1,5 +1,6 @@
 package com.test.dao;
 
+import java.util.HashMap;
 import java.util.List;
 
 import org.apache.ibatis.session.SqlSession;
@@ -49,5 +50,16 @@ public class QnAboardDAOimpl implements QnAboardDAO {
 	@Override
 	public List<QnAboardDTO> selectQnaByTerm(String term) {
 		return this.sqlSession.selectList("listThisQnaByTerm", term);
+	}
+
+	@Override
+	public QnAboardDTO listItsQna(String qna_Id) {
+		return this.sqlSession.selectOne("listItsQna", qna_Id);
+	}
+
+	@Override
+	public void insertTQnaComment(HashMap<String, Object> rmap) {
+		this.sqlSession.update("updateQnaComment", rmap);
+		
 	}
 }

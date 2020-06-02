@@ -2,6 +2,7 @@ package com.test.service;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.HashMap;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -9,12 +10,14 @@ import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.test.dao.QnAboardDAO;
 import com.test.dto.CustomerDTO;
 import com.test.dto.QnAboardDTO;
+import com.test.dto.ReviewDTO;
 
 @Service
 @SessionAttributes({ "customer", "company" }) // Model에 저장한 값을 http session에 저장할 수 있게 해주는 Annotation
@@ -106,12 +109,30 @@ public class QnAboardServiceImpl implements QnAboardService {
 	}
 
 	@Override
-	public void updateQnaContent(QnAboardDTO qnaDto) {
+	public void updateQnaContent(ModelAndView mv, QnAboardDTO qnaDto) {
+		mv.addObject("qna", qnaDto); 
 		this.qnaDao.updateQnaContent(qnaDto);
+		
 	}
 
 	@Override
 	public List<QnAboardDTO> selectQnaByTerm(HttpServletRequest request) {
 		return this.qnaDao.selectQnaByTerm(request.getParameter("term"));
 	}
+
+	@Override
+	public String qna_reply(Model model,String qna_Id) {
+		QnAboardDTO qnaDto = this.qnaDao.listItsQna(qna_Id);
+		model.addAttribute("qnaReply", qnaDto);
+
+		return "qna/qna_reply.tiles";
+	}
+
+	@Override
+	public String qna_reply_ok(HashMap<String, Object> rmap, HttpServletRequest request, String qna_Id) {	
+		rmap.put("qna_Id", qna_Id);
+		this.qnaDao.insertTQnaComment(rmap); 
+		return "qna/qna_reply_ok.tiles";
+	}
+
 }

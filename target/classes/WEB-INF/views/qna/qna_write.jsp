@@ -15,24 +15,21 @@ prefix="c"%>
           <option>C</option>
         </select>
       </div>
-      <div class="qna-table">
-        <table class="table table-striped table-hover">
-          <tr>
-            <td align="center">제목</td>
-            <td><input id="title" name="title" size="50" maxlength="100" value=${qnaData.title }></td>
-          </tr>
-          <tr>
-            <td align="center">내용</td>
-            <td>
-              <textarea
-                id="content"
-                style="width: 400px;"
-                name="content"
-              >${qnaData.content }</textarea>
-            </td>
-          </tr>
-        </table>
-      </div>
+     	<div class=" mb-3">
+
+				<label for="title"> 제목</label> <input type="text"
+					class="form-control" name="title" id="title"
+					placeholder="제목을 입력해 주세요" value=${qnaData.title }>
+			</div>
+
+			<div class=" mb-3">
+
+				<label for="content">내용</label>
+				<textarea class="form-control" name="content" id="content"
+					placeholder="내용을 입력해 주세요">${qnaData.content }</textarea>
+
+			</div>
+
 
       <div>
         <button

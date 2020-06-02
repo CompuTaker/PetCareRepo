@@ -1,5 +1,6 @@
 package com.test.controller;
 
+import java.util.HashMap;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -12,6 +13,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -93,9 +95,21 @@ public class QnAboardController {
 	}
 
 	@RequestMapping(value = "/qna_content_update", method = RequestMethod.POST)
-	public String qnaContentUpdate(Model model, QnAboardDTO qnaDto, HttpServletRequest request) {
+	public String qnaContentUpdate(ModelAndView mv, QnAboardDTO qnaDto, HttpServletRequest request) {
 		logger.info("/qna_content_update " + request.getMethod());
-		this.qnaService.updateQnaContent(qnaDto);
+		this.qnaService.updateQnaContent(mv,qnaDto);
 		return "redirect:/";
+	}
+	@RequestMapping("/qna_reply")
+	public String qna_reply(Model model, String qna_Id, HttpServletRequest request) {
+		logger.info("/qna_reply.jsp " + request.getMethod());
+		return this.qnaService.qna_reply(model, qna_Id);
+	}
+	@RequestMapping("/qna_reply_ok")
+	public String qna_reply_ok(@RequestParam HashMap<String, Object> rmap, HttpServletRequest request,
+			String qna_Id) { 
+		
+		logger.info("/qna_reply_ok "+request.getMethod());
+		return this.qnaService.qna_reply_ok(rmap, request, qna_Id);
 	}
 }
