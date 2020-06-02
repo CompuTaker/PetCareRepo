@@ -117,9 +117,7 @@
 	<!-- 고객이 자신이 등록한 특정 반려동물의 예약 리스트가 알고 싶을 때 -->
 	<select id="customer_pet_reserve_check" parameterType="java.util.Map"
 		resultType="com.test.dto.ReservationDTO">
-			select Company.company_Name, Company.company_Type, Pet.pet_Name,
-				Reservation.reservation_Date, Reservation.reservation_Time, Reservation.reservation_DetailService, Reservation.reservation_Check
-			from Pet, Reservation, Company 
+			select * from Pet, Reservation, Company 
 			where Pet.pet_Index = Reservation.pet_Index 
 				and Company.company_Index = Reservation.Company_Index 
 				and Pet.customer_Index = #{customer_Index} 
