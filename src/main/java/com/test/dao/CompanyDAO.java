@@ -43,5 +43,7 @@ public interface CompanyDAO {
 	public abstract int countCompanyByName(String company_Name);
 
 	abstract public List<CompanyDTO> getDropCompanys();
+	
+	abstract public int countAllCompany();
 
 }

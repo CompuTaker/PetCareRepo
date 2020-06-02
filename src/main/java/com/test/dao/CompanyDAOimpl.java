@@ -156,4 +156,10 @@ public class CompanyDAOimpl implements CompanyDAO {
 	public List<CompanyDTO> getDropCompanys() {
 		return this.sqlSession.selectList("getDropCompanys");
 	}
+
+
+	@Override
+	public int countAllCompany() {
+		return this.sqlSession.selectOne("countAllCompany");
+	}
 }

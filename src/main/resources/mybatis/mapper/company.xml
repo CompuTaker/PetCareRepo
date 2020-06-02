@@ -9,7 +9,8 @@
 
 	<!-- 기업 리스트 보여주기-->
    <select id="listAllCompany" resultType="com.test.dto.CompanyDTO">
-      select * from Company where flag=0;
+      select * from Company where flag=0
+      limit #{pageStart}, #{perPageNum}   
    </select>
    
    <select id = "countCompanyList" parameterType="java.util.Map"
@@ -119,6 +120,10 @@
 	<select id = "countCompanyByName" parameterType="java.util.Map" resultType="java.lang.Integer">
 	      select count(*) from Company where company_Name like CONCAT('%', #{company_Name}, '%')
 	
+	</select>
+	
+	<select id="countAllCompany" parameterType="java.util.Map" resultType="java.lang.Integer">
+		select count(*) from Company
 	</select>
 	
      <!-- 기업명으로 해당 기업 정보 찾아오기 -->
