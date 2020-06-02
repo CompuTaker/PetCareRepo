@@ -184,6 +184,6 @@ public class ReviewController {
 		
 		this.reviewService.customerReviewUpdate(multipartHttpServletRequest, rmap, model);
 		
-		return "review/customer_review_mylist.tiles";
+		return "review/customer_review_modify_ok.tiles";
 	}
 }
