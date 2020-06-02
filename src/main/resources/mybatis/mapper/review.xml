@@ -138,16 +138,6 @@
       limit #{pageStart}, #{perPageNum}
    </select>
 
-	<!-- 검색어로 리뷰 찾아오기 -->
-	<select id="listThisReviewByTerm"
-		resultType="com.test.dto.ReviewDTO">
-		select * from Review where review_Title like CONCAT('%', #{term}, '%')
-		or
-		review_Content like CONCAT('%', #{term}, '%')
-		or
-		customer_id like CONCAT('%', #{term}, '%')
-	</select>
-
 	<!-- 후기수정하기 (제목, 내용) -->
 	<update id="updateTheReview" parameterType="java.util.Map">
 		update Review
