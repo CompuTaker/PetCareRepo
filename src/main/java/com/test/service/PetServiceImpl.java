@@ -30,9 +30,7 @@ public class PetServiceImpl implements PetService{
 		Map<String,Integer> petMap = new HashMap<String,Integer>();		// 넘어온 변수를 한 번에 저장하기 위해서 만든 Map객체
 		petMap.put("customer_Index", cust_Index);						// Map객체에 customer_Index를 저장한다.
 		petMap.put("pet_Index", pet_Index);								// Map객체에 pet_Index를 저장한다.
-		
-		request.getSession().setAttribute("pet_Index", pet_Index);
-		
+
 		PetDTO pt= this.petDao.read(petMap);							// customer_Index, pet_Index에 해당하는 펫 정보를 가져온다.
 		model.addAttribute("pet",pt);									// 가져온 펫 정보를 model객체에 저장한다.
 		return "pet/pet_modify.tiles";
@@ -40,13 +38,7 @@ public class PetServiceImpl implements PetService{
 
 	@Override
 	public String postModify(PetDTO pet,HttpServletRequest  request) {
-		HttpSession session = request.getSession();														// Session을 가져온다.
-		
-		PetDTO pet2 = pet;
-		pet2.setCustomer_Index(((CustomerDTO) session.getAttribute("customer")).getCustomer_Index());
-		pet2.setPet_Index((Integer) session.getAttribute("pet_Index"));		
-		
-		this.petDao.update(pet2);							// 펫 정보를 수정하고 수정하기 버튼을 누르면 form에 입력한 값들로 기존 펫 정보를 udpate한다.
+		this.petDao.update(pet);							// 펫 정보를 수정하고 수정하기 버튼을 누르면 form에 입력한 값들로 기존 펫 정보를 udpate한다.
 		return "pet/pet_modify_ok.tiles";	// 펫 정보 수정이 끝나고 난 후 확인페이지로 이동
 	}
 

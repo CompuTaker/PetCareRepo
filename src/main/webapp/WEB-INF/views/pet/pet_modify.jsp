@@ -6,7 +6,11 @@
 		<h1 class="pet_modify_title">펫 정보 수정하기</h1>
 
 
-		<form action="pet_modify" class="pet_modify" name="modify" method="post">
+		<form action="pet_modify" class="pet_modify" name="modify"
+			method="post">
+			<input type="hidden" name="customer_Index" value="${pet.customer_Index }"> 
+			<input type="hidden" name="pet_Index" value="${pet.pet_Index}"> 
+			
 			<div class="form-group row">
 				<label class="col-sm-2 " for="pet_Name">이름</label>
 				<div class="col-sm-8">
