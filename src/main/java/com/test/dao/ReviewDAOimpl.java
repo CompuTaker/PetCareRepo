@@ -104,15 +104,15 @@ public class ReviewDAOimpl implements ReviewDAO {
 		return this.sqlSession.selectList("listImages", reservation_Index);
 	}
 
-	public int countReivewList() {
+	public int countReviewList() {
 		// TODO Auto-generated method stub
 		return this.sqlSession.selectOne("countReviewList");
 	}
 	
 	@Override
-	public int countReivewByTerm(String term) {
+	public int countReviewByTerm(String term) {
 		// TODO Auto-generated method stub
-		return this.sqlSession.selectOne("countReivewByTerm",term);
+		return this.sqlSession.selectOne("countReviewByTerm",term);
 	}
 
 	@Override

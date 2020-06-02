@@ -60,7 +60,7 @@
 				</thead>
 				<c:forEach items="${ review }" var="review">
 					<tr onclick="location.href='customer_review_view?review_Index=${review.review_Index}'">
-						<td id="reivew_Index">${ review.review_Index }</td>
+						<td id="review_Index">${ review.review_Index }</td>
 						<td id="review_Title">${ review.review_Title }</td>
 						<td id="customer_Name">작성자(?)</td>
 					</tr>

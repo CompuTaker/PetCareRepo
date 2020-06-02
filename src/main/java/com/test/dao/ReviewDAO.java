@@ -39,13 +39,13 @@ public interface ReviewDAO {
 
 	// abstract public int updateTheReview(int review_Index);.
 
-	abstract public int countReivewList();
+	abstract public int countReviewList();
 	
 	public abstract void updateTheReview(HashMap<String, Object> rmap);
 	
 	public abstract void deleteTheReviewImage(int reservation_Index);
 
-	public abstract int countReivewByTerm(String term);
+	public abstract int countReviewByTerm(String term);
 
 	public abstract int deleteTheComment(int review_Index);
 

@@ -38,7 +38,7 @@ public interface ReviewService {
 	public abstract void customerReviewUpdate(MultipartHttpServletRequest multipartHttpServletRequest,
 			HashMap<String, Object> rmap, Model model);
 
-	abstract public int countReivewList();
+	abstract public int countReviewList();
 
 	public abstract String companyCommentDelete(HttpServletRequest request, int review_Index);
 

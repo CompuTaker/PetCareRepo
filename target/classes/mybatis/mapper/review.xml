@@ -30,7 +30,7 @@
 	</select>
 
 	<!-- 검색어 후기 데이터 총 갯수 -->
-	<select id="countReivewByTerm" parameterType="java.util.Map"  resultType="Integer">
+	<select id="countReviewByTerm" parameterType="java.util.Map"  resultType="Integer">
 		select count(*) from Review
 		 where review_Title like CONCAT('%', #{term}, '%') 
       or

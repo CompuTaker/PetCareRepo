@@ -210,7 +210,7 @@ public class ReviewServiceImpl implements ReviewService {
 
 		if (term != null) {
 			pageMaker.setCri(cri);
-			pageMaker.setTotalCount(this.reviewDao.countReivewByTerm(term));
+			pageMaker.setTotalCount(this.reviewDao.countReviewByTerm(term));
 						
 			Map<String, Object> map = new HashMap<String,Object>();
 			map.put("page",cri.getPage());
@@ -223,7 +223,7 @@ public class ReviewServiceImpl implements ReviewService {
 		}
 		
 		pageMaker.setCri(cri);
-		pageMaker.setTotalCount(this.reviewDao.countReivewList());
+		pageMaker.setTotalCount(this.reviewDao.countReviewList());
 		
 		model.addAttribute("pageMaker", pageMaker);
 		
@@ -240,8 +240,8 @@ public class ReviewServiceImpl implements ReviewService {
 			}
 	
 	@Override
-	public int countReivewList() {
-		return this.reviewDao.countReivewList();
+	public int countReviewList() {
+		return this.reviewDao.countReviewList();
 	}
 
 	// 후기 수정하기

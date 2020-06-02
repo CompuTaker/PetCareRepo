@@ -93,11 +93,11 @@ public class ReviewDTO {
 		this.review_Comment = review_Comment;
 	}
 
-	public int getReivew_Ref() {
+	public int getReview_Ref() {
 		return review_Ref;
 	}
 
-	public void setReivew_Ref(int review_Ref) {
+	public void setReview_Ref(int review_Ref) {
 		this.review_Ref = review_Ref;
 	}
 
