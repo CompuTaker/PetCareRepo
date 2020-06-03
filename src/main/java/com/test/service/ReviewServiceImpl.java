@@ -93,7 +93,7 @@ public class ReviewServiceImpl implements ReviewService {
 	}
 
 	@Override
-	public String customerReviewView(Model model, int review_Index) {
+	public String customerReviewView(Model model, int review_Index,HttpServletRequest request) {
 		System.out.println("자세한 후기 보기?");
 		ReviewDTO reviewDTO = this.reviewDao.listItsReview(review_Index); // reviewIdx(customer_review_view.jsp에서)를 가지고 후기의
 																		// 자세한 내용을 가져온다.
@@ -103,6 +103,12 @@ public class ReviewServiceImpl implements ReviewService {
 		int reservation_Idx = reviewDTO.getReservation_Index();//reservation index를 가지고 리뷰 이미지를 가져온다
 		List<ReviewImageDTO> reviewImage = this.reviewDao.listImages(reservation_Idx);
 
+		HttpSession session = request.getSession();								// session을 가져온다.
+		CustomerDTO customer = (CustomerDTO) session.getAttribute("customer");	// 가져온 session에서 customer를 가져온다.
+		if(customer != null) {
+			model.addAttribute("customer_Id", customer.getCustomer_Id());
+		}
+		
 		model.addAttribute("customerName", customerDTO.get(0).getCustomer_Name()); // model에 고객 이름을 저장한다.
 		model.addAttribute("review", reviewDTO); // model에 후기의 모든 정보를 저장한다.
 		model.addAttribute("reviewImage",reviewImage);//model에 이미지 정보를 저장한다.

@@ -21,7 +21,7 @@ public interface ReviewService {
 
 	public abstract String companyReviewList(Model model, HttpSession session);
 
-	public abstract String customerReviewView(Model model, int review_Index);
+	public abstract String customerReviewView(Model model, int review_Index,HttpServletRequest request);
 
 	public abstract String CompanyReviewView(Model model, int review_Index);
 

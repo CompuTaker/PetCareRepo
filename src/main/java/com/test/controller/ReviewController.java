@@ -87,7 +87,7 @@ public class ReviewController {
 	@RequestMapping("/customer_review_view")
 	public String customerReviewView(Model model, int review_Index, HttpServletRequest request) {
 		logger.info("/customer_review_view "+request.getMethod());
-		return this.reviewService.customerReviewView(model, review_Index);
+		return this.reviewService.customerReviewView(model, review_Index,request);
 	}
 
 	/*
