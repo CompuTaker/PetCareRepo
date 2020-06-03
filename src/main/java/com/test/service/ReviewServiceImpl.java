@@ -202,6 +202,8 @@ public class ReviewServiceImpl implements ReviewService {
 		this.reviewDao.deleteTheComment(review_Index);
 		return "review/company_comment_delete.tiles";
 	}
+	
+	
 	@Override
 	public List<ReviewDTO> listsAllReview(Model model,HttpServletRequest request,Criteria cri) {
 		String term = request.getParameter("term");
@@ -286,6 +288,11 @@ public class ReviewServiceImpl implements ReviewService {
 		}
 		this.reviewDao.updateTheReview(rmap);
 			
+	}
+
+	@Override
+	public List<CustomerDTO> searchCustomerName(String customer_id) {
+		return this.reviewDao.searchCustomerName(customer_id);
 	}
 
 }

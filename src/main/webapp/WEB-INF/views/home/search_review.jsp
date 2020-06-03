@@ -37,12 +37,12 @@
 				</tr>
 			</thead>
 			<tbody>
-				<c:forEach items="${ reviewList }" var="review">
+				<c:forEach items="${ reviewList }" var="review" varStatus="status">
 					<tr
 						onclick="location.href='customer_review_view?review_Index=${review.review_Index}&term=${param.term }&page=${pageMaker.cri.page }'">
 						<td>${review.review_Index}</td>
 						<td>${review.review_Title}</td>
-						<td>${review.customer_id}</td>
+						<td>${customerName[status.index] }</td>
 					</tr>
 				</c:forEach>
 			</tbody>

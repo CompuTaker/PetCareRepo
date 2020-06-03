@@ -1,5 +1,6 @@
 package com.test.controller;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
@@ -140,6 +141,23 @@ public class ReviewController {
 		String url = "";
 		
 		List<ReviewDTO> reviewList = this.reviewService.listsAllReview(model,request,cri); // 리뷰를 가져온다.
+		
+		List<String> list = new ArrayList<String>(); // 후기 작성자의 아이디를 저장할 List객체이다.
+		for (int i = 0; i < reviewList.size(); i++) {
+			List<CustomerDTO> customer = this.reviewService.searchCustomerName(reviewList.get(i).getCustomer_id()); // 해당
+																												// 아이디의
+																												// 이름을
+																												// 가져온다.
+			if (customer.size() > 1) {
+				for (int j = 0; j < customer.size(); j++) {
+					list.add(customer.get(j).getCustomer_Name()); // 가져온 이름을 list에 저장한다.
+				}
+			} else {
+				list.add(customer.get(0).getCustomer_Name()); // 가져온 이름을 list에 저장한다.
+			}
+
+		}
+		model.addAttribute("customerName", list); // 가져온 이름 list를 model객체에 저장한다.
 		
 		model.addAttribute("reviewList", reviewList); // model에 가져온 리뷰 정보를 저장한다.
 
