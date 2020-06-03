@@ -21,7 +21,7 @@ public interface QnAboardService {
 
 	abstract public QnAboardDTO selectQnaDetailView(String qna_Id);
 
-	abstract public ModelAndView selectQnaWriterId(ModelAndView mv, HttpSession session, String qna_Id);
+	abstract public ModelAndView selectQnaWriterId(ModelAndView mv, HttpSession session, String qna_Id, HttpServletRequest request);
 
 	abstract public void updateQnaContent(ModelAndView mv, QnAboardDTO qnaDto);
 

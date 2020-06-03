@@ -4,6 +4,7 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -84,23 +85,21 @@ public class QnAboardServiceImpl implements QnAboardService {
 	}
 
 	@Override
-	public ModelAndView selectQnaWriterId(ModelAndView mv, HttpSession session, String qna_Id) {
+	public ModelAndView selectQnaWriterId(ModelAndView mv, HttpSession session, String qna_Id, HttpServletRequest request) {
 		int qnaId = Integer.parseInt(qna_Id);
 		try {
 			String loginId = ((CustomerDTO) session.getAttribute("customer")).getCustomer_Id();
 			String qnaWriterId = this.qnaDao.selectQnaWriterId(qna_Id);
-			System.out.println(loginId + " " + qnaWriterId);
 
 			QnAboardDTO qnaDto = new QnAboardDTO();
 
 			if (loginId.equals(qnaWriterId)) {
-				System.out.println("들어옴1");
 				for (QnAboardDTO qnaDtoTemp : this.qnaDtoList) {
 					if (qnaDtoTemp.getId() == qnaId) {
 						qnaDto = qnaDtoTemp;
-						System.out.println("for" + qnaDto.getTitle());
+						request.setAttribute("qna_Id", qna_Id);
 						mv.addObject("qnaData", qnaDto);
-						mv.setViewName("qna/qna_write.tiles");
+						mv.setViewName("qna/qna_modify.tiles");
 						break;
 					}
 				}
@@ -116,9 +115,7 @@ public class QnAboardServiceImpl implements QnAboardService {
 
 	@Override
 	public void updateQnaContent(ModelAndView mv, QnAboardDTO qnaDto) {
-		mv.addObject("qna", qnaDto); 
 		this.qnaDao.updateQnaContent(qnaDto);
-		
 	}
 
 	@Override

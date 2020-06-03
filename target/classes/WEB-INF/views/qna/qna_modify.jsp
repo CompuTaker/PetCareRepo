@@ -18,16 +18,17 @@
 			<div class=" mb-3">
 
 				<label for="title"> 제목</label> <input type="text"
-					class="form-control" name="title" id="title" value="${qna.title}">
+					class="form-control" name="title" id="title" value="${qnaData.title}">
 			</div>
 
 			<div class=" mb-3">
 
 				<label for="content">내용</label>
-				<textarea class="form-control" name="content" id="content">"${qna.Content}</textarea>
+				<textarea class="form-control" name="content" id="content">${qnaData.content}</textarea>
 
 			</div>
-
+			
+			<input type="hidden" name="qna_Id" value="<%=request.getAttribute("qna_Id")%>">
 
 			<div>
 				<button type="submit" class="btn btn-outline-success"

@@ -51,10 +51,10 @@ prefix="c"%>
           class="btn btn-outline-secondary"
           onclick="location.href='qnaPage?page=${param.page}'"
         >
-          목록
+         	 목록
         </button>
         <button type="button" class="btn btn-outline-success" onclick="location.href='qna_reply'">
-          댓글
+          	답글 달기
         </button>
       </div>
     </form>

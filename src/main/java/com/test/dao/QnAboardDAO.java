@@ -18,7 +18,7 @@ public interface QnAboardDAO {
 
 	abstract public String selectQnaWriterId(String qna_Id);
 
-	abstract public void updateQnaContent(QnAboardDTO qnaDto);
+	abstract public void updateQnaContent(QnAboardDTO qnaMap);
 
 	abstract public List<QnAboardDTO> selectQnaByTerm(String term);
 

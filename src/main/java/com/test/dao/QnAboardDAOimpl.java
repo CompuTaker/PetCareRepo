@@ -39,7 +39,7 @@ public class QnAboardDAOimpl implements QnAboardDAO {
 	}
 
 	@Override
-	public String selectQnaWriterId(String qna_Id) {
+	public String selectQnaWriterId(String qna_Id) {	
 		return this.sqlSession.selectOne("selectQnaWriterId", qna_Id);
 	}
 

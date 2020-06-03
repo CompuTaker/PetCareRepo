@@ -91,14 +91,15 @@ public class QnAboardController {
 	public ModelAndView qnaModify_view(ModelAndView mv, HttpSession session, String qna_Id,
 			HttpServletRequest request) {
 		logger.info("/qnaModify_view " + request.getMethod());
-		return this.qnaService.selectQnaWriterId(mv, session, qna_Id);
+		return this.qnaService.selectQnaWriterId(mv, session, qna_Id, request);
 	}
 
 	@RequestMapping(value = "/qna_content_update", method = RequestMethod.POST)
 	public String qnaContentUpdate(ModelAndView mv, QnAboardDTO qnaDto, HttpServletRequest request) {
 		logger.info("/qna_content_update " + request.getMethod());
-		this.qnaService.updateQnaContent(mv,qnaDto);
-		return "redirect:/";
+		qnaDto.setId(Integer.parseInt(request.getParameter("qna_Id")));
+		this.qnaService.updateQnaContent(mv, qnaDto);
+		return "redirect:/qnaPage";
 	}
 	@RequestMapping("/qna_reply")
 	public String qna_reply(Model model, String qna_Id, HttpServletRequest request) {
