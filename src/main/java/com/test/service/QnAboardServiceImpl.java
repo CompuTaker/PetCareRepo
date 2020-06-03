@@ -4,7 +4,6 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -124,16 +123,18 @@ public class QnAboardServiceImpl implements QnAboardService {
 	}
 
 	@Override
-	public String qna_reply(Model model,String qna_Id) {
+	public String qna_reply(Model model,String qna_Id, String writer_name) {
 		QnAboardDTO qnaDto = this.qnaDao.listItsQna(qna_Id);
+		qnaDto.setId(Integer.parseInt(qna_Id));
+		qnaDto.setWriter_name(writer_name);
 		model.addAttribute("qnaReply", qnaDto);
-
 		return "qna/qna_reply.tiles";
 	}
 
 	@Override
 	public String qna_reply_ok(HashMap<String, Object> rmap, HttpServletRequest request, String qna_Id) {	
 		rmap.put("qna_Id", qna_Id);
+		System.out.println(qna_Id + rmap.get("qna_Comment"));
 		this.qnaDao.insertTQnaComment(rmap); 
 		return "qna/qna_reply_ok.tiles";
 	}

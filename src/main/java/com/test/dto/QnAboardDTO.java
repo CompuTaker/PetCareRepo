@@ -11,6 +11,7 @@ public class QnAboardDTO {
 	private String content;
 	private int is_answered;
 	private String writer_name;
+	private String qna_Comment;
 	
 	public int getId() {
 		return id;
@@ -66,5 +67,10 @@ public class QnAboardDTO {
 	public void setWriter_name(String writer_name) {
 		this.writer_name = writer_name;
 	}
-	
+	public String getQna_Comment() {
+		return qna_Comment;
+	}
+	public void setQna_Comment(String qna_Comment) {
+		this.qna_Comment = qna_Comment;
+	}
 }

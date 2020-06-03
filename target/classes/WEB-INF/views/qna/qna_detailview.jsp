@@ -33,7 +33,7 @@ prefix="c"%>
           <th>댓글</th>
           <td>
             <label id="qna_reply" name="qna_reply">
-              ${ qnaReply.qna_Comment }</label
+              ${ qnaDetail.qna_Comment }</label
             >
           </td>
         </tr>
@@ -44,7 +44,7 @@ prefix="c"%>
     <form id="qna_write" name="qna_write" action="" method="post">
       <div>
         <button type="button" class="btn btn-outline-success" onclick="location.href='qnaModify_view?qna_Id=${qna_Id}'">
-          글 수정
+         	 글 수정
         </button>
         <button
           type="button"
@@ -53,9 +53,14 @@ prefix="c"%>
         >
          	 목록
         </button>
-        <button type="button" class="btn btn-outline-success" onclick="location.href='qna_reply'">
-          	답글 달기
-        </button>
+        
+        <c:choose>
+				<c:when test="${!empty superuser.superuser_Index}">
+					<button type="button" class="btn btn-outline-success" onclick="location.href='qna_reply?qna_Id=${qna_Id}&writer_name=${qnaDetail.writer_name}'">
+			          	답글 달기
+			        </button>
+				</c:when>
+			</c:choose>
       </div>
     </form>
   </div>

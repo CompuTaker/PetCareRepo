@@ -101,16 +101,18 @@ public class QnAboardController {
 		this.qnaService.updateQnaContent(mv, qnaDto);
 		return "redirect:/qnaPage";
 	}
+	
 	@RequestMapping("/qna_reply")
-	public String qna_reply(Model model, String qna_Id, HttpServletRequest request) {
+	public String qna_reply(Model model, String qna_Id, String writer_name, HttpServletRequest request) {
 		logger.info("/qna_reply.jsp " + request.getMethod());
-		return this.qnaService.qna_reply(model, qna_Id);
+		System.out.println(qna_Id);
+		return this.qnaService.qna_reply(model, qna_Id, writer_name);
 	}
+	
 	@RequestMapping("/qna_reply_ok")
-	public String qna_reply_ok(@RequestParam HashMap<String, Object> rmap, HttpServletRequest request,
-			String qna_Id) { 
-		
+	public String qna_reply_ok(@RequestParam HashMap<String, Object> rmap, HttpServletRequest request, String qnaId) { 		
 		logger.info("/qna_reply_ok "+request.getMethod());
-		return this.qnaService.qna_reply_ok(rmap, request, qna_Id);
+		System.out.println(qnaId);
+		return this.qnaService.qna_reply_ok(rmap, request, qnaId);
 	}
 }

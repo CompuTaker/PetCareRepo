@@ -28,18 +28,19 @@
 		<form id="qna_reply" name="qna_reply" action="qna_reply_ok?qnaId=${qnaReply.id}" method="post">
 			<div class=" mb-3">
 
-				<label for="title"> 댓글</label> <input type="text"
-					class="form-control" name="qna_Comment" id="qna_Comment"
-					value=${qnaReply.qna_Comment }>
-
+				<label for="title"> 댓글</label>
+					<input type="text"
+						class="form-control" name="qna_Comment" id="qna_Comment"
+						value=${qnaReply.qna_Comment }>					
 			</div>
 			<div>
+	
         <button
           type="submit"
           class="btn btn-outline-success"
           onclick="location.href='qna_reply_ok'"
         >
-          댓글 등록
+          	댓글 등록
         </button>
         </div>
 

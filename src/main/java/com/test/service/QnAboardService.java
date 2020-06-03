@@ -27,7 +27,7 @@ public interface QnAboardService {
 
 	abstract public List<QnAboardDTO> selectQnaByTerm(HttpServletRequest request);
 
-	public abstract String qna_reply(Model model, String qna_Id);
+	public abstract String qna_reply(Model model, String qna_Id, String writer_name);
 
 	public abstract String qna_reply_ok(HashMap<String, Object> rmap, HttpServletRequest request, String qna_Id);
 

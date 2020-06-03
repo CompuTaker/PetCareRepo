@@ -61,17 +61,15 @@
 	
 	<select id="listItsQna" parameterType="java.util.Map"
 		resultType="com.test.dto.QnAboardDTO">
-		select * from Qna
+		select * 
+		from Qna
 		where id = #{qna_Id}
-	
 	</select>
 	
 	<update id="updateQnaComment" parameterType="java.util.Map">
-		update Qna set
-		qna_Comment =
-		#{qna_Comment}
-		where id =
-		#{qna_Id}
+		update Qna 
+		set qna_Comment = #{qna_Comment}
+		where id = #{qna_Id}
 	</update>
 	
 	<select id="countAllQnA" resultType="java.lang.Integer">
