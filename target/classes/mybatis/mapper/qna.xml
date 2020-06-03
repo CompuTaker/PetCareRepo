@@ -55,8 +55,6 @@
 		select * from Qna where title like CONCAT('%', #{term}, '%')
 		or
 		writer like CONCAT('%', #{term}, '%')
-		or
-		content like CONCAT('%', #{term}, '%')
 	</select>
 	
 	<select id="listItsQna" parameterType="java.util.Map"

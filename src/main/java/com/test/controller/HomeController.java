@@ -26,11 +26,13 @@ import com.test.dao.CustomerDAO;
 import com.test.dto.CompanyDTO;
 import com.test.dto.Criteria;
 import com.test.dto.CustomerDTO;
+import com.test.dto.NoticeDTO;
 import com.test.dto.QnAboardDTO;
 import com.test.dto.ReviewDTO;
 import com.test.dto.SuperuserDTO;
 import com.test.service.CompanyService;
 import com.test.service.HomeService;
+import com.test.service.NoticeService;
 import com.test.service.QnAboardService;
 import com.test.service.ReviewService;
 
@@ -55,6 +57,8 @@ public class HomeController {
 	private CompanyService companyService;
 	@Autowired
 	private QnAboardService qnaBoardService;
+	@Autowired
+	private NoticeService noticeService;
 
 	@Autowired
 	private void setNaverLoginBO(NaverLoginBO naverLoginBO) {
@@ -303,10 +307,12 @@ public class HomeController {
 		List<CompanyDTO> companyList = this.companyService.listsAllCompany(model,request,cri); // 회사를 가져온다.
 		List<ReviewDTO> reviewList = this.reviewService.listsAllReview(model, request, cri); // 리뷰를 가져온다.
 		List<QnAboardDTO> qnaList = this.qnaBoardService.selectQnaByTerm(request);
+		List<NoticeDTO> noticeList = this.noticeService.selectNoticeByTerm(request);
 
 		model.addAttribute("companyList", companyList);
 		model.addAttribute("reviewList", reviewList);
 		model.addAttribute("qnalist", qnaList);
+		model.addAttribute("noticelist", noticeList);
 
 		url = "home/search_all.tiles"; // 화면을 띄워준다.
 		return url;

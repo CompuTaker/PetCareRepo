@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.SessionAttributes;
 
+import com.test.dto.CompanyDTO;
 import com.test.dto.Criteria;
 import com.test.dto.NoticeDTO;
 import com.test.dto.PageMaker;
@@ -65,5 +66,17 @@ public class NoticeController {
 		model.addAttribute("pageMaker", pageMaker);
 
 		return "notice/notice_list.tiles";
+	}
+	
+	// 공지찾기 : 전체공지, 검색된공지
+	@RequestMapping("/searchNotice")
+	public String searchNotice(Model model, HttpServletRequest request,Criteria cri) {
+		logger.info("/searchNotice " + request.getMethod());
+		String url = "";
+		List<NoticeDTO> noticeList = this.noticeService.selectNoticeByTerm(request); 
+		
+		model.addAttribute("noticelist", noticeList); 
+		url = "notice/notice_list.tiles";
+		return url;
 	}
 }
