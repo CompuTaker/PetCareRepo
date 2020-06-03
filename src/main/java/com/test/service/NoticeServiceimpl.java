@@ -3,12 +3,15 @@ package com.test.service;
 import java.util.HashMap;
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.test.dao.NoticeDAO;
 import com.test.dto.Criteria;
 import com.test.dto.NoticeDTO;
+import com.test.dto.QnAboardDTO;
 
 @Service
 public class NoticeServiceimpl implements NoticeService {
@@ -41,6 +44,11 @@ public class NoticeServiceimpl implements NoticeService {
 	public int countNoticeList() {
 		// TODO Auto-generated method stub
 		return this.noticedao.countNoticeList();
+	}
+	
+	@Override
+	public List<NoticeDTO> selectNoticeByTerm(HttpServletRequest request) {
+		return this.noticedao.selectNoticeByTerm(request.getParameter("term"));
 	}
 
 }

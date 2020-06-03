@@ -42,4 +42,9 @@ public class NoticeDAOimpl implements NoticeDAO {
 		return this.sqlSession.selectOne("countNoticeList");
 	}
 
+	@Override
+	public List<NoticeDTO> selectNoticeByTerm(String term) {
+		return this.sqlSession.selectList("listThisNoticeByTerm", term);
+	}
+
 }

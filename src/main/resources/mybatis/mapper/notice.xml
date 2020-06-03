@@ -34,4 +34,9 @@
 		set notice_Viewnum = notice_Viewnum + 1
 		where notice_Index = #{notice_Index}		
 	</update>
+		<select id="listThisNoticeByTerm"
+		resultType="com.test.dto.NoticeDTO">
+		select * from Notice where notice_Title like CONCAT('%', #{term}, '%')
+	</select>
+	
  </mapper>

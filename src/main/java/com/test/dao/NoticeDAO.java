@@ -17,4 +17,6 @@ public interface NoticeDAO {
 	abstract public void addNoticeViewnum(int notice_Index);
 
 	abstract public int countNoticeList();
+
+	public abstract List<NoticeDTO> selectNoticeByTerm(String term);
 }

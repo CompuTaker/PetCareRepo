@@ -20,6 +20,7 @@ import org.springframework.web.servlet.ModelAndView;
 import com.test.dto.CompanyDTO;
 import com.test.dto.Criteria;
 import com.test.dto.CustomerDTO;
+import com.test.dto.NoticeDTO;
 import com.test.dto.QnAboardDTO;
 import com.test.dto.SuperuserDTO;
 import com.test.service.QnAboardService;
@@ -114,5 +115,17 @@ public class QnAboardController {
 		logger.info("/qna_reply_ok "+request.getMethod());
 		System.out.println(qnaId);
 		return this.qnaService.qna_reply_ok(rmap, request, qnaId);
+	}
+	
+	// 질문찾기 : 전체질문, 검색된질문
+	@RequestMapping("/searchQnA")
+	public String searchQnA(Model model, HttpServletRequest request,Criteria cri) {
+		logger.info("/searchQnA " + request.getMethod());
+		String url = "";
+		List<QnAboardDTO> qnaList = this.qnaService.selectQnaByTerm(request); 
+		
+		model.addAttribute("qnalist", qnaList); 
+		url = "qna/qna_list.tiles";
+		return url;
 	}
 }

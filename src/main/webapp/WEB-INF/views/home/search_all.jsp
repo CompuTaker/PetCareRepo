@@ -27,7 +27,8 @@
 			</thead>
 			<tbody>
 				<c:forEach items="${ companyList }" var="company">
-					<tr onclick="location.href='company_view?companyIdx=${company.company_Index}'">
+					<tr
+						onclick="location.href='company_view?companyIdx=${company.company_Index}'">
 						<td>${company.company_Index }</td>
 						<td>${company.company_Name}</td>
 						<td>${company.company_Type}</td>
@@ -49,7 +50,8 @@
 			</thead>
 			<tbody>
 				<c:forEach items="${ reviewList }" var="review">
-					<tr onclick="location.href='customer_review_view?review_Index=${review.review_Index}'">
+					<tr
+						onclick="location.href='customer_review_view?review_Index=${review.review_Index}'">
 						<td>${review.review_Index }</td>
 						<td>${review.review_Title}</td>
 						<td>${review.customer_id}</td>
@@ -87,7 +89,32 @@
 				</c:forEach>
 			</tbody>
 		</table>
+			<div class="logindiv col-md-6 form-group">
+				<label class="login-title" for="login-title">공지사항</label>
+			</div>
+			<table class="table table-striped table-hover">
+				<thead>
+					<tr>
+						<th scope="col">번호</th>
+						<th scope="col">제목</th>
+						<th scope="col">날짜</th>
+						<th scope="col">조회수</th>
+
+					</tr>
+				</thead>
+				<tbody>
+					<c:forEach var="noticelist" items="${noticelist}"
+						varStatus="status">
+
+						<tr
+							onClick="location.href='noticeDetailView?notice_Index=${noticelist.notice_Index }'">
+							<td>${noticelist.notice_Index}</td>
+							<td>${noticelist.notice_Title}</td>
+							<td>${noticelist.notice_Date}</td>
+							<td>${noticelist.notice_Viewnum }</td>
+						</tr>
+					</c:forEach>
+				</tbody>
+			</table>
+
 	</div>
-
-
-</div>
