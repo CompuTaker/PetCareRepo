@@ -13,6 +13,7 @@ import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.test.dto.Criteria;
+import com.test.dto.CustomerDTO;
 
 public interface ReviewService {
 
@@ -20,7 +21,7 @@ public interface ReviewService {
 
 	public abstract String companyReviewList(Model model, HttpSession session);
 
-	public abstract String customerReviewView(Model model, int review_Index);
+	public abstract String customerReviewView(Model model, int review_Index,HttpServletRequest request);
 
 	public abstract String CompanyReviewView(Model model, int review_Index);
 
@@ -41,5 +42,7 @@ public interface ReviewService {
 	abstract public int countReviewList();
 
 	public abstract String companyCommentDelete(HttpServletRequest request, int review_Index);
+
+	public abstract List<CustomerDTO> searchCustomerName(String customer_id);
 
 }
