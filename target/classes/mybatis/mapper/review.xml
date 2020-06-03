@@ -130,11 +130,13 @@
    <select id="listThisReviewByTerm" parameterType="java.util.Map" 
    resultType="com.test.dto.ReviewDTO">
       select * from Review 
+      left join Customer
+      on Review.customer_Id = Customer.customer_Id
       where review_Title like CONCAT('%', #{term}, '%') 
       or
       review_Content like CONCAT('%', #{term}, '%') 
       or
-      customer_id like CONCAT('%', #{term}, '%') 
+      Customer.customer_Name like CONCAT('%', #{term}, '%') 
       limit #{pageStart}, #{perPageNum}
    </select>
 
