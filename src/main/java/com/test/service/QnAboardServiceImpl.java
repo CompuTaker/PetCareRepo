@@ -15,9 +15,10 @@ import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.test.dao.QnAboardDAO;
+import com.test.dto.Criteria;
 import com.test.dto.CustomerDTO;
+import com.test.dto.PageMaker;
 import com.test.dto.QnAboardDTO;
-import com.test.dto.ReviewDTO;
 
 @Service
 @SessionAttributes({ "customer", "company" }) // Model에 저장한 값을 http session에 저장할 수 있게 해주는 Annotation
@@ -29,15 +30,20 @@ public class QnAboardServiceImpl implements QnAboardService {
 	private List<QnAboardDTO> qnaDtoList; // selectQnaAllList에서 값 가져오고 저장해두기 (selectQnaDetailView 메서드에서 사용)
 
 	@Override
-	public List<QnAboardDTO> selectQnaAllList() {
-		// QnA테이블에 있는 모든 데이터 값 가져오기 (order by id desc)
-		this.qnaDtoList = this.qnaDao.selectQnaAllList();
+	public List<QnAboardDTO> selectQnaAllList(Criteria cri,Model model) {
+		PageMaker pageMaker = new PageMaker();
+		pageMaker.setCri(cri);
+		pageMaker.setTotalCount(this.qnaDao.countAllQnA());
+		
+		this.qnaDtoList = this.qnaDao.selectQnaAllList(cri);
 		// Customer 테이블과 조인해서 작성자 이름 가져오기 (order by id desc)
-		List<String> qnaWriterName = this.qnaDao.selectQnaWriterNames();
+		List<String> qnaWriterName = this.qnaDao.selectQnaWriterNames(cri);
 		for (int i = 0; i < qnaWriterName.size(); i++) {
 			// 순서대로 작성자 이름도 넣어주기
 			this.qnaDtoList.get(i).setWriter_name(qnaWriterName.get(i));
 		}
+		
+		model.addAttribute("pageMaker", pageMaker);
 		return this.qnaDtoList;
 	}
 

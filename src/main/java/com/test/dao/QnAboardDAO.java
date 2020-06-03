@@ -3,15 +3,16 @@ package com.test.dao;
 import java.util.HashMap;
 import java.util.List;
 
+import com.test.dto.Criteria;
 import com.test.dto.QnAboardDTO;
 
 public interface QnAboardDAO {
 
 	abstract public void insertQnaContents(QnAboardDTO qnaDto);
 
-	abstract public List<QnAboardDTO> selectQnaAllList();
+	abstract public List<QnAboardDTO> selectQnaAllList(Criteria cri);
 
-	abstract public List<String> selectQnaWriterNames();
+	abstract public List<String> selectQnaWriterNames(Criteria cri);
 
 	abstract public void addViewnum(int qnaId);
 
@@ -24,4 +25,6 @@ public interface QnAboardDAO {
 	public abstract QnAboardDTO listItsQna(String qna_Id);
 
 	public abstract void insertTQnaComment(HashMap<String, Object> rmap);
+	
+	public abstract int countAllQnA();
 }

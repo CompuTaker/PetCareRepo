@@ -7,6 +7,7 @@ import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import com.test.dto.Criteria;
 import com.test.dto.QnAboardDTO;
 
 @Repository
@@ -21,13 +22,13 @@ public class QnAboardDAOimpl implements QnAboardDAO {
 	}
 
 	@Override
-	public List<String> selectQnaWriterNames() {
-		return this.sqlSession.selectList("selectQnaWriterNames");
+	public List<String> selectQnaWriterNames(Criteria cri) {
+		return this.sqlSession.selectList("selectQnaWriterNames",cri);
 	}
 
 	@Override
-	public List<QnAboardDTO> selectQnaAllList() {
-		List<QnAboardDTO> qnaDto = this.sqlSession.selectList("selectQnaAllList");
+	public List<QnAboardDTO> selectQnaAllList(Criteria cri) {
+		List<QnAboardDTO> qnaDto = this.sqlSession.selectList("selectQnaAllList",cri);
 		return qnaDto;
 	}
 
@@ -61,5 +62,10 @@ public class QnAboardDAOimpl implements QnAboardDAO {
 	public void insertTQnaComment(HashMap<String, Object> rmap) {
 		this.sqlSession.update("updateQnaComment", rmap);
 		
+	}
+
+	@Override
+	public int countAllQnA() {
+		return this.sqlSession.selectOne("countAllQnA");
 	}
 }

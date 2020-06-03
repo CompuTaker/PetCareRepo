@@ -17,8 +17,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.test.constants.Constant;
 import com.test.dto.CompanyDTO;
+import com.test.dto.Criteria;
 import com.test.dto.CustomerDTO;
 import com.test.dto.QnAboardDTO;
 import com.test.dto.SuperuserDTO;
@@ -35,9 +35,9 @@ public class QnAboardController {
 	 * 메인화면에서 QnA버튼을 누르면 QnA리스트를 보여주는 메서드이다.
 	 */
 	@RequestMapping("/qnaPage")
-	public String qnaPage(Model model, HttpServletRequest request) {
+	public String qnaPage(Model model, HttpServletRequest request,Criteria cri) {
 		logger.info("/qnaPage - pna_list.jsp " + request.getMethod());
-		List<QnAboardDTO> qnaDtoList = this.qnaService.selectQnaAllList();
+		List<QnAboardDTO> qnaDtoList = this.qnaService.selectQnaAllList(cri,model);
 		model.addAttribute("qnalist", qnaDtoList);
 		return "qna/qna_list.tiles";
 	}

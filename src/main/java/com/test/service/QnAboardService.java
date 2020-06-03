@@ -9,12 +9,13 @@ import javax.servlet.http.HttpSession;
 import org.springframework.ui.Model;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.test.dto.Criteria;
 import com.test.dto.CustomerDTO;
 import com.test.dto.QnAboardDTO;
 
 public interface QnAboardService {
 
-	abstract public List<QnAboardDTO> selectQnaAllList();
+	abstract public List<QnAboardDTO> selectQnaAllList(Criteria cri,Model model);
 
 	abstract public void insertQnaContents(QnAboardDTO qnaDto, CustomerDTO customer);
 

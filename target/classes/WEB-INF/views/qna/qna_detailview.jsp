@@ -40,6 +40,7 @@ prefix="c"%>
       </table>
     </div>
 
+
     <form id="qna_write" name="qna_write" action="" method="post">
       <div>
         <button type="button" class="btn btn-outline-success" onclick="location.href='qnaModify_view?qna_Id=${qna_Id}'">
@@ -48,7 +49,7 @@ prefix="c"%>
         <button
           type="button"
           class="btn btn-outline-secondary"
-          onclick="location.href='qnaPage'"
+          onclick="location.href='qnaPage?page=${param.page}'"
         >
           목록
         </button>

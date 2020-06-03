@@ -7,6 +7,11 @@
 			<label class="login-title" for="login-title">Q&A</label>
 		</div>
 		<form id="qna_write" name="qna_write" action="qna_write" method="post">
+		<div style = "float : right;">
+
+			<a href='qnaWrite' class="btn btn-success">글쓰기</a>
+		</div>
+		
 			<table class="table table-striped table-hover">
 				<thead>
 					<tr>
@@ -21,7 +26,7 @@
 				</thead>
 				<tbody>
 					<c:forEach var="qnalist" items="${qnalist}" varStatus="status">
-						<tr onClick="location.href='qnaDatailView?qna_Id=${qnalist.id }'">
+						<tr onClick="location.href='qnaDatailView?qna_Id=${qnalist.id }&page=${pageMaker.cri.page }'">
 							<td>${qnalist.id}</td>
 							<td>${qnalist.qna_type}</td>
 							<td>${qnalist.title}</td>
@@ -32,6 +37,25 @@
 					</c:forEach>
 				</tbody>
 			</table>
+			<div>
+			<ul class="pagination justify-content-center">
+				<c:if test="${pageMaker.prev }">
+					<li class="page-item"><a class="page-link"
+							href='<c:url value="/qnaPage?page=${pageMaker.startPage-1 }"/>'>&laquo;</a>
+					</li>
+				</c:if>
+				<c:forEach begin="${pageMaker.startPage }" end="${pageMaker.endPage }" var="pageNum">
+					<li class="page-item ${pageMaker.cri.page == pageNum ? " active":"" }"><a class="page-link"
+							href='<c:url value="/qnaPage?page=${pageNum }"/>'>${pageNum }</a>&nbsp;
+					</li>
+				</c:forEach>
+				<c:if test="${pageMaker.next && pageMaker.endPage >0 }">
+					<li class="page-item"><a class="page-link"
+							href='<c:url value="/qnaPage?page=${pageMaker.endPage+1 }"/>'>&raquo;</a>
+					</li>
+				</c:if>
+			</ul>
+		</div>
 		</form>
 		<script>
 			function fn_view(index) {
@@ -45,10 +69,7 @@
 			}
 		</script>
 
-		<div>
-
-			<a href='qnaWrite' class="btn btn-success">글쓰기</a>
-		</div>
+		
 
 	</div>
 </div>

@@ -16,13 +16,16 @@
 	</insert>
 	
 	<select id="selectQnaAllList" resultType="com.test.dto.QnAboardDTO">
-		select * from Qna
+		select *
+		from Qna
 		order by id desc
+		limit #{pageStart},#{perPageNum}
 	</select>
 	
 	<select id="selectQnaWriterNames" resultType="java.lang.String">
 		select Customer.customer_Name from Qna, Customer where Qna.writer = Customer.customer_Index
 		order by Qna.id desc
+		limit #{pageStart},#{perPageNum}
 	</select>
 	
 	<update id="addViewnum" parameterType="java.lang.Integer">
@@ -30,6 +33,8 @@
 		set viewnum = viewnum + 1
 		where id = #{qnaId}		
 	</update>
+	
+	
 	
 	<select id="selectQnaWriterId" parameterType="java.lang.String"
 		resultType="java.lang.String">
@@ -68,5 +73,9 @@
 		where id =
 		#{qna_Id}
 	</update>
+	
+	<select id="countAllQnA" resultType="java.lang.Integer">
+		select count(*) from Qna
+	</select>
 	
 </mapper>
