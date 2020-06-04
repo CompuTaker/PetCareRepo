@@ -13,7 +13,7 @@ import com.test.dto.ReservationDTO;
 
 public interface ReservationService {
 
-	abstract public String reserve(Model model, Criteria cri,HttpServletRequest request);
+	abstract public String reserve(Model model,HttpServletRequest request);
 
 	abstract public String reserve_OK(HashMap<String, Object> rmap, HttpServletRequest request);
 
@@ -22,4 +22,5 @@ public interface ReservationService {
 	abstract public List<ReservationDTO> company_reservecheck(Model model, HttpSession session,Criteria cri);
 
 	public abstract String customer_reservation_cancel(Model model, HttpSession session, HttpServletRequest request, String index);
+
 }

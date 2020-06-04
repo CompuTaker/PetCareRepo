@@ -11,6 +11,8 @@ import com.test.dto.Criteria;
 public interface CompanyDAO {
 
 	abstract public List<CompanyDTO> listAllCompany(Criteria cri);
+	
+	abstract public List<CompanyDTO> listAllCompany();
 
 	abstract public CompanyDTO listThisCompany(Map<String, String> loginInfo);
 
@@ -45,5 +47,7 @@ public interface CompanyDAO {
 	abstract public List<CompanyDTO> getDropCompanys();
 	
 	abstract public int countAllCompany();
+
+	
 
 }
