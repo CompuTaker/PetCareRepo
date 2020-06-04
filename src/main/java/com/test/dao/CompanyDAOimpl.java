@@ -25,6 +25,11 @@ public class CompanyDAOimpl implements CompanyDAO {
 	public List<CompanyDTO> listAllCompany(Criteria cri) {
 		return this.sqlSession.selectList("listAllCompany", cri);
 	}
+	
+	@Override
+	public List<CompanyDTO> listAllCompany() {
+		return this.sqlSession.selectList("listAllCompanyWithoutCri");
+	}
 
 	/*
 	 * ID, PW의 정보와 동일한 가입 회사가 있는지를 확인해보는 메서드이다.

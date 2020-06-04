@@ -13,6 +13,11 @@
       limit #{pageStart}, #{perPageNum}   
    </select>
    
+   	<!-- 기업 리스트 페이징 없이 모두 보여주기-->
+   <select id="listAllCompanyWithoutCri" resultType="com.test.dto.CompanyDTO">
+      select * from Company where flag=0
+   </select>
+   
    <select id = "countCompanyList" parameterType="java.util.Map"
       resultType="Integer">
       select count(*) from Company where company_Type = #{ company_Type }
