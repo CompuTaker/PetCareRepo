@@ -14,6 +14,8 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -41,9 +43,18 @@ public class CompanyController {
 	 * 기업 고객이 company_signup.jsp에서 회원가입 버튼을 눌렀을 때 실행되는 메서드
 	 */
 	@RequestMapping(value = "/company_signupDo", method = RequestMethod.POST, headers = ("content-type=multipart/*"))
-	public ModelAndView company_signupDo(@Valid CompanyVO vo, @RequestParam HashMap<String, Object> cmap,
+	public ModelAndView company_signupDo(@Valid CompanyVO vo, BindingResult result, @RequestParam HashMap<String, Object> cmap,
 			MultipartHttpServletRequest multipartHttpServletRequest, HttpServletRequest request) { // form에서 입력한 값을
-																									// HashMap으로 묶어서 가져옴
+		if (result.hasErrors()) {
+			List<ObjectError> list = result.getAllErrors();
+			for (ObjectError error : list) {
+				System.out.println(error);
+			}
+			ModelAndView redirect = new ModelAndView("company/company_Signup.tiles");
+			redirect.addObject("message", "입력값을 확인 해주세요.");
+			return redirect;
+//			return this.customerService.customer_signupDo(multipartHttpServletRequest, null);
+		} // HashMap으로묶어서가져옴																		// HashMap으로 묶어서 가져옴
 
 		logger.info("/company_signupDo " + request.getMethod() + " user: " + request.getSession());
 		return this.companyService.company_signupDo(multipartHttpServletRequest, cmap);
