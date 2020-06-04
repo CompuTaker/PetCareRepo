@@ -263,10 +263,11 @@ public class CompanyController {
 		if (result) { // 비밀번호가 맞다면 삭제 처리
 			companyService.deleteTheCompany(company_Id);
 			System.out.println("탈퇴성공");
-			if (result) {
-				// jpoo // Constant.eSession = ESession.eNull;
-				session.invalidate(); // 탈퇴시 로그아웃 처리
-			}
+			   if (result) {
+		            // jpoo // Constant.eSession = ESession.eNull;
+				   session.invalidate(); // 탈퇴시 로그아웃 처리
+		         }
+
 			return "company/company_delete_ok.tiles";
 
 		} else { // 비밀번호가 일치하지 않는다면
