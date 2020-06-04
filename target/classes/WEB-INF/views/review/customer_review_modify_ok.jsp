@@ -9,7 +9,7 @@
 		<h1>회원예약 후기 수정</h1>
 		<p>회원 예약후기 수정이 완료되었습니다.</p>
 		<hr>
-		<a class="btn btn-lg btn-secondary mx-auto" href="index"
+		<a class="btn btn-lg btn-secondary mx-auto" href="customer_review_mylist"
 			.html" role="button">확인</a>
 	</div>
 </div>
