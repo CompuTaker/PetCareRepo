@@ -48,7 +48,8 @@ public class CustomerController {
 			}
 			ModelAndView redirect = new ModelAndView("customer/customer_Signup.tiles");
 			redirect.addObject("message", "입력값을 확인 해주세요.");
-			return this.customerService.customer_signupDo(multipartHttpServletRequest, null);
+			return redirect;
+//			return this.customerService.customer_signupDo(multipartHttpServletRequest, null);
 		} // HashMap으로묶어서가져옴
 		return this.customerService.customer_signupDo(multipartHttpServletRequest, cmap);
 	}
