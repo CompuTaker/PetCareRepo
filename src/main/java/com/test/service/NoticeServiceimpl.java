@@ -2,16 +2,18 @@ package com.test.service;
 
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import org.springframework.ui.Model;
 import com.test.dao.NoticeDAO;
 import com.test.dto.Criteria;
 import com.test.dto.NoticeDTO;
-import com.test.dto.QnAboardDTO;
+import com.test.dto.PageMaker;
 
 @Service
 public class NoticeServiceimpl implements NoticeService {
@@ -47,8 +49,22 @@ public class NoticeServiceimpl implements NoticeService {
 	}
 	
 	@Override
-	public List<NoticeDTO> selectNoticeByTerm(HttpServletRequest request) {
-		return this.noticedao.selectNoticeByTerm(request.getParameter("term"));
+	public List<NoticeDTO> selectNoticeByTerm(HttpServletRequest request, Model model, Criteria cri) {
+		String term = request.getParameter("term");
+		
+		PageMaker pageMaker = new PageMaker();
+		pageMaker.setCri(cri);
+		pageMaker.setTotalCount(this.noticedao.countNoticeByTerm(term));
+		
+		Map<String, Object> map = new HashMap<String,Object>();
+		map.put("page",cri.getPage());
+		map.put("perPageNum",cri.getPerPageNum());
+		map.put("pageStart", cri.getPageStart());
+		map.put("term", term);
+		model.addAttribute("pageMaker",pageMaker);
+		
+		
+		return this.noticedao.selectNoticeByTerm(map);
 	}
 
 }

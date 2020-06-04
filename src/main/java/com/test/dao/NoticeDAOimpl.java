@@ -2,6 +2,7 @@ package com.test.dao;
 
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -43,8 +44,13 @@ public class NoticeDAOimpl implements NoticeDAO {
 	}
 
 	@Override
-	public List<NoticeDTO> selectNoticeByTerm(String term) {
-		return this.sqlSession.selectList("listThisNoticeByTerm", term);
+	public List<NoticeDTO> selectNoticeByTerm(Map<String, Object> map) {
+		return this.sqlSession.selectList("listThisNoticeByTerm", map);
+	}
+
+	@Override
+	public int countNoticeByTerm(String term) {
+		return this.sqlSession.selectOne("countNoticeByTerm", term);
 	}
 
 }

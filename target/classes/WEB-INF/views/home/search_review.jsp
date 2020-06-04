@@ -56,7 +56,7 @@
 							<a class="page-link" href='<c:url value="/searchReview?page=${pageMaker.startPage-1 }"/>'>&laquo;</a>
 						</c:when>
 						<c:otherwise>
-							<a class="page-link" href='<c:url value="/searchReview?page=${pageMaker.startPage-1 }"/>'>&laquo;</a>
+							<a class="page-link" href='<c:url value="/searchReview?term=${param.term }&page=${pageMaker.startPage-1 }"/>'>&laquo;</a>
 						</c:otherwise>
 					</c:choose>
 					

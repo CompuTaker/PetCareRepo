@@ -35,7 +35,7 @@
 				<c:forEach var="noticelist" items="${noticelist}" varStatus="status">
 
 					<tr
-						onClick="location.href='noticeDetailView?notice_Index=${noticelist.notice_Index }&page=${pageMaker.cri.page }'">
+						onClick="location.href='noticeDetailView?notice_Index=${noticelist.notice_Index }&page=${pageMaker.cri.page }&term=${param.term }'">
 						<td>${noticelist.notice_Index}</td>
 						<td>${noticelist.notice_Title}</td>
 						<td>${noticelist.notice_Date}</td>
@@ -45,22 +45,42 @@
 			</tbody>
 		</table>
 		<div>
-			<ul class="pagination justify-content-center">
+		<ul class="pagination justify-content-center">
 				<c:if test="${pageMaker.prev }">
-					<li class="page-item"><a class="page-link"
-						href='<c:url value="/noticePage?page=${pageMaker.startPage-1 }"/>'>&laquo;</a>
+					<li class="page-item">
+					<c:choose>
+						<c:when test="${parma.term eq null}">
+							<a class="page-link" href='<c:url value="/noticePage?page=${pageMaker.startPage-1 }"/>'>&laquo;</a>
+						</c:when>
+						<c:otherwise>
+							<a class="page-link" href='<c:url value="/noticePage?term=${param.term }&page=${pageMaker.startPage-1 }"/>'>&laquo;</a>
+						</c:otherwise>
+					</c:choose>
+					
 					</li>
 				</c:if>
-				<c:forEach begin="${pageMaker.startPage }"
-					end="${pageMaker.endPage }" var="pageNum">
-					<li class="page-item ${pageMaker.cri.page == pageNum ? "active":"" }"><a
-						class="page-link"
-						href='<c:url value="/noticePage?page=${pageNum }"/>'>${pageNum }</a>&nbsp;
+				<c:forEach begin="${pageMaker.startPage }" end="${pageMaker.endPage }" var="pageNum">
+					<li class="page-item ${pageMaker.cri.page == pageNum ? " active":"" }">
+					<c:choose>
+						<c:when test="${param.term eq null }">
+							<a class="page-link" href='<c:url value="/noticePage?page=${pageNum }"/>'>${pageNum}</a>&nbsp;
+						</c:when>
+						<c:otherwise>
+							<a class="page-link" href='<c:url value="/noticePage?term=${param.term }&page=${pageNum }"/>'>${pageNum}</a>&nbsp;
+						</c:otherwise>
+					</c:choose>
 					</li>
 				</c:forEach>
 				<c:if test="${pageMaker.next && pageMaker.endPage >0 }">
-					<li class="page-item"><a class="page-link"
-						href='<c:url value="/noticePage?page=${pageMaker.endPage+1 }"/>'>&raquo;</a>
+					<li class="page-item">
+					<c:choose>
+						<c:when test="${param.term eq null }">
+							<a class="page-link" href='<c:url value="/noticePage?page=${pageMaker.endPage+1 }"/>'>&raquo;</a>
+						</c:when>
+						<c:otherwise>
+							<a class="page-link"href='<c:url value="/noticePagez?term=${param.term }&page=${pageMaker.endPage+1 }"/>'>&raquo;</a>
+						</c:otherwise>
+					</c:choose>
 					</li>
 				</c:if>
 			</ul>

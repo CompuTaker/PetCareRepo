@@ -73,7 +73,9 @@ public class NoticeController {
 	public String searchNotice(Model model, HttpServletRequest request,Criteria cri) {
 		logger.info("/searchNotice " + request.getMethod());
 		String url = "";
-		List<NoticeDTO> noticeList = this.noticeService.selectNoticeByTerm(request); 
+		
+		
+		List<NoticeDTO> noticeList = this.noticeService.selectNoticeByTerm(request,model,cri); 
 		
 		model.addAttribute("noticelist", noticeList); 
 		url = "notice/notice_list.tiles";

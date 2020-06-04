@@ -5,6 +5,7 @@ import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.springframework.ui.Model;
 import com.test.dto.Criteria;
 import com.test.dto.NoticeDTO;
 
@@ -20,5 +21,5 @@ public interface NoticeService {
 
 	abstract public int countNoticeList();
 
-	abstract public List<NoticeDTO> selectNoticeByTerm(HttpServletRequest request);
+	abstract public List<NoticeDTO> selectNoticeByTerm(HttpServletRequest request, Model model, Criteria cri);
 }

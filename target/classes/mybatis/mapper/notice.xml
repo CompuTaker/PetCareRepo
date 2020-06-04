@@ -34,9 +34,16 @@
 		set notice_Viewnum = notice_Viewnum + 1
 		where notice_Index = #{notice_Index}		
 	</update>
+	
 		<select id="listThisNoticeByTerm"
+		parameterType="java.util.Map"
 		resultType="com.test.dto.NoticeDTO">
 		select * from Notice where notice_Title like CONCAT('%', #{term}, '%')
+		limit #{pageStart}, #{perPageNum}
 	</select>
 	
+	
+	<select id="countNoticeByTerm" resultType="java.lang.Integer">
+		select count(*) from Notice where notice_TItle like CONCAT('%',#{term},'%')
+	</select>
  </mapper>

@@ -31,7 +31,7 @@ prefix="c"%>
     </div>
 
 
-    <button type="button" class="btn btn-outline-secondary" onclick="location.href='noticePage?page=${param.page }'">
+    <button type="button" class="btn btn-outline-secondary" onclick="location.href='searchNotice?page=${param.page }&term=${param.term }'">
       목록
     </button>
 

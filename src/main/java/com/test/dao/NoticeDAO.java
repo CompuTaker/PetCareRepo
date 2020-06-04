@@ -2,6 +2,7 @@ package com.test.dao;
 
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import com.test.dto.Criteria;
 import com.test.dto.NoticeDTO;
@@ -18,5 +19,7 @@ public interface NoticeDAO {
 
 	abstract public int countNoticeList();
 
-	public abstract List<NoticeDTO> selectNoticeByTerm(String term);
+	public abstract List<NoticeDTO> selectNoticeByTerm(Map<String, Object> map);
+	
+	public abstract int countNoticeByTerm(String term);
 }
