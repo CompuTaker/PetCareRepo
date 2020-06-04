@@ -112,9 +112,9 @@ public class CompanyController {
 	 * 기업회원이 로그인을 한 후 마이페이지로 이동하게 될 때 실행되는 메서드이다.
 	 */
 	@RequestMapping("/company_Profile")
-	public ModelAndView profile(HttpSession session, ModelAndView mv, HttpServletRequest request) {
+	public ModelAndView profile(HttpSession session, ModelAndView mv,Model model, HttpServletRequest request) {
 		logger.info("/company_Profile " + request.getMethod());
-		return this.companyService.profile(mv, session);
+		return this.companyService.profile(mv, session,model);
 	}
 
 	/*

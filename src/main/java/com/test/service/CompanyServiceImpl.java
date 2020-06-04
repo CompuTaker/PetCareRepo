@@ -217,12 +217,13 @@ public class CompanyServiceImpl implements CompanyService {
 	}
 
 	@Override
-	public ModelAndView profile(ModelAndView mv, HttpSession session) {
+	public ModelAndView profile(ModelAndView mv, HttpSession session,Model model) {
 		if (session.getAttribute("company") != null) { // company session이 존재하는 경우
 			try {
 				CompanyDTO company = (CompanyDTO) session.getAttribute("company"); // company session을 DTO로 타입캐스팅을 하여
 																					// company에 저장
-				
+				int index = company.getCompany_Index();
+				model.addAttribute("company", this.companyDao.listThisCompany(index));
 				mv.setViewName("company/company_Profile.tiles"); // 실행할 view인 companyprofile.jsp를 설정해준다.
 			} catch (SecurityException e) {
 				e.printStackTrace();

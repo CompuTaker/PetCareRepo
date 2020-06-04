@@ -45,7 +45,7 @@
 								<p>전화번호:${company.company_UserPhoneNumber }</p>
 								</p>
 								<p class="card-text">
-									<small class="text-muted">회원가입 날짜 2019.11.12</small>
+									<small class="text-muted">${company.subscribe_Date }</small>
 								</p>
 							</div>
 						</div>
