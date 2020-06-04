@@ -10,7 +10,7 @@
 	<!-- 고객 정보와 일치하는 펫 선택하기 -->
 	<select id="listItsPets" parameterType="java.lang.Integer"
 		resultType="com.test.dto.PetDTO">
-		select * from Pet where customer_Index = #{customer_Index}
+		select * from Pet where customer_Index = #{customer_Index} and flag = 0
 	</select>
 
 	<!-- 펫 등록하기 -->
@@ -51,6 +51,6 @@
 		select *
 		from Pet where
 		customer_Index=#{customer_Index}
-		and pet_Index=#{pet_Index}
+		and pet_Index=#{pet_Index} and flag = 0
 	</select>
 </mapper>

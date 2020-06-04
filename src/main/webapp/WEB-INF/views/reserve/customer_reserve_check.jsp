@@ -28,12 +28,15 @@ prefix="c"%>
     <div class="row ml-auto mr-auto mt-3" style="max-width: 300px;">
       <i class="fas fa-calendar" style="width: 50px; height: 50px;"></i>
       <h1 class="ml-3">나의 예약조회</h1>
+      <c:set var = "str" value="${param.petName}"/>
       
       <select onchange="location.href='customer_reserve_check?petName='+this.value">
-      	<option value="all" selected>펫 이름 선택</option>
+      	<option value="all">펫 이름 선택</option>
       	<option value="all">모두</option>
+      	
       	<c:forEach items="${ pet }" var="pet">
-      		<option value="${pet.pet_Name }">${pet.pet_Name }</option>
+      		<c:set var="selectedPet" value="${pet.pet_Name }"/>
+      		<option value="${pet.pet_Name }" <c:if test="${str eq selectedPet}">selected</c:if>>${pet.pet_Name }</option>
         </c:forEach>
       </select>
       
