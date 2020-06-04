@@ -307,7 +307,7 @@ public class HomeController {
 		List<CompanyDTO> companyList = this.companyService.listsAllCompany(model,request,cri); // 회사를 가져온다.
 		List<ReviewDTO> reviewList = this.reviewService.listsAllReview(model, request, cri); // 리뷰를 가져온다.
 		List<QnAboardDTO> qnaList = this.qnaBoardService.selectQnaByTerm(request);
-		List<NoticeDTO> noticeList = this.noticeService.selectNoticeByTerm(request);
+		List<NoticeDTO> noticeList = this.noticeService.selectNoticeByTerm(request,model,cri);
 
 		model.addAttribute("companyList", companyList);
 		model.addAttribute("reviewList", reviewList);
