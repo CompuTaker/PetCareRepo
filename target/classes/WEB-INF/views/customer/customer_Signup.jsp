@@ -38,7 +38,7 @@ uri="http://www.springframework.org/tags/form" prefix="form"%>
           type="text"
           class="form-control"
           id="Customer_Id"
-          placeholder="아이디"
+          placeholder="아이디(4~10자 이내)"
           name="customer_Id"
           required
         />
@@ -64,7 +64,7 @@ uri="http://www.springframework.org/tags/form" prefix="form"%>
           type="password"
           class="form-control"
           id="Customer_Password"
-          placeholder="비밀번호"
+          placeholder="비밀번호(영어, 특수기호, 숫자 포함 8~14자리)"
           name="customer_Password"
           required
         />
@@ -75,7 +75,7 @@ uri="http://www.springframework.org/tags/form" prefix="form"%>
           type="text"
           class="form-control"
           id="Customer_Name"
-          placeholder="이름"
+          placeholder="이름(2~4자리 이내)"
           name="customer_Name"
           required
         />
@@ -109,7 +109,7 @@ uri="http://www.springframework.org/tags/form" prefix="form"%>
               type="text"
               class="form-control"
               id="Customer_Email"
-              placeholder="이메일"
+              placeholder="0000@nate.com"
               name="customer_Email"
               required
             />

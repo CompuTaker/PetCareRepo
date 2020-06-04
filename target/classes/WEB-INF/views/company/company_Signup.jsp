@@ -21,7 +21,7 @@ prefix="c"%> <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
 
       <div class="form-group">
         <label for="Company_Id">아이디</label>
-        <input type="text" class="form-control" id="Company_Id" placeholder="아이디" name="company_Id" required />
+        <input type="text" class="form-control" id="Company_Id" placeholder="아이디(4~10자 이내)" name="company_Id" required />
 
         <c:set var="userId" value="${id}" />
         <c:choose>
@@ -41,12 +41,12 @@ prefix="c"%> <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
       </div>
       <div class="form-group">
         <label for="Company_Password">비밀번호</label>
-        <input type="password" class="form-control" id="Company_Password" placeholder="비밀번호" name="company_Password"
+        <input type="password" class="form-control" id="Company_Password"  placeholder="비밀번호(영어, 특수기호, 숫자 포함 8~14자리)" name="company_Password"
           required />
       </div>
       <div class="form-group">
         <label for="Company_UserName">업주 이름</label>
-        <input type="text" class="form-control" id="Company_UserName" placeholder="업주 이름" name="company_UserName"
+        <input type="text" class="form-control" id="Company_UserName" placeholder="업주 이름(2~4자리 사이)" name="company_UserName"
           required />
       </div>
 
@@ -58,7 +58,7 @@ prefix="c"%> <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
 
       <div class="form-group">
         <label for="Company_Email">이메일</label>
-        <input type="text" class="form-control" id="Company_Email" placeholder="이메일" name="company_Email" required />
+        <input type="text" class="form-control" id="Company_Email" placeholder="이메일(0000@nate.com)" name="company_Email" required />
       </div>
 
       <div class="form-group">
@@ -74,7 +74,7 @@ prefix="c"%> <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
 
       <div class="form-group">
         <label for="Company_Number">사업자 번호</label>
-        <input type="text" class="form-control" id="Company_Number" placeholder="사업자 번호" name="company_Number"
+        <input type="text" class="form-control" id="Company_Number" placeholder="사업자 번호(9자리)" name="company_Number"
           required />
         <button type="button" id="checkCompanyNum">중복확인</button>
         <div class="check_CN" id="companyNum_check"></div>
