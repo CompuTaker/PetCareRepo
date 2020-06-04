@@ -128,18 +128,14 @@ prefix="c"%>
         />
       </div>
 
-      <div class="form-group">
+       <div class="form-group">
         <label for="Company_Type">업종</label>
-        <input
-          type="text"
-          class="form-control"
-          id="Company_Type"
-          placeholder="업종"
-          name="company_Type"
-          value="${company.company_Type }"
-        />
+        <select id="company_Type" name="company_Type">
+        	<option value="미용" >미용</option>
+        	<option value="병원" >병원</option>
+        	<option value="호텔">호텔</option>
+        </select>
       </div>
-
       <button type="submit" class="btn btn-primary">수정하기</button>
     </form>
   </div>
