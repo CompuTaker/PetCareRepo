@@ -311,7 +311,7 @@ public class HomeController {
 		logger.info("/searchByTerm - search_all.jsp " + request.getMethod());
 		List<CompanyDTO> companyList = this.companyService.listsAllCompany(model, request, cri); // 회사를 가져온다.
 		List<ReviewDTO> reviewList = this.reviewService.listsAllReview(model, request, cri); // 리뷰를 가져온다.
-		List<QnAboardDTO> qnaList = this.qnaBoardService.selectQnaByTerm(request);
+		List<QnAboardDTO> qnaList = this.qnaBoardService.selectQnaByTerm(request,model, cri);
 		List<NoticeDTO> noticeList = this.noticeService.selectNoticeByTerm(request, model, cri);
 
 		model.addAttribute("companyList", companyList);

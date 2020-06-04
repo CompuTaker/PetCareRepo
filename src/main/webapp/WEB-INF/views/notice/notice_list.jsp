@@ -48,39 +48,23 @@
 		<ul class="pagination justify-content-center">
 				<c:if test="${pageMaker.prev }">
 					<li class="page-item">
-					<c:choose>
-						<c:when test="${parma.term eq null}">
-							<a class="page-link" href='<c:url value="/noticePage?page=${pageMaker.startPage-1 }"/>'>&laquo;</a>
-						</c:when>
-						<c:otherwise>
-							<a class="page-link" href='<c:url value="/noticePage?term=${param.term }&page=${pageMaker.startPage-1 }"/>'>&laquo;</a>
-						</c:otherwise>
-					</c:choose>
 					
+							<a class="page-link" href='<c:url value="/searchNotice?term=${param.term }&page=${pageMaker.startPage-1 }"/>'>&laquo;</a>
+
 					</li>
 				</c:if>
 				<c:forEach begin="${pageMaker.startPage }" end="${pageMaker.endPage }" var="pageNum">
 					<li class="page-item ${pageMaker.cri.page == pageNum ? " active":"" }">
-					<c:choose>
-						<c:when test="${param.term eq null }">
-							<a class="page-link" href='<c:url value="/noticePage?page=${pageNum }"/>'>${pageNum}</a>&nbsp;
-						</c:when>
-						<c:otherwise>
-							<a class="page-link" href='<c:url value="/noticePage?term=${param.term }&page=${pageNum }"/>'>${pageNum}</a>&nbsp;
-						</c:otherwise>
-					</c:choose>
+					
+							<a class="page-link" href='<c:url value="/searchNotice?term=${param.term }&page=${pageNum }"/>'>${pageNum}</a>&nbsp;
+						
 					</li>
 				</c:forEach>
 				<c:if test="${pageMaker.next && pageMaker.endPage >0 }">
 					<li class="page-item">
-					<c:choose>
-						<c:when test="${param.term eq null }">
-							<a class="page-link" href='<c:url value="/noticePage?page=${pageMaker.endPage+1 }"/>'>&raquo;</a>
-						</c:when>
-						<c:otherwise>
-							<a class="page-link"href='<c:url value="/noticePagez?term=${param.term }&page=${pageMaker.endPage+1 }"/>'>&raquo;</a>
-						</c:otherwise>
-					</c:choose>
+				
+							<a class="page-link"href='<c:url value="/searchNotice?term=${param.term }&page=${pageMaker.endPage+1 }"/>'>&raquo;</a>
+						
 					</li>
 				</c:if>
 			</ul>

@@ -80,9 +80,9 @@ public class QnAboardController {
 	 * QnA리스트에서 자세히보기 위해서 한 줄을 클릭했을 경우
 	 */
 	@RequestMapping("/qnaDatailView")
-	public String qnaDatailView(Model model, String qna_Id, HttpServletRequest request) {
+	public String qnaDatailView(Model model, String qna_Id, HttpServletRequest request,Criteria cri) {
 		logger.info("/qnaDatailView - qna_detailview.jsp " + request.getMethod());
-		QnAboardDTO qnaDto = this.qnaService.selectQnaDetailView(qna_Id);
+		QnAboardDTO qnaDto = this.qnaService.selectQnaDetailView(qna_Id,cri);
 		model.addAttribute("qnaDetail", qnaDto);
 		model.addAttribute("qna_Id", qna_Id);
 		return "qna/qna_detailview.tiles";
@@ -122,7 +122,7 @@ public class QnAboardController {
 	public String searchQnA(Model model, HttpServletRequest request,Criteria cri) {
 		logger.info("/searchQnA " + request.getMethod());
 		String url = "";
-		List<QnAboardDTO> qnaList = this.qnaService.selectQnaByTerm(request); 
+		List<QnAboardDTO> qnaList = this.qnaService.selectQnaByTerm(request,model,cri); 
 		
 		model.addAttribute("qnalist", qnaList); 
 		url = "qna/qna_list.tiles";

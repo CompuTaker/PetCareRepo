@@ -19,13 +19,13 @@ public interface QnAboardService {
 
 	abstract public void insertQnaContents(QnAboardDTO qnaDto, CustomerDTO customer);
 
-	abstract public QnAboardDTO selectQnaDetailView(String qna_Id);
+	abstract public QnAboardDTO selectQnaDetailView(String qna_Id,Criteria cri);
 
 	abstract public ModelAndView selectQnaWriterId(ModelAndView mv, HttpSession session, String qna_Id, HttpServletRequest request);
 
 	abstract public void updateQnaContent(ModelAndView mv, QnAboardDTO qnaDto);
 
-	abstract public List<QnAboardDTO> selectQnaByTerm(HttpServletRequest request);
+	abstract public List<QnAboardDTO> selectQnaByTerm(HttpServletRequest request, Model model, Criteria cri);
 
 	public abstract String qna_reply(Model model, String qna_Id, String writer_name);
 
