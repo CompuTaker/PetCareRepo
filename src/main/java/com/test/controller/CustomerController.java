@@ -1,14 +1,18 @@
 package com.test.controller;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -19,6 +23,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.test.dto.CustomerDTO;
 import com.test.service.CustomerService;
+import com.test.vo.CustomerVO;
 
 //Spring이 해당 클래스가 Controller인 걸 알려주는 Annotation
 @Controller
@@ -33,13 +38,18 @@ public class CustomerController {
 	 * 怨좉컼 �쉶�썝媛��엯�쓣 �늻瑜닿퀬 �젙蹂대�� �엯�젰�븯怨� �쉶�썝媛��엯 踰꾪듉�쓣 �닃���쓣 �븣 �떎�뻾�릺�뒗 硫붿꽌�뱶
 	 */
 	@RequestMapping(value = "/customer_signupDo", method = RequestMethod.POST, headers = "content-type=multipart/*")
-	public Object customer_signupDo(@RequestParam HashMap<String, Object> cmap,
-			MultipartHttpServletRequest multipartHttpServletRequest, HttpServletRequest request, Model model) { // form에서
-																												// 입력한
-																												// 값을
-																												// HashMap으로
-																												// 묶어서
-																												// 가져옴
+	public Object customer_signupDo(@Valid CustomerVO vo, BindingResult result,
+			@RequestParam HashMap<String, Object> cmap, MultipartHttpServletRequest multipartHttpServletRequest,
+			HttpServletRequest request, Model model) { // form에서 입력한 값을
+		if (result.hasErrors()) {
+			List<ObjectError> list = result.getAllErrors();
+			for (ObjectError error : list) {
+				System.out.println(error);
+			}
+			ModelAndView redirect = new ModelAndView("customer/customer_Signup.tiles");
+			redirect.addObject("message", "입력값을 확인 해주세요.");
+			return this.customerService.customer_signupDo(multipartHttpServletRequest, null);
+		} // HashMap으로묶어서가져옴
 		return this.customerService.customer_signupDo(multipartHttpServletRequest, cmap);
 	}
 

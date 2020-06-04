@@ -103,6 +103,11 @@ public class HomeController {
 		return url;
 	}
 
+	@RequestMapping("/introPage")
+	public String introPage() {
+
+		return "home/introPage.tiles";
+	}
 	// /*
 	// * 로그인 버튼을 누르면 실행되믄 메서드이다.
 	// */
@@ -301,13 +306,13 @@ public class HomeController {
 
 	// 통합검색
 	@RequestMapping("/searchByTerm")
-	public String searchByTerm(Model model, HttpServletRequest request,Criteria cri) {
+	public String searchByTerm(Model model, HttpServletRequest request, Criteria cri) {
 		String url = "";
 		logger.info("/searchByTerm - search_all.jsp " + request.getMethod());
-		List<CompanyDTO> companyList = this.companyService.listsAllCompany(model,request,cri); // 회사를 가져온다.
+		List<CompanyDTO> companyList = this.companyService.listsAllCompany(model, request, cri); // 회사를 가져온다.
 		List<ReviewDTO> reviewList = this.reviewService.listsAllReview(model, request, cri); // 리뷰를 가져온다.
 		List<QnAboardDTO> qnaList = this.qnaBoardService.selectQnaByTerm(request);
-		List<NoticeDTO> noticeList = this.noticeService.selectNoticeByTerm(request,model,cri);
+		List<NoticeDTO> noticeList = this.noticeService.selectNoticeByTerm(request, model, cri);
 
 		model.addAttribute("companyList", companyList);
 		model.addAttribute("reviewList", reviewList);

@@ -23,7 +23,7 @@
 			<li class="nav-item active"><a class="nav-link" href="index">홈
 					<span class="sr-only">(current)</span>
 				</a></li>
-			<li class="nav-item"><a class="nav-link" href="#">소개</a></li>
+			<li class="nav-item"><a class="nav-link" href="introPage">소개</a></li>
 			<li class="nav-item"><a class="nav-link" href="reserve">예약하기</a>
 			</li>
 			<li class="nav-item"><a class="nav-link" href="#">제휴문의</a></li>

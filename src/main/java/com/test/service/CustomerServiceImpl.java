@@ -211,41 +211,48 @@ public class CustomerServiceImpl implements CustomerService {
 
 	@Override
 	public ModelAndView search_id_customer(ModelAndView mv, HttpServletRequest request) {
-		Map<String, String> customer = new HashMap<String, String>(); 						// �꽆�뼱�삩 蹂��닔瑜� �븳 踰덉뿉 ���옣�븯湲� �쐞�빐�꽌 留뚮뱺 Map媛앹껜
-		customer.put("customer_Name", request.getParameter("customer_Name")); 				// Map媛앹껜�뿉 Name�쓣 ���옣�븳�떎.
-		customer.put("customer_PhoneNumber", request.getParameter("customer_PhoneNumber")); // Map媛앹껜�뿉 PhoneNumber瑜� ���옣�븳�떎.
-		
+		Map<String, String> customer = new HashMap<String, String>(); // �꽆�뼱�삩 蹂��닔瑜� �븳 踰덉뿉 ���옣�븯湲� �쐞�빐�꽌 留뚮뱺 Map媛앹껜
+		customer.put("customer_Name", request.getParameter("customer_Name")); // Map媛앹껜�뿉 Name�쓣 ���옣�븳�떎.
+		customer.put("customer_PhoneNumber", request.getParameter("customer_PhoneNumber")); // Map媛앹껜�뿉 PhoneNumber瑜�
+																							// ���옣�븳�떎.
+
 		System.out.println(request.getParameter("customer_Name"));
 		System.out.println(request.getParameter("customer_PhoneNumber"));
-		
+
 		try {
-			CustomerDTO customerDto = this.customerDao.searchCustomerID(customer); // form�뿉 �엯�젰�맂 name怨� phoneNumber瑜� 媛�吏�怨� customer�뀒�씠釉붿뿉 �엳�뒗吏� �솗�씤�빐蹂몃떎.
+			CustomerDTO customerDto = this.customerDao.searchCustomerID(customer); // form�뿉 �엯�젰�맂 name怨� phoneNumber瑜�
+																					// 媛�吏�怨� customer�뀒�씠釉붿뿉 �엳�뒗吏�
+																					// �솗�씤�빐蹂몃떎.
 			request.setAttribute("customerId", customerDto.getCustomer_Id());
-			mv.setViewName("customer/customer_show_id.tiles"); // ModelAndView媛앹껜�뿉 �떎�뻾�븷 �솕硫댁쓣 �뀑�똿�븳�떎.	
-		} catch (NullPointerException  e) {
+			mv.setViewName("customer/customer_show_id.tiles"); // ModelAndView媛앹껜�뿉 �떎�뻾�븷 �솕硫댁쓣 �뀑�똿�븳�떎.
+		} catch (NullPointerException e) {
 			mv.addObject("message", 1);
 			mv.setViewName("redirect:/search_id");
-		} 
+		}
 		return mv;
 	}
 
 	@Override
 	public String search_pw_customer(Model model, HttpServletRequest request) {
-		Map<String, String> customer = new HashMap<String, String>(); 				// �꽆�뼱�삩 蹂��닔瑜� �븳 踰덉뿉 ���옣�븯湲� �쐞�빐�꽌 留뚮뱺 Map媛앹껜
-		customer.put("customer_Name", request.getParameter("customer_Name")); 		// Map媛앹껜�뿉 Name�쓣 ���옣�븳�떎.
-		customer.put("customer_Id", request.getParameter("customer_Id")); 			// Map媛앹껜�뿉 ID瑜� ���옣�븳�떎.
-		customer.put("customer_PhoneNumber", request.getParameter("customer_PhoneNumber")); // Map媛앹껜�뿉 PhoneNumber瑜� ���옣�븳�떎.
+		Map<String, String> customer = new HashMap<String, String>(); // �꽆�뼱�삩 蹂��닔瑜� �븳 踰덉뿉 ���옣�븯湲� �쐞�빐�꽌 留뚮뱺 Map媛앹껜
+		customer.put("customer_Name", request.getParameter("customer_Name")); // Map媛앹껜�뿉 Name�쓣 ���옣�븳�떎.
+		customer.put("customer_Id", request.getParameter("customer_Id")); // Map媛앹껜�뿉 ID瑜� ���옣�븳�떎.
+		customer.put("customer_PhoneNumber", request.getParameter("customer_PhoneNumber")); // Map媛앹껜�뿉 PhoneNumber瑜�
+																							// ���옣�븳�떎.
 
 		System.out.println(request.getParameter("customer_Name"));
-		
+
 		String url = "";
-		
+
 		try {
-			CustomerDTO customerDto = this.customerDao.searchCustomerPW(customer); 	// form�뿉 �엯�젰�맂 name怨� id, phoneNumber瑜� 媛�吏�怨� customer�뀒�씠釉붿뿉 �엳�뒗吏� �솗�씤�빐蹂몃떎.
-			String passwordArr[] = customerDto.getCustomer_Password().split(""); 	// 媛��졇�삩 �뙣�뒪�썙�뱶瑜� �븯�굹�뵫 �쑐�뼱�꽌 諛곗뿴濡�
+			CustomerDTO customerDto = this.customerDao.searchCustomerPW(customer); // form�뿉 �엯�젰�맂 name怨� id,
+																					// phoneNumber瑜� 媛�吏�怨�
+																					// customer�뀒�씠釉붿뿉 �엳�뒗吏� �솗�씤�빐蹂몃떎.
+			String passwordArr[] = customerDto.getCustomer_Password().split(""); // 媛��졇�삩 �뙣�뒪�썙�뱶瑜� �븯�굹�뵫 �쑐�뼱�꽌
+																					// 諛곗뿴濡�
 			// ���옣�븳�떎.
 			String password = ""; // 釉붾윭泥섎━ �썑 �뙣�뒪�썙�뱶瑜� ���옣�븷 蹂��닔
-			
+
 			for (int i = 0; i < passwordArr.length; i++) {
 				if (i > 2) {
 					password += "*"; // �뙣�뒪�썙�뱶�쓽 �븵 2�옄由щ쭔 蹂댁뿬二쇨퀬 �굹癒몄��뒗 *濡� 釉붾윭泥섎━�븳�떎.
@@ -253,12 +260,12 @@ public class CustomerServiceImpl implements CustomerService {
 					password += passwordArr[i];
 				}
 			}
-			request.setAttribute("password", password); // company_show_pw.jsp�뿉�꽌 getAttribute濡� 媛믪쓣 �샇異쒗븯湲� �쐞�븳 蹂��닔		
+			request.setAttribute("password", password); // company_show_pw.jsp�뿉�꽌 getAttribute濡� 媛믪쓣 �샇異쒗븯湲� �쐞�븳 蹂��닔
 			url = "customer/customer_show_pw.tiles";
 		} catch (NullPointerException e) {
 			model.addAttribute("message", 1);
 			url = "redirect:/search_pw";
-		}				
+		}
 		return url;
 	}
 

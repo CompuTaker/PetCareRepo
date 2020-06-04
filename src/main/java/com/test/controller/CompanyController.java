@@ -7,6 +7,7 @@ import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+import javax.validation.Valid;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -25,6 +26,7 @@ import com.test.dto.CompanyDTO;
 import com.test.dto.Criteria;
 import com.test.dto.PageMaker;
 import com.test.service.CompanyService;
+import com.test.vo.CompanyVO;
 
 @Controller // Spring에 Controller 클래스라고 알려주는 Annotation
 @SessionAttributes({ "customer", "company" }) // Model에 저장한 값을 http session에 저장할 수 있게 해주는 Annotation
@@ -39,7 +41,7 @@ public class CompanyController {
 	 * 기업 고객이 company_signup.jsp에서 회원가입 버튼을 눌렀을 때 실행되는 메서드
 	 */
 	@RequestMapping(value = "/company_signupDo", method = RequestMethod.POST, headers = ("content-type=multipart/*"))
-	public ModelAndView company_signupDo(@RequestParam HashMap<String, Object> cmap,
+	public ModelAndView company_signupDo(@Valid CompanyVO vo, @RequestParam HashMap<String, Object> cmap,
 			MultipartHttpServletRequest multipartHttpServletRequest, HttpServletRequest request) { // form에서 입력한 값을
 																									// HashMap으로 묶어서 가져옴
 
@@ -219,10 +221,10 @@ public class CompanyController {
 
 	// 업체찾기 : 전체엄체, 검색된업체
 	@RequestMapping("/searchCompany")
-	public String searchCompany(Model model, HttpServletRequest request,Criteria cri) {
+	public String searchCompany(Model model, HttpServletRequest request, Criteria cri) {
 		logger.info("/searchCompany " + request.getMethod());
 		String url = "";
-		List<CompanyDTO> companyList = this.companyService.listsAllCompany(model,request,cri); // 회사를 가져온다.
+		List<CompanyDTO> companyList = this.companyService.listsAllCompany(model, request, cri); // 회사를 가져온다.
 		model.addAttribute("companyList", companyList); // model에 가져온 회사 정보를 저장한다.
 		url = "home/search_company.tiles"; // 화면을 띄워준다.
 		return url;
