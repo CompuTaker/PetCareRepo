@@ -33,7 +33,7 @@ public interface CompanyService {
 
 	abstract public String search_pw_company(Model model, HttpServletRequest request);
 
-	abstract public ModelAndView profile(ModelAndView mv, HttpSession session);
+	abstract public ModelAndView profile(ModelAndView mv, HttpSession session,Model model);
 
 	abstract public ModelAndView company_modify(ModelAndView mv, HttpSession session);
 

@@ -53,6 +53,8 @@ public class NoticeServiceimpl implements NoticeService {
 		String term = request.getParameter("term");
 		
 		PageMaker pageMaker = new PageMaker();
+		
+		if(term != null) {
 		pageMaker.setCri(cri);
 		pageMaker.setTotalCount(this.noticedao.countNoticeByTerm(term));
 		
@@ -65,6 +67,12 @@ public class NoticeServiceimpl implements NoticeService {
 		
 		
 		return this.noticedao.selectNoticeByTerm(map);
+		}
+		pageMaker.setCri(cri);
+		pageMaker.setTotalCount(this.noticedao.countNoticeList());
+		
+		model.addAttribute("pageMaekr", pageMaker);
+		return this.noticedao.noticeAllList(cri);
 	}
 
 }

@@ -27,8 +27,8 @@
 			<li class="nav-item"><a class="nav-link" href="reserve">예약하기</a>
 			</li>
 			<li class="nav-item"><a class="nav-link" href="#">제휴문의</a></li>
-			<li class="nav-item"><a class="nav-link" href="noticePage?page=1">공지사항</a></li>
-			<li class="nav-item"><a class="nav-link" href="qnaPage?page=1">Q&A</a></li>
+			<li class="nav-item"><a class="nav-link" href="searchNotice?page=1&term=">공지사항</a></li>
+			<li class="nav-item"><a class="nav-link" href="searchQnA?page=1&term=">Q&A</a></li>
 			<li class="nav-item"><a class="nav-link" href="searchCompany?page=1">업체찾기</a></li>
 			<li class="nav-item"><a class="nav-link" href="searchReview?page=1">후기</a></li>
 			<c:choose>

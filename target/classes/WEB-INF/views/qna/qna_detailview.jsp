@@ -25,7 +25,7 @@ prefix="c"%>
           <th>작성자</th>
           <td>
             <label id="qna_Writer" name="qna_Writer">
-              ${ qnaDetail.writer_name }</label
+              ${ qnaDetail.writer }</label
             >
           </td>
         </tr>
@@ -49,7 +49,7 @@ prefix="c"%>
         <button
           type="button"
           class="btn btn-outline-secondary"
-          onclick="location.href='qnaPage?page=${param.page}'"
+          onclick="location.href='searchQnA?page=${param.page }&term=${param.term }'"
         >
          	 목록
         </button>

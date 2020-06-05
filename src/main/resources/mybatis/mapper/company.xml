@@ -20,20 +20,20 @@
    
    <select id = "countCompanyList" parameterType="java.util.Map"
       resultType="Integer">
-      select count(*) from Company where company_Type = #{ company_Type }
+      select count(*) from Company where flag=0 and company_Type = #{ company_Type }
    </select>
 
 	<!-- 아이디와 비밀번호가 일치하는 정보 선택 -->
    <select id="listThisCompany" parameterType="java.util.Map"
       resultType="com.test.dto.CompanyDTO">
       select * from Company where company_Id = #{ id } and
-      company_Password = #{ pw }
+      company_Password = #{ pw } and flag=0
    </select>
    
    <!-- 기업 회원 아이디 찾기 -->
    <select id="searchCompanyID" parameterType="java.util.Map"
       resultType="com.test.dto.CompanyDTO">
-      select * from Company where company_Number = #{ company_Number }
+      select * from Company where company_Number = #{ company_Number } and flag=0
    </select>
    
    <!-- userId와 userPw는 실제 컬럼명, 여기선 map 객체인 user에 저장된 key값들인 id와 pw로 값 찾아내 
@@ -44,13 +44,13 @@
     <!-- 기업 회원 아이디 선택하기 -->
  	<select id="companyId" parameterType="java.util.Map"
 		resultType="com.test.dto.CompanyDTO">
-		select * from Company where company_Id = #{company_Id}
+		select * from Company where company_Id = #{company_Id} and flag=0
 	</select>
 	
 	<!-- 기업 번호 선택하기 -->
 	 <select id="companyNumber"  parameterType="java.util.Map"
 		resultType="com.test.dto.CompanyDTO">
-		select * from Company where company_Number = #{company_Number}
+		select * from Company where company_Number = #{company_Number} and flag=0
 	</select>
 	
 	<!-- 기업 회원 비밀번호 찾기 -->
@@ -62,6 +62,8 @@
 		company_Id = #{company_Id}
 		and
 		company_Number = #{company_Number}
+		and
+		flag=0
 	</select>
 	
 	<!-- 회원 탈퇴 -->
@@ -74,12 +76,13 @@
 		select count(*) from Company
  	 	where company_Id = #{company_Id} and 
   		company_Password = #{company_Password}
+  		and flag=0
        </select>
    
    
    <!-- 인덱스로 해당 기업 정보 찾아오기 -->
    <select id="listThisCompanyByIdx" resultType="com.test.dto.CompanyDTO">
-      select * from Company where company_Index = #{company_Index}
+      select * from Company where company_Index = #{company_Index} and flag=0
    </select>
    
    
@@ -123,17 +126,17 @@
 	</update>
 	
 	<select id = "countCompanyByName" parameterType="java.util.Map" resultType="java.lang.Integer">
-	      select count(*) from Company where company_Name like CONCAT('%', #{company_Name}, '%')
+	      select count(*) from Company where company_Name like CONCAT('%', #{company_Name}, '%') and flag=0
 	
 	</select>
 	
 	<select id="countAllCompany" parameterType="java.util.Map" resultType="java.lang.Integer">
-		select count(*) from Company
+		select count(*) from Company where flag=0
 	</select>
 	
      <!-- 기업명으로 해당 기업 정보 찾아오기 -->
    <select id="listThisCompanyByName" parameterType="java.util.Map" resultType="com.test.dto.CompanyDTO">
-      select * from Company where company_Name like CONCAT('%', #{company_Name}, '%')
+      select * from Company where company_Name like CONCAT('%', #{company_Name}, '%') and flag=0
       limit #{pageStart}, #{perPageNum}
    </select>
    

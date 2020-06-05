@@ -28,7 +28,7 @@
 				<form class="w-50 ml-auto mr-auto mt-5 mb-5"
 					action="search_pw_company" method="POST">
 					<div style="margin-top: 30px;" class="form-group">
-						<label class="font-weight-bold" for="inputName_2">이름</label>
+						<label class="font-weight-bold" for="inputName_2">사업자이름</label>
 						<div>
 							<input type="text" class="form-control" id="inputName_2"
 								name="company_UserName" placeholder="">

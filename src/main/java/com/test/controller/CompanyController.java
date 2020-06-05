@@ -112,9 +112,9 @@ public class CompanyController {
 	 * 기업회원이 로그인을 한 후 마이페이지로 이동하게 될 때 실행되는 메서드이다.
 	 */
 	@RequestMapping("/company_Profile")
-	public ModelAndView profile(HttpSession session, ModelAndView mv, HttpServletRequest request) {
+	public ModelAndView profile(HttpSession session, ModelAndView mv,Model model, HttpServletRequest request) {
 		logger.info("/company_Profile " + request.getMethod());
-		return this.companyService.profile(mv, session);
+		return this.companyService.profile(mv, session,model);
 	}
 
 	/*
@@ -263,10 +263,11 @@ public class CompanyController {
 		if (result) { // 비밀번호가 맞다면 삭제 처리
 			companyService.deleteTheCompany(company_Id);
 			System.out.println("탈퇴성공");
-			if (result) {
-				// jpoo // Constant.eSession = ESession.eNull;
-				session.invalidate(); // 탈퇴시 로그아웃 처리
-			}
+			   if (result) {
+		            // jpoo // Constant.eSession = ESession.eNull;
+				   session.invalidate(); // 탈퇴시 로그아웃 처리
+		         }
+
 			return "company/company_delete_ok.tiles";
 
 		} else { // 비밀번호가 일치하지 않는다면

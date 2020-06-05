@@ -2,6 +2,7 @@ package com.test.dao;
 
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -49,8 +50,8 @@ public class QnAboardDAOimpl implements QnAboardDAO {
 	}
 
 	@Override
-	public List<QnAboardDTO> selectQnaByTerm(String term) {
-		return this.sqlSession.selectList("listThisQnaByTerm", term);
+	public List<QnAboardDTO> selectQnaByTerm(Map<String,Object> map) {
+		return this.sqlSession.selectList("listThisQnaByTerm", map);
 	}
 
 	@Override
@@ -67,5 +68,10 @@ public class QnAboardDAOimpl implements QnAboardDAO {
 	@Override
 	public int countAllQnA() {
 		return this.sqlSession.selectOne("countAllQnA");
+	}
+
+	@Override
+	public int countQnAByTerm(String term) {
+		return this.sqlSession.selectOne("countQnAByTerm", term);
 	}
 }

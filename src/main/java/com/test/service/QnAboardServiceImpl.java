@@ -4,6 +4,7 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -66,21 +67,16 @@ public class QnAboardServiceImpl implements QnAboardService {
 	}
 
 	@Override
-	public QnAboardDTO selectQnaDetailView(String qna_Id) {
+	public QnAboardDTO selectQnaDetailView(String qna_Id,Criteria cri) {
 		// 데이터를 담을 그릇 만들기
 		QnAboardDTO qnaDto = new QnAboardDTO();
 		// 화면에서 가져온 qna_Id값을 int로 타입캐스팅
 		int qnaId = Integer.parseInt(qna_Id);
 		// qnaDtoList에서 같은 아이디 값이 있는지 확인하고 있으면 해당 객체 화면에 전달
 		// 같은 id가 있는 경우 조회수도 1씩 증가
-		for (QnAboardDTO qnaDtoTemp : this.qnaDtoList) {
-			if (qnaDtoTemp.getId() == qnaId) {
-				this.qnaDao.addViewnum(qnaId);
-				qnaDto = qnaDtoTemp;
-				break;
-			}
-		}
-		return qnaDto;
+		
+		this.qnaDao.addViewnum(qnaId);
+		return this.qnaDao.listItsQna(qna_Id);
 	}
 
 	@Override
@@ -103,11 +99,11 @@ public class QnAboardServiceImpl implements QnAboardService {
 					}
 				}
 			} else {
-				mv.setViewName("redirect:/qnaPage");
+				mv.setViewName("redirect:/searchQnA");
 			}
 
 		} catch (NullPointerException e) {
-			mv.setViewName("redirect:/qnaPage");
+			mv.setViewName("redirect:/searchQnA");
 		}
 		return mv;
 	}
@@ -118,8 +114,31 @@ public class QnAboardServiceImpl implements QnAboardService {
 	}
 
 	@Override
-	public List<QnAboardDTO> selectQnaByTerm(HttpServletRequest request) {
-		return this.qnaDao.selectQnaByTerm(request.getParameter("term"));
+	public List<QnAboardDTO> selectQnaByTerm(HttpServletRequest request,Model model, Criteria cri) {
+		String term = request.getParameter("term");
+		
+		PageMaker pageMaker = new PageMaker();
+		
+		if(term != null) {
+			pageMaker.setCri(cri);
+			pageMaker.setTotalCount(this.qnaDao.countQnAByTerm(term));
+			
+			Map<String, Object> map = new HashMap<String,Object>();
+			map.put("page",cri.getPage());
+			map.put("perPageNum",cri.getPerPageNum());
+			map.put("pageStart", cri.getPageStart());
+			map.put("term", term);
+			model.addAttribute("pageMaker",pageMaker);
+			
+			return this.qnaDao.selectQnaByTerm(map);
+		}
+		
+		pageMaker.setCri(cri);
+		pageMaker.setTotalCount(this.qnaDao.countAllQnA());
+		
+		model.addAttribute("pageMaker", pageMaker);
+		return this.qnaDao.selectQnaAllList(cri);
+	
 	}
 
 	@Override
