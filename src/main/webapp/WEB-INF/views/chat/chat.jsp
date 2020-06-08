@@ -30,7 +30,7 @@ sockjs -->
 		// sock = new SockJS("http://localhost:8172/hello/echo");
 		// 18.178.110.208 // ChattingApp
 		// 18.180.187.192 => Seperate Chatting Server
-		sock = new SockJS("http://18.180.187.192:8080/hello/echo");
+		sock = new SockJS("http://18.180.55.0:8080/hello/echo");
 		sock.onmessage = onMessage;
 		sock.onclose = onClose;
 		sock.onopen = function() {

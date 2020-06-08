@@ -24,7 +24,7 @@
 	var idx = "${idx}";
 	console.log(idx);
 	console.log("~~~~~~~~~~~~");
-	let sock = new SockJS("http://localhost:8272/hello/echo?idx="+idx+"&isAdmin="+isAdmin);
+	let sock = new SockJS("http://18.180.55.0:8080/hello/echo?idx="+idx+"&isAdmin="+isAdmin);
 	// let sock = new SockJS("http://18.180.187.192:8080/hello/echo");
 	sock.onmessage = onMessage;
 	sock.onclose = onClose;
