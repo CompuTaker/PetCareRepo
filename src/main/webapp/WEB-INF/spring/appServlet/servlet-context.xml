@@ -30,9 +30,6 @@
 	<context:component-scan base-package="com.test" /><!-- Component Scann setting -->
 	<context:annotation-config/><!-- Giving ability to read @Configuration annotation-->
 	
-	<!-- CORS global setting import -->
-	<beans:import resource="cors-config.xml" />
-	
 	<!--
 	<websocket:handlers allowed-origins="*">
         <websocket:mapping path="/echo" handler="myHandler"/>

@@ -38,6 +38,9 @@
 		<constructor-arg ref="sqlSessionFactory" />
 	</bean>
 	
+	<!-- CORS global setting import -->
+	<import resource="cors-config.xml" />
+	
 	<!-- <bean id="myHandler" class="com.hjp.websocket.MyHandler"/>
 	websocket -->
 	<!--
