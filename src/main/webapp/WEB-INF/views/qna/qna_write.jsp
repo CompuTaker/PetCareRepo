@@ -42,7 +42,7 @@ prefix="c"%>
         <button
           type="button"
           class="btn btn-outline-secondary"
-          onclick="location.href='qnaPage'"
+          onclick="location.href='searchQnA?page=1'"
         >
           목록
         </button>

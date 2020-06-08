@@ -26,14 +26,14 @@ import com.test.dto.SuperuserDTO;
 import com.test.service.QnAboardService;
 
 @Controller
-@SessionAttributes({ "customer", "company", "superuser" }) // Model에 저장한 값을 http session에 저장할 수 있게 해주는 Annotation
+@SessionAttributes({ "customer", "company", "superuser" }) // Model�뿉 ���옣�븳 媛믪쓣 http session�뿉 ���옣�븷 �닔 �엳寃� �빐二쇰뒗 Annotation
 public class QnAboardController {
 	private Logger logger = LoggerFactory.getLogger(this.getClass());
 	@Autowired
 	private QnAboardService qnaService;
 
 	/*
-	 * 메인화면에서 QnA버튼을 누르면 QnA리스트를 보여주는 메서드이다.
+	 * 硫붿씤�솕硫댁뿉�꽌 QnA踰꾪듉�쓣 �늻瑜대㈃ QnA由ъ뒪�듃瑜� 蹂댁뿬二쇰뒗 硫붿꽌�뱶�씠�떎.
 	 */
 	@RequestMapping("/qnaPage")
 	public String qnaPage(Model model, HttpServletRequest request,Criteria cri) {
@@ -44,7 +44,7 @@ public class QnAboardController {
 	}
 
 	/*
-	 * QnA리스트에서 글 작성 버튼을 누르면 작성 화면을 보여주는 메서드이다.
+	 * QnA由ъ뒪�듃�뿉�꽌 湲� �옉�꽦 踰꾪듉�쓣 �늻瑜대㈃ �옉�꽦 �솕硫댁쓣 蹂댁뿬二쇰뒗 硫붿꽌�뱶�씠�떎.
 	 */
 	@RequestMapping("/qnaWrite")
 	public String qnaWrtie(Model model, HttpSession session, HttpServletRequest request) {
@@ -67,17 +67,17 @@ public class QnAboardController {
 	}
 
 	/*
-	 * 글 등록 버튼을 누르면 실행되는 메서드이다.
+	 * 湲� �벑濡� 踰꾪듉�쓣 �늻瑜대㈃ �떎�뻾�릺�뒗 硫붿꽌�뱶�씠�떎.
 	 */
 	@RequestMapping(value = "/qnaAdd", method = RequestMethod.POST)
-	public String qnaAdd(QnAboardDTO qnaDto, HttpSession session, HttpServletRequest request) {
+	public String qnaAdd(QnAboardDTO qnaDto, HttpSession session, HttpServletRequest request,Model model) {
 		logger.info("/qnaAdd " + request.getMethod());
 		this.qnaService.insertQnaContents(qnaDto, (CustomerDTO) session.getAttribute("customer"));
-		return "redirect:/qnaPage";
+		return "redirect:/searchQnA?page=1";
 	}
 
 	/*
-	 * QnA리스트에서 자세히보기 위해서 한 줄을 클릭했을 경우
+	 * QnA由ъ뒪�듃�뿉�꽌 �옄�꽭�엳蹂닿린 �쐞�빐�꽌 �븳 以꾩쓣 �겢由��뻽�쓣 寃쎌슦
 	 */
 	@RequestMapping("/qnaDatailView")
 	public String qnaDatailView(Model model, String qna_Id, HttpServletRequest request,Criteria cri) {
@@ -117,7 +117,7 @@ public class QnAboardController {
 		return this.qnaService.qna_reply_ok(rmap, request, qnaId);
 	}
 	
-	// 질문찾기 : 전체질문, 검색된질문
+	// 吏덈Ц李얘린 : �쟾泥댁쭏臾�, 寃��깋�맂吏덈Ц
 	@RequestMapping("/searchQnA")
 	public String searchQnA(Model model, HttpServletRequest request,Criteria cri) {
 		logger.info("/searchQnA " + request.getMethod());

@@ -22,8 +22,7 @@
 		<form id="qna_write" name="qna_write" action="qna_write" method="post">
 
 			<div style="float: right;">
-
-				<a href='qnaWrite' class="btn btn-success">글쓰기</a>
+					<a href='qnaWrite' class="btn btn-success">글쓰기</a>
 			</div>
 
 			<table class="table table-striped table-hover">
