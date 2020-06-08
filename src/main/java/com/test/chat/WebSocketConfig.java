@@ -3,6 +3,7 @@ package com.test.chat;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.socket.config.annotation.EnableWebSocket;
 import org.springframework.web.socket.config.annotation.WebSocketConfigurer;
 import org.springframework.web.socket.config.annotation.WebSocketHandlerRegistry;
@@ -13,6 +14,7 @@ import com.test.redis.MyMessagePublisher;
 
 @Configuration
 @EnableWebSocket
+@CrossOrigin
 public class WebSocketConfig implements WebSocketConfigurer {
 	
 	@Autowired
@@ -48,8 +50,8 @@ public class WebSocketConfig implements WebSocketConfigurer {
 	@Override
 	public void registerWebSocketHandlers(WebSocketHandlerRegistry registry) {
 		// TODO Auto-generated method stub
-		registry.addHandler(webSocketHandler(), "/echo").addInterceptors(handShakeInterceptor()).setAllowedOrigins("*").withSockJS();
-		// CORS
+		registry.addHandler(webSocketHandler(), "/echo").addInterceptors(handShakeInterceptor()).withSockJS();
+		// CORS is now on global setting -- servlet-context.xml
 	}
 
 }
