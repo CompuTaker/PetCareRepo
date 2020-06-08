@@ -14,7 +14,7 @@
 	
     <!-- Spring MVC Over 4.2, Global CORS xml configuration -->
     <mvc:cors>
-        <mvc:mapping path="/**" allowed-origins="*" />
+        <mvc:mapping path="/**" />
     </mvc:cors>
     
     <mvc:annotation-driven />
