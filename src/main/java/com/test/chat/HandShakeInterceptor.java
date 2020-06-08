@@ -11,8 +11,10 @@ import org.springframework.web.socket.server.support.HttpSessionHandshakeInterce
 
 import com.test.constants.Constants;
 
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.socket.WebSocketHandler;
 
+@CrossOrigin
 public class HandShakeInterceptor extends HttpSessionHandshakeInterceptor {
 	
 	@Override

@@ -11,6 +11,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.ValueOperations;
 import org.springframework.stereotype.Component;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.socket.CloseStatus;
 import org.springframework.web.socket.TextMessage;
 import org.springframework.web.socket.WebSocketSession;
@@ -22,6 +23,7 @@ import com.test.dto.ChatRoomDTO;
 import com.test.redis.MyMessageListenerContainer;
 import com.test.redis.MyMessagePublisher;
 
+@CrossOrigin
 public class WebSocketHandler extends TextWebSocketHandler {
 	// @DependsOn(value = {"redisTemplate", "stringRedisTemplate"})
 	// http://localhost:8272/hello/echo // Sub-Tomcat (for local test)
