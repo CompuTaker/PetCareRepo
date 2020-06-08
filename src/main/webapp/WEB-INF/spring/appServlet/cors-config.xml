@@ -16,5 +16,7 @@
     <mvc:cors>
         <mvc:mapping path="/**" allowed-origins="*" />
     </mvc:cors>
+    
+    <mvc:annotation-driven />
 
 </beans:beans>

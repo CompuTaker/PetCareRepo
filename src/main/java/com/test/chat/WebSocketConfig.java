@@ -50,9 +50,9 @@ public class WebSocketConfig implements WebSocketConfigurer {
 	@Override
 	public void registerWebSocketHandlers(WebSocketHandlerRegistry registry) {
 		// TODO Auto-generated method stub
-		// registry.addHandler(webSocketHandler(), "/echo").addInterceptors(handShakeInterceptor()).setAllowedOrigins("*").withSockJS();
-		registry.addHandler(webSocketHandler(), "/echo").setAllowedOrigins("*").addInterceptors(handShakeInterceptor());
-		// CORS is now on global setting -- servlet-context.xml
+		registry.addHandler(webSocketHandler(), "/echo").addInterceptors(handShakeInterceptor()).setAllowedOrigins("*").withSockJS();
+		// registry.addHandler(webSocketHandler(), "/echo").setAllowedOrigins("*").addInterceptors(handShakeInterceptor());
+		// CORS is now on global setting -- servlet-context.xml, importing cors-config.xml
 	}
 
 }
