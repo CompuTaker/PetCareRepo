@@ -48,12 +48,8 @@ public class WebSocketConfig implements WebSocketConfigurer {
 	@Override
 	public void registerWebSocketHandlers(WebSocketHandlerRegistry registry) {
 		// TODO Auto-generated method stub
-//		registry.addHandler(
-//				webSocketHandler(), "/echo").addInterceptors(
-//						handShakeInterceptor()).setAllowedOrigins("*").withSockJS();
-		registry.addHandler(webSocketHandler(), "/echo").addInterceptors(handShakeInterceptor()).withSockJS();
-		// Auto_CORS
-		// registry.addHandler(webSocketHandler(), "/echo").setAllowedOrigins("*").addInterceptors(handShakeInterceptor()).withSockJS();
+		registry.addHandler(webSocketHandler(), "/echo").addInterceptors(handShakeInterceptor()).setAllowedOrigins("*").withSockJS();
+		// CORS
 	}
 
 }
