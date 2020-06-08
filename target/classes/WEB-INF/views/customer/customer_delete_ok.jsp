@@ -10,6 +10,6 @@
 		<h1>그동안 이용해 주셔서 감사합니다.</h1>
 		<br>
 		<button class="btn btn-secondary mx-auto"
-			onclick="location ='index.tiles'">돌아가기</button>
+			onclick="location ='index'">돌아가기</button>
 	</div>
 </div>

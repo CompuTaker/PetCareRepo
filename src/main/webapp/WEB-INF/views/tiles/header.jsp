@@ -37,7 +37,6 @@
 					<li class="nav-item"><a class="nav-link" href="loginOrProfile">Login</a>
 				</c:when>
 				<c:otherwise>
-
 					<li class="nav-item"><a class="nav-link" href="loginOrProfile">My page</a></li>
 				</c:otherwise>
 			</c:choose>

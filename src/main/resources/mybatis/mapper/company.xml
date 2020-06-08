@@ -27,7 +27,7 @@
    <select id="listThisCompany" parameterType="java.util.Map"
       resultType="com.test.dto.CompanyDTO">
       select * from Company where company_Id = #{ id } and
-      company_Password = #{ pw } and flag=0
+      company_Password = #{ pw } and flag = 0
    </select>
    
    <!-- 기업 회원 아이디 찾기 -->
@@ -67,9 +67,9 @@
 	</select>
 	
 	<!-- 회원 탈퇴 -->
-	<delete id="deleteTheCompany">
+	<update id="deleteTheCompany">
 		update Company SET flag = 1 WHERE company_id = #{company_Id }
-	</delete>
+	</update>
 
     <!-- 비밀번호 체크 -->
 	<select id="checkPWCompany" resultType="int">

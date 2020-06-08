@@ -136,7 +136,7 @@ public class CompanyDAOimpl implements CompanyDAO {
 	}
 
 	public int deleteTheCompany(String company_Id) {
-		return this.sqlSession.delete("deleteTheCompany", company_Id);
+		return this.sqlSession.update("deleteTheCompany", company_Id);
 
 	}
 

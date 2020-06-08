@@ -108,7 +108,7 @@ public class CustomerDAOimpl implements CustomerDAO {
 	 */
 	@Override
 	public int deleteTheCustomer(String customer_Id) {
-		return this.sqlSession.delete("deleteTheCustomer", customer_Id);
+		return this.sqlSession.update("deleteTheCustomer", customer_Id);
 	}
 
 	@Override
@@ -116,5 +116,7 @@ public class CustomerDAOimpl implements CustomerDAO {
 		return this.sqlSession.selectList("getDropCustomers");
 	}
 
+
+	
 	
 }

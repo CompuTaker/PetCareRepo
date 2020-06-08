@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.SessionAttributes;
+import org.springframework.web.bind.support.SessionStatus;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -69,8 +70,8 @@ public class CustomerController {
 	 * 怨좉컼�쉶�썝�씠 濡쒓렇�씤�쓣 �븳 �썑 留덉씠�럹�씠吏�濡� �씠�룞�븯寃� �맆 �븣 �떎�뻾�릺�뒗 硫붿꽌�뱶�씠�떎.
 	 */
 	@RequestMapping("/customer_Profile")
-	public String profile(Model model, HttpSession session) {
-		return this.customerService.profile(model, session);
+	public String profile(Model model, HttpSession session, String customer_Id) {
+		return this.customerService.profile(model, session, customer_Id);
 	}
 
 	/*
@@ -120,7 +121,7 @@ public class CustomerController {
 
 	// 탈퇴처리(고객정보삭제)
 	@RequestMapping("/customer_delete_ok")
-	public String customer_delete_ok(HttpServletRequest request, HttpSession session) {
+	public String customer_delete_ok(HttpServletRequest request, HttpSession session, SessionStatus status) {
 
 		Map<String, Object> cMap = new HashMap<String, Object>();
 		String customer_Password = request.getParameter("customer_Password");
@@ -129,14 +130,9 @@ public class CustomerController {
 		String customer_Id = ((CustomerDTO) (session.getAttribute("customer"))).getCustomer_Id();
 		// 비밀번호 체크
 		boolean result = customerService.checkPW(customer_Id, customer_Password);
-		System.out.println("비밀번호 체크");
+
 		if (result) { // 비밀번호가 맞다면 삭제 처리
-			customerService.deleteTheCustomer(customer_Id);
-			System.out.println("탈퇴성공");
-			if (result) {
-				// jpoo // Constant.eSession = ESession.eNull;
-				session.invalidate(); // 탈퇴시 로그아웃 처리
-			}
+			customerService.deleteTheCustomer(customer_Id, status);
 			return "customer/customer_delete_ok.tiles";
 
 		} else { // 비밀번호가 일치하지 않는다면
