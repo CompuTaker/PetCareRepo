@@ -7,6 +7,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.ui.Model;
+import org.springframework.web.bind.support.SessionStatus;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -24,7 +25,7 @@ public interface CustomerService {
 	abstract public ModelAndView customer_signupDo(MultipartHttpServletRequest multipartHttpServletRequest,
 			HashMap<String, Object> cmap);
 
-	abstract public String profile(Model model, HttpSession session);
+	abstract public String profile(Model model, HttpSession session, String customer_Id);
 
 	abstract public ModelAndView search_id_customer(ModelAndView mv, HttpServletRequest request);
 
@@ -37,7 +38,9 @@ public interface CustomerService {
 
 	abstract public boolean checkPW(String customer_Id, String customer_Password);
 
-    abstract public void deleteTheCustomer(String customer_Id);
+	abstract public List<CustomerDTO> getDropCustomers();
 
-    abstract public  List<CustomerDTO> getDropCustomers();
+	public abstract void deleteTheCustomer(String customer_Id,  SessionStatus status);
+
+	
 }

@@ -14,6 +14,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.SessionAttributes;
+import org.springframework.web.bind.support.SessionStatus;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.servlet.ModelAndView;
@@ -33,9 +34,6 @@ public class CompanyServiceImpl implements CompanyService {
 	@Autowired
 	private CompanyDAO companyDao;
 
-	@Autowired
-	private ReservationDAO reservationDao;
-
 	private boolean isCompanyIdChecked = false; // 기업 ID가 중복인지 아닌지 확인하는 Boolean
 	private boolean isCompanyComNumChecked = false; // 기업 사업자등록번호가 중복인지 아닌지 확인하는 Boolean
 	private boolean isCompanyOk = false; // 최종적으로 중복인지 아닌지 확인하는 Boolean
@@ -50,10 +48,11 @@ public class CompanyServiceImpl implements CompanyService {
 		Map<String, String> company = new HashMap<String, String>();
 		company.put("company_Number", request.getParameter("company_Number")); // company_Number에 저장된다.
 		try {
-			CompanyDTO companyDto = this.companyDao.searchCompanyID(company); // company_Number에 맞는 id가 있는지 company테이블에서 찾아본다.
+			CompanyDTO companyDto = this.companyDao.searchCompanyID(company); // company_Number에 맞는 id가 있는지 company테이블에서
+																				// 찾아본다.
 			request.setAttribute("companyId", companyDto.getCompany_Id());
 			mv.setViewName("company/company_show_id.tiles");
-			
+
 		} catch (NullPointerException e) {
 			mv.addObject("message", 1);
 			mv.setViewName("redirect:/search_id");
@@ -192,7 +191,7 @@ public class CompanyServiceImpl implements CompanyService {
 		company.put("company_Number", request.getParameter("company_Number")); // Map객체에 사업자번호를 저장한다.
 
 		String url = "";
-		
+
 		try {
 			CompanyDTO companyDto = this.companyDao.searchCompanyPW(company);
 
@@ -217,8 +216,9 @@ public class CompanyServiceImpl implements CompanyService {
 	}
 
 	@Override
-	public ModelAndView profile(ModelAndView mv, HttpSession session,Model model) {
-		if (session.getAttribute("company") != null) { // company session이 존재하는 경우
+	public ModelAndView profile(ModelAndView mv, HttpSession session, Model model, String company_Id) {
+		int dropCom = companyDao.deleteTheCompany(company_Id);
+		if (session.getAttribute("company") != null && dropCom == 0) { // company session이 존재하는 경우
 			try {
 				CompanyDTO company = (CompanyDTO) session.getAttribute("company"); // company session을 DTO로 타입캐스팅을 하여
 																					// company에 저장
@@ -278,29 +278,28 @@ public class CompanyServiceImpl implements CompanyService {
 	}
 
 	@Override
-	public List<CompanyDTO> listsAllCompany(Model model,HttpServletRequest request,Criteria cri){
+	public List<CompanyDTO> listsAllCompany(Model model, HttpServletRequest request, Criteria cri) {
 		String term = request.getParameter("term");
 
 		PageMaker pageMaker = new PageMaker();
 
-		
 		if (term != null) {
 			pageMaker.setCri(cri);
 			pageMaker.setTotalCount(this.companyDao.countCompanyByName(term));
-			
-			Map<String,Object> map = new HashMap<String,Object>();
+
+			Map<String, Object> map = new HashMap<String, Object>();
 			map.put("page", cri.getPage());
 			map.put("perPageNum", cri.getPerPageNum());
-			map.put("pageStart",cri.getPageStart());
+			map.put("pageStart", cri.getPageStart());
 			map.put("company_Name", term);
-			model.addAttribute("pageMaker",pageMaker);
-						
+			model.addAttribute("pageMaker", pageMaker);
+
 			return this.companyDao.listThisCompanyByName(map);
 		}
 		pageMaker.setCri(cri);
 		pageMaker.setTotalCount(this.companyDao.countAllCompany());
-		
-		model.addAttribute("pageMaker",pageMaker);
+
+		model.addAttribute("pageMaker", pageMaker);
 
 		return this.companyDao.listAllCompany(cri);
 	}
@@ -311,8 +310,13 @@ public class CompanyServiceImpl implements CompanyService {
 	}
 
 	@Override
-	public void deleteTheCompany(String company_Id) {
-		companyDao.deleteTheCompany(company_Id);
+	public void deleteTheCompany(String company_Id, SessionStatus status) {
+		int dropCom = companyDao.deleteTheCompany(company_Id);
+		if (dropCom == 1) {
+
+			status.setComplete(); // 탈퇴시 로그아웃 처리
+			System.out.println("세션 만료");
+		}
 
 	}
 

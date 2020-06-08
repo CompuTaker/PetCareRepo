@@ -22,6 +22,7 @@ import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.bind.support.SessionStatus;
 
 import com.github.scribejava.core.model.OAuth2AccessToken;
+import com.test.dao.CompanyDAO;
 import com.test.dao.CustomerDAO;
 import com.test.dto.CompanyDTO;
 import com.test.dto.Criteria;
@@ -44,6 +45,8 @@ public class HomeController {
 
 	@Autowired
 	private CustomerDAO customerDao;
+	@Autowired
+	private CompanyDAO companyDao;
 	@Autowired
 	private HomeService homeService;
 	@Autowired
@@ -176,10 +179,10 @@ public class HomeController {
 
 		// HomeService에 가서 고객인지 기업인지 확인한다. (Controller - Service - Dao)
 		Object object = this.homeService.listThisMember(loginInfo);
+
 		String url = "";
 		try {
-
-			if (object == null) {
+			if (object == null ) {
 				// sessionAttribute를 초기화해준다.
 				status.setComplete();
 				model.addAttribute("message", 1);
@@ -250,7 +253,7 @@ public class HomeController {
 		CompanyDTO company = (CompanyDTO) session.getAttribute("company");
 		SuperuserDTO admin = (SuperuserDTO) session.getAttribute("superuser");
 
-		if (customer == null && company == null && admin == null) { // eSession = eNull인 경우
+		if (customer == null && company == null && admin == null ) { // eSession = eNull인 경우
 			url = "login"; // 로그인 화면을 띄워준다.
 		} else { // 둘 다 아닐경우
 			// jpoo // if (Constant.eSession == ESession.eCustomer) { // eSession =
@@ -311,7 +314,7 @@ public class HomeController {
 		logger.info("/searchByTerm - search_all.jsp " + request.getMethod());
 		List<CompanyDTO> companyList = this.companyService.listsAllCompany(model, request, cri); // 회사를 가져온다.
 		List<ReviewDTO> reviewList = this.reviewService.listsAllReview(model, request, cri); // 리뷰를 가져온다.
-		List<QnAboardDTO> qnaList = this.qnaBoardService.selectQnaByTerm(request,model, cri);
+		List<QnAboardDTO> qnaList = this.qnaBoardService.selectQnaByTerm(request, model, cri);
 		List<NoticeDTO> noticeList = this.noticeService.selectNoticeByTerm(request, model, cri);
 
 		model.addAttribute("companyList", companyList);

@@ -21,6 +21,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.SessionAttributes;
+import org.springframework.web.bind.support.SessionStatus;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -43,8 +44,9 @@ public class CompanyController {
 	 * 기업 고객이 company_signup.jsp에서 회원가입 버튼을 눌렀을 때 실행되는 메서드
 	 */
 	@RequestMapping(value = "/company_signupDo", method = RequestMethod.POST, headers = ("content-type=multipart/*"))
-	public ModelAndView company_signupDo(@Valid CompanyVO vo, BindingResult result, @RequestParam HashMap<String, Object> cmap,
-			MultipartHttpServletRequest multipartHttpServletRequest, HttpServletRequest request) { // form에서 입력한 값을
+	public ModelAndView company_signupDo(@Valid CompanyVO vo, BindingResult result,
+			@RequestParam HashMap<String, Object> cmap, MultipartHttpServletRequest multipartHttpServletRequest,
+			HttpServletRequest request) { // form에서 입력한 값을
 		if (result.hasErrors()) {
 			List<ObjectError> list = result.getAllErrors();
 			for (ObjectError error : list) {
@@ -54,7 +56,7 @@ public class CompanyController {
 			redirect.addObject("message", "입력값을 확인 해주세요.");
 			return redirect;
 //			return this.customerService.customer_signupDo(multipartHttpServletRequest, null);
-		} // HashMap으로묶어서가져옴																		// HashMap으로 묶어서 가져옴
+		} // HashMap으로묶어서가져옴 // HashMap으로 묶어서 가져옴
 
 		logger.info("/company_signupDo " + request.getMethod() + " user: " + request.getSession());
 		return this.companyService.company_signupDo(multipartHttpServletRequest, cmap);
@@ -112,9 +114,9 @@ public class CompanyController {
 	 * 기업회원이 로그인을 한 후 마이페이지로 이동하게 될 때 실행되는 메서드이다.
 	 */
 	@RequestMapping("/company_Profile")
-	public ModelAndView profile(HttpSession session, ModelAndView mv,Model model, HttpServletRequest request) {
+	public ModelAndView profile(HttpSession session, ModelAndView mv, Model model, HttpServletRequest request, String company_Id) {
 		logger.info("/company_Profile " + request.getMethod());
-		return this.companyService.profile(mv, session,model);
+		return this.companyService.profile(mv, session, model, company_Id);
 	}
 
 	/*
@@ -250,7 +252,7 @@ public class CompanyController {
 
 	// 탈퇴처리(고객정보삭제)
 	@RequestMapping("/company_delete_ok")
-	public String company_delete_ok(HttpServletRequest request, HttpSession session) {
+	public String company_delete_ok(HttpServletRequest request, HttpSession session, SessionStatus status) {
 
 		Map<String, Object> cMap = new HashMap<String, Object>();
 		String company_Password = request.getParameter("company_Password");
@@ -259,15 +261,8 @@ public class CompanyController {
 		String company_Id = ((CompanyDTO) (session.getAttribute("company"))).getCompany_Id();
 		// 비밀번호 체크
 		boolean result = companyService.checkPW(company_Id, company_Password);
-		System.out.println("비밀번호 체크");
 		if (result) { // 비밀번호가 맞다면 삭제 처리
-			companyService.deleteTheCompany(company_Id);
-			System.out.println("탈퇴성공");
-			   if (result) {
-		            // jpoo // Constant.eSession = ESession.eNull;
-				   session.invalidate(); // 탈퇴시 로그아웃 처리
-		         }
-
+			companyService.deleteTheCompany(company_Id, status);
 			return "company/company_delete_ok.tiles";
 
 		} else { // 비밀번호가 일치하지 않는다면

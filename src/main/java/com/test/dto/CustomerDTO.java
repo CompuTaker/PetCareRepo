@@ -21,6 +21,15 @@ public class CustomerDTO {
 	private String customer_Email;
 	private String customer_Image;
 	private String subscribe_Date;
+	private boolean flag;
+
+	public boolean isFlag() {
+		return flag;
+	}
+
+	public void setFlag(boolean flag) {
+		this.flag = flag;
+	}
 
 	public int getCustomer_Index() {
 		return customer_Index;
@@ -101,7 +110,5 @@ public class CustomerDTO {
 	public void setSubscribe_Date(String subscribe_Date) {
 		this.subscribe_Date = subscribe_Date;
 	}
-	
-	
-	
+
 }

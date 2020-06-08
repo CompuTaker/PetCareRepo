@@ -16,6 +16,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.SessionAttributes;
+import org.springframework.web.bind.support.SessionStatus;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.servlet.ModelAndView;
@@ -37,6 +38,7 @@ public class CustomerServiceImpl implements CustomerService {
 
 	private boolean isCustomerIdChecked = false; // 怨좉컼 ID媛� 以묐났�씤吏� �븘�땶吏� �솗�씤�븯�뒗 Boolean
 	private boolean isCustomerOk = false; // 理쒖쥌�쟻�쑝濡� 以묐났�씤吏� �븘�땶吏� �솗�씤�븯�뒗 Boolean
+	
 
 	@Override
 	public ModelAndView customer_signupDo(MultipartHttpServletRequest multipartHttpServletRequest,
@@ -169,8 +171,10 @@ public class CustomerServiceImpl implements CustomerService {
 	}
 
 	@Override
-	public String profile(Model model, HttpSession session) {
-		if (session.getAttribute("customer") != null) { // customer session�씠 議댁옱�븯�뒗 寃쎌슦
+	public String profile(Model model, HttpSession session, String customer_Id) {
+		
+		int flag = customerDao.deleteTheCustomer(customer_Id);
+		if (session.getAttribute("customer") != null && flag == 0) { // customer session�씠 議댁옱�븯�뒗 寃쎌슦
 			try {
 				CustomerDTO customer = (CustomerDTO) session.getAttribute("customer"); // customer session�쓣 DTO濡�
 																						// ���엯罹먯뒪�똿�쓣
@@ -198,7 +202,7 @@ public class CustomerServiceImpl implements CustomerService {
 				return "customer/customer_Profile.tiles"; // customerprofile.jsp
 			} catch (SecurityException e) {
 				e.printStackTrace();
-			} catch (IllegalArgumentException e) {
+			} catch (IllegalStateException e) {
 				e.printStackTrace();
 			}
 		} else {
@@ -319,11 +323,13 @@ public class CustomerServiceImpl implements CustomerService {
 	}
 
 	@Override
-	public void deleteTheCustomer(String customer_Id) {
-		customerDao.deleteTheCustomer(customer_Id);
-
+	public void deleteTheCustomer(String customer_Id, SessionStatus status) {
+		int flag = customerDao.deleteTheCustomer(customer_Id);
+		if (flag == 1) {
+			status.setComplete();
+			System.out.println("세션 만료");
+		}
 	}
-
 	/*
 	 * 탈퇴한 사람들의 리스트를 가져오는 메서드
 	 */

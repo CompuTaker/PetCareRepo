@@ -8,6 +8,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.ui.Model;
+import org.springframework.web.bind.support.SessionStatus;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -33,7 +34,7 @@ public interface CompanyService {
 
 	abstract public String search_pw_company(Model model, HttpServletRequest request);
 
-	abstract public ModelAndView profile(ModelAndView mv, HttpSession session,Model model);
+	abstract public ModelAndView profile(ModelAndView mv, HttpSession session,Model model, String company_Id);
 
 	abstract public ModelAndView company_modify(ModelAndView mv, HttpSession session);
 
@@ -46,7 +47,7 @@ public interface CompanyService {
 
 	abstract public boolean checkPW(String company_Id, String company_Password);
 
-	abstract public void deleteTheCompany(String company_Id);
+	abstract public void deleteTheCompany(String company_Id, SessionStatus status);
 
 	abstract public List<CompanyDTO> getDropCompanys();
 }
