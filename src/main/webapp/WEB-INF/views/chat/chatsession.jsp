@@ -6,9 +6,7 @@
 <head>
 <meta charset="UTF-8">
 <script src="http://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.js"></script>
-<!--
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/sockjs-client/1.1.5/sockjs.min.js"></script>
-No Sock.js -->
 </head>
 <body>
 	<input type="text" id="message" />
