@@ -31,7 +31,7 @@ public class WebSocketHandler extends TextWebSocketHandler {
 	private MyMessageListenerContainer redisContainer;
 	
 	// Manually DI the Bean
-	private MyMessagePublisher redisPulisher;
+	private MyMessagePublisher redisPublisher;
 	
 	// Manually DI the Bean
 	private ChatRoomDAO chatRoomDAO;
@@ -53,7 +53,7 @@ public class WebSocketHandler extends TextWebSocketHandler {
 		// TODO Auto-generated constructor stub
 		this.chatRoomDAO = chatRoomDAO;
 		this.redisContainer = redisContainer;
-		this.redisPulisher = redisPulisher;
+		this.redisPublisher = redisPulisher;
 	}
 	
 	@Override
@@ -92,7 +92,7 @@ public class WebSocketHandler extends TextWebSocketHandler {
 		}
 		
 		// RRRRRRRREEEEEEEEEEDDDDDDDDIIIIIIISSSSSSSSSSS
-		this.redisPulisher.publishToChannel(chatRoom.getChatRoomIdx() + "", message.getPayload());
+		this.redisPublisher.publishToChannel(chatRoom.getChatRoomIdx() + "", message.getPayload());
 		Queue<String> theQ = this.redisContainer.scrapeTheMessageReceivedToThisChannel(chatRoom.getChatRoomIdx());
 		int theQ_size = theQ.size();
 		for(int i=0; i < theQ_size; i++) {
