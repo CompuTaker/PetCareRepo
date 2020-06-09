@@ -55,6 +55,7 @@
 		select * from Qna where title like CONCAT('%', #{term}, '%')
 		or
 		writer like CONCAT('%', #{term}, '%')
+		order by Qna.id desc
 		limit #{pageStart},#{perPageNum}
 	</select>
 	
