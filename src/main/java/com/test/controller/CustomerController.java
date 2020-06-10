@@ -79,6 +79,7 @@ public class CustomerController {
 	 */
 	@RequestMapping("/customer_modify")
 	public ModelAndView customer_modify(ModelAndView mv, HttpSession session) {
+
 		return this.customerService.customer_modify(mv, session);
 	}
 
@@ -86,15 +87,24 @@ public class CustomerController {
 	 * 媛쒖씤�젙蹂댁닔�젙瑜� 怨좎튂怨� �닔�젙 踰꾪듉�쓣 �닃���쓣 �븣 �떎�뻾�릺�뒗 硫붿꽌�뱶�씠�떎.
 	 */
 	@RequestMapping("/customer_modify_ok")
-	public String customer_modify(MultipartHttpServletRequest multipartHttpServletRequest,
+	public Object customer_modify(@Valid CustomerVO vo, BindingResult result, MultipartHttpServletRequest multipartHttpServletRequest,
 			@RequestParam HashMap<String, Object> cmap, Model model) { // form�뿉�꽌 �엯�젰�븳 �젙蹂대�� HashMap�쑝濡� 臾띠뼱�꽌
-																		// 媛��졇�삩�떎.
-		this.customerService.updateCustomerInfo(multipartHttpServletRequest, cmap, model); // 媛��졇�삩 cmap�뜲�씠�꽣瑜� 湲곗〈
-																							// 怨좉컼 �뜲�씠�꽣�뿉
-																							// update�떆�궓�떎.
+		if (result.hasErrors()) {
+			List<ObjectError> list = result.getAllErrors();
+			for (ObjectError error : list) {
+				System.out.println(error);
+				ModelAndView redirect = new ModelAndView("customer/customer_modify.tiles");
+				redirect.addObject("message", "입력값을 확인해주세요!");
+				return redirect;
+			}
+
+		} 
+		this.customerService.updateCustomerInfo(multipartHttpServletRequest, cmap, model);
 		return "customer/customer_modify_ok.tiles";
 
 	}
+
+
 
 	/*
 	 * 濡쒓렇�씤李쎌뿉�꽌 �븘�씠�뵒 李얘린瑜� �늻瑜닿퀬 怨좉컼 �븘�씠�뵒李얘린瑜� �븯硫� �떎�뻾�릺�뒗 硫붿꽌�뱶

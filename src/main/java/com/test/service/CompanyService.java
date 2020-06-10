@@ -39,7 +39,7 @@ public interface CompanyService {
 	abstract public ModelAndView company_modify(ModelAndView mv, HttpSession session);
 
 	abstract public void updateCompanyInfo(MultipartHttpServletRequest multipartHttpServletRequest,
-			HashMap<String, Object> cmap);
+			HashMap<String, Object> cmap, Model model);
 
 	abstract public int countCompanyList(String type);
 

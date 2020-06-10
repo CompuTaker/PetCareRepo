@@ -10,7 +10,7 @@
 		</table>
 
 		<form class="w-50 ml-auto mr-auto mt-5 mb-5"
-			action="customer_modify_ok" method="post" enctype="multipart/form-data">
+			action="customer_modify_ok" method="post"  enctype="multipart/form-data">
 			<div class="mb-5">
 				<img id="img-default"
 					src="<c:url value='/resources/images/profile.png' />" width="100"
@@ -26,7 +26,8 @@
 			<div class="form-group">
 				<label for="Customer_Password">비밀번호</label> <input type="password"
 					class="form-control" id="Customer_Password" placeholder="비밀번호"
-					value="${customer.customer_Password}" name="customer_Password" />
+					value="${customer.customer_Password}" name="customer_Password" required/>
+					
 			</div>
 
 			<div class="form-group">
@@ -35,32 +36,41 @@
 					name="customer_Name" value="${customer.customer_Name}" readonly />
 			</div>
 
-			<div class="form-group">
-				<label for="Customer_ResidentNumber">주민번호</label> <input type="text"
-					class="form-control" id="Customer_ResidentNumber"
-					placeholder="고객 주민등록번호" name="customer_ResidentNumber"
-					value="${customer.customer_ResidentNumber}" readonly />
-			</div>
 
 			<div class="form-group">
 				<label for="Customer_Email">이메일</label> <input type="text"
 					class="form-control" id="Customer_Email" placeholder="이메일"
-					name="customer_Email" value="${customer.customer_Email}" />
+					name="customer_Email" value="${customer.customer_Email}" required/>
+					
 			</div>
 
 			<div class="form-group">
 				<label for="Customer_PhoneNumber">전화번호</label> <input type="text"
 					class="form-control" id="Customer_PhoneNumber" placeholder="전화번호"
 					name="customer_PhoneNumber"
-					value="${customer.customer_PhoneNumber}" />
+					value="${customer.customer_PhoneNumber}" required />
+					
 			</div>
 
 			<div class="form-group">
 				<label for="Customer_Address">주소</label> <input type="text"
 					class="form-control" id="Customer_Address" placeholder="주소"
-					name="customer_Address" value="${customer.customer_Address}" />
+					name="customer_Address" value="${customer.customer_Address}" required/>
 			</div>
 			<button type="submit" class="btn btn-primary">수정하기</button>
 		</form>
 	</div>
 </div>
+
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+<script type="text/javascript">
+
+    $(function(){
+        var responseMessage = "<c:out value="${message}" />";
+        if(responseMessage != ""){
+            alert(responseMessage)
+        }
+    }) 
+
+
+</script>

@@ -124,7 +124,7 @@ prefix="c"%>
           placeholder="사업자 번호"
           name="company_Number"
           value="${company.company_Number }"
-          readonly
+          
         />
       </div>
 
@@ -140,3 +140,16 @@ prefix="c"%>
     </form>
   </div>
 </div>
+
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+<script type="text/javascript">
+
+    $(function(){
+        var responseMessage = "<c:out value="${message}" />";
+        if(responseMessage != ""){
+            alert(responseMessage)
+        }
+    }) 
+
+
+</script>

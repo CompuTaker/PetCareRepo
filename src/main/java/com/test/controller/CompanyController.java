@@ -30,6 +30,7 @@ import com.test.dto.Criteria;
 import com.test.dto.PageMaker;
 import com.test.service.CompanyService;
 import com.test.vo.CompanyVO;
+import com.test.vo.CustomerVO;
 
 @Controller // Spring에 Controller 클래스라고 알려주는 Annotation
 @SessionAttributes({ "customer", "company" }) // Model에 저장한 값을 http session에 저장할 수 있게 해주는 Annotation
@@ -132,9 +133,21 @@ public class CompanyController {
 	 * 개인정보수정를 고치고 수정 버튼을 눌렀을 때 실행되는 메서드이다.
 	 */
 	@RequestMapping("/company_modify_ok")
-	public String customer_modify(MultipartHttpServletRequest multipartHttpServletRequest, HttpServletRequest request,
-			@RequestParam HashMap<String, Object> cmap) { // form에서 입력한 정보를 HashMap으로 묶어서 가져온다.
-		this.companyService.updateCompanyInfo(multipartHttpServletRequest, cmap); // 가져온 cmap데이터를 기존 고객 데이터에 update시킨다.
+	public Object company_modify(@Valid CompanyVO vo, BindingResult result,
+			MultipartHttpServletRequest multipartHttpServletRequest, HttpServletRequest request,
+			@RequestParam HashMap<String, Object> cmap, Model model) { // form에서 입력한 정보를 HashMap으로 묶어서 가져온다.
+		if (result.hasErrors()) {
+			List<ObjectError> list = result.getAllErrors();
+			for (ObjectError error : list) {
+				System.out.println(error);
+				
+				ModelAndView redirect = new ModelAndView("company/company_modify.tiles");
+				redirect.addObject("message", "입력값을 확인해주세요!");
+				return redirect;
+			}
+		
+		}
+		this.companyService.updateCompanyInfo(multipartHttpServletRequest, cmap, model); // 가져온 cmap데이터를 기존 고객 데이터에 update시킨다.
 		logger.info("/company_modify_ok " + request.getMethod());
 		return "company/company_modify_ok.tiles";
 
