@@ -16,7 +16,7 @@ public class CustomerVO {
 	@Size(min=4, max =10)
 	private String customer_Id;
 	//PW는 영어, 특수기호, 숫자 포함 8-14자리
-	@Pattern(regexp = "([a-zA-Z0-9].*[!,@,#,$,%,^,&,*,?,_,~])|([!,@,#,$,%,^,&,*,?,_,~].*[a-zA-Z0-9]){8,12}")
+	@Pattern(regexp = "^.*(?=.{8,14})(?=.*[0-9])(?=.*[!,@,#,$,%,^,&,*,?,_,~])(?=.*[a-zA-Z]).*$")
 	private String customer_Password;
 	//name은 2-4자리 사이
 	@Pattern(regexp = "\\S{2,4}")
