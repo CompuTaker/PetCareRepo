@@ -254,30 +254,25 @@ public class CompanyServiceImpl implements CompanyService {
 	}
 
 	@Override
-	public void updateCompanyInfo(MultipartHttpServletRequest multipartHttpServletRequest,
-			@RequestParam HashMap<String, Object> cmap, Model model) {
+	public ModelAndView updateCompanyInfo(MultipartHttpServletRequest multipartHttpServletRequest,
+			@RequestParam HashMap<String, Object> cmap) {
 		Map<String, MultipartFile> fileMap = multipartHttpServletRequest.getFileMap();
-		Map<String, String> loginInfo = new HashMap<String, String>(); // mapper�뿉 蹂��닔媛믪쓣 �븳 踰덉뿉 �쟾�떖�븯湲� �쐞�빐�꽌 �깮�꽦�븳
-		// Map媛앹껜
-		loginInfo.put("id", (String) cmap.get("companyId")); // Map媛앹껜�뿉 Id媛믪쓣 ���옣�븳�떎.
-		loginInfo.put("pw", (String) cmap.get("company_Password"));
 
-		CompanyDTO company = this.companyDao.checkCompanyID((String) cmap.get("companyId"));
-
+		ModelAndView ok = new ModelAndView("company/company_modify_ok.tiles");
+		String companyId = (String) cmap.get("company_Id");
+		CompanyDTO company = this.companyDao.checkCompanyID(companyId);
 		String existingImage = company.getCompany_Image();
 
 		try {
 			HashMap<String, Object> modifyCompany = imageUpload(existingImage, fileMap, multipartHttpServletRequest,
 					cmap);
 			this.companyDao.updateCompanyInfo(modifyCompany); // 가져온 cmap데이터를 기존 기업 데이터에 update시킨다.
-			model.addAttribute("company", this.companyDao.listThisCompany(loginInfo)); // �깉濡� 諛붾�� 怨좉컼 �젙蹂대줈
-
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		return ok;
 	}
-
 	@Override
 	public int countCompanyList(String type) {
 		// TODO Auto-generated method stub

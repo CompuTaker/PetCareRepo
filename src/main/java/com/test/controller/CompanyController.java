@@ -135,7 +135,7 @@ public class CompanyController {
 	@RequestMapping("/company_modify_ok")
 	public Object company_modify(@Valid CompanyVO vo, BindingResult result,
 			MultipartHttpServletRequest multipartHttpServletRequest, HttpServletRequest request,
-			@RequestParam HashMap<String, Object> cmap, Model model) { // form에서 입력한 정보를 HashMap으로 묶어서 가져온다.
+			@RequestParam HashMap<String, Object> cmap) { // form에서 입력한 정보를 HashMap으로 묶어서 가져온다.
 		if (result.hasErrors()) {
 			List<ObjectError> list = result.getAllErrors();
 			for (ObjectError error : list) {
@@ -147,12 +147,11 @@ public class CompanyController {
 			}
 		
 		}
-		this.companyService.updateCompanyInfo(multipartHttpServletRequest, cmap, model); // 가져온 cmap데이터를 기존 고객 데이터에 update시킨다.
+		this.companyService.updateCompanyInfo(multipartHttpServletRequest, cmap); // 가져온 cmap데이터를 기존 고객 데이터에 update시킨다.
 		logger.info("/company_modify_ok " + request.getMethod());
 		return "company/company_modify_ok.tiles";
 
 	}
-
 	/*
 	 * 메인화면의 업체찾기에서 미용실 업체찾기를 눌렀을 경우 실행되는 메서드이다.
 	 */

@@ -124,7 +124,7 @@ prefix="c"%>
           placeholder="사업자 번호"
           name="company_Number"
           value="${company.company_Number }"
-          
+          readonly
         />
       </div>
 
