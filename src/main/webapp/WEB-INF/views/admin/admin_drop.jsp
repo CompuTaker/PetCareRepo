@@ -94,10 +94,10 @@ function logout() {
 									</tr>
 								</thead>
 								<tbody>
-									<tr class="customer_list">
-										<td class="a-center "><input type="checkbox" class="flat"
-											name="table_records"></td>
+									<tr>
 										<c:forEach items="${ dropCustomer }" var="customer">
+											<td class="a-center "><input type="checkbox" class="flat"
+											name="table_records"></td>
 											<td class=" ">${customer.customer_Name}</td>
 											<td class=" ">${customer.customer_Id}</td>
 											<td class=" ">${customer.customer_Email}</td>
@@ -106,8 +106,9 @@ function logout() {
 											<td class=" "><button class="btn">
 													<i class="fas fa-trash"></i>
 												</button></td>
+												</tr>
 										</c:forEach>
-									</tr>
+								
 								</tbody>
 							</table>
 						</div>
@@ -140,9 +141,10 @@ function logout() {
 								</thead>
 								<tbody>
 									<tr class="company_list">
-										<td class="a-center"><input type="checkbox" class="flat"
-											name="table_records"></td>
 										<c:forEach items="${ dropCompany }" var="company">
+											<tr>
+											<td class="a-center"><input type="checkbox" class="flat"
+											name="table_records"></td>
 											<td class=" ">${company.company_Name}</td>
 											<td class=" ">${company.company_Id}</td>
 											<td class=" ">${company.company_UserName}</td>
@@ -152,6 +154,7 @@ function logout() {
 											<td class=" "><button class="btn">
 													<i class="fas fa-trash"></i>
 												</button></td>
+											</tr>
 										</c:forEach>
 									</tr>
 								</tbody>
