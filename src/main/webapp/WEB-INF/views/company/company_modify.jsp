@@ -18,15 +18,17 @@ prefix="c"%>
       <div class="mb-5">
         <img
           id="img-default"
-          src="<c:url value='/resources/images/company.jpg' />"
+          src="${company.company_Image}"
           width="100"
           height="100"
+          onerror="this.src='./resources/images/profile.png'"
         />
         <input
           type="file"
           id="Company_Image"
           name="imageFile"
           accept="image/*"
+          onchange="loadFile(event)"
         />
       </div>
 
@@ -150,6 +152,13 @@ prefix="c"%>
             alert(responseMessage)
         }
     }) 
-
+	
+    var loadFile = function(event) {
+	    var output = document.getElementById('img-default');
+	    output.src = URL.createObjectURL(event.target.files[0]);
+	    output.onload = function() {
+	      URL.revokeObjectURL(output.src)
+	    }
+	  };
 
 </script>

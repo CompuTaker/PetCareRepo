@@ -13,8 +13,8 @@
 			action="customer_modify_ok" method="post"  enctype="multipart/form-data">
 			<div class="mb-5">
 				<img id="img-default"
-					src="<c:url value='/resources/images/profile.png' />" width="100"
-					height="100"> <input type="file" id="Customer_Image" name="imageFile" accept="image/*" />
+					src="${customer.customer_Image }"  width="100" height="100" onerror="this.src='./resources/images/profile.png'"> 
+				<input type="file" id="Customer_Image" name="imageFile" accept="image/*" onchange="loadFile(event)"/>
 			</div>
 
 			<div class="form-group">
@@ -71,6 +71,13 @@
             alert(responseMessage)
         }
     }) 
-
+    
+	var loadFile = function(event) {
+	    var output = document.getElementById('img-default');
+	    output.src = URL.createObjectURL(event.target.files[0]);
+	    output.onload = function() {
+	      URL.revokeObjectURL(output.src)
+	    }
+	  };
 
 </script>
