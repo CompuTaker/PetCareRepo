@@ -15,7 +15,7 @@ import com.test.dto.QnAboardDTO;
 
 public interface QnAboardService {
 
-	abstract public List<QnAboardDTO> selectQnaAllList(Criteria cri,Model model);
+	abstract public List<QnAboardDTO> selectQnaAllList(HttpServletRequest request, Criteria cri,Model model);
 
 	abstract public void insertQnaContents(QnAboardDTO qnaDto, CustomerDTO customer);
 

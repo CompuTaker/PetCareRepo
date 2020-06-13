@@ -13,7 +13,7 @@ public interface QnAboardDAO {
 
 	abstract public List<QnAboardDTO> selectQnaAllList(Criteria cri);
 
-	abstract public List<String> selectQnaWriterNames(Criteria cri);
+	abstract public List<String> selectQnaWriterNames(Criteria cri, int page);
 
 	abstract public void addViewnum(int qnaId);
 

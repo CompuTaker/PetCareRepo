@@ -28,6 +28,7 @@ import com.test.service.QnAboardService;
 @Controller
 @SessionAttributes({ "customer", "company", "superuser" }) // Model�뿉 ���옣�븳 媛믪쓣 http session�뿉 ���옣�븷 �닔 �엳寃� �빐二쇰뒗 Annotation
 public class QnAboardController {
+	
 	private Logger logger = LoggerFactory.getLogger(this.getClass());
 	@Autowired
 	private QnAboardService qnaService;
@@ -38,7 +39,7 @@ public class QnAboardController {
 	@RequestMapping("/qnaPage")
 	public String qnaPage(Model model, HttpServletRequest request,Criteria cri) {
 		logger.info("/qnaPage - pna_list.jsp " + request.getMethod());
-		List<QnAboardDTO> qnaDtoList = this.qnaService.selectQnaAllList(cri,model);
+		List<QnAboardDTO> qnaDtoList = this.qnaService.selectQnaAllList(request, cri,model);
 		model.addAttribute("qnalist", qnaDtoList);
 		return "qna/qna_list.tiles";
 	}
@@ -100,7 +101,7 @@ public class QnAboardController {
 		logger.info("/qna_content_update " + request.getMethod());
 		qnaDto.setId(Integer.parseInt(request.getParameter("qna_Id")));
 		this.qnaService.updateQnaContent(mv, qnaDto);
-		return "redirect:/qnaPage";
+		return "redirect:/searchQnA";
 	}
 	
 	@RequestMapping("/qna_reply")

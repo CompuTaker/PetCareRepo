@@ -25,7 +25,7 @@ prefix="c"%>
           <th>작성자</th>
           <td>
             <label id="qna_Writer" name="qna_Writer">
-              ${ qnaDetail.writer }</label
+              ${ qnaDetail.writer_name}</label
             >
           </td>
         </tr>

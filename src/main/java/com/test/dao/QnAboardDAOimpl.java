@@ -23,8 +23,15 @@ public class QnAboardDAOimpl implements QnAboardDAO {
 	}
 
 	@Override
-	public List<String> selectQnaWriterNames(Criteria cri) {
-		return this.sqlSession.selectList("selectQnaWriterNames",cri);
+	public List<String> selectQnaWriterNames(Criteria cri, int page) {
+		int limit1 = 0;
+		if(page == 1) {
+			limit1 = 0;
+		} else {
+			limit1 = 19 + (page - 1);
+		}
+		 
+		return this.sqlSession.selectList("selectQnaWriterNames", limit1);
 	}
 
 	@Override

@@ -31,14 +31,21 @@ public class QnAboardServiceImpl implements QnAboardService {
 	private List<QnAboardDTO> qnaDtoList; // selectQnaAllList에서 값 가져오고 저장해두기 (selectQnaDetailView 메서드에서 사용)
 
 	@Override
-	public List<QnAboardDTO> selectQnaAllList(Criteria cri,Model model) {
+	public List<QnAboardDTO> selectQnaAllList(HttpServletRequest request, Criteria cri, Model model) {
 		PageMaker pageMaker = new PageMaker();
 		pageMaker.setCri(cri);
 		pageMaker.setTotalCount(this.qnaDao.countAllQnA());
 		
+		int page = 0;
+		try {
+			page = Integer.parseInt(request.getParameter("page"));
+		} catch (NumberFormatException e) {
+			page = 1;
+		}
+
 		this.qnaDtoList = this.qnaDao.selectQnaAllList(cri);
 		// Customer 테이블과 조인해서 작성자 이름 가져오기 (order by id desc)
-		List<String> qnaWriterName = this.qnaDao.selectQnaWriterNames(cri);
+		List<String> qnaWriterName = this.qnaDao.selectQnaWriterNames(cri, page);
 		for (int i = 0; i < qnaWriterName.size(); i++) {
 			// 순서대로 작성자 이름도 넣어주기
 			this.qnaDtoList.get(i).setWriter_name(qnaWriterName.get(i));
@@ -73,8 +80,7 @@ public class QnAboardServiceImpl implements QnAboardService {
 		// 화면에서 가져온 qna_Id값을 int로 타입캐스팅
 		int qnaId = Integer.parseInt(qna_Id);
 		// qnaDtoList에서 같은 아이디 값이 있는지 확인하고 있으면 해당 객체 화면에 전달
-		// 같은 id가 있는 경우 조회수도 1씩 증가
-		
+		// 같은 id가 있는 경우 조회수도 1씩 증가		
 		this.qnaDao.addViewnum(qnaId);
 		return this.qnaDao.listItsQna(qna_Id);
 	}
@@ -85,7 +91,7 @@ public class QnAboardServiceImpl implements QnAboardService {
 		try {
 			String loginId = ((CustomerDTO) session.getAttribute("customer")).getCustomer_Id();
 			String qnaWriterId = this.qnaDao.selectQnaWriterId(qna_Id);
-
+			
 			QnAboardDTO qnaDto = new QnAboardDTO();
 
 			if (loginId.equals(qnaWriterId)) {
@@ -114,8 +120,15 @@ public class QnAboardServiceImpl implements QnAboardService {
 	}
 
 	@Override
-	public List<QnAboardDTO> selectQnaByTerm(HttpServletRequest request,Model model, Criteria cri) {
+	public List<QnAboardDTO> selectQnaByTerm(HttpServletRequest request, Model model, Criteria cri) {
 		String term = request.getParameter("term");
+		int page = 0;
+		try {
+			page = Integer.parseInt(request.getParameter("page"));
+		} catch (NumberFormatException e) {
+			page = 1;
+		}
+		
 		
 		PageMaker pageMaker = new PageMaker();
 		
@@ -130,7 +143,15 @@ public class QnAboardServiceImpl implements QnAboardService {
 			map.put("term", term);
 			model.addAttribute("pageMaker",pageMaker);
 			
-			return this.qnaDao.selectQnaByTerm(map);
+			this.qnaDtoList = this.qnaDao.selectQnaByTerm(map);
+			// Customer 테이블과 조인해서 작성자 이름 가져오기 (order by id desc)
+			List<String> qnaWriterName = this.qnaDao.selectQnaWriterNames(cri, page);
+			for (int i = 0; i < qnaWriterName.size(); i++) {
+				// 순서대로 작성자 이름도 넣어주기
+				this.qnaDtoList.get(i).setWriter_name(qnaWriterName.get(i));
+			}
+			
+			return this.qnaDtoList;
 		}
 		
 		pageMaker.setCri(cri);
@@ -138,7 +159,6 @@ public class QnAboardServiceImpl implements QnAboardService {
 		
 		model.addAttribute("pageMaker", pageMaker);
 		return this.qnaDao.selectQnaAllList(cri);
-	
 	}
 
 	@Override
@@ -153,7 +173,6 @@ public class QnAboardServiceImpl implements QnAboardService {
 	@Override
 	public String qna_reply_ok(HashMap<String, Object> rmap, HttpServletRequest request, String qna_Id) {	
 		rmap.put("qna_Id", qna_Id);
-		System.out.println(qna_Id + rmap.get("qna_Comment"));
 		this.qnaDao.insertTQnaComment(rmap); 
 		return "qna/qna_reply_ok.tiles";
 	}
