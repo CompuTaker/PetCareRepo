@@ -21,7 +21,9 @@
 	<!-- 아이디와 비밀번호가 일치하는 정보 선택 -->
 	<select id="listThisCustomer" parameterType="java.util.Map"
 		resultType="com.test.dto.CustomerDTO">
-		select * from Customer where customer_Id = #{id}
+		select customer_Index, customer_Id, customer_Password, customer_Name,
+		customer_PhoneNumber, customer_Address, customer_Email, customer_Image,
+		date_format(subscribe_Date, "%y.%c.%e") as subscribe_Date, last_login, flag from Customer where customer_Id = #{id}
 		and
 		customer_Password = #{pw} and flag = 0
 	</select>
