@@ -147,7 +147,7 @@ public class QnAboardServiceImpl implements QnAboardService {
 			this.qnaDtoList = this.qnaDao.selectQnaByTerm(map);
 			// Customer 테이블과 조인해서 작성자 이름 가져오기 (order by id desc)
 			List<String> qnaWriterName = this.qnaDao.selectQnaWriterNames(cri, page);
-			for (int i = 0; i < qnaWriterName.size(); i++) {
+			for (int i = 0; i < qnaDtoList.size(); i++) {
 				// 순서대로 작성자 이름도 넣어주기
 				this.qnaDtoList.get(i).setWriter_name(qnaWriterName.get(i));
 			}
