@@ -10,7 +10,7 @@
 		<h1>댓글 작성 완료</h1>
 		<p>댓글 작성이 완료되었습니다.</p>
 		<hr>
-		<a class="btn btn-lg btn-secondary mx-auto"  onclick="location.href='searchQnA'"
+		<a class="btn btn-lg btn-secondary mx-auto"  onclick="location.href='qnaPage'"
 			 role="button">확인</a>
 	</div>
 </div>
