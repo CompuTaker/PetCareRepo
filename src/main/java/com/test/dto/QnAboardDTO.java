@@ -12,6 +12,7 @@ public class QnAboardDTO {
 	private int is_answered;
 	private String writer_name;
 	private String qna_Comment;
+	private String customer_Name;
 	
 	public int getId() {
 		return id;
@@ -73,4 +74,11 @@ public class QnAboardDTO {
 	public void setQna_Comment(String qna_Comment) {
 		this.qna_Comment = qna_Comment;
 	}
+	public String getCustomer_Name() {
+		return customer_Name;
+	}
+	public void setCustomer_Name(String customer_Name) {
+		this.customer_Name = customer_Name;
+	}
+	
 }

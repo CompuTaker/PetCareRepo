@@ -23,13 +23,21 @@ public class QnAboardDAOimpl implements QnAboardDAO {
 	}
 
 	@Override
-	public List<String> selectQnaWriterNames(Criteria cri) {
-		return this.sqlSession.selectList("selectQnaWriterNames",cri);
+	public List<String> selectQnaWriterNames(Criteria cri, int page) {
+		int limit1 = 0;
+		if (page == 1) {
+			limit1 = 0;
+		} else {
+			limit1 = 19 + (page - 1);
+		}
+
+		return this.sqlSession.selectList("selectQnaWriterNames", limit1);
+
 	}
 
 	@Override
 	public List<QnAboardDTO> selectQnaAllList(Criteria cri) {
-		List<QnAboardDTO> qnaDto = this.sqlSession.selectList("selectQnaAllList",cri);
+		List<QnAboardDTO> qnaDto = this.sqlSession.selectList("selectQnaAllList", cri);
 		return qnaDto;
 	}
 
@@ -40,7 +48,7 @@ public class QnAboardDAOimpl implements QnAboardDAO {
 	}
 
 	@Override
-	public String selectQnaWriterId(String qna_Id) {	
+	public String selectQnaWriterId(String qna_Id) {
 		return this.sqlSession.selectOne("selectQnaWriterId", qna_Id);
 	}
 
@@ -50,7 +58,7 @@ public class QnAboardDAOimpl implements QnAboardDAO {
 	}
 
 	@Override
-	public List<QnAboardDTO> selectQnaByTerm(Map<String,Object> map) {
+	public List<QnAboardDTO> selectQnaByTerm(Map<String, Object> map) {
 		return this.sqlSession.selectList("listThisQnaByTerm", map);
 	}
 
@@ -62,7 +70,7 @@ public class QnAboardDAOimpl implements QnAboardDAO {
 	@Override
 	public void insertTQnaComment(HashMap<String, Object> rmap) {
 		this.sqlSession.update("updateQnaComment", rmap);
-		
+
 	}
 
 	@Override

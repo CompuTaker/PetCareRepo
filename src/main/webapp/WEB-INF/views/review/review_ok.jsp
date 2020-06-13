@@ -10,7 +10,6 @@
 		<h1>리뷰 작성 완료</h1>
 		<p>리뷰 작성이 완료되었습니다.</p>
 		<hr>
-		<a class="btn btn-lg btn-secondary mx-auto" href="index"
-			.html" role="button">확인</a>
+		<a class="btn btn-lg btn-secondary mx-auto" href="index" role="button">확인</a>
 	</div>
 </div>

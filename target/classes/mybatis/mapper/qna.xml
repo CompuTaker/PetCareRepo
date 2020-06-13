@@ -25,6 +25,7 @@
 	<select id="selectQnaWriterNames" resultType="java.lang.String">
 		select Customer.customer_Name from Qna, Customer where Qna.writer = Customer.customer_Index
 		order by Qna.id desc
+		limit #{limit1}, 10
 	</select>
 	
 	<update id="addViewnum" parameterType="java.lang.Integer">
@@ -61,9 +62,10 @@
 	
 	<select id="listItsQna" parameterType="java.util.Map"
 		resultType="com.test.dto.QnAboardDTO">
-		select * 
-		from Qna
-		where id = #{qna_Id}
+		select *
+		from Qna, Customer 
+		where Qna.writer = Customer.customer_Index 
+		and Qna.id = #{qna_Id}
 	</select>
 	
 	<update id="updateQnaComment" parameterType="java.util.Map">

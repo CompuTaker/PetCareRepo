@@ -44,7 +44,7 @@
 							<td>${qnalist.id}</td>
 							<td>${qnalist.qna_type}</td>
 							<td>${qnalist.title}</td>
-							<td>${qnalist.writer}</td>
+							<td>${qnalist.writer_name}</td>
 							<td>${qnalist.date}</td>
 							<td>${qnalist.viewnum}</td>
 						</tr>

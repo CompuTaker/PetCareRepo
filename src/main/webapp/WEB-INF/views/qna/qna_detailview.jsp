@@ -17,24 +17,21 @@ prefix="c"%>
           <th>내용</th>
           <td>
             <label id="qna_Content" name="qna_Content">
-              ${ qnaDetail.content }</label
-            >
+              ${ qnaDetail.content }</label>
           </td>
         </tr>
         <tr>
           <th>작성자</th>
           <td>
             <label id="qna_Writer" name="qna_Writer">
-              ${ qnaDetail.writer }</label
-            >
+              ${ qnaDetail.customer_Name}</label>
           </td>
         </tr>
-         <tr>
+        <tr>
           <th>댓글</th>
           <td>
             <label id="qna_reply" name="qna_reply">
-              ${ qnaDetail.qna_Comment }</label
-            >
+              ${ qnaDetail.qna_Comment }</label>
           </td>
         </tr>
       </table>
@@ -44,23 +41,21 @@ prefix="c"%>
     <form id="qna_write" name="qna_write" action="" method="post">
       <div>
         <button type="button" class="btn btn-outline-success" onclick="location.href='qnaModify_view?qna_Id=${qna_Id}'">
-         	 글 수정
+          글 수정
         </button>
-        <button
-          type="button"
-          class="btn btn-outline-secondary"
-          onclick="location.href='searchQnA?page=${param.page }&term=${param.term }'"
-        >
-         	 목록
+        <button type="button" class="btn btn-outline-secondary"
+          onclick="location.href='searchQnA?page=${param.page }&term=${param.term }'">
+          목록
         </button>
-        
+
         <c:choose>
-				<c:when test="${!empty superuser.superuser_Index}">
-					<button type="button" class="btn btn-outline-success" onclick="location.href='qna_reply?qna_Id=${qna_Id}&writer_name=${qnaDetail.writer_name}'">
-			          	답글 달기
-			        </button>
-				</c:when>
-			</c:choose>
+          <c:when test="${!empty superuser.superuser_Index}">
+            <button type="button" class="btn btn-outline-success"
+              onclick="location.href='qna_reply?qna_Id=${qna_Id}&writer_name=${qnaDetail.writer_name}'">
+              답글 달기
+            </button>
+          </c:when>
+        </c:choose>
       </div>
     </form>
   </div>
