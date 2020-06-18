@@ -26,15 +26,11 @@
 	<div class="col-10 mx-auto main-block">
 		<table class="title-table ml-auto mr-auto" height="90">
 			<tr>
-				<div class="card mb-3 mt-5 ml-auto mr-auto p-2"
-					style="max-width: 540px;">
+				<div class="card mb-3 mt-5 ml-auto mr-auto p-2" style="max-width: 540px;">
 					<div class="row no-gutters">
 						<div class="col-md-4">
-							<img id="Company_Image"
-							src = "${company.company_Image}"  width="150"
-								height="150"
-								onerror="this.src='./resources/images/profile.png'"
-								/>
+							<img id="Company_Image" src="${company.company_Image}" width="150" height="150"
+								onerror="this.src='./resources/images/profile.png'" />
 						</div>
 						<div class="col-md-8">
 							<div class="card-body">
@@ -51,25 +47,23 @@
 						</div>
 					</div>
 				</div>
-				<td><label>기업 고객 마이페이지</label></td>
+				<td><label>기업 고객마이페이지</label></td>
 			</tr>
 			<tr>
 				<td><input type="button" class="mypage-btn-group" value="후기모아보기"
-					onclick="location.href='company_review_list'">
-					 <input
-						type="button" class="mypage-btn-group" value="정보수정하기"
+						onclick="location.href='company_review_list'">
+					<input type="button" class="mypage-btn-group" value="정보수정하기"
 						onclick="location.href='company_modify'">
-						
+
 					<input type="button" class="mypage-btn-group" value="예약정보조회"
-					onclick="location.href='company_reserve_check?page=1'"></td>
-				
+						onclick="location.href='company_reserve_check?page=1'"></td>
+
 			</tr>
 		</table>
 
-		
 
-		<input type="button" class="mypage-btn-group" value="로그아웃"
-			onclick="logout();"> <input type="button"
+
+		<input type="button" class="mypage-btn-group" value="로그아웃" onclick="logout();"> <input type="button"
 			class="mypage-btn-group" value="회원탈퇴" onclick="deleteTheCompany();">
 	</div>
 </div>
